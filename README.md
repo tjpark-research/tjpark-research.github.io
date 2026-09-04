@@ -38,5 +38,7 @@
 - [ ] 하위 페이지용 나머지 자산·PDF 이관
 - [ ] 하위 페이지 템플릿 1종 제작 → 나머지 페이지 확장
 - [ ] 연구총서/보고서/공지 목록을 JSON 데이터 + 렌더링으로 분리
-- [ ] 접근성 점검, OG 태그, sitemap.xml, 404.html
-- [ ] `tjpark-research/tjpark-research.github.io` 로 푸시 및 Pages 설정
+- [x] OG/canonical/hreflang 메타, sitemap.xml, robots.txt, 404.html, .nojekyll (2026-09-04)
+- [ ] OG 공유 이미지(og:image) 제작
+- [ ] 접근성 점검
+- [x] `tjpark-research/tjpark-research.github.io` 푸시 및 Pages 배포 (2026-09-04)
