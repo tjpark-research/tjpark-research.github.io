@@ -36,8 +36,20 @@ TABSTRIP_RE = re.compile(
 def blocks_of(page_key, drop=0):
     """수집한 본문 블록에서 메뉴 텍스트를 걷어내고 문단만 남긴다."""
     d = load('page_' + page_key) or {}
+    raw = d.get('blocks', [])
+
+    # 상위 컨테이너가 하위 항목들을 통째로 이어붙인 블록을 버린다.
+    # (구 사이트의 표/목록이 부모 div 의 직접 텍스트로도 한 번 더 잡히는 탓에
+    #  같은 내용이 '한 덩어리 + 항목별'로 두 번 나온다.)
+    parts_pool = [x.strip() for x in raw if len(x.strip()) >= 12]
+    def is_concat(b):
+        if len(b) < 200:
+            return False
+        covered = sum(1 for p in parts_pool if p != b and p in b)
+        return covered >= 3
+
     out = []
-    for b in d.get('blocks', []):
+    for b in [x for x in raw if not is_concat(x)]:
         t = re.sub(r'\s+', ' ', b).strip()
         if not t or t in ALL_LABELS or len(t) < 3:
             continue
@@ -166,9 +178,8 @@ def shell(title, desc, depth, section, current_file, body, canonical):
 <meta property="og:title" content="{E(title)} — POSTECH 박태준미래전략연구소">
 <meta property="og:description" content="{E(desc)}">
 <meta property="og:url" content="https://tjpark-research.github.io/{canonical}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{r}assets/css/style.css">
 </head>
 <body>
@@ -203,7 +214,11 @@ def fig(src, depth, cap=None):
 def render_prose(blocks, images, depth, lead=True):
     out = []
     for i, b in enumerate(blocks):
-        cls = ' class="lead"' if (lead and i == 0) else ''
+        # 리드 문단(크고 강조되는 도입 문장)은 '첫 문단이라서'가 아니라
+        # '짧아서' 리드다. 900자짜리 본문 덩어리에 리드를 씌우면
+        # 페이지 전체가 도입부처럼 보인다.
+        is_lead = lead and i == 0 and len(b) <= 120
+        cls = ' class="lead"' if is_lead else ''
         out.append(f'<p{cls}>{E(b)}</p>')
     for im in images:
         out.append(fig(im, depth))
