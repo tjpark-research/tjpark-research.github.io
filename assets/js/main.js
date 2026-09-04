@@ -2,25 +2,32 @@
 (function () {
   'use strict';
 
+  /* Asset root, derived from this script's own URL so that /en/ resolves too. */
+  var BASE = (function () {
+    var el = document.currentScript;
+    if (!el) { var all = document.getElementsByTagName('script'); el = all[all.length - 1]; }
+    return el && el.src ? el.src.replace(/assets\/js\/main\.js.*$/, '') : '';
+  })();
+
   /* ---------- Featured slider (hero) ---------- */
   var slides = [
     {
       tag: '미래전략연구총서 14',
-      img: 'http://tjpark.postech.ac.kr/data/future/8383cfb3771776843453.jpg',
+      img: ''+BASE+'assets/img/books/fs14-jiseong-jeguk.jpg',
       title: '지성의 제국 — 현대 연구중심대학의 세계사',
       desc: '2026년 박태준미래전략연구소는 ‘현대 연구중심대학의 세계사’를 엮은 미래전략연구 총서 14권 『지성의 제국』을 발간했다.',
       meta: '발간 2026.02.25 · 빨간소금'
     },
     {
       tag: '미래전략포럼',
-      img: 'http://tjpark.postech.ac.kr/data/mainvisual/316cfe2c051673917091.jpg',
+      img: ''+BASE+'assets/img/main/forum-city-future.jpg',
       title: '『도시의 미래, 공간과 산업을 생각한다』 포럼',
       desc: '국가의 미래 발전을 모색하기 위해 산학연관 전문가, 석학 및 오피니언 리더들이 한자리에 모여 토론의 장을 마련합니다.',
       meta: '포스코 국제관 1층 국제회의장'
     },
     {
       tag: '미래전략 영상',
-      img: 'http://tjpark.postech.ac.kr/data/mainvisual/a2dcf9a62f1673325810.jpg',
+      img: ''+BASE+'assets/img/main/pohang-pittsburgh.jpg',
       title: '포항–피츠버그, 두 철강도시의 평행이론',
       desc: '두 도시의 미래 비전을 제시하여 향후 도시 간 협력의 방향을 모색한 영상 콘텐츠입니다.',
       meta: 'YouTube · TJPI 채널'
