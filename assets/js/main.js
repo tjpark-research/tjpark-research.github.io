@@ -81,6 +81,71 @@
     });
   }
 
+
+  /* ---------- 하위 페이지: 시대별 탭 ----------
+     JS 가 없으면 모든 시대가 그냥 이어서 보이도록 HTML 은 전부 출력해 두고,
+     여기서 <html class="js"> 를 붙여 첫 탭만 남긴다. */
+  var eras = document.querySelector('.eras');
+  if (eras) {
+    document.documentElement.classList.add('js');
+    var panes = eras.querySelectorAll('.era-pane');
+    var tabs = eras.querySelectorAll('.era-tabs button');
+    var show = function (i) {
+      panes.forEach(function (p, n) { p.classList.toggle('on', n === i); });
+      tabs.forEach(function (t, n) { t.classList.toggle('on', n === i); });
+    };
+    tabs.forEach(function (t, i) { t.addEventListener('click', function () { show(i); }); });
+    show(0);
+  }
+
+  /* ---------- 하위 페이지: 게시판 검색 + 더 보기 ----------
+     항목은 전부 HTML 에 들어 있다(JS 없이도 전체가 보인다).
+     JS 가 있을 때만 접어서 보여주고 검색으로 걸러 낸다. */
+  document.querySelectorAll('.board').forEach(function (board) {
+    var size = parseInt(board.getAttribute('data-page-size') || '12', 10);
+    var list = board.querySelector('ul');
+    var all = Array.prototype.slice.call(list.children);
+    var moreWrap = board.querySelector('.board-more');
+    var moreBtn = board.querySelector('[data-board-more]');
+    var search = board.querySelector('[data-board-search]');
+    var cnt = board.querySelector('.cnt b');
+    var shown = size;
+    var q = '';
+
+    var empty = document.createElement('p');
+    empty.className = 'board-empty';
+    empty.textContent = '검색 결과가 없습니다.';
+    empty.hidden = true;
+    list.parentNode.insertBefore(empty, list.nextSibling);
+
+    function apply() {
+      var matched = 0, visible = 0;
+      all.forEach(function (li) {
+        var hit = !q || (li.getAttribute('data-k') || '').indexOf(q) !== -1;
+        if (!hit) { li.hidden = true; return; }
+        matched++;
+        var ok = visible < shown;
+        li.hidden = !ok;
+        if (ok) visible++;
+      });
+      if (cnt) cnt.textContent = matched;
+      empty.hidden = matched !== 0;
+      if (moreWrap) moreWrap.hidden = matched <= shown;
+    }
+
+    if (moreBtn) {
+      moreBtn.addEventListener('click', function () { shown += size; apply(); });
+    }
+    if (search) {
+      search.addEventListener('input', function () {
+        q = this.value.trim().toLowerCase();
+        shown = size;
+        apply();
+      });
+    }
+    apply();
+  });
+
   /* ---------- Reveal on scroll ---------- */
   if ('IntersectionObserver' in window) {
     var targets = document.querySelectorAll('.p-card,.book,.tl li,.y-card,.stats li');

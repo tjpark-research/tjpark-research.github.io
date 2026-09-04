@@ -41,15 +41,48 @@ def body_text(url):
     for sel in ('script', 'style', '#Board', '.lnb', '.snb'):
         for n in node.select(sel):
             n.decompose()
+    # 요소의 '직접 텍스트'만 뽑는다.
+    #
+    # 단순히 "자식 블록태그가 있으면 컨테이너이므로 건너뛴다"고 하면 안 된다.
+    # 구 사이트의 설립목적 페이지는 <dd> 안에 본문 전체가 <br> 로 이어져 있고
+    # 그 끝에 날짜 <p> 하나가 들어 있다. 그 <p> 때문에 <dd> 전체가 컨테이너로
+    # 오인되어 가장 중요한 글이 통째로 사라졌다.
+    # 그래서 자식 블록태그의 텍스트는 빼고 그 요소가 직접 갖고 있는 텍스트만 취한다.
+    # (자식 블록태그는 순회 과정에서 따로 잡힌다.)
+    TAGS = ['h1', 'h2', 'h3', 'h4', 'p', 'li', 'td', 'dt', 'dd', 'div']
+
+    def own_text(el):
+        parts = []
+        for child in el.children:
+            name = getattr(child, 'name', None)
+            if name in TAGS:
+                continue
+            parts.append(child.get_text(' ') if name else str(child))
+        return clean(' '.join(parts))
+
     blocks, seen = [], set()
-    for el in node.find_all(['h1','h2','h3','h4','p','li','td','dt','dd']):
-        if el.find(['p','li','td']):        # 컨테이너는 건너뛰고 말단만
-            continue
-        t = clean(el.get_text(' '))
+    for el in node.find_all(TAGS):
+        t = own_text(el)
         if len(t) < 2 or t in seen:
+            continue
+        if '//' in t:                       # 스크립트 잔재
             continue
         seen.add(t)
         blocks.append(t)
+
+    # 중첩된 div 때문에 같은 글이 길이만 조금 다르게 두 번 잡히는 일이 있다.
+    # 다만 '포함되면 무조건 버리기'는 위험하다 — 연보의 '1927년' 같은 짧은 항목이
+    # 어딘가 긴 블록에 우연히 포함되어 통째로 사라진다.
+    # 그래서 길이가 거의 같을 때(90% 이상)만 중복으로 본다.
+    longest = sorted(blocks, key=len, reverse=True)
+    kept = []
+    for t in longest:
+        if any(t in k and len(t) >= 0.9 * len(k) for k in kept):
+            continue
+        kept.append(t)
+    keep = set(kept)
+    blocks = [t for t in blocks if t in keep]
+
     imgs = [urljoin(url, i['src']) for i in node.find_all('img') if i.get('src')
             and '/images/common/' not in i['src']]
     return {'url': url, 'blocks': blocks, 'images': imgs}
@@ -194,6 +227,14 @@ PAGES = {
     'life_chronology':       '01_about/01_1.php',
     'life_statue':           '01_about/01_2.php',
     'life_who':              '01_about/03.php',
+    # 박태준의 삶 — 생애/연보는 시대별 탭이 각각 별도 페이지다
+    'life_bio_1': '01_about/01.php',
+    'life_bio_2': '01_about/01_01.php',
+    'life_bio_3': '01_about/01_02.php',
+    'life_bio_4': '01_about/01_03.php',
+    'life_bio_5': '01_about/01_04.php',
+    'life_bio_6': '01_about/01_05.php',
+    'life_chron_all': '01_about/01_1_6.php',
     # 청년사업
     'youth_contest':         '08_youth/01.php',
     'youth_camp':            '08_youth/02.php',
