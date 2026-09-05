@@ -30,7 +30,11 @@ E = lambda s: html.escape(s or '', quote=True)
 #  · 등록일은 2014년(뒤늦은 CMS 이관일)이라 연재일과 다르며
 #  · 목록이 최신순이라 90회 연재를 거꾸로 읽게 되어 있었다.
 # 연재물은 1회부터 읽는 것이 맞으므로 여기서 바로잡는다.
-STEEL_DATE = re.compile(r'\s*\[\s*(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일\s*\]\s*$')
+# 구 홈페이지 제목의 날짜 표기는 손상된 것이 섞여 있다(원본 DB 의 오타).
+#   '[4년 08월 05일]' '2004년 09월 09일]' '[04년 10월 07일]'
+# 대괄호와 연도 자릿수를 느슨하게 받고, 연도는 연재 연도(2004)로 복원한다.
+STEEL_DATE = re.compile(
+    r'\s*\[?\s*(\d{1,4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일\s*\]?\s*$')
 STEEL_TAIL = re.compile(r'^\d{4}년\s*\d{1,2}월\s*\d{1,2}일\s*\[?\s*중앙일보[^\]]*\]?\s*$')
 
 
@@ -40,6 +44,10 @@ def _steel_meta(raw):
     if not m:
         return t, None
     y, mo, d = (int(x) for x in m.groups())
+    if y < 1000:                       # '4년' / '04년' → 2004년
+        y = 2000 + y % 100
+    if not (1 <= mo <= 12 and 1 <= d <= 31):
+        return t, None
     return STEEL_DATE.sub('', t).strip(), f'{y:04d}-{mo:02d}-{d:02d}'
 
 
