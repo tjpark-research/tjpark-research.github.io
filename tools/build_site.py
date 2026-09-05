@@ -1437,12 +1437,75 @@ def _writer(raw, lang):
     return t, ''
 
 
+# 구 영문 페이지는 한글판과 어긋나 있었다.
+#  · 사도브니치(모스크바국립대 총장)·유찬우(풍산금속 회장) 인용 2편 누락
+#  · 덩샤오핑 편의 배경설명 누락
+#  · 조정래의 인용이 'Hwang Kyung-ro' 이름으로 나가고, 바로 뒤 칸에는
+#    황경로의 인용이 'Jo Jung-rae' 이름으로 한 번 더 실려 있었다(이름 밀림).
+# 한글판 26편의 순서를 기준으로 다시 맞춘다.
+# EN_WHO_ORDER[한글 index] = 구 영문판 index (없으면 None → 새로 옮긴 것)
+EN_WHO_ORDER = [0, 1, 2, 3, 4, 5, 6, None, 7, 8, 9, None,
+                10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24]
+
+# 구 영문판 index → 바로잡은 이름
+EN_WHO_WRITER = {18: '- Jo Jung-rae, Novelist'}
+
+# 한글판에는 있으나 구 영문판에 없던 것 (이번 리뉴얼에서 새로 옮김)
+EN_WHO_CTX = {
+    2: ['In August 1978 Deng Xiaoping visited Nippon Steel in Japan and asked '
+        'its chairman, Inayama Yoshihiro, to build China a steelworks like '
+        'Pohang Iron and Steel. Inayama politely declined: “Steelworks are '
+        'built by people. Without a man like Park Tae-joon, a steelworks like '
+        'Pohang Iron and Steel cannot be built.” Deng is then said to have '
+        'answered as follows.'],
+}
+EN_WHO_NEW = {
+    7: {'ctx': [],
+        'quote': ['“Here at Pohang Iron and Steel I have seen the ideal that '
+                  'our comrade Lenin dreamed of and pursued. This is exactly '
+                  'the dream we set out to achieve.”'],
+        'writer': '- Viktor Sadovnichy, Rector of Moscow State University'},
+    11: {'ctx': [],
+         'quote': ['“Park Tae-joon is a man who tells you to take the last one '
+                   'percent seriously. Just as the beginning of any undertaking '
+                   'matters, he means, the final one percent must be done well '
+                   'if the work is not to be spoiled. To bring the point home '
+                   'he puts it this way: ‘Only the one who laughs last is the '
+                   'true victor.’ No one who has not carried out something '
+                   'great would dare say such a thing.”'],
+         'writer': '- Yoo Chan-woo, Chairman of Poongsan Metal'},
+}
+EN_WHO_TRANSLATED = ('Viktor Sadovnichy', 'Yoo Chan-woo')
+
+
+def who_items(lang):
+    """인용 목록. 영문은 한글판 순서에 맞춰 다시 세운다."""
+    def load_q(name):
+        p = os.path.join(LEGACY, name + '.json')
+        return json.load(open(p, encoding='utf-8')) if os.path.exists(p) else []
+    ko = load_q('quotes_life_who')
+    if lang == 'ko':
+        return ko
+    en = load_q('quotes_en_life_who')
+    out = []
+    for i in range(len(ko)):
+        if i in EN_WHO_NEW:
+            out.append(EN_WHO_NEW[i])
+            continue
+        j = EN_WHO_ORDER[i] if i < len(EN_WHO_ORDER) else None
+        if j is None or j >= len(en):
+            continue
+        it = dict(en[j])
+        if j in EN_WHO_WRITER:
+            it['writer'] = EN_WHO_WRITER[j]
+        if i in EN_WHO_CTX:
+            it['ctx'] = EN_WHO_CTX[i]
+        out.append(it)
+    return out
+
+
 def who_page(depth, lang='ko'):
-    key = 'quotes_life_who' if lang == 'ko' else 'quotes_en_life_who'
-    try:
-        items = json.load(open(os.path.join(LEGACY, key + '.json'), encoding='utf-8'))
-    except FileNotFoundError:
-        items = []
+    items = who_items(lang)
     cards = []
     for it in items:
         if not it.get('quote'):
@@ -1464,8 +1527,16 @@ def who_page(depth, lang='ko'):
                 f'<p>{len(cards)} recollections of TJ Park left by political leaders, '
                 'business leaders, scholars and journalists in Korea and abroad. '
                 'Each is shown with the speaker and the title held at the time.</p>')
+    note = ''
+    if lang == 'en':
+        note = ('<p class="todo-note">※ This page follows the order of the Korean '
+                'edition. Two recollections missing from the previous English '
+                'edition (' + ', '.join(EN_WHO_TRANSLATED) + ') and the note '
+                'introducing Deng Xiaoping\u2019s remark were translated for this '
+                'renewal and have not yet been reviewed by the Institute.</p>')
     return (f'<div class="prose">{lead}</div>'
-            f'<ul class="quotes">{"".join(cards)}</ul>')
+            f'<ul class="quotes">{"".join(cards)}</ul>'
+            f'<div class="prose">{note}</div>')
 
 
 def statue_page(depth, lang='ko'):
