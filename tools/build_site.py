@@ -501,8 +501,8 @@ def PAGES(depth):
     # 메뉴의 '연보'는 구 홈페이지처럼 첫 시대(1927~1960)로 들어간다.
     P[('life', 'statue.html')] = ('청암 조각상', '우웨이산이 만든 전신상과 흉상, 그리고 받침돌의 건립문.',
         statue_page(d, 'ko'))
-    P[('life', 'who.html')] = ('박태준을 말한다', '동시대인이 남긴 박태준에 대한 기록.',
-        render_prose([b for b in blocks_of('life_who') if len(b) > 25], imgs_of('life_who'), d))
+    P[('life', 'who.html')] = ('박태준을 말한다', '동시대인이 남긴 박태준에 대한 기록. 말한 사람과 직함을 함께 밝힙니다.',
+        who_page(d, 'ko'))
     # ── 청년사업
     # 구 사이트는 '현재 진행중인 공모전이 없습니다'라는 안내마저 이미지였다.
     # 상태 안내는 자주 바뀌는 문구이므로 텍스트여야 고치기도 쉽다.
@@ -904,8 +904,8 @@ def EN_PAGES(depth):
           'An English edition is being prepared.</p></div>')
     P[('life', 'statue.html')] = ('TJ Park Statue', 'The full-length statue and bust by Wu Weishan.',
         statue_page(d, 'en'))
-    P[('life', 'who.html')] = ('Who is TJ Park', 'What his contemporaries said of him.',
-        render_prose([b for b in blocks_of('en_life_who') if len(b) > 25], [], d))
+    P[('life', 'who.html')] = ('Who is TJ Park', 'What his contemporaries said of him, with each speaker named.',
+        who_page(d, 'en'))
     # ── Youth Programmes
     P[('youth', 'index.html')] = ('Student Essay Contest', 'A national essay contest for undergraduate and graduate students.',
         '<div class="prose"><p class="lead">The Institute runs a national essay contest for undergraduate '
@@ -1395,6 +1395,77 @@ def paras(text, limit=150):
     if cur:
         out.append(' '.join(cur))
     return out
+
+
+
+# ─────────────────────────────────────────────────────── 박태준을 말한다
+# 구 홈페이지는 인용문 하나를 <ul class="chungam_src"> 로 묶고 그 안에
+# li.stit(배경설명) / li(인용문) / li.writer(말한 사람) 로 구분해 두었다.
+# 본문을 문단으로만 긁으면 '- 프랑소와 미테랑(프랑스 대통령)' 같은 짧은 줄이
+# 길이 필터에 걸려 통째로 사라진다 — 그래서 구조 그대로 따로 저장해 둔다.
+QUOTE_MARKS = '“”"\u2018\u2019\'\u00ab\u00bb'
+
+# 구 영문 페이지의 표기 오류. 프랑스 대통령의 이름은 François 다.
+EN_WRITER_FIX = {
+    'FranCois Mitterrand, Former French President':
+        'François Mitterrand, Former French President',
+    'The Dong-a ILBO January 5, 2012, Kwon Soon-hwal, Journalist':
+        'Kwon Soon-hwal, Journalist, The Dong-a Ilbo, 5 January 2012',
+}
+
+
+def _unquote(t):
+    """카드 자체가 인용 부호 구실을 하므로 바깥쪽 따옴표는 걷어 낸다."""
+    t = t.strip()
+    while t and t[0] in QUOTE_MARKS:
+        t = t[1:].lstrip()
+    while t and t[-1] in QUOTE_MARKS:
+        t = t[:-1].rstrip()
+    return t
+
+
+def _writer(raw, lang):
+    """'- 이름(직함)' 또는 '- Name, Title' 을 (이름, 직함) 으로 나눈다."""
+    t = raw.strip().lstrip('-').strip()
+    t = EN_WRITER_FIX.get(t, t) if lang == 'en' else t
+    m = re.match(r'^(.+?)\s*[(（](.+)[)）]\s*$', t)
+    if m:
+        return m.group(1).strip(), m.group(2).strip()
+    m = re.match(r'^([^,]{2,40}),\s*(.+)$', t)
+    if m:
+        return m.group(1).strip(), m.group(2).strip()
+    return t, ''
+
+
+def who_page(depth, lang='ko'):
+    key = 'quotes_life_who' if lang == 'ko' else 'quotes_en_life_who'
+    try:
+        items = json.load(open(os.path.join(LEGACY, key + '.json'), encoding='utf-8'))
+    except FileNotFoundError:
+        items = []
+    cards = []
+    for it in items:
+        if not it.get('quote'):
+            continue
+        name, role = _writer(it.get('writer', ''), lang)
+        ctx = ''.join(f'<p class="q-ctx">{E(c)}</p>' for c in it.get('ctx', []))
+        quote = ''.join(f'<p>{E(_unquote(q))}</p>' for q in it['quote'])
+        by = (f'<b>{E(name)}</b>' + (f'<span>{E(role)}</span>' if role else '')
+              ) if name else ''
+        cards.append(f'<li class="q">{ctx}<blockquote>{quote}</blockquote>'
+                     f'<p class="q-by">{by}</p></li>')
+    if lang == 'ko':
+        lead = ('<p class="lead">청암과 함께한 세월, 그리고 그에 대하여 말하다.</p>'
+                f'<p>국내외의 정치인·기업인·학자·언론인이 청암 박태준에 대해 남긴 '
+                f'기록 {len(cards)}편입니다. 말한 사람과 당시 직함을 함께 밝힙니다.</p>')
+    else:
+        lead = ('<p class="lead">Words on the years spent with Chungam, '
+                'and on the man himself.</p>'
+                f'<p>{len(cards)} recollections of TJ Park left by political leaders, '
+                'business leaders, scholars and journalists in Korea and abroad. '
+                'Each is shown with the speaker and the title held at the time.</p>')
+    return (f'<div class="prose">{lead}</div>'
+            f'<ul class="quotes">{"".join(cards)}</ul>')
 
 
 def statue_page(depth, lang='ko'):
