@@ -830,3 +830,9 @@ table.cr-tbl{width:100%;min-width:680px;border-collapse:collapse;
 .art-body .art-cap{margin:20px 0;padding:11px 14px;border-left:2px solid var(--line);
   background:#fafafb;font-size:13px;line-height:1.75;color:var(--text-3);
   font-weight:var(--w-body)}
+
+/* 게시판 검색·'더 보기'는 JS 가 li.hidden 으로 항목을 접는다.
+   그런데 .blist li{display:flex} / .bgrid .bcard{display:block} 이
+   브라우저 기본 [hidden]{display:none} 보다 우선순위가 높아 항목이
+   그대로 보였다 — 12개 게시판 전부에서 검색과 '더 보기'가 죽어 있었다. */
+.board li[hidden],.board [hidden]{display:none!important}
