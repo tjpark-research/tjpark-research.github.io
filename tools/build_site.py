@@ -725,7 +725,6 @@ def chronology_page(depth):
         '2011년 12월 영면하기까지, 청암 박태준이 걸어온 85년을 한 표로 정리했습니다. '
         '사진과 함께 시대별로 보려면 위의 시대 탭을 누르십시오.</p></div>',
         table,
-        '<p class="src-note">※ 구 홈페이지 「전체연보」를 그대로 옮긴 것입니다.</p>',
     ])
 
 
@@ -1375,29 +1374,62 @@ def _photo(src, depth, cap, cls=''):
             f'<img src="{rel(depth)}{src}" alt="{E(cap)}" loading="lazy">{c}</figure>')
 
 
+SENT_ANY = re.compile(r'(?<=\.)\s+')
+
+
+def paras(text, limit=150):
+    """한 덩어리로 넘어온 긴 글을 문장 단위로 끊어 문단으로 묶는다.
+    500자짜리 한 문단은 화면에서 벽이 된다 — 두세 문장마다 숨을 준다."""
+    out, cur, n = [], [], 0
+    for sent in SENT_ANY.split(text.strip()):
+        sent = sent.strip()
+        if not sent:
+            continue
+        # 한 문장짜리 문단이 생기면 리듬이 끊긴다. 두 문장이 모였거나
+        # 이미 문단이 충분히 길 때만 끊는다.
+        if cur and n + len(sent) > limit and (len(cur) >= 2 or n >= limit):
+            out.append(' '.join(cur))
+            cur, n = [], 0
+        cur.append(sent)
+        n += len(sent)
+    if cur:
+        out.append(' '.join(cur))
+    return out
+
+
 def statue_page(depth, lang='ko'):
     P = 'assets/img/legacy/'
     if lang == 'ko':
         body = [b for b in blocks_of('life_statue') if len(b) > 20]
         caps = ('노벨동산의 전신 조각상과 받침돌', '박태준학술정보관의 흉상',
                 '받침돌 뒷면에 새긴 건립문')
+        h1 = '조각에 새긴 박태준의 정신'
         h2 = '건립문'
-        lead_note = ''
     else:
         body = [b for b in blocks_of('en_life_statue') if len(b) > 60]
         caps = ('The full-length statue and its pedestal, Nobel Hill',
                 'The bust, Tae-Joon Park Digital Library',
                 'The dedication inscribed on the back of the pedestal')
+        h1 = 'The spirit carved into the sculpture'
         h2 = 'Dedication'
-    lead = f'<p class="lead">{E(body[0])}</p>' if body else ''
-    rest = ''.join(f'<p>{E(b)}</p>' for b in body[1:-1]) if len(body) > 2 else ''
-    dedication = f'<h2>{h2}</h2><p>{E(body[-1])}</p>' if len(body) > 1 else ''
-    return (f'<div class="prose">{lead}{rest}</div>'
+    # 첫 덩어리는 500자(영문 1,200자)짜리 한 문단이었다. 리드 스타일로
+    # 통째로 키우면 페이지 전체가 도입부처럼 보인다 — 소제목을 얹고
+    # 본문 크기로 낮춘 뒤 문단을 나눈다.
+    intro = ''
+    if body:
+        intro = f'<h2>{E(h1)}</h2>' + ''.join(
+            f'<p>{E(t)}</p>' for t in paras(body[0], 150 if lang == 'ko' else 260))
+    mid = ''.join(f'<p>{E(b)}</p>' for b in body[1:-1]) if len(body) > 2 else ''
+    ded = ''
+    if len(body) > 1:
+        ded = f'<h2>{E(h2)}</h2>' + ''.join(
+            f'<p>{E(t)}</p>' for t in paras(body[-1], 190 if lang == 'ko' else 320))
+    return (f'<div class="prose">{intro}{mid}</div>'
             f'<div class="statue-grid">'
             + _photo(P + 'statue-full.jpg', depth, caps[0], 'tall')
             + _photo(P + 'statue-bust.jpg', depth, caps[1])
             + '</div>'
-            f'<div class="prose">{dedication}</div>'
+            f'<div class="prose">{ded}</div>'
             + _photo(P + 'statue-plaque.jpg', depth, caps[2]))
 
 
