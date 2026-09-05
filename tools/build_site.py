@@ -496,9 +496,7 @@ def PAGES(depth):
         render_board('reports_tj', d, 'cards', detail_base='tjpark-research/reports'))
     # ── 박태준의 삶
     P[('life', 'index.html')] = ('생애', '청암 박태준이 걸어온 길을 시대별로 살펴봅니다.',
-        render_eras([('1927~1947', 'life_bio_1'), ('1948~1960', 'life_bio_2'),
-                     ('1961~1967', 'life_bio_3'), ('1968~1992', 'life_bio_4'),
-                     ('1993~2000', 'life_bio_5'), ('2001~2011', 'life_bio_6')], d))
+        bio_page(d))
     P[('life', 'chronology.html')] = ('연보', '1927년부터 2011년까지의 연보.',
         render_timeline(blocks_of('life_chron_all')))
     P[('life', 'statue.html')] = ('청암 조각상', '우웨이산이 만든 전신상과 흉상, 그리고 받침돌의 건립문.',
@@ -1180,6 +1178,76 @@ def greeting_photos(depth, lang='ko'):
             + _photo(P + 'greeting-award-2010.jpg', depth, caps[0])
             + _photo(P + 'greeting-group.jpg', depth, caps[1])
             + '</div>')
+
+
+# ─────────────────────────── 생애 (시대별) ───────────────────────────
+#
+# 구 사이트는 시대마다 사진 여러 장을 세로로 이어 붙인 이미지 한 장을 쓰고,
+# 사진 설명도 그 이미지 안에 글자로 넣어 두었다. 시대 소제목도 이미지였다.
+# 그래서 사진을 한 장씩 잘라내고, 설명은 텍스트로 옮겼다.
+# (원래는 첫 이미지만 가져오는 바람에 여섯 시대에 같은 배너가 반복되고
+#  정작 시대별 사진은 하나도 나오지 않았다.)
+
+BIO_ERAS = [
+    ('1927~1947', 'life_bio_1', '유년에서 청년까지', [
+        ('1927-japan-school.jpg', '일본 중학교 시절'),
+    ]),
+    ('1948~1960', 'life_bio_2', '“짧은 인생을 영원 조국에” — 군인으로 살다', [
+        ('1948-medal.jpg', '무공훈장을 받는 박태준'),
+        ('1948-us-delegation.jpg', '박태준(앞줄 맨 가운데)이 인솔한 도미사찰단이 미국공항에 내린 모습'),
+    ]),
+    ('1961~1967', 'life_bio_3', '국가의 경제 일꾼으로 나서다', [
+        ('1961-supreme-council.jpg', '국가재건최고회의 상공담당 최고위원 시절의 박태준(가운데)'),
+        ('1964-japan-visit.jpg', '일본 순방 (1964년)'),
+    ]),
+    ('1968~1992', 'life_bio_4', '포항종합제철(POSCO)을 세계 최고로 키우다', [
+        ('1968-groundbreaking.jpg', '착공식에서 파일 항타의 버튼을 누르는 박태준·박정희·김학렬 (왼쪽부터)'),
+        ('1973-first-tapping.jpg', '첫 출선에 감동하여 만세를 외치는 박태준과 직원들'),
+        ('1987-campus-inspection.jpg', '2단계 대학 공사현장 순시 (1987년 3월)'),
+        ('1992-completion.jpg', '4반세기 대역사 종합준공보고 (1992년 10월 3일)'),
+    ]),
+    ('1993~2000', 'life_bio_5', '해외유랑 후 국가부도위기 극복에 앞장서다', [
+        ('1998-president-elect.jpg', '김대중 대통령 당선자와 환담하는 박태준 (1998년)'),
+        ('1998-assembly-speech.jpg', '국회 교섭단체 대표연설을 하는 자민련 총재 박태준 (1998년 11월 12일)'),
+    ]),
+    ('2001~2011', 'life_bio_6', '황혼의 박태준과 그의 마지막 계절', [
+        ('2009-tjpark-prize.jpg', '2009 포스코청암상 수상자와 청암 박태준'),
+        ('2011-last-speech.jpg', '2011년 9월 19일 포스코한마당체육관에서 열린 박태준 명예회장과 '
+                                 '퇴직 직원의 19년 만의 만남에서 행한 생애 마지막 연설'),
+    ]),
+]
+
+BIO_INTRO = [
+    '1953년 여름 한국전쟁이 휴전으로 멈추는 즈음에 멀쩡히 살아남은 한 청년 장교가 자신의 영혼에다 '
+    '조각칼로 파듯이 ‘짧은 인생을 영원 조국에’라는 좌우명을 새겼다.',
+    '1977년 5월 조업과 건설을 동시에 감당해 나가는 영일만 포항제철에서 절박한 목소리로 외치는 한 '
+    '중년 사내가 있었다. “우리 세대는 희생하는 세대다. 이것저것 개인을 위해서는 생각할 수 없고 '
+    '다음 세대를 위해 순교자적으로 희생하는 세대다.” 그가 박태준이었다.',
+    '그리고 그는 도무지 낡을 줄 모르는 그 좌우명과 그 신념으로 공공을 위한 삶의 길을 개척하면서 '
+    '다른 쪽으로 한 치 벗어나지 않는 일생을 완주했다.',
+]
+
+
+def bio_page(depth):
+    P = 'assets/img/legacy/bio/'
+    tabs, panes = [], []
+    for i, (label, key, subtitle, photos) in enumerate(BIO_ERAS):
+        on = ' class="on"' if i == 0 else ''
+        tabs.append(f'<button type="button"{on} data-era="{i}">{E(label)}</button>')
+        text = ''.join(f'<p>{E(b)}</p>' for b in blocks_of(key) if len(b) > 60)
+        figs = ''.join(_photo(P + fn, depth, cap) for fn, cap in photos)
+        panes.append(
+            f'<section class="era-pane" data-era="{i}">'
+            f'<h2 class="era-h">{E(label)}</h2>'
+            f'<p class="era-sub">{E(subtitle)} <span>{E(label)}</span></p>'
+            f'<div class="bio-body">{text}</div>'
+            f'<div class="bio-photos">{figs}</div>'
+            f'</section>')
+    intro = ''.join(f'<p>{E(t)}</p>' for t in BIO_INTRO)
+    return (f'<div class="prose bio-intro"><p class="lead">청암 박태준, 그가 걸어온 길을 들여다 보다</p>'
+            f'{intro}</div>'
+            f'<div class="eras"><div class="era-tabs">{"".join(tabs)}</div>'
+            f'<div class="prose">{"".join(panes)}</div></div>')
 
 
 if __name__ == '__main__':
