@@ -657,6 +657,9 @@ def PAGES(depth):
     # 메뉴의 '연보'는 구 홈페이지처럼 첫 시대(1927~1960)로 들어간다.
     P[('life', 'statue.html')] = ('청암 조각상', '우웨이산이 만든 전신상과 흉상, 그리고 받침돌의 건립문.',
         statue_page(d, 'ko'))
+    P[('life', 'media.html')] = ('언론자료',
+        '신문·방송이 남긴 청암 박태준에 관한 기사 모음.',
+        media_page(d, 'ko'))
     P[('life', 'who.html')] = ('박태준을 말한다', '동시대인이 남긴 박태준에 대한 기록. 말한 사람과 직함을 함께 밝힙니다.',
         who_page(d, 'ko'))
     P[('life', 'steel.html')] = ('쇳물은 멈추지 않는다',
@@ -1009,7 +1012,7 @@ SRC_KO = ('<p class="todo-note">※ The publications and records listed here are
           'Titles are shown as published.</p>')
 
 
-EN_DETAIL = {'steel': 'life/steel', 'meet': 'life/meet', 'books_future': 'research/books', 'reports_future': 'research/reports',
+EN_DETAIL = {'steel': 'life/steel', 'meet': 'life/meet', 'tj_media': 'life/media', 'books_future': 'research/books', 'reports_future': 'research/reports',
              'contest_winners': 'research/contest', 'books_tj': 'tjpark-research/books',
              'reports_tj': 'tjpark-research/reports', 'forum': 'forum/forums',
              'seminar': 'forum/seminars', 'multimedia': 'forum/media',
@@ -1066,6 +1069,9 @@ def EN_PAGES(depth):
           'An English edition is being prepared.</p></div>')
     P[('life', 'statue.html')] = ('TJ Park Statue', 'The full-length statue and bust by Wu Weishan.',
         statue_page(d, 'en'))
+    P[('life', 'media.html')] = ('Press Coverage',
+        'Newspaper and broadcast articles about TJ Park.',
+        media_page(d, 'en'))
     P[('life', 'who.html')] = ('Who is TJ Park', 'What his contemporaries said of him, with each speaker named.',
         who_page(d, 'en'))
     P[('life', 'steel.html')] = ('Steel Never Stops',
@@ -1192,6 +1198,7 @@ BOARD_MAP = {
     'news_column':     ('news',     'column.html',  'news/columns',              'TJ미래전략 칼럼'),
     'steel':           ('life',     'steel.html',   'life/steel',                '쇳물은 멈추지 않는다'),
     'meet':            ('life',     'meet.html',    'life/meet',                 '위대한 만남'),
+    'tj_media':        ('life',     'media.html',   'life/media',                '언론자료'),
 }
 
 META_LABEL = {'author': '저자', 'publisher': '출판사', 'published': '연재일',
@@ -1806,6 +1813,34 @@ def meet_page(depth, lang='ko'):
                 f'All {n} instalments are here, in the order they were published.</p></div>')
         note = ''
     board = render_board('meet', depth, 'rows', detail_base='life/meet')
+    return lead + board + (note if lang == 'ko' else SRC_KO)
+
+
+
+def media_page(depth, lang='ko'):
+    """언론자료 — 청암 박태준에 관한 신문·방송 기사 모음.
+
+    구 홈페이지는 제목과 설명을 배너 이미지(txt2.jpg) 한 장으로 넣어 두었다.
+    """
+    n = len(load('board_tj_media') or [])
+    if lang == 'ko':
+        lead = ('<div class="prose">'
+                '<p class="lead">신문과 방송이 청암 박태준을 어떻게 기록했는지 '
+                '모았습니다.</p>'
+                f'<p>청암 박태준과 관련된 기사 {n}건입니다. 제목 앞의 대괄호는 '
+                '보도 매체를 가리킵니다.</p></div>')
+        note = ('<p class="src-note">※ 기사 본문은 각 언론사가 저작권을 가진 '
+                '자료입니다. 구 홈페이지에 실려 있던 그대로 옮겼으며, 본문 끝에 '
+                '원문 주소를 남겨 두었습니다. 언론사 서버에 있던 사진은 옮기지 '
+                '않았고, 사진 설명만 남아 있는 자리가 있습니다.</p>')
+    else:
+        lead = ('<div class="prose">'
+                '<p class="lead">How the press and broadcasters have recorded '
+                'Chungam Park Tae-joon.</p>'
+                f'<p>{n} articles about TJ Park. The bracketed prefix in each '
+                'title names the outlet that carried it.</p></div>')
+        note = ''
+    board = render_board('tj_media', depth, 'rows', detail_base='life/media')
     return lead + board + (note if lang == 'ko' else SRC_KO)
 
 

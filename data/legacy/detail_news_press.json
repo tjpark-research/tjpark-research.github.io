@@ -4341,5 +4341,1233 @@
   "images_local": {
    "0": "assets/img/legacy/b1230a785e3f.jpg"
   }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=418&pg_mode=View&bid=etc&page=10&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-12-07",
+   "date": "2015-12-07"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "[[IMG|data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHkAAAAtCAYAAACK5cSoAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAfNSURBVHhe7ZtnaBRNGMef2HuJvaJgC6io2HsPqBhRLLGA2D8oCOI3wYL6QQwo2BFRsSAookJiiST2iqjEHnvvvZdx/k9mzsnl9lpuw/tm5wfDzc3O7u3Of54ys0mckJClUFNEfVoKMVZkD2BF9gBWZA9gRfYAVmQPYEX2AFZkD2BF9gBWZA9gRfYAEe9df/z4kX78+KG+BaZEiRJUvnx5ru/du5dOnz7N9cmTJ1PDhg25/uHDB3r16hXh56tVq0YVKlTgdiceP35MK1eu5HpCQgKNGzeO65rDhw/TkydPqFixYnzNUMTFxVGvXr2oZs2aqoXo8+fP9OLFCypSJPfc//37Nz8P7vPBgwe0bt06+vPnDw0cOJC+fPlCGRkZVLRoUZowYYLv+fx5+PAhvX79mmrVqkU1atRQrf94+fIlrV27lq/XtWtXGjBggDoSAyByJCQnJ4uKFStyKVOmjK+ULVvW1z5y5EjVW4jx48djxLmkp6erViHWrFkj6tSpI2rXri02bNigWp2RE8V3ncTERNX6j27duvmOh1tSU1PV2Tns3LlT1K9fXzRo0EDUrVtXSDGEnASiatWqYsyYMdzn1KlTvvNTUlLE7Nmzfd+PHj3KfUwyMzNFUlKSqFevnpCTXzRu3FhMmjRJZGVlqR45XL9+XZQqVYqvM3XqVNUaGyJ21+/fv/eVX79+8SxH+f79e65jmnLlyqkaUfHixVWN6N27d2ydsD6zvxOwUI2cSKr2j5IlS/InLGrYsGEkB4rkYAYssLiJEyfmsTp4KVjqvXv32MvAI8HiUTRo078lJzfJyc11PCeOmWzatImtfc+ePWzJcrLQrVu3aP369dS/f39KS0tTPXOeD8eBOWaxIGKR9WBLK6RLly7xoKDs3r2b24EpiBOm4OH0D4UWAgM/f/58kp7CscAt4rNZs2Z8jsa8D0ySc+fO0ZkzZ+js2bO0bNkybseEDgdp1TRt2jQOAU2aNKFDhw7x9bZv385iYnJjsmVnZ6sz3CPqxAsWA6GrV6/OxYwz5mCZYhYEGNShQ4dSmzZtHEvr1q2pc+fOdOPGDXVWXuLj4/mZpJsl6b59VgbLNS07EPBwS5YsoW/fvrHVr1q1ivr27UsyNNGoUaN4EoJnz57xZAOhrpkfohZZunp20RozGUMSAQs4f/48u6mCBAkRrOPy5ct05cqVoAUiOAGh9CcSR1jmyZMnuY7fCMbdu3fpxIkTXG/VqhX16dOH65rhw4fzxAFIGDGOsfBmTkQtcjDwgB07dqR27dqRTGZUa8EASztw4ACHkDt37gQsEEEmOtSyZUt1ljNYBcAKe/ToQV26dOFYHmp1AQtFzgHgOfxBlq5DxZs3b7gvPKNbuCIylhvNmzfnQYTbKwh+/vypajlJ3dOnT3k55FSQ9IXjZWBhELdTp068tMEzhXKt5vFAVg/vYHpBt3FFZAwG3DVc24gRI1Rr/vBfu/qjJxNiMtxh27Zt2ZMEKu3bt2fRdDwMBtbvcqnF7vrYsWOctPln0f4g9ur7QbLlDyz96tWrXIdVo2+4CV005Etkc8aadSRbyHJLly4dckBAOH1CWc/ChQt5QnXv3p0nGawPn04Fxxs1aqTOzouZMMKV6pgZTiKJeKs3My5evEjbtm3jugZLqOfPn3N9yJAhfE2dA7hB1CJj0OXiXX3LLZTpopySFHPm3r9/n27evElZWVl5CmInYvzcuXNV78BgF2zHjh105MgRtrjjx4/zp1PBcSxhTMx7gjvHPSFBw31gufj27duQkw3A68yZM4czcjz/lClTaPny5ZSZmcntixYt4n6I11iqASSybhFxSqczUsS15ORkXiLgwZFRa8K5YbgpzeLFiyklJSXghMCA6fiF3zGvjf5btmxhQdBPF93HXxDzXByDqLjGoEGDOIcwN1ngljdu3Oi7J/TFPQ4ePJi/h6Jp06a0detWXisj0Zs5c6Y6kgPCxubNm3ONg1tELDISj4MHD7LY+/btU625CSepwGCNHTuWLly4wO7QKSbBjWFnCmtbDLKZYKG+YMECun37tmqJjkqVKrHIyKJhdfAcmCzmPX39+jXi2IldLXgMxH7EdOxdI15jSYV9/MqVK6ue7hLxCwqIi/VvsBhSpUoVatGiBddnzJhBK1as4DpcKWKmCVwgBtQJWBIGA64T1gEQe+GacWz16tVsKWa4gJXimrt27aJr165xG1wzBtgUCY+O76NHj+b1rCbQNit+C9uNcNuI6ZjI+G3E1nnz5vGx9PR06tChgzojN/gtLMcCbckCTNSePXvSo0ePaNasWbR06VJ1JAZAZDeZPn06JhEXKbJqjRw5sXzXkSKr1uDgZYo+By8AYoFcNQgZoviaUmQhBea6FJlfokRLdnY2vxTBtaTIqjU2uLKE+q9gunYsrWKBf5z/P1CoRbbkYEX2AK6LbLpJ031GipnoIYEJBzOBys9vm+A6evWAv+JAAZ8+fQq5px0MPB+yb6CvGStc/9dVbOshMwb9+vXj15LRgAHYv38/1/GKE5loKPBnOXhvCxITE32vC/MD9gOQRSPbxmYGhMVmCbL53r17B/zTnnDAhMTSFNfDxk6gFxvRYv8/2QPYmOwBrMgewIrsAazIHsCK7AGsyB7AiuwBrMgewIrsAazIHsCK7AGsyIUeor95SZUwZlnvWAAAAABJRU5ErkJggg==|]]",
+     "박태준연구소",
+     ", '",
+     "바람직한 한국관료",
+     "조건 포럼",
+     "머니투데이 김지산 기자",
+     "||",
+     "입력",
+     ": 2015.12.03 16:01",
+     "박태준미래전략연구소가",
+     "일 연세대 상남경영원에서 관료를 불신하는 원인을",
+     "찾고 이를 타파하기 위한 해법을 모색하는",
+     "바람직한 한국 행정관료 생성 매커니즘",
+     "포럼을 개최했다",
+     "포럼은 조윤제 서강대 교수",
+     "경제학",
+     "진행을 맡아 진행됐다",
+     "첫 번째 발표자로 나선 박길성 고려대 대학원장는",
+     "한국 행정관료의 전문성과 혁신",
+     "을 주제로 관료의 무능이 부패보다",
+     "사회적 비용이 훨씬 크다고 주장했다",
+     "그는 집체식 중앙공무원 교육원의 교육체제를 혁신하고 순환보직과",
+     "더불어 장기재직 전문가를 양성해야 한다고 제언했다",
+     "이종수 연세대 교수는 두 번째 발표에서",
+     "한국 행정관료의 충원과 고용방식",
+     "개편",
+     "을 다루며 공무원 채용시",
+     "문제해결형 면접",
+     "민간 경력자 도입",
+     "대학 전공과 적성을 살리는 채용 등",
+     "가지 트랙을 제시했다",
+     "정창화 단국대 교수는",
+     "통일과정에서 한국 행정관료의 역할",
+     "을 주제로 한반도 통일과정에서 관료들이 독일처럼 내적통합을 위한 정밀기계장치 역할을 해야 한다고 밝혔다",
+     "포럼을 후원한 인사혁신처 이근면 처장은 축사에서",
+     "인사혁신을",
+     "위해 지난",
+     "년간 시도했던 많은 변화들을 앞으로 더욱 발전시켜 국가의 성장동력이 되는 경쟁력있는 공무원과",
+     "공직사회를 만들어가겠다",
+     "고 말했다",
+     "박태준미래전략연구소는 경제",
+     "사회",
+     "정치 등 다양한 분야를 놓고 정부",
+     "학계 등 전문가들과 미래 핵심문제를 조망하고 대응방향을",
+     "제시하기 위해",
+     "2013",
+     "년 설립됐다",
+     "저작권자",
+     "© ‘",
+     "돈이 보이는",
+     "리얼타임 뉴스",
+     "머니투데이",
+     "무단전재 및 재배포 금지",
+     "[출처]",
+     "https://news.mt.co.kr/mtview.php?no=2015120315533587785&type=1"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "data:image/png;base64,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"
+  ],
+  "files": [],
+  "idx": "418",
+  "list_title": "[머니투데이] 박태준연구소, '바람직한 한국관료' 조건 포럼_ 2015.12. 3",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=417&pg_mode=View&bid=etc&page=10&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-12-07",
+   "date": "2015-12-07"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "박태준미래전략연구소는",
+     "일 서울",
+     "연세대 상남경영원에서",
+     "바람직한 한국 행정관료 생선 메커니즘",
+     "을 주제로 포럼을 열었다",
+     "이 포럼은 한국사회에 만연한",
+     "관료 불신",
+     "의 원인을 찾고 이를 타파하기 위한 해법을",
+     "제안하는 차원에서 기획됐다",
+     "포럼에서 박길성 교수",
+     "고려대 대학원장",
+     "한국 행정관료의 전문성과 혁신",
+     "을 주제로 발표했다",
+     "그는",
+     "한국 관료제의 전문성을 높이기 위해서는",
+     "무능의 사회적 비용은 부패의 사회적 비용보다 훨씬 크다",
+     "집체식의 중앙공무원 교육원의 교육체제를 혁신하고 순환보직과 더불어 장기재직의 전문가를 양성하는",
+     "두 갈래의 보직관리가 필요하다",
+     "고 주장했다",
+     "이종수 교수",
+     "연세대",
+     "한국 행정관료의 충원과 고용방식 개편",
+     "을 다루며",
+     "공무원 채용시 문제해결형 면접",
+     "민간 경력자",
+     "도입",
+     "대학 전공과 적성을 살리는 채용 등",
+     "가지",
+     "트랙으로 나가야 바람직하다",
+     "고 제시했다",
+     "정창화 교수",
+     "단국대",
+     "통일과정에서 한국 행정관료의 역할",
+     "을 주제로",
+     "한반도 통일과정에서 한국 행정관료들의 가장 중요한 역할이 독일의 경우와 같이 내적통합을",
+     "위한",
+     "정밀기계장치",
+     "의 역할을 하는 것",
+     "이라고 말했다",
+     "포럼을 후원한 인사혁신처 이근면 처장은 축사를 통해",
+     "인사혁신을 위해",
+     "지난",
+     "년간 시도했던 많은 변화들을 앞으로 더욱 발전시켜 국가의 성장동력이 되는 경쟁력있는",
+     "공무원과 공직사회를 만들어가겠다",
+     "고 밝혔다"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "data:image/png;base64,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"
+  ],
+  "files": [],
+  "idx": "417",
+  "list_title": "[뉴데일리 경제]바람직한 행정관료 만들기 포럼, 박태준미래전략硏 주최_2015.12.3",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=415&pg_mode=View&bid=etc&page=10&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-10-27",
+   "date": "2015-10-27"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "'관료파면제 실시' '유전자산업 집중'…10년후 우리 사회는?",
+     "(서울=뉴스1) 권영미 기자",
+     "2015-10-26 15:32:38 송고",
+     "[[IMG|http://image.news1.kr/system/photos/2015/10/26/1608609/article.jpg|]]"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://image.news1.kr/system/photos/2015/10/26/1608609/article.jpg"
+  ],
+  "files": [],
+  "idx": "415",
+  "list_title": "[News1] '관료파면제 실시' '유전자산업 집중'…10년후 우리 사회는? _ 2015.10.27",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=414&pg_mode=View&bid=etc&page=10&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-10-27",
+   "date": "2015-10-27"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "[[IMG|http://img.seoul.co.kr/img/upload/2015/10/26/SSI_20151026180940_V.jpg|]]"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://img.seoul.co.kr/img/upload/2015/10/26/SSI_20151026180940_V.jpg"
+  ],
+  "files": [],
+  "idx": "414",
+  "list_title": "[서울신문] 실사구시·시민사회… 10년 뒤 우리 사회 키워드 될까? _2015.10.27",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=413&pg_mode=View&bid=etc&page=10&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-10-27",
+   "date": "2015-10-27"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "석학 36명이 제시한 ‘10년 후 한국사회’ …",
+     "통일을 생각하는 새로운 상상력 키워야",
+     "[[IMG|http://pds.joins.com/news/component/htmlphoto_mmdata/201510/27/htm_2015102705850946632.jpg|기사 이미지]]",
+     "왼쪽부터 송복, 안병영, 방민호.",
+     "앞으로 10년, 한국사회의 가장 중요한 이슈는 무엇이며 우리는 이에 어떻게 대응해야 할까.",
+     "출간 간담회 “고령화 대비” 지적도",
+     "송복 연세대 명예교수(사회학), 이배용 한국학중앙연구원장, 송호근 서울대 사회학과 교수, 안병영 전 교육부총리 등 각계 전문가 36명이 ‘10년 후 한국’을 주제로 머리를 맞댔다. 박태준미래전략연구소가 최근 출간한 책 『10년 후 한국사회』(아시아)에서다.",
+     "연구소는 전문가들에게 한국사회의 10년 뒤를 상상하며 가장 먼저 해결해야 할 문제를 자유롭게 골라달라 요청했다. 26일 기자간담회에서 이대환 박태준미래전략연구소 연구위원은 “영역을 구분하지 않고 폭넓은 제언을 듣고자 했다”고 말했다.",
+     "이슈는 크게 ‘평화 그리고 통일’ ‘시민 그리고 개인’ ‘교육개혁 그리고 다문화사회’ ‘고령화사회와 유전자 의료산업’ ‘의식 그리고 리더’ ‘새로운 외교 그리고 정치개혁’의 영역으로 모아졌다. 송복 교수는 권두 에세이에서 영국보다 인구가 1500만 명이나 적은 한국이 공무원 수는 영국의 5배에 달한다고 지적하며 한국의 행정체제 개혁을 강하게 요구한다. “끝없이 불어나는 관리 수, 그 관리가 챙기는 국민세금과 부채, 절대로 뽑아내지 않는 대못규제며 갑질 행태”가 “오늘날 한국 관리들의 자화상이며 현주소”라는 것이다. 통일을 주제로 글을 쓴 방민호 서울대 국문학과 교수는 “통일을 생각하는 새로운 상상력”을 강조했고, 이배용 원장은 신라의 삼국통일과 고려 건국과정의 후삼국 통일 등 한반도 역사 속 통일의 경험에서 미래 통일의 길을 찾아보자고 제안했다.",
+     "시민성 함양과 교육 개혁, 고령화 사회에 대한 대비도 중요한 과제로 꼽혔다. 송호근 교수는 “공공성에 대한 긴장과 윤리를 갖춘 시민성의 배양”을 강조했고, 전영기 중앙일보 논설위원은 “약해지는 리더십과 강력해지는 팔로어십(followership)이 적정 수준에서 협조·조정되어야 한다”고 말했다. 교육전문가인 안병영 전 부총리는 “공감능력을 길러주는 교육”을 새 과제로 내세웠으며 방현석 중앙대 문예창작학과 교수는 다문화 가정의 아이들에게 부모 양국의 언어와 문화를 습득시켜 국제화 시대의 인재로 길러낼 것을 제안했다.",
+     "이영희 기자 misquick@joongang.co.kr",
+     "[출처: 중앙일보] 석학 36명이 제시한 ‘10년 후 한국사회’ … 통일을 생각하는 새로운 상상력 키워야",
+     "[출처]",
+     "https://news.joins.com/article/18940247"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://pds.joins.com/news/component/htmlphoto_mmdata/201510/27/htm_2015102705850946632.jpg"
+  ],
+  "files": [],
+  "idx": "413",
+  "list_title": "[중앙일보] 석학 36명이 제시한 ‘10년 후 한국사회’ … 통일을 생각하는 새로운 상상력 키워야_2015.10.27",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=412&pg_mode=View&bid=etc&page=10&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-10-27",
+   "date": "2015-10-27"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "'위대한 만남 박정희와 박태준'",
+     "출판기념 Book-Concert 개최",
+     "[[IMG|http://postech.dever-host.com/data/webEditor/20151027101835.jpg|]]",
+     "‘진정한 신뢰, 완전한 신뢰란 무엇인가?’라는 질문에 확실한 대답을 주는 『대한민국의 위대한 만남 박정희와 박태준』은《박태준의 박정희 회고》를 바탕으로 구성한 책으로 먼 험로(",
+     ")를 걸어가는 동안 보이지 않는 발자취처럼 남겨둔, 흥미롭고 아름다운 ‘박정희와 박태준의 완전한 신뢰의 인간관계’를 사실 그대로 담아내고 있는 박태준미래전략연구소의 박태준연구결과물입니다.",
+     "고인 두 분의 위업과 신뢰를 가리는 마음으로 북콘서트를 마련하였습니다.",
+     "때: 2015년 10월 29일(목요일) 오후 7시 30분",
+     "곳: 포스코국제관 2층 (포스텍 내)",
+     "* 행사장 로비에 <위대한 만남 - 박정희와 박태준> 사진전이 마련됩니다."
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://postech.dever-host.com/data/webEditor/20151027101835.jpg"
+  ],
+  "files": [],
+  "idx": "412",
+  "list_title": "출판기념 Book-Concert 개최 '위대한 만남 박정희와 박태준'",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=411&pg_mode=View&bid=etc&page=10&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-09-04",
+   "date": "2015-09-04"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "‘지음(知音)’이라는 말이 있다. 마음이 서로 통하는 벗을 이르는 말이다. 진나라의 거문고 명인 백아(伯牙)가, 자신의 거문고 소리를 듣고 이해해 준 종자기(鐘子期)가 죽은 후, 거문고의 줄을 끊어 버린 데서 유래한 고사다. 더 이상 거문고 소리를 이해해주는 사람이 없는 상실감을 절현(絶絃)의 방법으로 표현한 것이다.",
+     "한 평생을 살면서 ‘지음(知音)’의 벗을 만나기란 쉽지 않다. 그러나 역사에는 몇몇 지음의 관계가 있었다. 조선의 신하인 오성과 한음, 춘추전국시대 관중과 포숙아, 임진왜란을 극복한 유성룡과 이순신은 대표적인 ‘지음’의 관계다.",
+     "지음은 온전한 신뢰의 바탕 위에서만 가능하다. 절대적인 믿음과 그 믿음을 실망시키지 않으려 노력하는 전제에서 성립된다. 지치고 힘들 때 지음의 벗을 찾게 되는 것은 인지상정이다. 눈빛만 봐도 마음 깊이 이해해줄 수 있는 친구가 있다면 그 사람은 진실로 행복한 사람이다.",
+     "파란의 역사였던 우리의 ‘권력동네’에는 그런 모델이 없을까. 진정한 신뢰를 바탕으로 위대한 일을 창조한 롤 모델이 없을까. 불행히도 ‘역사의 법정’은 지도자들을 ‘피고석’에 앉도록 강제한다. 진영의 논리, 역학관계 등 여러 요인은 ‘정치적인’ 관점에서 바라보도록 강요하기 때문이다.",
+     "그러나 이들의 인간적인 내면과 추구했던 가치를 면밀히 주목하지 않고는 온전한 평가를 내리기 쉽지 않다. 다행히 ‘평전’은 공과를 따지기에 앞서 인간의 다층적인 면을 들여다보는 창을 제공한다.",
+     "광복 70돌을 맞아 근대화에 지대한 영향을 끼쳤던 박정희와 박태준의 관계를 조명한 책이 나왔다. 영일만 출신 작가 이대환이 펴낸 ‘대한민국의 위대한 만남-박정희와 박태준’은 두 인물의 신뢰관계에 초점을 맞춘다. “이념적 가치와 인간적 가치가 상충할 경우에는 끝내 후자를 옹호할 수” 밖에 없다는 말처럼, 작가는 두 사람의 ‘우정’에 초점을 맞춘다.",
+     "물론 저자는 대통령 박정희의 행적을 공칠과삼(功七過三)으로 정리한다. 당연히 공은 경제고, 과는 독재다. 물론 공이 과를 덮을 수도 없고 과가 공을 허물 수도 없지만, 공은 성장하고 있고 과는 극복하고 있다고 본다. 언젠가 이것이 한국사의 상식이 될 거라는 예상도 빼놓지 않는다.",
+     "책은 오랜 기간에 걸쳐 씌어졌다. 저자는 1997년 5월 포항에서 당시 70세였던 박태준을 처음 만나, 주인공이 세상을 떠난 2011년 12월까지 거의 매주 한두 차례씩 허심탄회한 대화를 나눴다.(15년 이상 매주 만나 속이야기를 했던 두 사람도 ‘지음’의 관계일 것 같다.) 박태준이 저자에게 “박통 이야기도 참 많이 했는데, 이 선생은 정리해볼 수 있겠소?”라고 던진 질문이 결과적으로 평전이 되었다.",
+     "저자는 두 사람이 처음 육사 교관과 생도로 만났던 인연부터, 황무지에 건설한 포항제철 이야기, ‘철강 2100만 톤 대한민국’을 완성한 1992년 10월 박태준이 박정희 영전에 올린 보고에 이르기까지 관계에 초점을 맞춘다.",
+     "미국 스탠포드대학교 비즈니스스쿨은 포스코의 성공 요인으로 “박정희의 강력한 의지와 박태준의 탁월한 리더십”을 언급했다. 강력한 의지와 탁월한 리더십은 다름 아닌 완전한 신뢰위에서 구축된다.",
+     "“세계 최고 제철소 건설의 ‘포스코 25년’을 대하드라마에 비유한다면, 제1부는 포항제철소이고 제2부는 광양제철소이다. 포항제철소의 기획과 제작은 박정희이고, 연출과 주연은 박태준이다.”",
+     "박정희의 혜안이 없었다면 포스코의 박태준은 없었고, 박정희와 박태준의 독특한 인간관계(완전한 신뢰관계)가 없었다면 제철혁명의 대하드라마도 완결될 수 없었다.",
+     "‘한강의 기적’은 박정희와 박태준의 만남과 신뢰가 있었기에 가능했다. 두 사람의 ‘지음’은 근대화의 초석이 되었다. 완전한 신뢰는 그렇듯 기적을 이룬다. 〈아시아·1만7000원〉",
+     "/박성천기자",
+     "skypark@kwangju.co.kr"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://www.kwangju.co.kr/upimages/gisaimg/201508/28_557946.jpg"
+  ],
+  "files": [],
+  "idx": "411",
+  "list_title": "[광주일보]20세기 한국 산업화 견인한 ‘쌍박일심’_2015.08.28",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=410&pg_mode=View&bid=etc&page=10&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-08-27",
+   "date": "2015-08-27"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "“경부고속도로는 내가 직접 감독할 테니 종합제철은 임자가 맡아”",
+     "박정희가 박태준을 청와대로 불러 종합제철 건설에 대한 속내를 털어놓은 때는 1965년 6월 어느 날이었다. 그로부터 3년 뒤인 1968년 4월 1일 서울 한복판 명동 유네스코회관 3층에서는 조촐하고 소박한 기념식이 열렸다. 바로 포항종합제철주식회사(포스코) 창립식. 창립요원은 사장 박태준을 포함해 모두 39명이었다.",
+     "박 대통령은 처음부터 끝까지 박태준에게만은 독대의 특권을 부여했다. 박정희와 박태준의`그 무엇`이 그것을 가능하게 했고 지속하게 만들었을까? 대체 두 사람의 독특한 인간관계는 어떠한 것이었을까?",
+     "박정희(1917~1979)와 박태준(1927~2011).",
+     "대한민국이 제2차 세계대전 이후 독립한 국가들 중에서 최초로 산업화와 근대화를 동시에 이뤄낸 유례없는 성공을 거둔 나라로 평가되는 데 가장 큰 역할을 한 인물로 이 두 사람을 꼽는데 주저하는 이는 없을 것이다.",
+     "포항 출신 중진 작가 이대환(57)이 최근 펴낸 `대한민국의 위대한 만남 박정희와 박태준`(아시아)은 광복 70주년을 맞아 그 시련과 영광을 성찰하는 우리에게 중요한 시사점을 주고 있다.",
+     "특히 박정희를 이어 누가 한국을 일류국가로 이끌어가는 마지막 관문을 통과할 것인가? 그는 어떤 지도자여야 하는가? 이런 화두를 가지고 고민하는 우리에게 이 책이 전해주는 양박 당시 시대인식은 중요한 의미를 부여하고 있다."
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://www.kbmaeil.com/news/photo/201508/360392_773876_4742.jpg",
+   "http://www.kbmaeil.com/news/photo/201508/360392_773875_4741.jpg",
+   "http://www.kbmaeil.com/news/photo/201508/360392_773877_4742.jpg"
+  ],
+  "files": [],
+  "idx": "410",
+  "list_title": "[경북일보]경제기적 일궈낸 두 거인의 만남_2015.08.21",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=403&pg_mode=View&bid=etc&page=10&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-07-14",
+   "date": "2015-07-14"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "[[IMG|http://postech.dever-host.com/data/webEditor/20150714105943.jpg|]]",
+     "※ 대상 300만원, 우수상 100만원 지급"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://postech.dever-host.com/data/webEditor/20150714105943.jpg"
+  ],
+  "files": [],
+  "idx": "403",
+  "list_title": "[포스코신문] 포스텍 박태준미래전략연구소 '대학(원)생 에세이 시상식' 개최_2015.7.9",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=401&pg_mode=View&bid=etc&page=10&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-07-03",
+   "date": "2015-07-03"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "[[IMG|http://postech.dever-host.com/data/webEditor/20150703090235.jpg|]]"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://www.kbmaeil.com/image2006/icon_p.gif",
+   "http://postech.dever-host.com/data/webEditor/20150703090235.jpg"
+  ],
+  "files": [],
+  "idx": "401",
+  "list_title": "[경북일보]포스텍 박태준 미래전략硏 `에세이 시상식`_2015.07.03",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=394&pg_mode=View&bid=etc&page=11&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-06-15",
+   "date": "2015-06-15"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "[[IMG|http://postech.dever-host.com/data/webEditor/20150615132129.jpg|]]",
+     "포스코청암재단이 6월 9일 베트남 하노이국립대에서 재단 출범 10주년 기념 세미나를 개최했다.[사진=포스코 제공]",
+     "아주경제 양성모 기자 = 포스코청암재단이 재단 출범 10주년을 기념해 ‘한국경제발전에 미친 포스코와 청암 박태준의 역할과 리더십’을 해외에 전파하는 세미나를 열었다.",
+     "지난 9일 베트남 하노이국립대에서 진행한 이번 세미나는 박태준미래전략연구소·포스코베트남홀딩스와 공동 기획했다.",
+     "이날 행사에는 호 응이아 중 베트남 철강협회장, 레 즈엉 꽝 베트남 전 산업무역부 차관, 응우옌 옥 타잉 산업무역부 중공업국 부국장, 황순성 주베트남 한국대사관 참사관, 응우옌 낌 손 베트남 하노이국립대 부총장, 김선원 포스코베트남홀딩스 대표법인장, 양재운 포스코청암재단 상임이사를 비롯해 베트남 하노이국립대·하노이국립백화대·하노이국립인문사회과학대·타이응우옌(Thai Nguyen)대의 재학생, 포스코청암재단 장학생 등 총 220여 명이 참석했다.",
+     "박태준미래전략연구소의",
+     "지원으로 연구를 수행한 김동헌 고려대 교수는 “포스코는 박정희 대통령의 절대적인 지원에 힘입어 전후방산업 발전에 크게 도움을 주어 한국의 근대화에 절대적인 역할을 했고, 포스코를 이끈 청암 박태준의 리더십은 불굴의 애국심과 선공후사의 정신으로 한국의 철강산업을 세계적 수준으로 올렸다”고 발표했다.",
+     "이어 포스코청암재단의 지원을 받은 쩐 뉴언 끼엔 베트남 타이응우옌대 박사는 “제철보국과 우향우 정신의 기업문화, 그리고 국가발전의 초석이 되겠다는 임직원의 굳은 결의가 한데 뭉쳐 오늘의 기적을 이뤘다”고 말했다. 호 응이아 중 베트남 철강협회장은 축사에서 “한국의 경제성장 및 포스코의 성공은 베트남이 본받아야 할 모델이다. 앞으로도 한국·베트남 간 유대관계가 더욱 단단해지기를 바란다”고 말했다.",
+     "세미나에 이어 포스코청암재단은 하노이국립대 장학생 15명에게 포스코아시아펠로십 장학증서를 수여하고 격려했다.",
+     "양재운 포스코청암재단 상임이사는 “포스코아시아펠로십 장학생들이 미래 한국과 베트남의 공동번영에 기여하는 인재로 성장하기를 바란다”고 말했다.",
+     "한편 포스코청암재단은 2005년 9월 출범한 이래 10년이 되는 올해까지 △과학·교육·봉사 분야에서 위대한 업적을 쌓은 인사를 시상하는 포스코청암상 △아시아의 상호이해와 공동번영을 추구하는 포스코아시아펠로십 △국내 기초과학자를 지원하는 청암과학펠로십 △제철소가 소재하는 포항과 광양의 미래인재를 육성하는 지역사회 장학 등을 통해 학술·장학·연구지원금을 전달하며 범포스코그룹의 글로벌 사회공헌활동을 주도하고 있다.",
+     "[출처]",
+     "https://www.ajunews.com/view/20150611111521585"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://postech.dever-host.com/data/webEditor/20150615132129.jpg"
+  ],
+  "files": [],
+  "idx": "394",
+  "list_title": "베트남에 전파되는 박태준 포스코 창업주의 리더십 _ 아주경제(2015-06-11)",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=387&pg_mode=View&bid=etc&page=11&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-05-29",
+   "date": "2015-05-29"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "[[IMG|http://www.kbmaeil.com/news/photo/201505/352847_769230_213.jpg|▲ 포스텍 노벨동산에 세워진 청암 박태준 조각상.]]"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://www.kbmaeil.com/news/photo/201505/352847_769229_210.jpg",
+   "http://www.kbmaeil.com/news/photo/201505/352847_769230_213.jpg"
+  ],
+  "files": [],
+  "idx": "387",
+  "list_title": "[경북매일] 더 나은 한국사회로 나아갈 길 제시_2015.05.29",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=386&pg_mode=View&bid=etc&page=11&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-05-28",
+   "date": "2015-05-28"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "인구 줄고, 늙고 … 한국사회의 최대 고민",
+     "[중앙일보]",
+     "입력 2015.05.19 00:57",
+     "포스텍 박태준미래전략연구소 조사",
+     "청년실업 등 경제 문제보다 더 심각",
+     "[[IMG|http://pds.joins.com/news/component/htmlphoto_mmdata/201505/18/htm_2015051823164450105011.jpg|]]",
+     "[[IMG|http://pds.joins.com/news/component/htmlphoto_mmdata/201505/18/htm_2015051823164450105011.jpg|]]",
+     "‘인구감소, 노령화, 성장 동력 부재에 따른 저성장….’",
+     "대한민국을 옥죄고 있는 이런 문제들이 가까운 미래에도 우리 사회의 가장 큰 걱정거리가 될 것이란 여론조사 결과가 나왔다. 포스텍(포항공과대학교) 산하 박태준미래전략연구소는 ‘앞으로 10년 내 한국사회가 당면할 가장 중요한 문제는 무엇인가’를 주제로 20세 이상 성인 1002명에게 설문조사했다.",
+     "이에 따르면 응답자의 12.2%가 대한민국의 가장 큰 고민거리로 ‘저출산으로 인한 인구감소와 노령화’를 꼽았다. 극적인 효과를 낼만한 인구감소 방지책이 나오지 않는 이상 지금 같은 인구 감소세를 막을 수 없다는 생각이 뿌리 깊게 박혀있는 것이다.",
+     "‘경기침체로 인한 저성장과 성장 동력부재(11.7%)’와 ‘일자리 부족·청년실업(10.1%)’ 같은 경제 관련 문제도 주요 고민거리 2~3위에 꼽혔다. 포스텍 측은 “현재 상황이 팍팍하지만 가까운 미래에도 크게 달라질 것이 없다는 우려가 작용한 것 같다”고 설명했다.",
+     "응답자의 7%(4위)는 정치개혁과 부정부패 같은 문제가 가장 큰 고민거리라고 답했다. 남북관계나 통일 등과 관련한 안보 문제를 가장 큰 걱정이라고 답한 이는 응답자의 6.1%(5위)였다.",
+     "양극화와 소득불균형(6위·5.6%), 노인빈곤·노후대책(7위·4%)을 꼽은 이도 많았다. 이념 및 계층 갈등으로 인한 국론분열(8위·3.3%)과 교육·입시문제(9위·1.1%), 시민의식과 인성·도덕성 회복(10위·0.4%) 등도 우리나라의 주요 문제로 지적됐다.",
+     "연구소는 주로 20대인 포스텍 재학생 1018명에게도 동일한 내용의 설문 조사를 했다. 그 결과 포스텍 재학생도 ‘인구감소와 노령화’를 가장 큰 걱정거리로 꼽았다(응답자 중 28.8%).",
+     "눈에 띄는 점은 재학생 조사에선 ‘시민의식과 인성·도덕성 회복(4위·6.8%)’의 중요성을 크게 본 이가 많았다는 것이다. 일반 국민 대상 조사에서 이 문제는 당면문제 중 10위에 그쳤다.",
+     "연구소의 정기준 책임연구원은 “젊은층은 경제뿐 아니라 시민의식 부재로 인한 공동체의 붕괴 문제를 크게 우려하는 것으로 나타났다”고 설명했다.",
+     "이수기 기자",
+     "retalia@joongang.co.kr",
+     "[출처]",
+     "https://blog.naver.com/give1118/220363958537"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://pds.joins.com/news/component/htmlphoto_mmdata/201505/18/htm_2015051823164450105011.jpg",
+   "http://pds.joins.com/news/component/htmlphoto_mmdata/201505/18/htm_2015051823164450105011.jpg"
+  ],
+  "files": [],
+  "idx": "386",
+  "list_title": "[중앙일보] 인구 줄고, 늙고 … 한국사회의 최대 고민_2015.05.19",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=385&pg_mode=View&bid=etc&page=11&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-05-28",
+   "date": "2015-05-28"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "<신간> 미래사회의 리더십과 선진국가의",
+     "엘리트 생성 매커니즘",
+     "[[IMG|http://img.yonhapnews.co.kr/etc/inner/KR/2015/05/21/AKR20150521077700005_02_i.jpg|]]",
+     "▲ 미래사회의 리더십과 선진국가의 엘리트 생성 메커니즘 = 류석진·조홍식·박길성·장덕진·최동주 지음.",
+     "정치·사회 분야 학자 5명이 말하는 미래의 리더 혹은 엘리트에 관한 책이다.",
+     "이 책은 박태준미래전략연구소의 '미래전략연구' 시리즈 중 첫 번째 단행본이다.",
+     "미래전략연구는 가까운 장래에 공동체가 당면할 주요 이슈들을 예측하고 대응책을 제시하는데 연구 목표를 두고 있다.",
+     "과거와 현재의 모습을 통해 미래의 바람직한 리더십을 모색하고 선진국 정치·행정·기업 엘리트에서 배울 점을 찾아 미래 한국의 모습을 그려 나간다.",
+     "아시아. 322쪽. 2만원.",
+     "eun@yna.co.kr",
+     "<저작권자(c) 연합뉴스, 무단 전재-재배포 금지>",
+     "2015/05/21 10:49 송고",
+     "원문보기 ->",
+     "http://www.yonhapnews.co.kr/bulletin/2015/05/21/0200000000AKR20150521077700005.HTML?input=1195m"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://img.yonhapnews.co.kr/etc/inner/KR/2015/05/21/AKR20150521077700005_02_i.jpg"
+  ],
+  "files": [],
+  "idx": "385",
+  "list_title": "[연합뉴스] <신간> ·미래사회의 리더십과 선진국가의 엘리트 생성 매커니즘_2015/05/21",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=384&pg_mode=View&bid=etc&page=11&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-05-28",
+   "date": "2015-05-28"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "[표지이야기-7대 위기]한국사회 불안요소 종합처방 모색해야",
+     "<주간경향>은 창간 23주년을 맞아 각 분야 전문가들의 견해를 바탕으로 7대 위기와 7대 기회를 선정했다. 전문가들이 꼽은 7대 위기는 낯설지 않다. 우리가 익히 들어온 ‘오래된 위기’들이다. 저성장과 인구감소는 전문가들이 공통적으로 지적한 위기의 양대 축이다.",
+     "우리 앞엔 어떤 위기와 기회가 기다리고 있을까. 미래를 예측하는 건 쉬운 일이 아니다. 그건 점을 치는 것과는 차원이 다른 얘기다. 현재와 동떨어진 미래는 있을 수 없다. 따라서 현재를 잘 들여다보면 다가올 미래가 어떤 모습일지 짐작할 수 있다. 현재를 통해 미래를 내다보는 것, 그것이 우리가 하려고 하는 것이다. 미래 예측을 통해 우리에게 어떤 위기가 닥쳐올지를 그려볼 수 있다면 그 위기에 대비할 수 있고, 더 나아가 위기를 기회로 만들 수도 있다. 우리 앞에 놓여져 있는 기회가 어떤 것들인지를 알 수 있다면 그 기회를 흘려보내지 않고 제대로 살릴 수 있을 것이다.",
+     "그래서 중요하다. 우리 앞에 어떤 위기와 기회가 기다리고 있는지를 꿰뚫어보는 것이.",
+     "[[IMG|http://img.khan.co.kr/newsmaker/1128/20150602_24.jpg|]]",
+     "저출산이 사회적 문제로 부각되고 있는 가운데 한 백화점의 '출산장려 캠페인’에 참가한 어린이들이 한반도 지도 모양의 조형물을 채운 뒤 손을 흔들고 있다.",
+     "< 주간경향>은 창간 23주년을 맞아 각 분야 전문가들의 견해를 바탕으로 7대 위기와 7대 기회를 선정했다. 앞으로 10년 안에 우리 사회가 겪거나 직면할 가능성이 큰 위기와 기회들이다. 7대 위기를 위기의 강도와 중요성 순으로 나열하면 ①저성장·경기침체 ②인구감소·노령화 ③대북위기·이념갈등 ④해외발 금융위기 ⑤재벌편중 ⑥청년실업·일자리 감소 ⑦원자력발전소 위험이다.",
+     "전문가들이 손꼽은 7대 위기는 낯설지가 않다. 우리가 익히 알고 있는 ‘오래된 위기’일 수 있다. 다시 말하면 저 미래의 위험 속으로 이미 우리 사회가 진입하고 있는지도 모른다는 얘기다. 저성장과 인구감소는 전문가들이 공통적으로 지적한 위기의 양대 축이다. 재벌편중위기, 해외발 금융위기, 청년실업·일자리 감소 등은 여기서 파생된 위기들이다. 익히 알려진 ‘오래된 위기’들이지만 쉽게 해결할 수 없는 사회·경제적 문제라는 데 그 심각성이 있다.",
+     "전성인 홍익대 경제학과 교수는 “성장 그 자체가 안 되는 게 문제”라면서 “저성장에 따른 부수적인 것은 너무나도 많고, 해결하는 것은 단기간에는 어려울 것으로 보인다”고 내다봤다. 최요한 경제평론가는 “현재 급격하게 진행되는 사회 노쇠화 현상과 인구감소는 미래 한국에 대한 불안을 던져 주고 있다”고 분석했다.",
+     "[[IMG|http://img.khan.co.kr/newsmaker/1128/20150602_25.jpg|]]",
+     "공교롭게도 최근 한 연구소에서 실시한 여론조사의 결과도 전문가들의 식견과 크게 다르지 않았다. 포스텍(포항공과대학교) 박태준미래전략연구소가 한국갤럽에 의뢰해 일반시민 1002명을 대상으로 지난 4월 20일부터 22일까지 사흘 간 실시한 여론조사 결과, 10년 내 한국 사회가 당면할 가장 중요한 문제로 저출산·인구감소·노령화(12.2%·124명)가 꼽혔다. 경기침체·저성장·성장동력부재·내수침체가 11.7%(119명)로 뒤를 이었다. 일자리 부족·청년실업은 10.1%(103명)이었다. 박태준미래전략연구소가 포스텍 대학·대학원생을 대상으로 한 설문조사 결과도 크게 다르지 않았다. 포스텍 대학(원)생은 10년 내 한국 사회가 당면할 가장 중요한 이슈로 28.8%(293명)가 ‘저출산’을 지목했다. 이어 ‘저성장’ 11.5%(117명), ‘양극화’ 10.9%(111명) 순이었다.",
+     "저성장·저출산이 사회·경제적 위기인 데 반해 대북위기·이념갈등, 원전 위험은 차원이 약간 다르다. 대북위기·이념갈등은 한국전쟁 이후 지속돼온 ‘아주 오래돼 너무나 익숙해진 위기’다. 반면 원전 위험은 2011년 일본 후쿠시마 원전 사고 이후 새롭게 등장한 위기다. 이 두 위기는 잠재적인 위기이면서도 결코 무시할 수 없는 위기라는 점에서 우리 사회가 어떤 식으로든 지속적으로 해법을 모색해야 할 것으로 보인다.",
+     "최요한 경제평론가는 “모든 문제는 사회적 자산으로서 신뢰가 부족하기 때문”이라면서 “정치 리더십의 부족이 모든 위기의 근본”이라고 지적했다.",
+     "< 주간경향>이 선정한 7대 위기의 이면에는 우리사회의 신뢰 부족과 리더십 빈곤이라는 눈에 보이지 않는 위기가 도사리고 있다는 얘기다. 결국 위기를 기회로 만들기 위해서는 정치·경제·사회·문화를 포괄하는 종합적인 처방이 필요하다는 것이 전문가들의 지적이다.",
+     "위기 1-저성장·경기침체",
+     "일본의 ‘잃어버린 20년’ 닮아가",
+     "한국 경제는 1990년대 초·중반까지 연평균 9%대의 높은 성장률을 기록했다. 1997년 외환위기 이후 경제성장률은 5%대로 떨어졌고, 2011년부터 5년째 줄곧 2~3%대를 유지하고 있다. 올해도 한국은행의 성장률 전망치는 3.1%다.",
+     "특히 경제단체에서는 현재의 저성장과 경기침체 구조가 일본의 ‘잃어버린 20년’ 직전과 너무나 닮아 있다고 우려한다. 1980년대까지 승승장구하던 일본 경제는 1990년대 들어 부동산 거품이 꺼지면서 대혼란에 빠져든다. 5% 이상 성장하던 경제성장률은 0%대로 추락했고, 산업생산량이 줄어드는 동시에 신규투자도 감소했다. 물가는 많이 내렸지만 사람들의 소비는 오히려 위축됐다. 감당하기 어려운 규모의 가계부채가 있었던 것도 마찬가지다. 전국경제인연합회에서는 지난 4월 23일 발표한 보고서에서 현재 한국과 20년 전 일본의 각종 경제수치를 비교했다. 놀랍게도 GDP성장률, 산업생산지수 증감률, 소비자물가지수 증감률 등 많은 그래프의 모습이 거의 비슷했다.",
+     "[[IMG|http://img.khan.co.kr/newsmaker/1128/20150602_26.jpg|]]",
+     "한국 경제 침체와 일본의 ‘잃어버린 20년’을 비교한 그래프. / 전경련",
+     "그렇다면 저성장 시대를 어떻게 극복해야 하나. 전경련 등에서는 과거처럼 경제성장률을 끌어올려야 한다고 진단했다. 그러기 위해서 금리인하 등 전통적인 경기부양책을 씀과 동시에 새로운 시장을 창출하고, 노동시장을 좀 더 유연화해야 한다고 주장한다. 또 다른 쪽에서는 한국 경제의 규모가 커진 만큼 과거와 같은 고성장이 불가능함을 인정해야 한다고 지적한다. 정대영 송현경제연구소장은 <경향신문> 기고문에서 이명박, 박근혜 정부의 부동산경기 부양, 적자재정 등 인위적인 ‘경제 살리기’가 모두 실패로 돌아갔다고 지적했다. 대신 정 소장은 눈앞에 보이는 성장을 목표로 둘 것이 아니라 좋은 일자리를 창출하고, 잠재적인 성장능력을 높이는 등의 장기적인 처방을 내놨다.",
+     "위기 2-인구감소·노령화",
+     "2026년에 초고령 사회로 진입",
+     "[[IMG|http://img.khan.co.kr/newsmaker/1128/20150602_27_01.jpg|]]",
+     "서울의 한 어린이집에서 바둑기사가 아이들에게 바둑을 가르치고 있다. / 경향신문 자료사진",
+     "전성인 홍익대 경제학과 교수는 “저성장의 가장 중요한 요인은 인구 노령화”라고 말했다. 인구 감소와 노령화를 막기 위해서는 출산율을 높여야 한다. 그러나 한국의 합계 출산율은 현재 인구 수를 유지하기 위한 최소 조건(여성 1인당 2.1명)에 한참 못 미치는 1인당 1.1~1.3명을 오가고 있다. 지금의 출산율과 인구 추세가 계속된다면 한국은 2018년 고령 사회(65세 이상 노인 비중 14% 이상)를 넘어 2026년에는 초고령 사회(노인 인구가 전체의 20% 이상)에 진입한다. 기존의 어떤 선진국보다도 빠른 속도다. 2006년부터 정부는 ‘저출산고령사회기본계획’을 실시해 왔지만 추세를 되돌리지는 못했다.",
+     "2015년을 사는 사람들의 관점에서는 인구문제를 심각하게 느끼지 못할 수도 있다. 아직은 생산인구 5.25명당 노인 1명을 부양한다. 하지만 몇 년 사이에 인구문제는 급격히 악화될 전망이다. 전문가들의 추계에 따르면 2026년부터 한국은 인구 감소세에 접어든다. OECD는 2026년엔 생산인구 약 3명당 노인인구 1명을 부양할 것으로 전망했다. 세금을 낼 사람은 적어지고, 노인 부양에는 더 많은 돈이 들어간다. 2050년에는 기초노령연금에만 GDP의 3%가 투여될 전망이다. 인구가 줄어든다 해도 수도, 전기, 도로 등 기반시설 유지비용에는 큰 차이가 없다.",
+     "인구문제를 풀기 위해 청년실업 해결이나 출산 지원책 등 복지를 늘리자는 의견이 많이 나온다. 전성인 교수는 “지금처럼 저성장 국면에서는 복지모델을 도입하기도 쉽지 않다. 현재 복지도 대부분 노인층을 위한 것이다. 오히려 젊은이들을 위해선 복지 축소 논의도 해볼 필요가 있다”고 말했다.",
+     "위기 3-대북위기·이념갈등",
+     "남북관계 경색과 이념의 양극화",
+     "[[IMG|http://img.khan.co.kr/newsmaker/1128/20150602_27_02.jpg|]]",
+     "무수단 미사일과 발사대. / 연합뉴스",
+     "2008년 이명박 정부 출범 이후 대북 위기는 새로운 형태의 긴장상태를 유지해 왔다. 2010년 3월 천안함 폭침사건으로 대북위기는 최고조에 달했다. 5월 24일 대북제재조치가 내려졌다. 2010년 10월에는 연평도 포격사건으로 4명의 군인·민간인이 사망했다. 2011년 11월 김정일 국방위원장이 사망하고 김정은 체제가 들어서면서 대북 위기는 예측 불가능한 상황이 됐다.",
+     "남북경색 정국은 박근혜 정부 들어서도 계속됐다. 마지막 남은 남북협력의 보루였던 개성공단은 2013년 일시적으로 폐쇄위기에 처했다가 다시 복원됐다.",
+     "이 사이 북핵위기는 더욱 더 에스컬레이터를 탔다. 2003년 8월 대북 핵협상을 위한 6자회담이 베이징에서 시작됐다. ‘9·19 공동성명’ ‘2·13 합의’ ‘10·3 합의’가 도출됐으나 합의는 제대로 실행되지 않았다. 6자회담은 2008년 12월 수석대표 회의를 마지막으로 열리지 않았다.",
+     "미국의 오바마 정부도 더 이상 북한과의 직접 협상에 나서지 않았다. 북한은 잊을 만하면 핵·미사일 실험을 강행해 미국의 무응답에 대응했다. 북한은 또 5월 9일 잠수함 발사 탄도미사일(SLBM)을 발사했다고 발표했다. 이 소식은 며칠 동안 우리 사회의 새로운 위기로 대두됐다. 김종대 <디펜스 21> 편집장은 “잠수함·무인정찰기·서해위기 등 북한 관련 사안은 어느 사건이 발생해도 다 위기로 연결된다”며 “안보위기는 핵문제뿐만 아니라 북한과 관련한 모든 것이 핵심적인 위기”라고 강조했다.",
+     "북핵 미사일의 위협은 우리 사회에 최근 사드(THAAD) 논쟁을 불러일으켰다. 북핵 미사일을 저지하는 미국의 고고도 미사일방어체계(사드)의 한반도 배치문제가 공론화되면서 한·미 사이뿐만 아니라 여야 사이, 보수와 진보 사이에도 이념적 갈등을 촉발시켰다. 새로운 형태의 대북위기가 새로운 형태의 이념적 갈등을 불러일으키는 일은 이제 일상이 됐다. 일상처럼 늘 우리 곁에 붙어 있는 대북위기는 어떻게 보면 가장 강도(强度)가 작으면서도, 어떻게 보면 가장 강도가 큰 위기이다.",
+     "위기 4-해외발 금융위기",
+     "미국금리 오르면 큰 부담 작용",
+     "[[IMG|http://img.khan.co.kr/newsmaker/1128/20150602_28_01.jpg|]]",
+     "올해 3월 18일, 미국 연방준비제도 재닛 옐런 의장이 기준금리 인상을 시사하는 발언을 하고 있다. / AP연합뉴스",
+     "세계 각국의 경제는 하나로 묶여 있다. 한 국가의 경제가 휘청거리면 다른 나라에도 영향이 간다. 한국인들은 1997년 외환위기와 2008년 글로벌 금융위기에서 그 위력을 실감했다.",
+     "눈앞에 닥친 위기는 미국발 금리인상이다. 미국은 빠르면 올해 안으로 기준금리를 올려 양적완화로 풀었던 달러를 회수할 예정이다. 미국발 금리인상이 시작되면 신흥국에 투자된 자금이 빠져나가게 되고, 이는 다시 신흥국 수출 비중이 높은 한국 경제에 타격을 준다.",
+     "또한 한국이 미국의 금리인상에 대응해 같이 금리를 올릴 경우, 최대 2000조원으로 추산되는 가계부채에 시달리는 서민들에게 고통이 전가될 수 있다.",
+     "해외발 금융위기의 위험성은 그것을 회피할 방법이 마땅히 없다는 것이다. 모두가 문제점을 알고 있지만 해결책이 잘 보이지 않는 것을 ‘그레이 스완(grey swan)’이라 부른다. 대표적으로는 그리스나 영국에서 심심찮게 나오는 유럽연합 탈퇴 논의나 중국과 일본의 영토분쟁을 들 수 있다. 하지만 위의 사건들이 세계 경제에 어떤 파국을 가져올지 아무도 알지 못한다.",
+     "현 시점에서는 예측 불가능한 위기가 갑자기 터져나올 수 있다. 사이버 테러로 금융시장이 혼란을 겪을 수도 있다. 미국의 금리인상 방침에 대응하겠다며 유럽, 중국, 일본 등 주요국들이 줄줄이 금리를 올리고 돈줄을 묶을 수도 있다. 이럴 경우 돈이 제대로 돌지 못해 세계적인 경기침체가 일어날 수도 있다. 확실한 건 수출경제의 비중이 높은 한국의 입장에서 글로벌 금융위기는 특수한 사건이라기보다는 일반화된 위기가 됐다는 점이다.",
+     "위기 5-재벌편중",
+     "경제력 집중 빈부 양극화 초래",
+     "[[IMG|http://img.khan.co.kr/newsmaker/1128/20150602_28_02.jpg|]]",
+     "삼성 본관. / 경향신문 자료 사진",
+     "김상조 한성대 무역학과 교수는 재벌로의 경제력 집중이 한국 경제의 양극화를 불러왔다고 진단했다. 그는 “재벌의 성장과 국민경제 전체의 성장이 괴리됐다. 삼성이나 현대가 놀라운 성과를 거둬도 중소기업이나 노동자에게 성과가 확산되지 않고 있다”고 말했다.",
+     "재벌공화국이라는 말이 나올 정도로 재벌의 경제력 집중 문제는 어제오늘의 일이 아니다. 특히 지난 몇 년 사이 재벌공화국에 중대한 변화가 일어났다. 우리 경제에서 재벌이 차지하는 비중이 크게 늘어났다. 국내 비금융 법인의 자산총액 중 30대 재벌이 차지하는 비중은 2000년대 초반 28%에서 2012년 37%로 커졌다. 특히 2008년 이후로 상승세가 크다. 4대 재벌(삼성, 현대, LG, SK)의 경우 지난 10년간 자산 비중이 약 19%에서 25%로 늘어났다.",
+     "4대 재벌로 경제력이 집중되는 한편, 다른 30대 재벌에서는 부실의 징후가 연달아 나오고 있다. 30대 재벌이었던 동양, STX 등이 구조조정으로 사실상 사라졌다. 그 외에도 30곳 중 13곳이 지나치게 높은 부채비율 등 부실의 징후를 보이고 있다고 김 교수는 분석했다. 이자비용을 감당하기도 버거워하는 부실 재벌을 방치하면 2013년 동양그룹 부도사태 때처럼 그 피해는 고스란히 노동자와 고객들에게 돌아갈 수밖에 없다.",
+     "이미 해법은 다 나와 있다. 그동안 정치권에서 제기된 경제민주화, 소득주도 성장론 등에 소위 말하는 재벌개혁 방안이 다 들어 있다. 김상조 교수는 “답을 몰라서 문제를 못 푼 게 아니다. 답을 알지만 시스템을 갖추지 못한 것”이라고 말했다.",
+     "위기 6-청년실업·일자리 감소",
+     "젊은층·중장년층 모두의 문제",
+     "[[IMG|http://img.khan.co.kr/newsmaker/1128/20150602_29_01.jpg|]]",
+     "서울 영등포에 위치한 고용안정센터의 모습. / 김문석 기자",
+     "경제 저성장과 더불어 ‘고용 없는 성장’이 한국 사회의 큰 위기로 대두되고 있다. 특히 청년실업의 심각성은 이미 도를 넘고 있다. 정부 공식 통계상으로도 청년실업률은 11%를 돌파해 15년 만에 최고치를 돌파했다. 체감 청년실업률은 20%가 넘을 것이라는 분석도 나온다.",
+     "일자리 부족 문제는 다른 여러 가지 위기를 심화시키는 역할을 한다. 중장년층의 실업은 노인층 빈곤과 자살의 주 원인이다. 청년실업은 국가공동체의 미래와 관련된 문제를 야기시킨다. 일자리를 구하지 못한 젊은 세대는 결혼 연령을 늦추고 출산을 포기한다. 이는 다시 인구 감소와 노령화로 이어진다. 사회가 미래에 대한 희망을 제시하지 못하면서 폭력을 동반한 극단주의 세력이 사회문제화될 가능성도 높아진다.",
+     "정부는 청년실업 문제 해결책으로 기성세대 양보를 들고 나왔다. 정년연장 때문에 청년실업이 해결되지 않고 있으며, 임금피크제와 희망퇴직을 통해 청년고용을 늘려야 한다는 것이다. OECD도 한때 고령층이 빨리 퇴직해야 청년들이 일자리를 잡을 수 있다고 주장했다. 그러나 2005년 OECD는 고령층 퇴직과 청년층의 노동시장 유입 사이에 객관적 연관성을 찾지 못했다고 인정했다. 업종에 따라서는 청년층과 중장년층의 고용률이 같이 움직이는 현상도 발견할 수 있다.",
+     "신광영 중앙대 사회학과 교수는 “고용문제는 청년이나 중장년이나 모두 다 심각하다. 그런데 정치적인 목적으로 이걸 세대갈등으로 이용하려는 면이 있다”며 “한국인의 평균 퇴직연령이 53세다. 부모는 퇴직하고 자녀는 취직을 못한 극단적인 상황도 생겨나고 있다”고 말했다.",
+     "위기 7-원자력발전소 위험",
+     "근처에 몰려 있는 원전의 노후화",
+     "[[IMG|http://img.khan.co.kr/newsmaker/1128/20150602_29_02.jpg|]]",
+     "경남지역 마산·창원·진해 환경운동연합과 한살림경남 등 시민단체 회원들이 ‘고리스톱’이라고 쓰인 팻말을 들고 고리1호기의 폐쇄를 촉구하고 있다. / 김정훈 기자",
+     "2011년 일본 동북 대지진 참사는 후쿠시마 원전의 폭발로 이어졌다. 대규모의 방사능이 유출되고 일본 전역이 원전 위험으로 온몸을 떨어야 했다. 그동안 신재생에너지로, 안전한 시설로 추앙받던 원자력발전에 대한 믿음이 한순간에 무너졌다.",
+     "원전 위험에 대한 공포는 곧바로 현해탄을 건너 한국으로 넘어왔다. 우리나라는 현재 23기의 원전이 가동되고 있다. 이들 원전이 지진 위험지역에 대거 분포해 있다는 것이 위험요인으로 지적됐다. 2012년 소방방재청이 발표한 지진 위험 지도에 의하면 영덕~경주 일대가 한반도에서 가장 큰 지진이 발생할 확률이 높다. 영덕은 신규 원전이 건설될 예정이며, 경주에는 월성원전 4기와 신월성원전 2기가 있다. 경주 인근에 위치한 울산에는 신고리원전 6기가 건설 또는 계획 중에 있다. 또 그 옆인 부산에는 고리원전 4기가 가동 중이다.",
+     "노후화된 원전도 하나의 위험요소가 되고 있다. 월성 1호기는 2012년 수명이 끝났지만 지난 2월 27일 원자력안전위원회에서 계속 운전을 승인했다. 우리나라 최초의 원전인 고리 1호기는 2007년 수명이 다했지만 1978년 상업운전 개시 이후 올해 현재 38년째 가동 중이다.",
+     "하승수 녹색당 공동운영위원장은 눈앞에 닥친 가장 큰 위기로 원전 위험을 지적했다. 하 위원장은 “고리·신고리원전, 울진·신울진원전처럼 10개의 원전이 한 곳에 들어가 있기 때문에 우리나라 원전은 더 위험하다”며 “후쿠시마 원전 사고의 교훈을 철저히 되새겨야 한다”고 말했다. 정부는 제7차 전력수급계획 발표를 앞두고 있다. 시민단체는 전기가 남아도는데 원전이 더 필요하다는 정부의 정책 방향을 비판하고 있다. 또한 정부의 6차 전력수급 계획이 과잉 전망에 근거를 둔 과잉투자라고 비판하고 있다. 7차 계획에서 논란이 되고 있는 고리 1호기 폐쇄와 새로운 원전 건설 포함 여부가 주목되고 있다.",
+     "< 윤호우 선임기자",
+     "hou@kyunghyang.com",
+     "백철 기자·김태훈 기자>",
+     "원문보기 ->",
+     "http://weekly.khan.co.kr/khnm.html?mode=view&code=115&artid=201505262021401&pt=nv"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://img.khan.co.kr/newsmaker/1128/20150602_24.jpg",
+   "http://img.khan.co.kr/newsmaker/1128/20150602_25.jpg",
+   "http://img.khan.co.kr/newsmaker/1128/20150602_26.jpg",
+   "http://img.khan.co.kr/newsmaker/1128/20150602_27_01.jpg",
+   "http://img.khan.co.kr/newsmaker/1128/20150602_27_02.jpg",
+   "http://img.khan.co.kr/newsmaker/1128/20150602_28_01.jpg",
+   "http://img.khan.co.kr/newsmaker/1128/20150602_28_02.jpg",
+   "http://img.khan.co.kr/newsmaker/1128/20150602_29_01.jpg",
+   "http://img.khan.co.kr/newsmaker/1128/20150602_29_02.jpg"
+  ],
+  "files": [],
+  "idx": "384",
+  "list_title": "[주간경향 1128호] 한국사회 불안요소 종합처방 모색해야_ 2015.06.02",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=374&pg_mode=View&bid=etc&page=11&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-03-06",
+   "date": "2015-03-06"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "박태준미래전략硏, 포스텍 조명 단행본 발간",
+     "기사입력 | 2015-03-05",
+     "[[IMG|http://image.kyongbuk.co.kr/photo/500/20150305/20150305058.jpg|]]",
+     "\"포스텍은 고 박태준 설립이사장의 의지로 설립됐습니다.\"",
+     "박태준미래전략연구소(소장 최광웅)가 최근 포스텍 설립 배경과 과정 등을 조명한 단행본 '최고 연구중심대학으로'(사진)를 발간, 눈길을 끌고 있다. 포스텍의 뿌리와 정체성을 밝히고 힘차게 도약하는 계기를 마련하기 위해서다.",
+     "'포스텍 설립, 그 긴박하고 팽팽한 시간들'이라는 부제로 만들어진 이 책은 박태준 설립이사장이 1986년 국내 최초 연구중심대학 포스텍을 만들기 위한 의지와 안정적으로 운영하기 까지의 이야기를 담았다.",
+     "특히 이광수 전 포스코교육재단 상무가 저자로 참여했으며 부록으로 박 설립이사장을 비롯해 김호길 초대총장의 삶과 정신을 짚어보는 이대환 작가의 '천하위공의 길을 걸어간 철인 박태준', 송복 연세대 명예교수의 '특수성으로서의 태준이즘 연구' 등의 글이 함께 실렸다.",
+     "이광수 전 상무는 \"포스텍이 지금에 이르기까지를 담았다\"면서 \"설립 배경 등을 정확하게 알 수 있을 것\"이라고 밝혔다.",
+     "하경미기자"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://image.kyongbuk.co.kr/photo/500/20150305/20150305058.jpg"
+  ],
+  "files": [],
+  "idx": "374",
+  "list_title": "박태준미래전략硏, 포스텍 조명 단행본 발간 (경북일보2015.03.05)",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=372&pg_mode=View&bid=etc&page=11&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-03-05",
+   "date": "2015-03-05"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "[[IMG|http://tjpark.postech.ac.kr/data/etc/8e70afde391425516934.jpg|]]",
+     "포스텍 박태준미래연, ‘최고 연구중심대학으로’ 단행본 발간",
+     "포스텍 박태준미래전략연구소는 포스텍 설립 배경과 과정 등을 조명한 단행본 ‘최고 연구중심대학으로’(사진)를 최근 발간했다고 4일 밝혔다.",
+     "부제는 ‘포스텍 설립-그 긴박하고 팽팽한 시간들’.",
+     "이 책은 세계적 철강회사인 포스코 및 국내 첫 연구중심대학인 포스텍을 설립한 고 박태준 포스텍 설립 이사장의 대학 설립의지와 1986년 개교 이후 안정적 운영까지의 이야기를 담고 있다.",
+     "저자는 포스코에서 근무하다 1985년 포항공과대학 설립요원으로 발탁돼 학사과장, 기획부처장 등을 역임하고 1999년부터 포스코교육재단 임원으로 재직한 이광수 전 포스코교육재단 상무.",
+     "이 전 상무는 “박태준 설립이사장의 교육보국 정신을 재조명해 포스텍의 뿌리와 정체성을 밝힘으로써 포스텍이 더욱 도약하는 계기를 만들기 위해 집필하게 됐다”고 말했다.",
+     "서울경제 / 손성락기자",
+     "POSTECH은 ‘왜’ ‘어떻게’ 만들어졌나",
+     "박태준미래전략연구소 POSTECH 설립 관련 저서 발간",
+     "POSTECH(포항공과대학교) 박태준미래전략연구소(소장 최광웅)는 POSTECH 설립 배경과 과정을 조명한 단행본 ‘최고 연구중심대학으로’를 최근 출간했다.",
+     "‘포스텍 설립-그 긴박하고 팽팽한 시간들’이라는 부제가 붙은 이 책은 국가 발전과 인재 양성의 신념으로 세계적 철강회사 포스코를 만들고 국내 최초의 연구중심대학 POSTECH을 설립한 고 박태준 POSTECH 설립이사장의 대학 설립의지와 이를 성공적으로 실현해 1986년 개교하고 안정적인 운영까지의 이야기를 담고 있다.",
+     "저자는 포스코에서 근무하다 1985년 포항공과대학 설립요원으로 발탁돼 학사과장, 포항가속기연구소 행정부장, 기획부처장 등을 역임하고, 1999년부터는 포스코교육재단 임원으로 재직한 이광수 전 포스코교육재단 상무이다.",
+     "이 전 상무는 \"박태준 설립이사장의 교육보국 정신과 이 큰 뜻을 어떻게 실현하였는지를 재조명해 POSTECH의 뿌리와 정체성을 밝히고 더욱 힘차게 도약하는 계기를 만드는데 기여하고자 집필하게 됐다\"고 동기를 밝혔다.",
+     "한편, 이 책에는 부록으로 박태준 설립이사장과 김호길 초대 총장의 삶과 정신을 짚어보는 ‘천하위공의 길을 걸어간 철인 박태준(이대환 작가), ’특수성으로서의 태준이즘 연구(송복 연세대 명예교수)‘, ’지헌 김호길: 그의 인간과 사상(포스텍 명예교수)‘ 등의 글이 함께 실려있다.",
+     "(포항=국제뉴스)강신윤 기자",
+     "포스텍·한동대 설립 생생한 증언 `화제`",
+     "박태준미래전략硏 `최고 연구중심 대학` 발간",
+     "이광수 前 교육재단 상무 숨은 뒷이야기 공개",
+     "“소식을 접한 박태준 설립 이사장은 `포항공대를 특수대학으로 만들어서 그간 포항시민들에게 대단히 죄송하게 생각했다`며 대학 설립을 적극 지원하기 위해 설립추진위원장 직을 쾌히 수락했다.”",
+     "한동대학교의 설립에 포항을 중심으로 포스코와 포항공대가 기여한 숨겨진 이야기가 단행본을 통해 처음으로 공개돼 화제가 되고 있다.",
+     "화제의 책은 `포스텍 설립- 그 긴박하고 팽팽한 시간들`이라는 마치 제목 같은 부제가 붙은 `최고 연구중심대학으로`.",
+     "박태준미래전략연구소(소장 최광웅)가 15일 발간한 이 책의 지은이는 포스코에서 대학 설립 요원으로 발탁돼 `1985년 설립, 86년 개교, 87년 첫 입학`에 이어 세계적인 위상에 오른 포항공대와 삶을 함께 한 이광수 전 포스코교육재단 상무.",
+     "이 책의 내용대로 박 전 회장은 포항공대 건설본부장을 지낸 이대공 포항제철 부사장에게 대정부 관련 업무 등의 경험을 한동대 설립에 전수케 하고 회사의 계장도 과장으로 승진시켜 설립본부로 파견했다.",
+     "북구 흥해읍 우목리가 포항공대 교수들의 전원주택단지로 개발될 뻔한 비사도 구체적으로 공개됐다.",
+     "1985년 초대 부임 후 우연히 들렀다가 경치에 반한 고 김호길 학장은 영일만의 전경이 한눈에 들어오는 이 곳에 당시는 `미생`이던 포항공대로의 전직 여부를 놓고 고민하고 있던 해외의 유명 교수들을 안내했다는 것이다.",
+     "김 학장의 화려한 청사진에 매료된 교수들이 결단을 내리는데 한몫한 이 `영일만 베벌리 힐스`프로젝트는 `절대녹지여서 건축허가가 날 수 없다`는 이 전 부사장의 조언에 결국 좌절됐다.",
+     "`가슴 졸인 첫 입시`에 소개된 우수 신입생 유치의 뒷얘기도 관심을 끈다. 1987년 1월 8일 원서접수 마감 결과 경쟁률은 2.2대 1로 국내 명문 공대의 평균 1.6대 1을 웃돌았고 학력고사 300점 이상도 지원자 543명 가운데 94명이나 됐다. 대학 태동의 `마지막 고비`로 당시를 돌이켜본 이 책은 김 학장과 교수, 직원들이 일제히 환호했다고 술회했다.",
+     "또 1973년 7월 제1용광로에서 첫 쇳물이 나온 순간 박 전 회장과 직원들이 감격의 만세를 부른 명장면과 비견할 만한 일이었다고 평가했다.",
+     "이광수 전 상무는 “설립에 참가한 입장에서 포항공대는 군대와 철이 상징하는 차갑고 딱딱한 포항의 이미지를 첨단과학도시로 격상시킨 측면도 높이 사고 싶다”면서 “이제는 모두 고인이 된 박 회장과 김 학장의 유지를 이어받아 포항공대에서 인류사에 기여할 성과를 이룩해 최초의 노벨과학상 수상자가 배출되는데 이 책이 도움이 되기를 빈다”고 밝혔다.",
+     "경북매일신문/임재현기자",
+     "imjh@kbmaeil.com",
+     "[출처]",
+     "https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=011&aid=0002648162"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://tjpark.postech.ac.kr/data/etc/8e70afde391425516934.jpg"
+  ],
+  "files": [],
+  "idx": "372",
+  "list_title": "포스텍 박태준미래연, ‘최고 연구중심대학으로’ 단행본 발간 (경북매일신문외 다수)",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg",
+   "1": "assets/img/legacy/2e4ad71abb70.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=371&pg_mode=View&bid=etc&page=11&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2015-02-25",
+   "date": "2015-02-25"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "포스텍·한동대 설립 생생한 증언 `화제`",
+     "박태준미래전략硏 `최고 연구중심 대학` 발간",
+     "이광수 前 교육재단 상무 숨은 뒷이야기 공개",
+     "“소식을 접한 박태준 설립 이사장은 `포항공대를 특수대학으로 만들어서 그간 포항시민들에게 대단히 죄송하게 생각했다`며 대학 설립을 적극 지원하기 위해 설립추진위원장 직을 쾌히 수락했다.”",
+     "한동대학교의 설립에 포항을 중심으로 포스코와 포항공대가 기여한 숨겨진 이야기가 단행본을 통해 처음으로 공개돼 화제가 되고 있다.",
+     "화제의 책은 `포스텍 설립- 그 긴박하고 팽팽한 시간들`이라는 마치 제목 같은 부제가 붙은 `최고 연구중심대학으로`.",
+     "박태준미래전략연구소(소장 최광웅)가 15일 발간한 이 책의 지은이는 포스코에서 대학 설립 요원으로 발탁돼 `1985년 설립, 86년 개교, 87년 첫 입학`에 이어 세계적인 위상에 오른 포항공대와 삶을 함께 한 이광수 전 포스코교육재단 상무.",
+     "이 책의 내용대로 박 전 회장은 포항공대 건설본부장을 지낸 이대공 포항제철 부사장에게 대정부 관련 업무 등의 경험을 한동대 설립에 전수케 하고 회사의 계장도 과장으로 승진시켜 설립본부로 파견했다.",
+     "북구 흥해읍 우목리가 포항공대 교수들의 전원주택단지로 개발될 뻔한 비사도 구체적으로 공개됐다.",
+     "1985년 초대 부임 후 우연히 들렀다가 경치에 반한 고 김호길 학장은 영일만의 전경이 한눈에 들어오는 이 곳에 당시는 `미생`이던 포항공대로의 전직 여부를 놓고 고민하고 있던 해외의 유명 교수들을 안내했다는 것이다.",
+     "김 학장의 화려한 청사진에 매료된 교수들이 결단을 내리는데 한몫한 이 `영일만 베벌리 힐스`프로젝트는 `절대녹지여서 건축허가가 날 수 없다`는 이 전 부사장의 조언에 결국 좌절됐다.",
+     "`가슴 졸인 첫 입시`에 소개된 우수 신입생 유치의 뒷얘기도 관심을 끈다. 1987년 1월 8일 원서접수 마감 결과 경쟁률은 2.2대 1로 국내 명문 공대의 평균 1.6대 1을 웃돌았고 학력고사 300점 이상도 지원자 543명 가운데 94명이나 됐다. 대학 태동의 `마지막 고비`로 당시를 돌이켜본 이 책은 김 학장과 교수, 직원들이 일제히 환호했다고 술회했다.",
+     "또 1973년 7월 제1용광로에서 첫 쇳물이 나온 순간 박 전 회장과 직원들이 감격의 만세를 부른 명장면과 비견할 만한 일이었다고 평가했다.",
+     "이광수 전 상무는 “설립에 참가한 입장에서 포항공대는 군대와 철이 상징하는 차갑고 딱딱한 포항의 이미지를 첨단과학도시로 격상시킨 측면도 높이 사고 싶다”면서 “이제는 모두 고인이 된 박 회장과 김 학장의 유지를 이어받아 포항공대에서 인류사에 기여할 성과를 이룩해 최초의 노벨과학상 수상자가 배출되는데 이 책이 도움이 되기를 빈다”고 밝혔다.",
+     "/임재현기자",
+     "imjh@kbmaeil.com",
+     "[출처]",
+     "http://www.kyongbuk.co.kr/news/articleView.html?idxno=915669"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg"
+  ],
+  "files": [],
+  "idx": "371",
+  "list_title": "[경북매일]박태준미래전략硏 `최고 연구중심 대학` 발간 _ 2015.02.17",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=365&pg_mode=View&bid=etc&page=11&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2014-12-20",
+   "date": "2014-12-20"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "[중앙시평] 우리는 어떤 행정관료시스템을 원하는가",
+     "[중앙일보] 입력 2014.12.20 00:01 / 수정 2014.12.20 00:27 - 종합 39면 지면보기",
+     "조윤제 서강대·경제학",
+     "지난 약 반세기 한국의 근대화·산업화 속도는 18세기 이후 서구 선진국의 3~4배 이상으로 빨랐으니 이들이 2, 3세기에 걸쳐 이룬 변화가 한국에서는 반세기에 일어난 것이다. 초고속 성장은 국민의 심한 정서적·정신적 갈등과 가치관의 혼동을 가져왔다. 그 과정에서 국가와 타인에 대한 신뢰가 무너지고 관용과 인내, 절제를 잃게 된 것은 매우 아쉬운 일이다. 과거 선진국은 산업화 이후 6~7세대에 걸쳐 수차례의 큰 시스템 개혁을 거치며 오늘의 선진사회에 이르게 됐다. 한국 사회는 성장이 빨랐던 만큼 시스템 혁신도 훨씬 더 빨라야 하는 과제를 안고 있다.",
+     "근대화 과정에서 선진국이 고심하며 발전시켜온 것 중 하나가 행정관료시스템이다. 행정관료제도의 혁신은 국가가 위기를 맞이하면서 그에 대한 반성과 성찰에서 출발한 경우가 많았다. 국가위기는 국가 리더십의 위기이며 행정관료엘리트는 이의 주요 축을 구성한다. 프랑스혁명 이후 나폴레옹은 국가 고위관료들을 양성하기 위해 그랑제콜을 만들었고 드골은 책임감 있고 능력 있는 국가지도자가 부족해 독일로부터 치욕을 당했다는 반성에서 ‘국가지도자 양성소’로 불리는 국립행정학교(ENA)를 설립했다. 여기 출신들은 행정·기업·정치를 오가며 지도자 역할을 하고 있다. 독일 역시 나치와 같은 정권을 용인한 역사를 되풀이하지 않기 위해 아데나워재단·콘라트재단 등 정당이 중심이 되어 후속세대를 양성하는 아카데미를 세우고 일반 국민 대상의 시민교육에서부터 행정엘리트 배출에 이르는 다양한 활동에 깊이 관여한다. 지난주",
+     "‘박태준 미래전략연구소’가 주관한 포럼에서 고려대 박길성 교수는 행정관료 엘리트의 양성에 대해 선진국의 사례를 연구한 논문을 발표한 바 있다. (",
+     "박길성 교수 논문 보기- 클릭",
+     "행정관료는 어느 시대, 어느 사회를 막론하고 국가 발전의 핵심으로 중요하게 인식되어 왔다. 시장경제의 발전과 더불어 관보다 시장우위의 추세가 강해지고는 있지만 여전히 어느 나라에서나 정부와 관료의 역할은 막중하다. 개방화·자유화·세계화에도 불구하고 지난 한 세기 전 세계적으로 공공영역은 오히려 점점 더 확대되는 양상을 보이고 있다. 20세기 초까지만 해도 국내총생산(GDP) 대비 약 10%에 불과하던 공공지출의 비중은 지금 많은 선진국에서 40%를 넘고 있다. 지난 10년 동안에도 이 비중은 지속적으로 증가하고 있으며 우리나라도 정부예산이 2004년 22.5%에서 2013년 24.4%로 증가했다.",
+     "21세기는 과거와 비교하기 어려울 정도로 행정관료로 하여금 새로운 식견과 전문성, 소명감을 요구하고 있다. 글로벌 시각, 창의적이며 복합적 문제에 대한 해결 능력을 갖춘 관료를 요청하고 있다. 이런 가운데 2014년만큼 한국의 행정관료가 곤혹스러웠던 적도 없었을 것이다. 지난 7월의 한 조사에 의하면 전직을 고려해 봤다는 공무원이 80%에 달했다. ‘관피아’라는 용어는 마피아라는 범죄조직의 이름에서 나온 것이다. 암적 결탁, 폐쇄적인 집단 결속, 검은 카르텔과 같은 반사회적 행위들의 표현이다(박길성, 상기 논문). 그동안 특정 부처의 행태와 관련해 비슷한 용어가 회자되긴 했지만 행정관료집단 전체가 언론과 정치인, 심지어 행정부의 수반인 대통령에 의해 범죄집단의 용어로 표현된 적은 없었다. 그런 나라가 있었던가.",
+     "훌륭한 지도자와 소명감 있는 국가엘리트를 갖는 것은 국민의 복이다. 그러나 이들을 키워내는 것 또한 국가와 국민의 책임이다. 최근 공무원연금개혁 논의를 보면서 아쉬운 점은 대한민국이 앞으로 어떤 행정관료시스템을 지향해 나갈 것인가 하는 고려는 실종되어 있다는 것이다. 평균수명 60세 시대에 설계, 도입된 제도가 평균수명 80세 시대에 적합할 수는 없다. 적자가 지속적으로 확대되는 제도는 제도 자체로서 당연히 개편돼야 한다. 그러나 연금도 보상체계의 일부이며 이를 국가행정엘리트들의 양성과 충원, 이들이 국가사회를 위해 기여, 헌신할 수 있도록 하는 보상체계, 인사의 규율과 관행에 대한 큰 그림 없이 단순히 재정적자와 국민의 혈세를 축낸다는 관점에서만 접근되어 왔다. 세계화 시대의 국가 간 경쟁은 국가지배구조, 지도자들의 역량, 관료시스템 간의 경쟁이기도 하다. 행정관료의 전문성이 강화돼야 하고 그러기 위해서는 민간과의 교류가 더 활성화돼야 하며 보수체계도 민간 부문과 더 가까워져야 한다.",
+     "지금과 같이 정당의 정책기능이 취약하고, 또 5년 단임제 정부에서 한국의 관료시스템마저 무너지게 되면 국가의 장기적이며 일관된 정책은 누가 지켜나갈 것인가. 공무원의 보수는 어차피 국민의 주머니에서 나가는 것이다. 유능하고 소신 있는 관료시스템을 가질 수 있는 그림이 제시된다면 국민은 지금과 같은 혈세논쟁에만 매여 있지는 않을 것이다.",
+     "조윤제 서강대·경제학",
+     "[출처]",
+     "https://news.joins.com/article/16744235"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg"
+  ],
+  "files": [],
+  "idx": "365",
+  "list_title": "[중앙일보 시평] 우리는 어떤 행정관료시스템을 원하는가",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=364&pg_mode=View&bid=etc&page=11&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2014-12-20",
+   "date": "2014-12-20"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "[[IMG|data:image/png;base64,R0lGODlh2ABEAPf/AGdnZ/7+/tcLC/j4+HFxceZnZ25ubvv7+9ogIPr6+ru7u2tra/bLy/n5+dgTE3x8fG1tbf39/dUEBPf392hoaNbW1ra2tsTExNUCAtkYGI+Pj8rKyq6urt0wMHR0dIyMjPre3uFMTN0xMf3x8ZycnPCjo//+/t88PNYHB4aGhoCAgNDQ0Hl5efvp6d/f3/z8/OqAgPnd3ezs7Hp6enBwcKysrKurq5iYmM7Ozrm5uf75+fX19dkaGtYICMvLy6CgoPKwsLS0tPnc3OdwcNjY2P/9/eLi4tnZ2fvn59PT0/Ly8pGRkf319dslJfnZ2W9vb9wqKuBCQvjW1vS8vO/v72pqavrh4YKCguZqand3d9cMDOBGRnJyct3d3YODg319feNUVP74+L+/v9ra2vO2tqmpqdXV1frj42xsbPHx8aenp56env77+/T09Pvo6Ol8fP729uXl5b6+vpaWlvXCwqampuVkZMXFxYiIiNgVFf/8/Pnb2/739+2SkuFJSb29va2trdsoKP3y8t0zM+JOTvrg4Li4uO7u7qOjo/76+ujo6LKysv3z86WlpcHBwaSkpOyKitkcHN8/P/b29rGxseNXV8fHx/Kzs9cODuh2duTk5HZ2dvzr6+np6fvk5NHR0fGqqvfMzPfPz+uGhuuDg8PDw9LS0vbHx+6Wlvzq6vClpY6Ojvvm5tzc3GlpacLCwufn57CwsN9AQNfX1/zs7MjIyNYFBdsjI+Pj4/zu7uHh4eJSUsnJydgREfrf3944OPzv7/O5udgWFul4ePzt7aioqOyNja+vr9vb2/GtrfS6uvjU1OReXvXExOl6eubm5uqCgpKSktwsLOVhYdodHdcQEJSUlNYKCqqqqu+envDw8PGnp9wtLd46OvS+vu6amu+cnPbIyOZoaOJQUMzMzN41Nep+fvfR0d7e3u6YmO2Pj/XAwO+goPChodoeHre3t+dubvPz8/O0tPKuru2UlPjS0udsbIqKipqamurq6uBERISEhNUBAWZmZv///wAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4zLWMwMTEgNjYuMTQ1NjYxLCAyMDEyLzAyLzA2LTE0OjU2OjI3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo0QUYyNjNBNTM3NjUxMUUyOUNCMEQxODk1NTk5OEEyMiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo0QUYyNjNBNjM3NjUxMUUyOUNCMEQxODk1NTk5OEEyMiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjRBRjI2M0EzMzc2NTExRTI5Q0IwRDE4OTU1OTk4QTIyIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjRBRjI2M0E0Mzc2NTExRTI5Q0IwRDE4OTU1OTk4QTIyIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEg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|chosunBiz]]",
+     "[Weekly BIZ]",
+     "표류하는 한국의 리더십…",
+     "政黨",
+     "엘리트 양성하는 독일방식 배워야",
+     "포항",
+     "최현묵 기자",
+     "입력",
+     ": 2014.12.20 03:03",
+     "[[IMG|data:image/png;base64,R0lGODlhgwASAMQAAAAAAP////z8/Pv7+/r6+vn5+fj4+M3NzczMzMvLy4KCgoGBgYCAgH9/fzU1NTQ0NDMzMzIyMv///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAABIALAAAAACDABIAAAX/IIIkyJEkppiKbHqMbEyy8/zCpyuXIjnHQJ5Q1SuhSIfbbWdq+pKooTFFqFoLAwLWah0UCNltNasNi7lnMrcL/nrb62+1QGdr1+8uWc5Vo89jYwUic11ygAZbBmphaI13jpBeYWYDflmTYFd+a2OceHFoc3JebodVhIV8ZG+YkIacfJpXAmWaal9YsgMGmrKdhaKCwYV7fax9dYEEInlzERARYAYOqhDX11UQdNHYDwXbVQ/QZdJlBREPD9ngcuvr2M4E2NdeD7PfVve387naVdCg5YMATFYqVhHIEOyHbBJBcF0WaoGQJcIWigX2uQkH5+EkMQ9t2VqY758miWEW/8ohKECZOYlb0hx0d2ffPTdz7IGheBLnQp7zTFpReXIohHHjgAL7GbEpG3pHlWrZB3QAg0vMEOjpZ9Lc0n8KMWX8Ig1LwrFtBmDk4lWlK0GtGEoM+mYfl295iP5DB4kBA1KotOYk4NWcxjG9CNxT21Jt0J2LITgoOw/Xg16U1Gm7Bm/hWwKLwhXuZ1Yaq7kDLC5b6LWAAgYLDGollXGoJa+v7C4eG/Jwmy/bDin14nlTqC4JhRIEilHXPHXXoFUy53hLg9hrUiGfw3Sw8pNZuo+ykrBVyaFg0qmPDlRX+C26tRjGMmmP3UAQpx5iACwVn31qZZEPfcC54sAXJfFEUMJqUUHDzlC/hOOYJThtocaCJuXj2GOPCPibQoIo5Y8azVhI3Dh3tKfYQi3NUwtMFN30ykRpPdcNQWelVsYjhRyVCxb7mEPWhhu942A64HBk1iGWdKKdSIUIgNouGwJjkTweXtFJbZvBoxkwrKSWyR3ENckGMr4sM6AzfDzJJiPnwFEjMH3Q6dwnpxBz3Ix2zFJnKO7lIg+dWRFq6KGIJqrooow2eugggjkq6aSUVmrpFUFkqummnHbq6aeghirqpiaEAAA7|http://image.chosun.com/cs/article/2011/other_more.gif]]",
+     "2014",
+     "미래전략 포럼… 국가",
+     "리더 어떻게 키워야 하나",
+     "리더 양성기관",
+     "독일의 엘리트들은 다양한 사회계층 반영",
+     "위로부터의 민주주의… 그랑제콜이 인재",
+     "키워",
+     "공무원 전문성 중시",
+     "부처별로 전문가 뽑지만 채용조건 상세하게 밝혀 공정성 시비 일지 않아",
+     "JFK 공항, 로널드 레이건 공항, 샤를 드골 공항, 미테랑 국립도서관의 공통점은 무엇일까? 국가 시설인데 퇴임한 국가원수의 이름을 땄다는 점이다. 많은 나라가 리더의 이름을 따서 도로나 공항 이름을 짓는다. 선진국에선 국가원수가 재임 시 맹렬한 비판의 대상이었다 해도 퇴임 후엔 리더로서 위상을 인정해 준다.",
+     "그러나 한국에서 현대 인물의 이름을 따는 경우는 매우 예외적이다. 김대중•김영삼 도서관이 있지만, 민간 재단의 것이며 국가 시설이 아니다. 국민 스스로 선출한 대통령에 대한 기념도 허용할 수 없을 만큼 정치적으로 양극화돼 있기 때문이기도 하지만, 국가 리더십의 실패를 보여주는 징후이기도 하다.",
+     "조홍식 숭실대 교수에 따르면, 한국의 정치 리더십은 잇따른 부정부패와 '관피아(관료+마피아)' 현상, 공공 갈등 해결을 사법부에 미루는 '행정의 사법화' 현상으로 위기에 처했다. 기업 리더십 역시 국내 대표 기업 총수들이 거의 모두 범죄자인 데서 드러나듯, 노블레스 오블리주를 기대하기는커녕 법이라도 지켜달라는 바람의 대상으로 전락했다. 종교 리더십마저 황제 경영이나 세습 같은 재벌의 문제가 비슷하게 불거지면서 위기에 처했다.",
+     "표류하는 리더십을 어떻게 할 것인가? 박태준 미래전략연구소가 지난 9일 개최한 '2014 미래전략 포럼'은 바로 이 문제를 다뤘다. 토론 내용을 요약• 소개한다.",
+     "1. \"독일처럼 정당이 엘리트 양성 맡는 방법 검토해야\"",
+     "주요 선진국마다 엘리트를 키우는 방식은 다르다. 이 중 최근 들어 우리가 지향해야 할 방향으로 가장 많이 거론되는 모델이 독일이다.",
+     "독일은 리더가 되는 데 학벌이 중요하지 않다. 메르켈, 슈뢰더, 콜, 슈미트 등 최근 독일 총리 4명은 모두 다른 대학을 나왔다. 이는 1981년 이후 집권한 최근 프랑스 대통령 4명이 모두 그랑제콜의 하나인 파리정치대학 출신이란 점과 대조된다.",
+     "프랑스는 일반 대학은 평준화했으나, 엘리트 양성 기관인 그랑제콜은 철저한 선발 시험을 거쳐 우수 학생들만 뽑는다. 그랑제콜은 국립행정학교(ENA), 파리정치대학, 파리경영대학, 에콜 폴리테크틱 등 여러 학교를 모두 포괄하는데, 그 정점엔 '통치자의 학교'로 불리는 국립행정학교가 자리 잡고 있다. 일종의 대학원으로 입학하는 순간부터 공무원 대우를 받는다.",
+     "영국과 프랑스는 소수 명문고•명문대 출신이 엘리트가 되는 경우가 많다. 다양한 계층의 사람이 정치 엘리트로 성장할 수 있는 독일에 비해 사회적 대표성이 떨어지는 것이다. 반면 영국과 프랑스는 리더가 국민의 반대를 무릅쓰고라도 국가를 위해 필요한 일을 해야 한다는 의식이 남아 있다. '위로부터의 민주주의'라 불리는 엘리트주의적 전통으로, 평등주의적 관점이 강한 우리 사회에선 수용 가능성이 낮다.",
+     "독일은 엘리트 양성에 정당이 주도적 역할을 한다. 정당이 설립한 싱크탱크인 정당재단이 중•고등학생 대상으로 여름방학에 정치 캠프를 열 만큼 국민 생활에 깊숙이 스며들어 있다. 독일 엘리트들은 다양한 사회적 계층을 반영한다. 노조 등 사회 각 분야 목소리를 반영하는 협의(協議) 민주주의 전통 덕분이다. 장덕진 서울대 교수는 \"독일이 1949년 이후 한 번도 빠짐없이 연정을 구성하고 국가정책의 연속성을 이어온 것도 이런 전통 때문\"이라고 말했다. 그러나 합의적 전통이 일천한 한국에서 독일식 시스템을 꽃피우려면 상당한 시행착오와 시간을 감수해야 할 것이라는 의견도 많았다.",
+     "2. \"미국의 시장 기반 전문가 영입 방식 배우자\"",
+     "미국은 엘리트 양성도 시장(市場)에서 해결한다. 저명한 싱크탱크의 소장 중엔 국무부나 국방부 등 정부 최고위직을 지낸 사람이 많다. 정권이 바뀌면 이들이 백악관이나 국무부로 자리를 옮기고, 전 정권 고위 관리들은 싱크탱크로 옮겨간다. 펜실베이니아대의 '2012 싱크탱크 보고서'에 따르면, 미국의 싱크탱크 숫자는 1823개로 2위 중국의 429개보다 압도적으로 많다.",
+     "헤리티지 재단은 레이건과 부시 정부 시절 '리더십을 위한 정책과제(Mandate for Leadership)' 등 보수 정권의 핵심 어젠다를 제시했다. 미국 진보연구소(CAP)는 버락 오바마 대통령의 정권인수위원장을 지낸 존 포데스타 소장이 이끌고 있다. 브루킹스연구소 역시 민주당의 정책 개발, 인재 양성에 기여하고 있다. 이 재단들은 차세대 정치 지도자 교육 프로그램에도 힘을 쏟는다. 헤리티지 재단은 젊은 보수주의자들을 의회와 정부에 진출시키기 위해 '젊은 지도자 프로그램'을 운영하고, CAP는 전국 대학생 지지자를 상대로 '풀뿌리 진보' 프로그램을 가동 중이다.",
+     "미국은 공무원을 선발할 때 전문성을 최우선으로 본다. 우리나라처럼 행정고시를 통해 고위 관료들을 일괄 채용하는 게 아니라, 부처별로 해당 직책에 맞는 전문가를 알아서 뽑는 식이다. 채용 방식은 체계적이다. 공무원 채용 공고는 해당 직책이 요구하는 지원자의 조건을 A4 용지 7장 정도로 상세하게 요구한다. 부처별로 사람을 뽑아도 공정성 시비가 불거지지 않는 배경이다.",
+     "프랑스는 국가가 고위 행정 관료들의 양성을 주도하며, 국립행정학교 출신들이 정•관•재계 요직에 진출해 안정적으로 국가를 운영한다는 평가를 받고 있다. 1960년부터 2000년까지 이 학교 졸업생 5300명을 분석한 결과, 중앙부처 수장, 고위 정치인, 대형 공기업 경영진, 주요 민간기업 경영진에 오른 사람이 1300명이고, 나머지 4000명도 고위 관료직에 올랐다. '첫 졸업장의 횡포'란 비판까지 나올 정도지만, 입학이 철저히 능력 위주이기 때문에 기회 균등이 보장된 개방적인 시스템으로 평가받는다.",
+     "박길성 고려대 교수는 \"미국에선 시장에서 전문가들을 영입하는 시스템을, 프랑스에선 엘리트 교육기관에서 일정 수준 이상 전문성을 갖춘 관료를 양성하는 방식을 벤치마킹해야 한다\"고 말했다.",
+     "3. \"미래 리더십은 반응적이고 연결적이어야\"",
+     "리더십은 시간과 공간을 초월해서 존재하는 이상적인 전형을 갖는 것이 아니라, 어떤 사회가 처한 구체적인 시대적•맥락적 배경 속에서 발휘되고 평가받는다. 그런 점에서 리더십은 독립변수가 아니라 종속변수이다.",
+     "이 시대가 요구하는 리더십을 알기 위해 시대 변화를 먼저 살펴야 하는 이유가 여기에 있다. 류석진 서강대 교수는 과거와 크게 달라진 리더십 환경으로 인터넷의 등장에 따른 정보원의 무한대 확장과 시민에 의한 역(逆) 의제 설정 권한 확대를 꼽았다. 과거에 권력이 의제 설정 권한을 독점했지만, 지금은 똑똑해지고 연결된 시민이 언제, 어디서, 누구나 사회적 의제를 생산할 수 있다.",
+     "이런 변화에 대응하는 리더십은 반응적이고, 연결적이어야 한다. 모든 것이 연결된 네트워크 사회에서 리더가 새로운 이슈를 따라가지 못하고, 아무런 반응을 하지 않거나, 늦게 반응하거나, 모호하거나, 부정 일변도의 반응을 보여서는 사회적 갈등을 키우기 쉽다. 광우병 사태 초기 대응이 대표적이다.",
+     "뉴미디어는 권력의 관계를 바꿔 놓았다. 비제도 권력이 권력의 주체로 등장함으로써 권력 행위자와 권력 수용자라는 기존의 수직적이고 위계적이며 불평등한 갑을 관계가 아니라 다차원의 수평적이고 대등한 관계, 즉 갑과 갑의 관계로 변화했다. 이런 시대엔 조지프 나이(Nye) 교수가 말했듯 경성 권력(Hard Power)이 아닌 연성 권력(Soft Power)이 중요하다.",
+     "소프트 파워 리더십은 가치와 문화를 중요시하는 리더십이다. 또 소프트 파워 리더십은 네트워크의 세(勢)를 모을 수 있는 네트워크 지성과 네트워크상의 관계적 맥락을 활용하는 위치 지성, 네트워크의 권력 구조 자체를 구성할 수 있는 틈새 공략의 지성을 갖춰야 한다.",
+     "[출처]",
+     "http://srchdb1.chosun.com/pdf/i_service/pdf_ReadBody.jsp?Y=2014&M=12&D=20&ID=2014122000011"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "data:image/png;base64,R0lGODlh2ABEAPf/AGdnZ/7+/tcLC/j4+HFxceZnZ25ubvv7+9ogIPr6+ru7u2tra/bLy/n5+dgTE3x8fG1tbf39/dUEBPf392hoaNbW1ra2tsTExNUCAtkYGI+Pj8rKyq6urt0wMHR0dIyMjPre3uFMTN0xMf3x8ZycnPCjo//+/t88PNYHB4aGhoCAgNDQ0Hl5efvp6d/f3/z8/OqAgPnd3ezs7Hp6enBwcKysrKurq5iYmM7Ozrm5uf75+fX19dkaGtYICMvLy6CgoPKwsLS0tPnc3OdwcNjY2P/9/eLi4tnZ2fvn59PT0/Ly8pGRkf319dslJfnZ2W9vb9wqKuBCQvjW1vS8vO/v72pqavrh4YKCguZqand3d9cMDOBGRnJyct3d3YODg319feNUVP74+L+/v9ra2vO2tqmpqdXV1frj42xsbPHx8aenp56env77+/T09Pvo6Ol8fP729uXl5b6+vpaWlvXCwqampuVkZMXFxYiIiNgVFf/8/Pnb2/739+2SkuFJSb29va2trdsoKP3y8t0zM+JOTvrg4Li4uO7u7qOjo/76+ujo6LKysv3z86WlpcHBwaSkpOyKitkcHN8/P/b29rGxseNXV8fHx/Kzs9cODuh2duTk5HZ2dvzr6+np6fvk5NHR0fGqqvfMzPfPz+uGhuuDg8PDw9LS0vbHx+6Wlvzq6vClpY6Ojvvm5tzc3GlpacLCwufn57CwsN9AQNfX1/zs7MjIyNYFBdsjI+Pj4/zu7uHh4eJSUsnJydgREfrf3944OPzv7/O5udgWFul4ePzt7aioqOyNja+vr9vb2/GtrfS6uvjU1OReXvXExOl6eubm5uqCgpKSktwsLOVhYdodHdcQEJSUlNYKCqqqqu+envDw8PGnp9wtLd46OvS+vu6amu+cnPbIyOZoaOJQUMzMzN41Nep+fvfR0d7e3u6YmO2Pj/XAwO+goPChodoeHre3t+dubvPz8/O0tPKuru2UlPjS0udsbIqKipqamurq6uBERISEhNUBAWZmZv///wAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4zLWMwMTEgNjYuMTQ1NjYxLCAyMDEyLzAyLzA2LTE0OjU2OjI3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo0QUYyNjNBNTM3NjUxMUUyOUNCMEQxODk1NTk5OEEyMiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo0QUYyNjNBNjM3NjUxMUUyOUNCMEQxODk1NTk5OEEyMiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjRBRjI2M0EzMzc2NTExRTI5Q0IwRDE4OTU1OTk4QTIyIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjRBRjI2M0E0Mzc2NTExRTI5Q0IwRDE4OTU1OTk4QTIyIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEg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",
+   "data:image/png;base64,R0lGODlhgwASAMQAAAAAAP////z8/Pv7+/r6+vn5+fj4+M3NzczMzMvLy4KCgoGBgYCAgH9/fzU1NTQ0NDMzMzIyMv///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAABIALAAAAACDABIAAAX/IIIkyJEkppiKbHqMbEyy8/zCpyuXIjnHQJ5Q1SuhSIfbbWdq+pKooTFFqFoLAwLWah0UCNltNasNi7lnMrcL/nrb62+1QGdr1+8uWc5Vo89jYwUic11ygAZbBmphaI13jpBeYWYDflmTYFd+a2OceHFoc3JebodVhIV8ZG+YkIacfJpXAmWaal9YsgMGmrKdhaKCwYV7fax9dYEEInlzERARYAYOqhDX11UQdNHYDwXbVQ/QZdJlBREPD9ngcuvr2M4E2NdeD7PfVve387naVdCg5YMATFYqVhHIEOyHbBJBcF0WaoGQJcIWigX2uQkH5+EkMQ9t2VqY758miWEW/8ohKECZOYlb0hx0d2ffPTdz7IGheBLnQp7zTFpReXIohHHjgAL7GbEpG3pHlWrZB3QAg0vMEOjpZ9Lc0n8KMWX8Ig1LwrFtBmDk4lWlK0GtGEoM+mYfl295iP5DB4kBA1KotOYk4NWcxjG9CNxT21Jt0J2LITgoOw/Xg16U1Gm7Bm/hWwKLwhXuZ1Yaq7kDLC5b6LWAAgYLDGollXGoJa+v7C4eG/Jwmy/bDin14nlTqC4JhRIEilHXPHXXoFUy53hLg9hrUiGfw3Sw8pNZuo+ykrBVyaFg0qmPDlRX+C26tRjGMmmP3UAQpx5iACwVn31qZZEPfcC54sAXJfFEUMJqUUHDzlC/hOOYJThtocaCJuXj2GOPCPibQoIo5Y8azVhI3Dh3tKfYQi3NUwtMFN30ykRpPdcNQWelVsYjhRyVCxb7mEPWhhu942A64HBk1iGWdKKdSIUIgNouGwJjkTweXtFJbZvBoxkwrKSWyR3ENckGMr4sM6AzfDzJJiPnwFEjMH3Q6dwnpxBz3Ix2zFJnKO7lIg+dWRFq6KGIJqrooow2eugggjkq6aSUVmrpFUFkqummnHbq6aeghirqpiaEAAA7"
+  ],
+  "files": [],
+  "idx": "364",
+  "list_title": "[Weekly BIZ] 표류하는 한국의 리더십…",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=362&pg_mode=View&bid=etc&page=12&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2014-12-11",
+   "date": "2014-12-11"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "박태준 미래전략 포럼, 한국사회 리더십 위기 진단",
+     "`동아시아 리더` 교육기관 설립을",
+     "21세기 이끌 새 리더십·엘리트 역할 등 모색",
+     "소통능력·국제경험 등 체계적교육 필요성도",
+     "[[IMG|http://www.kbmaeil.com/news/photo/201412/337937_759965_33.jpg|]]",
+     "▲ 박태준미래전략연구소는 9일 포스텍 포스코국제관에서 `21세기 미래리더는 어떻게 배출되는가`라는 주제의 2014 미래전략 포럼을 개최했다.",
+     "포스코와 POSTECH(포항공대)을 설립하고 이들을 각각 세계적인 철강기업과 대학으로 성장시킨 고 박태준 POSTECH 설립이사장의 리더십이 재조명되는 가운데 21세기를 이끌 새로운 리더십과 엘리트의 역할을 모색하는 포럼이 9일 포항에서 열렸다. <관련기사 4면> 박태준미래전략연구소(소장 최광웅)가 이날 포스텍 포스코국제관에서 개최한`21세기 미래리더는 어떻게 배출되는가?`라는 주제의 2014 미래전략 포럼에서는 한국사회의 리더십 위기를 진단하고 극복할 방안이 집중 논의됐다.",
+     "이날 포럼은 △국가 엘리트 생성 메커니즘(세션 1, 좌장 조윤제 서강대 교수) △미래사회의 리더십(세션 2, 좌장 이진우 POSTECH 교수) 등 2개 세션으로 나뉘어 진행됐으며 참석자들은 한국사회 리더십 위기 해결 방안의 하나로 한국이 `동아시아 리더` 교육기관을 설립해야 한다는 주장도 제기했다.",
+     "박길성 고려대 교수는 발제를 통해 프랑스와 독일, 미국의 사례를 중심으로 급변하는 환경 속에서 새로운 행정 관료 생성 메커니즘의 필요성을 환기하면서 그 과제로 개방성과 전문성을 제시했다.",
+     "이어 발제에 나선 장덕진 서울대 교수는 “우리 사회에는 정치 엘리트의 충원 메커니즘에 대한 고민이 필요하며 영국, 프랑스, 독일의 사례 중 특히 정당과 지역 기반을 중시하는 독일이 한국이 `나아가야 할 이상`으로서의 시사점이 있다”고 밝혔다.",
+     "세션1의 마지막 발제를 맡은 최동주 숙명여대 교수는 “위대한 기업리더 연구가 후발 산업국가들의 발전모델 설정과 이를 주도할 기업 리더들이 지녀야 하는 덕목에 시사점을 줄 수 있다”고 설명하고 공익을 추구해 온 주요 국가의 세계적 기업 엘리트를 소개했다.",
+     "미래리더십을 모색한 세션 2에서는 류석진 서강대 교수가 네트워크가 집단화되는 미래사회에서 요구되는 소프트 리더십과 개방형 리더십에 대해 집중적으로 발표했으며, 조홍식 숭실대 교수는 리더십 위기가 누적된 한국사회를 진단하고 이러한 위기를 극복하기 위해서 소통능력, 인문 교육, 봉사 의무, 국제 경험 등에 대한 체계적 교육의 필요성을 강조했다.",
+     "이날 포럼에는 송복 연세대 명예교수, 정준양 포스텍 이사장과 김용민 총장 등 주요 인사 외에도 박 설립이사장의 아들인 성빈씨가 참석해 눈길을 모았다.",
+     "이창형·임재현기자",
+     "chlee·imjh@kbmaeil.com",
+     "[출처]",
+     "박태준 미래전략 포럼, 한국사회 리더십 위기 진단",
+     "- 경북매일 - 경북매일신...."
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://www.kbmaeil.com/news/photo/201412/337937_759965_33.jpg"
+  ],
+  "files": [],
+  "idx": "362",
+  "list_title": "[경북일보] 박태준 미래전략 포럼, 한국사회 리더십 위기 진단 - 2014.12.10",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=361&pg_mode=View&bid=etc&page=12&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2014-12-11",
+   "date": "2014-12-11"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "위기의 우리 사회에 필요한 미래 리더의 모습은",
+     "미래전략연구소 ‘2014 포럼’",
+     "서울신문 2014.12.10 (019면 문화)",
+     "지난 4·16 세월호 참사를 직후로 관료와 암흑가 집단인 마피아를 합친 ‘관피아’(관료+마피아)라는 신조어가 등장했다. 대기업 임원 출신이 공직에 들어오면 정부 혁신을 해낼 수 있으리라는 환상 섞인 기대 또한 만연하다. 또한 정부의 공식 체계 바깥에 있는 이른바 ‘비선 실세’가 권력을 농단하고 있다는 의혹을 받고 있는 때다.",
+     "[[IMG|http://img.seoul.co.kr/img/upload/2014/12/09/SSI_20141209154510_V.jpg|]]",
+     "▲ 9일 경북 포항공과대 포스코국제관에서 열린 ‘2014 미래전략포럼’에서 좌장을 맡은 조윤제(왼쪽 세 번째) 서강대 교수가 제1세션 ‘국가 엘리트 생성 메커니즘’ 주제에 대한 토론을 진행하고 있다.",
+     "박태준미래전략연구소 제공",
+     "권력의 리더십, 사회의 리더십이 표류하고 있는 상황에서 박태준미래전략연구소는 9일 경북 포항공과대 포스코국제관에서 ‘21세기 미래 리더는 어떻게 배출되는가’를 주제로 ‘2014 미래전략포럼’을 가졌다. 행정 및 민간의 엘리트 생성 메커니즘을 살피는 한편 혁신 방안을 고민하고 미래의 리더십 형태를 전망했다.",
+     "‘국가 엘리트 생성 메커니즘’에 대해 발제를 맡은 박길성 고려대 교수는 “급변하는 글로벌 환경에서 한국은 발전국가에서 복지국가로, 산업사회에서 지식기반사회로 넘어가는 과도기에 있는 만큼 정부는 지속적으로 변화해야 하는 당위에 직면해 있다”면서 “행정 관료의 역할은 여전히 중요하고, 전문성을 갖출 수 있는 교육 제도 등이 필요하다”고 말했다. 박 교수는 “어떤 형태든 지금과 같은 단선형적인 고시를 통해 선발된 행정 관료들의 교육과정으로는 현 시대 상황에 많이 뒤질 수밖에 없다”고 지적했다.",
+     "‘공무원, 혹은 관피아.’ 몇 년 전부터 초등학생도 장래희망을 ‘공무원’이라고 적을 만큼 공무원은 선망의 직업이었다. 그러나 꿈과 희망을 잃고 안정적인 신분만을 추구하는 세태로 비판받기도 했고, 일부 공무원들의 탐욕스러운 민낯이 드러나면서 공무원 전체는 사회적 질타의 대상이자 개혁의 대상으로 전락했다. 공무원의 선발 과정을 비롯해 교육 시스템을 개혁해 공직의 전문성과 개방성을 높일 것에 대한 주문이다.",
+     "류석진 서강대 교수는 ‘권력의 미래, 미래의 권력, 그리고 리더십’을 발제하면서 “개인 차원에서 의제 설정 권력이 강한 개인이 등장하고 있다면 미래의 리더십은 반응적이고 연결적인 리더십으로 구성돼야 한다”면서 “집단 차원에서도 네트워크 집단이 강화되고 있다면 이렇게 연결된 집단을 이끌 수 있는 창의적이고 공유적인 리더십이 필요하다”고 말했다. 조흥식 숭실대 교수 역시 우리 사회의 총체적인 리더십 위기를 지적한 뒤 “미래에서 필요로 하는 리더십은 (어느 분야, 어느 집단에서건) 민주적 리더십, 도덕적 리더십, 포용적 리더십, 개방적 리더십 등 네 가지 성격을 동시에 가져야 한다”고 강조했다.",
+     "박록삼 기자",
+     "youngtan@seoul.co.kr",
+     "[출처]",
+     "https://seoul.co.kr/news/newsView.php?id=20141210019005"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://img.seoul.co.kr/img/upload/2014/12/09/SSI_20141209154510_V.jpg"
+  ],
+  "files": [],
+  "idx": "361",
+  "list_title": "[서울신문] 위기의 우리 사회에 필요한 미래 리더의 모습은 미래전략연구소 ‘2014 포럼’ - 2014.12.10",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=360&pg_mode=View&bid=etc&page=12&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2014-12-11",
+   "date": "2014-12-11"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "박태준 “한국, 동아시아 리더 교육기관 세워야”",
+     "동아일보",
+     "2014-12-10",
+     "[[IMG|http://dimg.donga.com/wps/NEWS/IMAGE/2014/12/10/68450914.1.jpg|]]",
+     "9일 박태준미래전략연구소가 개최한 ‘2014 미래전략 포럼’에서 참석자들이 발제문을 살펴보고 있다. 포스텍 제공",
+     "박태준미래전략연구소(소장 최광웅)가 ‘2014 미래전략 포럼’을 개최하고 고 박태준 포스텍 설립이사장의 리더십을 재조명하는 시간을 가졌다.",
+     "박태준미래전략연구소는 9일 경북 포항시 남구 포스텍(포항공과대) 포스코국제관에서 ‘21세기 미래 리더는 어떻게 배출되는가’를 주제로 포럼을 개최했다. 국가 엘리트 생성 메커니즘 세션(세션 1)과 미래사회의 리더십 세션(세션 2)으로 나뉘어 진행된 이번 포럼에서는 행정 엘리트 생성 메커니즘 혁신에 대한 발표는 물론이고 한국 사회의 리더십 위기를 진단하고 극복할 방안에 대한 논의가 진행됐다. 또 한국이 ‘동아시아 리더’ 교육기관을 설립해야 한다는 주장도 나왔다.",
+     "박길성 고려대 사회학과 교수는 발제를 통해 프랑스 독일 미국의 사례를 중심으로 급변하는 환경 속에서 새로운 행정 관료 생성 메커니즘의 필요성을 주장하면서 그 방향으로 개방성과 전문성을 제시했다. 이어 발제에 나선 장덕진 서울대 사회학과 교수는 “우리 사회에는 정치 엘리트의 충원 방식에 대한 고민이 필요하며 특히 독일이 한국이 추구해야 할 방향”이라고 밝혔다. 최동주 숙명여대 글로벌서비스학부 교수는 위대한 기업리더 연구의 중요성과 공익을 추구해 온 주요 국가의 세계적 기업엘리트를 소개했다.",
+     "박태준미래전략연구소는 고 박태준 이사장을 기리기 위해 2012년 2월 포스텍이 설립했다. 13일은 박 이사장의 3주기다.",
+     "김성규 기자",
+     "sunggyu@donga.com",
+     "[출처]",
+     "http://www.donga.com/news/article/all/20141210/68450463/1"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://dimg.donga.com/wps/NEWS/IMAGE/2014/12/10/68450914.1.jpg"
+  ],
+  "files": [],
+  "idx": "360",
+  "list_title": "[동아일보] 박태준 “한국, 동아시아 리더 교육기관 세워야” - 2014-12-10",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=359&pg_mode=View&bid=etc&page=12&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2014-12-11",
+   "date": "2014-12-11"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "포스코 기획[천하위공의 길 - 박태준의 애국정신과 일류주의] 박정희 대통령 특명 수임… ‘짧은 인생 영원 조국에’ 바치다",
+     "포스코 신문 2014-12-11",
+     "지일·용일·극일 몸소 실천… 고난에 도전하며 삶의 길 개척",
+     "1965년부터 박정희 대통령 특명따라 종합제철 프로젝트 주도",
+     "“무엇이든 첫째 되자”… 고로 짓기도 전에 ‘세계 일등’ 독려",
+     "통일 실마리 잡으려 팔순 넘어서도 북한에 제철소 건설 꿈",
+     "12월 13일, 박태준 명예회장이 타계한 지 3주기를 맞는다. ‘짧은 인생을 영원 조국에’. 그는 이 좌우명처럼 일생을 조국에 바치며 불같이 살다가 우리 곁을 떠났다. 군인으로서, 경제인으로서, 교육자로서, 정치인으로서 치열하게 살다 간 박 명예회장은 우리 사회에 큰 울림을 남겼다. 시대가 암울하고 길이 보이지 않을 때마다 찾는 선각자로서, 위대한 경제인으로서 애국애민의 삶을 살다 간 박태준 명예회장을 기리며 이 글을 게재한다.",
+     "[[IMG|http://digitalpr.posco.co.kr/digitalpr/upload/editorImages/201412/1%20(2)12.jpg|]]",
+     "1953년 여름 한국전쟁이 휴전으로 멈추는 즈음에 멀쩡히 살아남은 한 청년장교가 자신의 영혼에다 조각칼로 파듯이 좌우명을 새겼다. ‘짧은 인생을 영원 조국에’, ‘절대적 절망은 없다’. 1977년 5월 조업과 건설을 동시에 감당해 나가는 영일만 포항제철에서 절박한 목소리로 외치는 한 아버지가 있었다. “우리 세대는 다음 세대를 위해 순교자적으로 희생하는 세대다.” 바로 그가 박태준이었다. 그리고 그는 도무지 낡을 줄 모르는 그 좌우명, 그 신념으로 삶의 길을 개척하면서 다른 쪽으로 벗어나지 않는 일생을 완주했다.",
+     "시대적 고난과 천하위공의 손거울",
+     "고난은 인간의 성격을 창조한다. 도전형과 체념형이다. 문제적 인간은 도전형이다. 도전형은 다시 선(善)과 악(惡)으로 갈린다. 만델라와 히틀러는 서로 대척점에 위치한다. 공통점은 도전의지다. 박태준은 고난에 도전하며 선으로 나아간 전형이다.",
+     "1927년 동해안 최남단 갯마을에서 태어난 박태준은 6세 때 부친이 생업을 잡고 있던 일본으로 건너갔다. 유소년시절은 몸을 키우고 지식을 늘리는 그만큼 ‘조센징’이라 불리는 쓰라린 모욕에 시달려야 했다. 모욕이 그에게는 의식의 씨앗이었다. 그 씨앗은 무엇이든지 일등을 해야 차별을 덜 당한다는 방어의식과 저항의식으로 발아하여 시나브로 애국정신과 일류의식으로 성장한다. 광복이 되어 와세다대 기계공학과를 중퇴하고 가족과 함께 귀향해서 군문으로 들어설 때, 그는 부모 앞에 뜻을 밝힌다. “건국에는 건군이 있어야 합니다.” 이 한마디는 되찾은 나라를 위해 살겠다는 도전의지를 응축한 말이었다. 육사 6기생, 이 태릉에서 그는 십여 년 뒤부터 필생의 정신적 동반자가 되는 스승과 만난다. 열 살 손위 박정희다.",
+     "6·25전쟁을 맞아 박태준은 철원에서 서울까지 밀리는 사나흘 동안에 동료 중대장 12명 중 10명을 잃은 구사일생 중대장으로서 포항까지 후퇴했다가 거꾸로 청진까지 북진하건만 중공군에 되밀려 1·4후퇴 일원이 된다. 휴전 직후에는 육군대학을 수석으로 졸업한다. 당시 군대는 부패했다. 그러나 그는 ‘딸깍발이’로 이름난 대령이었다. 일절 부정부패와 타협하지 않았다. 용납하지도 않았다. 그 소문이 박정희의 고막을 건드리고, 거사를 획책하는 그가 1960년 부산군수기지사령부 사령관으로 부임하면서 박태준을 인사참모로 발탁한다. 무수한 술잔에 시대적 고뇌를 담은 나날들, 그렇게 함께한 여섯 달 남짓. 부산 시절이 두 사람을 완전한 신뢰와 조국근대화의 순정한 이념으로 단단히 묶어준다.",
+     "5·16정부에서 상공담당 최고위원을 역임하고 1965년부터 박정희의 특명에 따라 종합제철 프로젝트에 깊숙이 관여하던 박태준은 1967년 가을에, 마치 5000년 대물림의 절대빈곤 극복을 목메게 기다려온 우리 역사가 어떤 필연에 의해 성사시킨 일처럼, 종합제철 대임을 맡는다. 이때 박태준의 정신세계는 ‘천하위공(天下爲公)’으로 확장돼 있었다. 식민지, 분단, 혼돈, 전쟁, 재분단, 폐허, 부패, 빈곤. 이것들이 불혹(不惑) 박태준의 나이테였다. 그러나 그는 저주받은 것 같은 나라를 체념해버리는 절망과 허무, 퇴폐와 좌절로 미끄러지지 않았다. 박정희와 어깨를 겯고 정반대 방향으로 나아갔다. 미래의 나이테를 희망과 풍요의 목록으로 채우려는 그의 도전의지에서 천하위공은 정신적 기반이었다.",
+     "천하위공이란 ‘천하가 모두 공적인 것이 된다’, ‘천하는 모든 사람을 위한 것이 된다’는 뜻이다. 『예기(禮記)』 예운(禮運)편에 나오는 말이다. 중국 신해혁명을 이끈 쑨원(孫文)이 소중히 간직했다. 박태준이 “교육은 천하의 공업(公業)”이라 선언한 때는 1978년 9월이다. 하지만 그는 대한중석 사장(1965~1967)으로서 남몰래 대학 설립을 꿈꾼 때부터 천하위공을 가슴에 보듬고 있었다. 요즘 한국사회는 복지씨름이 한창인데, 포스코가 1970년대와 1980년대에 선구적으로 다 실행한 사원주택제도, 장학제도, 복지제도, 녹화제도 그리고 학교들, 포스텍, 방사광가속기 등은 천하위공을 실천한 그의 모범 사례들이다.",
+     "아담 스미스가 ‘보이지 않는 손’을 찍어냈다. 인간사회는 때로 그 손을 혐오도 하지만 시장체제의 쇄신을 관철하면서 자본주의를 선호하고 있다. 기존 자본주의를 뜯어고쳐야 한다는 불만이 팽배할 때는 전면에다 긴 거울을 세운다. 거울에 비친 자본주의의 전신을 살피며 수술 방법을 궁구하는 것이다. 그 거울의 이름을 근대 서양은 ‘사회주의’라 지었다. 그러나 동양에는 까마득한 옛날부터 청동으로 만든 ‘천하위공’ 손거울이 있었다. 인간의 선의(善意)를 신뢰하고 선양(煽揚)하는, 깨지지 않는 그 손거울을 박태준은 영혼의 주머니에 넣고 다녔다.",
+     "박태준의 일본관과 일류주의",
+     "포스코에도 절명의 위기가 딱 한 번 있었다. 1969년 2월, KISA(한국에 종합제철을 짓겠다는 서방 5개국 8개사 컨소시엄)가 차관제공 약속을 저버리기로 결정한 때였다. 자본주의 메커니즘의 비정한 법칙에 따라 갓 태어난 포스코는 사라져야 했지만, 대일청구권자금 전용에 대한 착상과 재가, 박태준과 박정희의 그 합심이 영일만 모래벌판에 아기무덤으로 남을 뻔했던 포스코를 신의 한 수처럼 회생시켰다.",
+     "일제식민지 배상금이 포스코의 종잣돈이다. 포항 1기를 착공하는 박태준에게 그것은 모든 구성원이 꼭 무장해야 하는 칼날 같은 윤리였다. “조상의 혈세로 짓는 제철소다. 실패하면 우향우 해서 영일만에 빠져 죽자. 제철보국을 우리 인생의 신조로 삼자.” 그의 호소는 가슴과 가슴을 타고 번져나갔다. 조상의 혈세는 민족주의를 자극했다. 우향우는 애국주의를 고양했다. 둘은 제철보국 이념에 자양분이 되었다.",
+     "어떤 애국인가? 제철보국에 담은 박태준의 그 국가는 어떤 국가인가? 이것이 중요하다. 간단한 자료가 있다. 1971년 4월, 첫 쇳물이 나오려면 아직 26개월이나 더 일해야 하는 그때, 사보 《쇳물》 창간호가 나왔다. 뒤표지, 거기, 그의 외마디 외침이 만년필로 적혀 있다. “무엇이든지 첫째가 됩시다!” 고로를 짓기도 전에 그러나 임직원들에게 세계 일등을 요구하고 독려한 박태준은 애국심과 일류의식을 갖춘 그들과 더불어 초심의 맹세 그대로 25년 만에 포스코를 세계일류로 우뚝 세운다. 포스텍(포항공대)도 그렇게 만든다. 그의 애국이란 일류국가에 도달하는 것, 포스코나 포스텍이 보여주듯 총체적인 일류국가에 도달하는 것이었다.",
+     "1970년대 일본은 철강뿐 아니라 총체적인 일류국가였다. 그때 일본 철강사들의 지도를 받는 포스코로서는 일본을 넘어야 세계일류에 올라설 수 있었다. ‘조센징’이란 차별과 모욕이 의식의 씨앗이 되었던 박태준에게 그것은 물러설 수 없는 과제였다. 극일을 못하면 포스코가 세계일류 반열에 오를 수 없고, 이것이 안 되면 조국은 일류국가에 도달할 수 없다. 이 엄청난 장벽 앞에서 그는 침착하고 치밀하고 집요했다. 명확한 전략이 있었다. 3단계 일본관(日本觀)을 피력했다. 먼저 일본을 알아야 한다(知日), 그래서 일본을 활용해야 한다(用日), 그리고 일본을 극복해야 한다(克日). 지일-용일-극일, 이 전략이었다. 상대도 알아챘다. 일본 최장수 총리를 지낸 나카소네는 “일본에서 하나라도 더 한국에 도움이 되는 것을 가져가려는 박 선생의 애국심”에 감동했고, 미쓰비시상사 회장을 지낸 미우라 료헤이는 “우리가 비즈니스를 위해 한국을 연구하는 것처럼 박 회장은 일본을 연구하는 전략가”라고 간파했다. 포스코에서 극일 목표를 성취하여 세계일류에 도달한 박태준.",
+     "그래서 평전 『박태준』을 쓴 이대환 작가는 이렇게 평가한다. <생존의 길을 찾아 일본으로 들어간 아버지의 뒤를 좇아 현해탄을 건너갔던 수많은 식민지 아이들 가운데, 사춘기를 벗어난 무렵에 해방된 고향으로 돌아와 빈곤에 허덕이는 신생독립국의 어른으로 성장한 다음, 유소년기에 어쩔 수 없이 익혔던 일본어와 일본문화로써 가장 훌륭하고 가장 탁월하게 조국에 이바지한 인물은 박태준이다. 신학문을 배우러 일본유학을 했던 청년학도를 포함시켜도 결론은 달라지지 않을 것이다.>",
+     "박태준의 비원을 풀어줄 이들은?",
+     "박정희 통치시대에 한국근대화는 마치 산업화와 민주화가 동일한 역사 무대에 공존할 수 없다는 것처럼 반목과 갈등의 양상으로 전개되었다. 모순 시대였다. 그러나 고희(古稀)의 박태준은 모순 시대가 아니라 ‘상보(相補) 시대’였다는 견해에 동의했다. 산업화와 민주화가 대립하는 가운데 상보하면서 함께 발전하고 함께 성장했다는 것이다.",
+     "그래서 그는 1997년 늦가을 외환위기사태 속에서 펼쳐진 대통령선거를 통해 “산업화세력과 민주화세력의 화해, 영남과 호남의 화합”을 외칠 수 있었다. 그것은 50년 만의 수평적 정권교체에 이바지하고 그해 12월 5일 김대중 후보를 박정희 대통령 생가로 안내하여 두 지도자에게 늦어진 화해 자리를 마련해준다. 또한 그는 “독재의 사슬도 기억케 하고, 빈곤의 사슬도 기억케 하라”는 가르침도 남긴다.",
+     "2010년 1월, 83세 박태준. 하노이국립대학 강연에서 쩌렁쩌렁 일갈했다. “한 나라가 일어서는 과정에 가장 중요한 전제조건은 지도층이 부패하지 않고 올바른 비전을 제시하는 것입니다.” 자기 경험과 실천의 지혜였다. 그는 천하위공에 근거한 애국과 일류주의로 헤쳐 나아갔다. 고투의 길, 그러나 공동체의 영광을 창조하는 길이었다. 자연의 섭리가 그에게 종점을 알려주는 무렵부터 동시대인들이 이심전심 뒤늦게 어떤 진실을 깨달은 것처럼 그를 ‘영웅’이라 불렀다. 늙은 영웅은 영혼에 맺힌 말을 미처 세상에 다 내놓지 못했다. 눈가에 이슬로 맺히던 그의 말을 가슴속에 구슬로 간직한 이가 없지는 않다.",
+     "포스코 대성공에 바친 박태준의 공로가 아무리 적어도 1퍼센트는 될 것이라고 인정한 국가가 그에게 포스코 주식에서 공로주로 1퍼센트만 줬더라면, 그는 수천억 원을 소유한 재벌급 대부호로 살았을 것이다. 그러나 그는 공로주를 바라지도 않았고 한 주도 받지 않았다. 포스코가 늘 세계일류이기를 희원할 따름이었다.",
+     "박태준은 팔순을 넘어서도 통일의 실마리를 잡으려 했다. 원산 어디쯤에 종합제철소를 포스코 자금과 기술로 짓고 싶었다. “기술자야 인민군대서 차출해 포항, 광양에 데려다가 훈련시켜야지. 자금? 포스코 신인도면 은행이 줄을 서. 왜 평양이 문을 못 여나? 내가 지팡이라도 짚고 갈 건데. 제철소뿐인가? 근대화 교과서가 다 있어. 여기, 여기 말이야.” 오른손 검지로 이마를 쿡쿡 찌르는 노인이 아이처럼 흥분했다.",
+     "천하위공, 그 머나먼 길을 애국정신·일류주의 두 발로 사심 없이 완주한 노인의 염원이 아직은 이 땅에 비원(悲願)으로 남아 있다. 산업화세력과 민주화세력의 화해, 영남과 호남의 정치적 화합도 그렇다. 이 비원들을 진실로 받들어 실현에 앞장서야 하는 이들은 누구인가?",
+     "<박태준미래전략연구소 제공>",
+     "[[IMG|http://digitalpr.posco.co.kr/digitalpr/upload/editorImages/201412/1%20(1)14.jpg|]]",
+     "▶ 박정희 대통령께 임무완수를 보고하는 박태준 회장 - 1992년 10월 3일 당시 박태준 회장이 박정희 대통령 묘소에서 ‘임무완수’를 보고하고 있다. 4반세기(1968.4~1992.10) 제철대역사 준공 다음날인 이날 국립서울현충원 박정희 대통령 묘소에서 박 회장은 “각하의 명을 받아 25년 만에 제철입국의 임무를 성공적으로 완수했음을 각하의 영전에 보고합니다”라고 했다.",
+     "[출처]",
+     "https://blog.naver.com/sooji2/220214555540"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://digitalpr.posco.co.kr/digitalpr/upload/editorImages/201412/1%20(2)12.jpg",
+   "http://digitalpr.posco.co.kr/digitalpr/upload/editorImages/201412/1%20(1)14.jpg"
+  ],
+  "files": [],
+  "idx": "359",
+  "list_title": "포스코 기획 [천하위공의 길 - 박태준의 애국정신과 일류주의] 박정희 대통령 특명 수임… ‘짧은 인생 영원 조국에’ 바치다",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=358&pg_mode=View&bid=etc&page=12&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2014-12-11",
+   "date": "2014-12-11"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "뉴스종합[박태준미래전략연구소] 21세기 이끌 ‘미래리더십’ 모색",
+     "미래전략포럼 개최… 국가 엘리트 생성 메커니즘 등 전문가 열띤 토론",
+     "최근 리더십의 중요성이 강조되면서 포스코와 포스텍을 설립하고 세계적인 철강기업과 대학으로 성장시킨 박태준 명예회장(포스텍 설립이사장)의 리더십이 재조명받고 있다.",
+     "박태준미래전략연구소(소장 최광웅)는 박 명예회장 3주기(12월 13일)를 앞두고 9일 포스텍 포스코국제관에서 ‘2014 미래전략 포럼’을 열어 21세기를 이끌 새로운 리더십을 모색하는 시간을 가졌다.",
+     "이날 포럼은 ‘21세기 미래리더는 어떻게 배출되는가’를 주제로 △국가 엘리트 생성 메커니즘(세션1·좌장 조윤제 서강대 교수) △미래사회의 리더십(세션2·좌장 이진우 포스텍 교수) 등 2개 세션으로 나뉘어 진행됐다.",
+     "행정 엘리트 생성 메커니즘 혁신에 대한 발표는 물론 한국사회의 리더십 위기를 진단하고 극복방안을 논의하는 시간이 이어졌다. 그중 하나로 한국이 ‘동아시아 리더’ 교육기관을 설립해야 한다는 주장도 나와 관심을 모았다.",
+     "박길성 고려대 교수는 프랑스와 독일, 미국의 사례를 중심으로 급변하는 환경 속에서 새로운 행정관료 생성 메커니즘의 필요성을 환기하면서 개방성과 전문성을 과제로 제시했다.",
+     "이어 장덕진 서울대 교수는 “우리 사회에는 정치 엘리트의 충원 메커니즘에 대한 고민이 필요하다. 여러 해외 사례 중 독일의 경우가 한국이 나아가야 할 이상으로서 배울점이 많다”고 말했다.",
+     "세션1의 마지막 발제를 맡은 최동주 숙명여대 교수는 위대한 기업 리더 연구가 후발 산업국가들의 발전모델 설정에 시사점을 줄 수 있으므로 기업 리더들이 덕목을 지녀야 함을 강조하고, 공익을 추구해온 주요 국가의 세계적 기업 엘리트를 소개했다.",
+     "미래리더십을 모색하는 세션2에서는 류석진 서강대 교수가 네트워크가 집단화되는 미래사회에서 필요한 소프트 리더십(soft leadership)과 개방형 리더십에 대해 집중적으로 발표했다.",
+     "이어 조홍식 숭실대 교수는 리더십 위기가 누적된 한국사회를 진단하고 이러한 위기를 극복하는 방법으로 소통능력·인문교육·봉사의무·국제경험 등에 대한 체계적 교육의 필요성을 강조했다.",
+     "박태준미래전략연구소는 박태준 명예회장의 사상과 기업정신을 집중 연구하고 다양한 교육프로그램 개발과 기념사업 추진을 목표로 지난해 2월 설립됐다.",
+     "최혜영 커뮤니케이터",
+     "박태준미래전략연구소가 12월 9일 포스텍 포스코국제관에서 ‘2014 미래전략 포럼’을 열고 미래 리더가 갖춰야 할 리더십에 대해 논의하는 시간을 가졌다. 조윤제 서강대 교수(왼쪽 세 번째)가 국가 엘리트 생성 메커니즘 변화의 필요성에 대해 이야기하고 있다.",
+     "[[IMG|http://digitalpr.posco.co.kr/digitalpr/upload/editorImages/201412/06011.jpg|박태준미래전략연구소가 12월 9일 포스텍 포스코국제관에서 ‘2014 미래전략 포럼’을 열고 미래 리더가 갖춰야 할 리더십에 대해 논의하는 시간을 가졌다. 조윤제 서강대 교수(왼쪽 세 번째)가 국가 엘리트 생성 메커니즘 변화의 필요성에 대해 이야기하고 있다.]]",
+     "▶ 박태준미래전략연구소가 12월 9일 포스텍 포스코국제관에서 ‘2014 미래전략 포럼’을 열고 미래 리더가 갖춰야 할 리더십에 대해 논의하는 시간을 가졌다. 조윤제 서강대 교수(왼쪽 세 번째)가 국가 엘리트 생성 메커니즘 변화의 필요성에 대해 이야기하고 있다. 포스텍 제공",
+     "<포스코 신문 2014-12-11>",
+     "[출처]",
+     "http://www.ksmnews.co.kr/default/index_view_page.php?idx=94440"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://digitalpr.posco.co.kr/digitalpr/upload/editorImages/201412/06011.jpg"
+  ],
+  "files": [],
+  "idx": "358",
+  "list_title": "[포스코신문] 뉴스종합 '박태준미래전략연구소' 21세기 이끌 ‘미래리더십’ 모색 - 2014.12.11",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=357&pg_mode=View&bid=etc&page=12&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2014-12-11",
+   "date": "2014-12-11"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "The Way to Run Organizations Well",
+     "[355호] 2014년 12월 03일 (수) Reporter Park Min-young .",
+     "< 신문 보기:",
+     "http://times.postech.ac.kr/news/articleView.html?idxno=8166",
+     "In modern society, there are many organizations such as teams in a company, school groups, and so on. As many organizations exist in modern society and they play an important role in working effectively, there are many theories for running organizations effectively. The Postech Times interviewed Dr. Jung Ki Jun (senior researcher of Tae-Joon Park Institute) about the way to lead an organization well.",
+     "Dr. Jung said that an organization must consist of at least three people. Second, there should be a common purpose in the group. Third, interaction among members is required. He also said leadership is a very important thing for running organizations well. According to his comment, leadership affects members to the extent in which members try to attain a purpose spontaneously. He said leadership is a force that moves members actively. In a similar vein, a leader is the person who suggests orientation, advises members, and creates a comfortable working environment. Dr. Jung introduced three kinds of leadership that tend to make organizations work well: ethical leadership, self-sacrificial leadership, and servant leadership.",
+     "Dr. Jung said that communication is important in leadership. For realizing communication, faith between members and leader is a must. Ethical leadership develops faith by listening attentively to members’ opinion and providing many opportunities to them. In order to be a great leader and lead an organization well, ethical leadership is a fundamental element.",
+     "Self-sacrificial leadership is also important. In an organization, it is natural that some large and small sacrifices are necessary for a group to work well. In that point, the leader’s sacrifice is very important. If the leader sacrifices, he or she can get recognition and build trust, like in ethical leadership.",
+     "Servant leadership is that last type Dr. Jung explained. Servant leadership is the same as service leadership. A servant leader thinks about what team members need and want and humbly tries to meet those needs. It often means the leader must put himself or herself in someone else’s position. As leaders appreciate other members’ position and meet their needs through servant leadership, organizations tend to run more smoothly.",
+     "The three leadership styles stated above are very important for a well-running organization. However, according to Dr. Jung’s comment, followership is as important as leadership. Followership is a great attitude among members and has 3 conditions. Members should have self-leadership, think of others’ position and know to cooperate, and be flexible and reliable.",
+     "To run an organization well, followership and leadership are both important. Both leaders and members must have a great attitude and be willing to cooperate.",
+     "[[IMG|http://postech.dever-host.com/data/webEditor/20141215142808.jpg|]]",
+     "정기준 박사",
+     "(박태준미래전략연구소 책임연구원)",
+     "현재 포항공과대학교(POSTECH) 박태준미래전략연구소에서 교육과 연구 및 기획업무를 담당하고 있다.",
+     "포항공과대학교에서 리더십(나의 리더십 스타일, 팀워크 리더십 액티비티)과 조직행동론, 전략경영 교과목을 강의하고 있다.",
+     "경북대학교 겸임교수를 역임하고 한국산업교육학회 이사, 한양대학교와 포항공과대학교 리더십센터 책임연구원, 미국 Nebraska 주립대학교 객원연구원을 지냈다."
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://postech.dever-host.com/data/webEditor/20141215142808.jpg"
+  ],
+  "files": [],
+  "idx": "357",
+  "list_title": "The Way to Run Organizations Well - POSTECH Newsletter 2014.12.03",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
+ },
+ {
+  "url": "http://tjpark.postech.ac.kr/05_news/03.php?idx=355&pg_mode=View&bid=etc&page=12&sw=",
+  "title": null,
+  "meta": {
+   "posted": "2014-12-11",
+   "date": "2014-12-11"
+  },
+  "sections": [
+   {
+    "heading": null,
+    "paragraphs": [
+     "[[IMG|http://file.mk.co.kr/meet/neds/2014/12/image_readtop_2014_1514875_14182088321669191.jpg|]]"
+    ]
+   }
+  ],
+  "images": [
+   "http://tjpark.postech.ac.kr/05_news/img/txt2.jpg",
+   "http://file.mk.co.kr/meet/neds/2014/12/image_readtop_2014_1514875_14182088321669191.jpg",
+   "http://file.mk.co.kr/meet/neds/2014/12/image_readmed_2014_1514875_14182088321669190.jpg"
+  ],
+  "files": [],
+  "idx": "355",
+  "list_title": "[매일경제] 최광웅 미래전략연구소장 “다음 세대 위해 희생하는게 진짜 리더십- 2014.12.10",
+  "image_local": null,
+  "images_local": {
+   "0": "assets/img/legacy/b1230a785e3f.jpg"
+  }
  }
 ]

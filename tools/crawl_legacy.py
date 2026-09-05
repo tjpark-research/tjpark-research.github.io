@@ -134,21 +134,18 @@ def board(path, bid=None, max_pages=40, details=False):
             q += f'&bid={bid}'
         return urljoin(BASE, path) + q
 
+    # 주의 3: .paging 위젯은 한 번에 열 쪽씩만 보여 준다. 첫 쪽의 위젯만 읽으면
+    #         11쪽 이상인 게시판이 10쪽(=100건)에서 잘린다. 실제로 언론자료·
+    #         보도자료·공지사항·연구보고서가 여기에 걸려 있었다.
+    #         새 항목이 나오지 않을 때까지 넘긴다.
     first = soup(page_url(0))
-    last = 0
-    pg = first.select_one('.paging')
-    if pg:
-        nums = [int(m.group(1)) for a in pg.find_all('a')
-                for m in [re.search(r'page=(\d+)', a.get('href', ''))] if m]
-        if nums:
-            last = min(max(nums), max_pages - 1)
-
     items, seen = [], set()
-    for n in range(0, last + 1):
+    for n in range(0, max_pages):
         sp = first if n == 0 else soup(page_url(n))
         scope = sp.select_one('#Board') or sp.select_one('#Contentbody') or sp.body
         if scope is None:
             break
+        before = len(seen)
         for a in scope.find_all('a', href=VIEW):
             m = re.search(r'idx=(\d+)', a.get('href', ''))
             idx = m.group(1) if m else None
@@ -186,6 +183,8 @@ def board(path, bid=None, max_pages=40, details=False):
                             re.search(r'(\d{4}[-.]\d{1,2}[-.]\d{1,2})', clean(row.get_text(' ')))),
                 'summary': pick('cont'),
             })
+        if len(seen) == before:      # 새 항목이 없으면 마지막 쪽이다
+            break
         time.sleep(0.25)
 
     if details:
@@ -274,6 +273,9 @@ BOARDS = {
     'steel':             ('01_about/04.php',          'steel'),
     # 박태준의 삶 › 위대한 만남 · 박정희와 박태준 — 연재. 게시판(bid=meet).
     'meet':              ('01_about/06.php',          'meet'),
+    # 박태준의 삶 › 언론자료 — 박태준에 관한 언론 보도 모음. 게시판(bid=bodo).
+    # (연구소소식의 '보도자료'는 연구소 자체 보도라 별개다.)
+    'tj_media':          ('01_about/02_1.php',        'bodo'),
 }
 
 

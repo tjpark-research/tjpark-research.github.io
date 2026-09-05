@@ -70,10 +70,11 @@ def extract(url):
     # 다행히 img 의 alt 에 같은 캡션이 들어 있으므로 그것을 쓰고,
     # 뒤따르는 <dt> 는 같은 문구가 두 번 나오지 않도록 지운다.
     for im in scope.select('img'):
-        src = im.get('src') or ''
+        # SKIP_IMG 는 절대경로 기준이다. './img/txt2.jpg' 같은 상대경로를
+        # 그대로 대조하면 배너가 걸러지지 않는다 — 먼저 URL 을 완성한다.
+        src = urljoin(url, im.get('src') or '')
         if not src or any(k in src for k in SKIP_IMG):
             continue
-        src = urljoin(url, src)
         cap = clean(im.get('alt') or '')
         holder = im.find_parent('dd') or im
         nxt = holder.find_next_sibling('dt')
@@ -136,11 +137,9 @@ def extract(url):
     # 제목을 못 찾았으면 본문 앞에서 유추하지 않고 비워 둔다(목록 제목을 쓴다)
     out['images'].extend(inline)
     for im in scope.select('img'):
-        src = im.get('src') or ''
-        if src and not any(k in src for k in SKIP_IMG):
-            u = urljoin(url, src)
-            if u not in out['images']:
-                out['images'].append(u)
+        u = urljoin(url, im.get('src') or '')
+        if u and not any(k in u for k in SKIP_IMG) and u not in out['images']:
+            out['images'].append(u)
     for a in scope.select('a[href]'):
         h = a.get('href') or ''
         if h.lower().endswith(FILE_EXT) or 'download' in h.lower():
