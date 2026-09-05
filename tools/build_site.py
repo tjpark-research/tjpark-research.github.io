@@ -253,7 +253,7 @@ def shell(title, desc, depth, section, current_file, body, canonical,
 <meta property="og:title" content="{E(title)} — {E(site)}">
 <meta property="og:description" content="{E(desc)}">
 <meta property="og:url" content="https://tjpark-research.github.io/{canonical}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="{r}assets/fonts/pretendard-dynamic-subset.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{r}assets/css/style.css">
 </head>
