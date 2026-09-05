@@ -434,7 +434,9 @@ ul,ol{margin:0;padding:0;list-style:none}
 .prose .sub{font-size:14px;color:var(--text-3)}
 .prose a{color:var(--crimson);border-bottom:1px solid rgba(179,27,44,.3)}
 .fig{margin:28px 0}
-.fig img{width:100%;border:1px solid var(--line)}
+/* 원본보다 크게 늘리지 않는다. 구 사이트 이미지 중에는 작은 것이 많아
+   폭에 맞춰 늘리면 흐려진다. */
+.fig img{width:auto;max-width:100%;border:1px solid var(--line)}
 .fig figcaption{font-size:12.5px;color:var(--text-3);margin-top:10px}
 .todo-note{margin-top:32px;padding:16px 18px;background:var(--paper-2);
   border-left:3px solid var(--bronze);font-size:13px;color:var(--text-2);line-height:1.8}
@@ -614,4 +616,11 @@ ul,ol{margin:0;padding:0;list-style:none}
   .mrow{grid-template-columns:1fr}
   .mrow>.mkey{padding:18px 22px;font-size:17px}
   .mval .mgrid{grid-template-columns:1fr}
+}
+
+/* 상태 안내 (구 사이트에서 이미지였던 '현재 진행중인 ~ 없습니다' 류) */
+.empty-state{
+  background:var(--paper-2);border:1px dashed var(--line);
+  padding:34px 20px;text-align:center;color:var(--text-3);
+  font-size:15px;margin:6px 0 18px;
 }

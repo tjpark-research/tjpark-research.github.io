@@ -73,10 +73,26 @@ def blocks_of(page_key, drop=0):
     return out[drop:]
 
 
+MIN_W, MIN_H = 240, 70
+
+
+def _too_small(rel_path):
+    """구 사이트는 소제목('연구소개', '전문성')과 아이콘도 이미지로 만들어 두었다.
+    이런 것들을 본문 폭으로 늘리면 흐릿하게 뭉개진다. 내용이 아니라 장식이므로
+    아예 싣지 않는다. (필요한 제목은 텍스트로 따로 넣는다.)"""
+    try:
+        from PIL import Image
+        w, h = Image.open(os.path.join(ROOT, rel_path)).size
+        return w < MIN_W or h < MIN_H
+    except Exception:
+        return False
+
+
 def imgs_of(page_key):
     d = load('page_' + page_key) or {}
     loc = d.get('images_local', {})
-    return [loc[k] for k in sorted(loc, key=int)] if loc else []
+    paths = [loc[k] for k in sorted(loc, key=int)] if loc else []
+    return [p for p in paths if not _too_small(p)]
 
 
 # ─────────────────────────────────────────────────────────── 공통 조각
@@ -443,7 +459,7 @@ def PAGES(depth):
     P = {}
     # ── 미래전략연구
     P[('research', 'index.html')] = ('연구소개', '‘박태준 정신’을 기반으로 미래 핵심문제를 조망하고 대응 방향을 제안합니다.',
-        render_prose(blocks_of('research_intro'), imgs_of('research_intro'), d))
+        research_intro_page(d))
     P[('research', 'longterm.html')] = ('중장기 연구주제', '연구소가 중장기적으로 붙들고 있는 세 갈래 질문.',
         longterm_page(d, 'ko'))
     P[('research', 'themes.html')] = ('연도별 연구주제', '연도별로 선정한 미래전략 연구주제와 세부 과제입니다.',
@@ -477,8 +493,14 @@ def PAGES(depth):
     P[('life', 'who.html')] = ('박태준을 말한다', '동시대인이 남긴 박태준에 대한 기록.',
         render_prose([b for b in blocks_of('life_who') if len(b) > 25], imgs_of('life_who'), d))
     # ── 청년사업
+    # 구 사이트는 '현재 진행중인 공모전이 없습니다'라는 안내마저 이미지였다.
+    # 상태 안내는 자주 바뀌는 문구이므로 텍스트여야 고치기도 쉽다.
     P[('youth', 'index.html')] = ('대학(원)생 공모전', '전국 대학생·대학원생을 대상으로 한 에세이 공모전.',
-        render_prose(blocks_of('youth_contest'), imgs_of('youth_contest'), d))
+        render_prose(blocks_of('youth_contest'), [], d)
+        + '<div class="prose"><h2>진행중 공모전</h2>'
+          '<p class="empty-state">현재 진행중인 공모전이 없습니다.</p>'
+          '<p>공모전이 열리면 이 자리와 <a href="../news/index.html">공지사항</a>에 안내합니다. '
+          '지난 수상작은 <a href="winners.html">수상작 보기</a>에서 볼 수 있습니다.</p></div>')
     P[('youth', 'winners.html')] = ('수상작 보기', '역대 공모전 수상작.',
         render_board('contest_winners', d, 'cards', detail_base='research/contest'))
     P[('youth', 'camp.html')] = ('포스텍 청년비전캠프', '스스로의 비전을 설계하는 캠프.',
@@ -991,6 +1013,32 @@ def longterm_page(depth, lang='ko'):
     return (f'<div class="prose"><p class="lead">{E(lead)}</p></div>'
             + _matrix(rows)
             + f'<div class="prose"><p class="todo-note">{E(note)}</p></div>')
+
+
+def research_intro_page(depth):
+    """미래전략연구 > 연구소개.
+
+    구 사이트에서는 '연구소개 / 전문성 / 네트워킹' 세 소제목이 각각 작은
+    글자 이미지였다. 본문 폭으로 늘리면 뭉개지고, 검색도 되지 않는다.
+    같은 문단 구성을 유지하되 소제목을 진짜 제목으로 되살렸다.
+    """
+    b = blocks_of('research_intro')
+    def pick(idx):
+        return b[idx] if idx < len(b) else ''
+    intro = [x for x in b[:2] if x]
+    expert = [x for x in b[2:3] if x]
+    network = [x for x in b[3:5] if x]
+    out = ['<div class="prose">']
+    out += [f'<p class="lead">{E(intro[0])}</p>' if intro else '']
+    out += [f'<p>{E(x)}</p>' for x in intro[1:]]
+    if expert:
+        out.append('<h2>전문성</h2>')
+        out += [f'<p>{E(x)}</p>' for x in expert]
+    if network:
+        out.append('<h2>네트워킹</h2>')
+        out += [f'<p>{E(x)}</p>' for x in network]
+    out.append('</div>')
+    return ''.join(out)
 
 
 if __name__ == '__main__':
