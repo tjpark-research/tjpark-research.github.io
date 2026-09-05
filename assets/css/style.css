@@ -655,12 +655,15 @@ ul,ol{margin:0;padding:0;list-style:none}
 }
 
 /* ── 연보(시대별 타임라인) ─────────────────────────────────── */
-.cr-nav{display:flex;flex-wrap:wrap;gap:6px;margin:26px 0 8px;
-  padding-bottom:10px;border-bottom:1px solid var(--line)}
-.cr-nav a{padding:8px 13px;border:1px solid var(--line);border-radius:999px;
+.cr-nav{display:flex;flex-wrap:wrap;gap:6px;margin:26px 0 30px}
+.cr-nav a{padding:9px 15px;border:1px solid var(--line);border-radius:999px;
   font-size:13px;font-weight:600;color:var(--text-3);letter-spacing:0;
-  text-decoration:none;transition:.15s}
-.cr-nav a:hover{color:var(--crimson);border-color:var(--crimson);background:#fff}
+  text-decoration:none;background:#fff;transition:.15s}
+.cr-nav a:hover{color:var(--crimson);border-color:var(--crimson)}
+.cr-nav a.on{color:#fff;background:var(--crimson);border-color:var(--crimson);
+  cursor:default}
+.cr-nav a:last-child{margin-left:auto}
+.cr-nav a.on:hover{color:#fff}
 
 .cr-era{margin-top:54px;scroll-margin-top:96px}
 .cr-h{margin-bottom:6px}
@@ -710,4 +713,24 @@ ol.cr{list-style:none;margin:22px 0 0;padding:0 0 0 4px;
   .cr-y b{font-size:19px}
   .cr-i::before{top:28px}
   .cr-era{margin-top:42px}
+}
+
+/* 시대별 연보: 이전/다음 시대 */
+.cr-pager{display:flex;gap:12px;margin-top:40px}
+.cr-pager a{flex:1;min-width:0;display:block;padding:16px 20px;
+  border:1px solid var(--line);border-radius:4px;text-decoration:none;
+  background:#fff;transition:.15s}
+.cr-pager a:hover{border-color:var(--crimson)}
+.cr-pager span{display:block;font-size:12px;font-weight:600;color:var(--text-3);
+  letter-spacing:.04em}
+.cr-pager b{display:block;margin-top:4px;font-size:16px;font-weight:700;
+  color:var(--crimson);letter-spacing:0}
+.cr-pager .cr-next{text-align:right}
+.cr-pager .cr-next:only-child{margin-left:auto;flex:0 1 50%}
+.src-note a{color:var(--crimson);font-weight:600}
+
+@media (max-width:560px){
+  .cr-nav a:last-child{margin-left:0}
+  .cr-pager{flex-direction:column}
+  .cr-pager .cr-next{text-align:left}
 }

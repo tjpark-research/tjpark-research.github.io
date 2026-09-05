@@ -639,54 +639,125 @@ def chrono_entries():
     return [e for e in out if e['text']]
 
 
-def chronology_page(depth):
+CHRONO_FILES = ['chronology-1927.html', 'chronology-1961.html',
+                'chronology-1971.html', 'chronology-1981.html',
+                'chronology-1991.html', 'chronology-2001.html']
+CHRONO_ALL = 'chronology.html'
+
+
+def chrono_tabs(current, depth):
+    """구 홈페이지의 시대 탭(ul.tab_s2)을 그대로 옮긴 것.
+    current 는 파일명이며 'chronology.html' 이면 전체연보 탭이 켜진다."""
+    out = []
+    for i, (label, _sub, _b) in enumerate(CHRONO_ERAS):
+        f = CHRONO_FILES[i]
+        on = ' class="on"' if f == current else ''
+        out.append(f'<a{on} href="{rel(depth)}life/{f}">{E(label)}</a>')
+    on = ' class="on"' if current == CHRONO_ALL else ''
+    out.append(f'<a{on} href="{rel(depth)}life/{CHRONO_ALL}">전체연보</a>')
+    return (f'<nav class="cr-nav" aria-label="시대별 연보">{"".join(out)}</nav>')
+
+
+def chrono_rows(lo, hi, depth):
     P = 'assets/img/legacy/chrono/'
-    entries = chrono_entries()
-    photo_n = sum(1 for e in entries if e['year'] in CHRONO_PHOTOS)
+    rows = []
+    for e in chrono_entries():
+        if not (lo <= e['year'] <= hi):
+            continue
+        # blocks_of() 가 '5세' 같은 아주 짧은 블록을 걸러 내므로
+        # 나이는 출생연도(1927)로부터 직접 계산한다. 원본 표기와 일치한다.
+        n = e['age'] or (str(e['year'] - 1927) if e['year'] > 1927 else '')
+        age = f'<i>{E(n)}세</i>' if n else ''
+        text = ''.join(f'<p>{E(t)}</p>' for t in e['text'])
+        ph = CHRONO_PHOTOS.get(e['year'])
+        figure = ''
+        if ph:
+            f, cap = ph
+            figure = (f'<figure class="cr-p"><img src="{rel(depth)}{P}{f}" '
+                      f'alt="{E(cap)}" loading="lazy">'
+                      f'<figcaption>{E(cap)}</figcaption></figure>')
+        rows.append(
+            f'<li class="cr-i{" has-p" if ph else ""}">'
+            f'<div class="cr-y"><b>{e["year"]}</b>{age}</div>'
+            f'<div class="cr-b"><div class="cr-t">{text}</div>{figure}</div>'
+            f'</li>')
+    return f'<ol class="cr">{"".join(rows)}</ol>'
 
-    nav = ''.join(
-        f'<a href="#era{i}">{E(lab)}</a>'
-        for i, (lab, _, _) in enumerate(CHRONO_ERAS))
 
-    out = [
+def chrono_era_block(i, depth, heading=True):
+    label, sub, blurb = CHRONO_ERAS[i]
+    lo, hi = CHRONO_BOUNDS[i]
+    head = ''
+    if heading:
+        head = (f'<header class="cr-h"><p class="cr-range">{E(label)}</p>'
+                f'<h2>{E(sub)}</h2><p class="cr-blurb">{E(blurb)}</p></header>')
+    return (f'<section class="cr-era" id="era{i}">{head}'
+            f'{chrono_rows(lo, hi, depth)}</section>')
+
+
+def chrono_note(depth, n):
+    return ('<p class="src-note">※ 연보의 글은 구 홈페이지 「전체연보」를, 사진 '
+            f'{n}장은 시대별 연보 페이지의 원본 이미지를 그대로 옮긴 것입니다.</p>')
+
+
+def chronology_page(depth):
+    """전체연보 — 여섯 시대를 한 페이지에 이어서 보여 준다."""
+    n = sum(1 for e in chrono_entries() if e['year'] in CHRONO_PHOTOS)
+    body = [
+        chrono_tabs(CHRONO_ALL, depth),
         '<div class="prose"><p class="lead">1927년 경남 임랑리에서 태어나 '
-        '2011년 12월 영면하기까지, 청암 박태준이 걸어온 85년을 시대별로 정리했습니다.</p></div>',
-        f'<nav class="cr-nav" aria-label="시대 바로가기">{nav}</nav>',
+        '2011년 12월 영면하기까지, 청암 박태준이 걸어온 85년의 기록입니다. '
+        '시대별로 나누어 보려면 시대 탭을 누르십시오.</p></div>',
     ]
+    body += [chrono_era_block(i, depth) for i in range(len(CHRONO_ERAS))]
+    body.append(chrono_note(depth, n))
+    return '\n'.join(body)
 
-    for i, (label, sub, blurb) in enumerate(CHRONO_ERAS):
-        lo, hi = CHRONO_BOUNDS[i]
-        rows = []
-        for e in entries:
-            if not (lo <= e['year'] <= hi):
-                continue
-            # blocks_of() 가 '5세' 같은 아주 짧은 블록을 걸러 내므로
-            # 나이는 출생연도(1927)로부터 직접 계산한다. 원본 표기와 일치한다.
-            n = e['age'] or (str(e['year'] - 1927) if e['year'] > 1927 else '')
-            age = f'<i>{E(n)}세</i>' if n else ''
-            text = ''.join(f'<p>{E(t)}</p>' for t in e['text'])
-            ph = CHRONO_PHOTOS.get(e['year'])
-            figure = ''
-            if ph:
-                f, cap = ph
-                figure = (f'<figure class="cr-p"><img src="{rel(depth)}{P}{f}" '
-                          f'alt="{E(cap)}" loading="lazy">'
-                          f'<figcaption>{E(cap)}</figcaption></figure>')
-            rows.append(
-                f'<li class="cr-i{" has-p" if ph else ""}">'
-                f'<div class="cr-y"><b>{e["year"]}</b>{age}</div>'
-                f'<div class="cr-b"><div class="cr-t">{text}</div>{figure}</div>'
-                f'</li>')
-        out.append(
-            f'<section class="cr-era" id="era{i}">'
-            f'<header class="cr-h"><p class="cr-range">{E(label)}</p>'
-            f'<h2>{E(sub)}</h2><p class="cr-blurb">{E(blurb)}</p></header>'
-            f'<ol class="cr">{"".join(rows)}</ol></section>')
 
-    out.append(
-        '<p class="src-note">※ 연보의 글은 구 홈페이지 「전체연보」를, 사진 '
-        f'{photo_n}장은 시대별 연보 페이지의 원본 이미지를 그대로 옮긴 것입니다.</p>')
-    return '\n'.join(out)
+def chrono_era_page(i, depth):
+    """시대별 연보 한 편. 구 홈페이지처럼 시대마다 독립된 주소를 갖는다."""
+    label, sub, blurb = CHRONO_ERAS[i]
+    lo, hi = CHRONO_BOUNDS[i]
+    n = sum(1 for e in chrono_entries()
+            if lo <= e['year'] <= hi and e['year'] in CHRONO_PHOTOS)
+    body = [
+        chrono_tabs(CHRONO_FILES[i], depth),
+        f'<div class="prose"><p class="lead">{E(blurb)}</p></div>',
+        chrono_era_block(i, depth, heading=False),
+    ]
+    # 이전/다음 시대 (구 홈페이지의 '이전으로 / 다음으로' 원형 버튼 자리)
+    prev_l = nxt_l = ''
+    if i > 0:
+        pl = CHRONO_ERAS[i - 1][0]
+        prev_l = (f'<a class="cr-prev" href="{rel(depth)}life/{CHRONO_FILES[i-1]}">'
+                  f'<span>이전 시대</span><b>{E(pl)}</b></a>')
+    if i < len(CHRONO_ERAS) - 1:
+        nl = CHRONO_ERAS[i + 1][0]
+        nxt_l = (f'<a class="cr-next" href="{rel(depth)}life/{CHRONO_FILES[i+1]}">'
+                 f'<span>다음 시대</span><b>{E(nl)}</b></a>')
+    body.append(f'<nav class="cr-pager" aria-label="시대 이동">{prev_l}{nxt_l}</nav>')
+    body.append(
+        f'<p class="src-note">※ 전 시기를 한 번에 보려면 '
+        f'<a href="{rel(depth)}life/{CHRONO_ALL}">전체연보</a>를 이용하십시오. '
+        f'이 시대의 사진 {n}장은 구 홈페이지 시대별 연보 페이지의 원본 이미지입니다.</p>')
+    return '\n'.join(body)
+
+
+def build_chrono_pages():
+    """시대별 연보 6쪽. LNB 에는 '연보' 하나만 두고(메뉴가 늘어나지 않는다),
+    페이지 안의 탭으로 오가게 한다 — 구 홈페이지와 같은 구조다."""
+    section = next(s for s in SECTIONS if s[0] == 'life')
+    for i, (label, sub, _b) in enumerate(CHRONO_ERAS):
+        f = CHRONO_FILES[i]
+        out = shell(f'연보 {label}',
+                    f'청암 박태준 연보 {label} — {sub}.',
+                    1, section, CHRONO_ALL, chrono_era_page(i, 1),
+                    canonical=f'life/{f}', lang='ko',
+                    alt_href=f'../en/life/{CHRONO_ALL}',
+                    alt_canonical=f'en/life/{CHRONO_ALL}',
+                    article_title=f'{label} · {sub}')
+        open(os.path.join(ROOT, 'life', f), 'w', encoding='utf-8').write(out)
+    print(f'시대별 연보 {len(CHRONO_ERAS)}개 페이지')
 
 
 def sync_main_nav():
@@ -742,6 +813,7 @@ def main():
             m += 1
     print(f'영문 {m}개 페이지')
 
+    build_chrono_pages()
     sync_main_nav()
 
 
