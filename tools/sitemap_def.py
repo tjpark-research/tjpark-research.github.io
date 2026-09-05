@@ -30,6 +30,7 @@ SECTIONS = [
         ('chronology.html', '연보',        'life_chronology'),
         ('statue.html',     '청암 조각상',  'life_statue'),
         ('who.html',        '박태준을 말한다', 'life_who'),
+        ('steel.html',      '쇳물은 멈추지 않는다', 'steel'),
     ]),
     ('youth', '청년사업', 'Youth Programs', 'youth', [
         ('index.html',     '대학(원)생 공모전', 'youth_contest'),
@@ -73,7 +74,8 @@ ALL_LABELS |= {
     '대학(원)생 공모전 수상작', '설립목적', '미션', '연혁', '로고소개', '주요사업',
     '연구소사람들', '오시는 길', '오시는길', '참여마당', '발전기금', 'E-카다로그',
     '인사말', '걸어온길', '생애', '연보', '청암조각상', '멀티미디어', '영상',
-    '언론자료', '박태준을 말한다', '쇳물은 멈추지않는다', '박태준 어록 DB',
+    '언론자료', '박태준을 말한다', '쇳물은 멈추지않는다', '쇳물은 멈추지 않는다',
+    '박태준 어록 DB',
     '위대한 만남 - 박정희와 박태준', '공모전소개', '수상작 보기', '수상후기',
     '캠프소개', '캠프안내', '캠프후기', '갤러리', '서식&자료실', 'FAQ',
     '공지사항', '보도자료', 'TJ미래전략 칼럼', '메일링서비스', '포럼', '세미나',
@@ -108,6 +110,7 @@ EN_SECTIONS = [
         ('chronology.html', 'Chronology',     'en_life_chronology'),
         ('statue.html',     'TJ Park Statue', 'en_life_statue'),
         ('who.html',        'Who is TJ Park', 'en_life_who'),
+        ('steel.html',      'Steel Never Stops', 'steel'),
     ]),
     ('youth', 'Youth Programmes', 'For the Next Generation', 'youth', [
         ('index.html',      'Student Essay Contest', 'en_youth_contest'),

@@ -505,8 +505,13 @@ ul,ol{margin:0;padding:0;list-style:none}
 .blist li{border-bottom:1px solid var(--line);display:flex;gap:20px;align-items:baseline;
   padding:17px 4px;transition:.2s}
 .blist li:first-child{border-top:1px solid var(--line)}
+/* 항목 전체가 링크인 목록에서는 <a> 가 flex 컨테이너여야 한다.
+   그러지 않으면 제목과 날짜가 붙어 '뒤바뀐 관계2004-08-01' 처럼 보인다. */
+.blist li>a{display:flex;gap:20px;align-items:baseline;width:100%}
 .blist li:hover{padding-left:10px;background:var(--paper-2)}
 .blist .tt{font-size:15px;color:var(--text);line-height:1.6;font-weight:500}
+.blist .no{flex:none;width:38px;font-size:12px;font-weight:700;color:var(--bronze);
+  font-variant-numeric:tabular-nums}
 .blist .dt{margin-left:auto;flex:none;font-size:12px;color:var(--text-3);
   font-variant-numeric:tabular-nums}
 
@@ -820,3 +825,8 @@ table.cr-tbl{width:100%;min-width:680px;border-collapse:collapse;
   .q{padding:24px 20px 20px}
   .q::before{left:8px;font-size:56px}
 }
+
+/* 신문 연재 글의 사진 설명 줄 (원본 사진은 이미 사라졌다) */
+.art-body .art-cap{margin:20px 0;padding:11px 14px;border-left:2px solid var(--line);
+  background:#fafafb;font-size:13px;line-height:1.75;color:var(--text-3);
+  font-weight:var(--w-body)}

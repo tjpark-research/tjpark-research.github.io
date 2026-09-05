@@ -44,6 +44,11 @@ def extract(url):
     for n in scope.select('script, style, .paging'):
         n.decompose()
 
+    # 본문이 <br><br> 로만 문단을 나눈 글이 많다(에디터로 붙여 넣은 글).
+    # get_text 는 <br> 을 빈 문자열로 흘려보내므로 문단이 통째로 붙어 버린다.
+    for br in scope.find_all('br'):
+        br.replace_with('\n')
+
     out = {'url': url, 'title': None, 'meta': {}, 'sections': [],
            'images': [], 'files': []}
 

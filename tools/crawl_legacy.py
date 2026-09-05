@@ -270,6 +270,8 @@ BOARDS = {
     'forum':             ('09_forum/01.php',          None),
     'seminar':           ('09_forum/02.php',          None),
     'multimedia':        ('09_forum/03.php',          None),
+    # 박태준의 삶 › 쇳물은 멈추지 않는다 — 2004년 중앙일보 연재 회고. 게시판(bid=steel).
+    'steel':             ('01_about/04.php',          'steel'),
 }
 
 

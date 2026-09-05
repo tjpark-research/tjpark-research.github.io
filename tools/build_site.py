@@ -24,9 +24,71 @@ LEGACY = os.path.join(ROOT, 'data', 'legacy')
 E = lambda s: html.escape(s or '', quote=True)
 
 
+# 「쇳물은 멈추지 않는다」는 2004년 8월~12월 중앙일보에 매일 연재된
+# 박태준의 자전 에세이 90편이다. 구 홈페이지 게시판(bid=steel)에는
+#  · 제목 뒤에 연재 날짜가 '[2004년 12월 08일]' 로 붙어 있고
+#  · 등록일은 2014년(뒤늦은 CMS 이관일)이라 연재일과 다르며
+#  · 목록이 최신순이라 90회 연재를 거꾸로 읽게 되어 있었다.
+# 연재물은 1회부터 읽는 것이 맞으므로 여기서 바로잡는다.
+STEEL_DATE = re.compile(r'\s*\[\s*(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일\s*\]\s*$')
+STEEL_TAIL = re.compile(r'^\d{4}년\s*\d{1,2}월\s*\d{1,2}일\s*\[?\s*중앙일보[^\]]*\]?\s*$')
+
+
+def _steel_meta(raw):
+    t = (raw or '').strip()
+    m = STEEL_DATE.search(t)
+    if not m:
+        return t, None
+    y, mo, d = (int(x) for x in m.groups())
+    return STEEL_DATE.sub('', t).strip(), f'{y:04d}-{mo:02d}-{d:02d}'
+
+
+def normalize_steel(items):
+    out = []
+    for it in items:
+        it = dict(it)
+        title, day = _steel_meta(it.get('title') or it.get('list_title'))
+        it['title'] = title
+        if it.get('list_title'):
+            it['list_title'] = title
+        if day:
+            it['date'] = day
+            meta = dict(it.get('meta') or {})
+            meta.pop('posted', None)
+            meta.pop('date', None)
+            meta['published'] = day
+            meta['source'] = '중앙일보 연재'
+            it['meta'] = meta
+        # 본문 끝의 '2004년 12월 08일 [중앙일보 연재]' 줄은 메타로 올렸으므로 뺀다.
+        secs = []
+        for sec in it.get('sections') or []:
+            ps = []
+            for x in sec.get('paragraphs', []):
+                x = x.strip()
+                if not x or STEEL_TAIL.match(x):
+                    continue
+                # 신문 지면 글을 에디터에 통째로 붙여 넣어 문단 구분이 사라진
+                # 대목이 있다(700자짜리 한 덩어리). 문장 경계에서만 끊어
+                # 읽을 수 있게 한다 — 낱말은 하나도 바꾸지 않는다.
+                ps.extend(paras(x, 230) if len(x) > 300 else [x])
+            secs.append(dict(sec, paragraphs=ps))
+        if secs:
+            it['sections'] = secs
+        out.append(it)
+    out.sort(key=lambda x: (x.get('date') or '', int(x.get('idx') or 0)))
+    for i, it in enumerate(out, 1):
+        it['episode'] = i
+    return out
+
+
 def load(name):
     p = os.path.join(LEGACY, name + '.json')
-    return json.load(open(p)) if os.path.exists(p) else None
+    if not os.path.exists(p):
+        return None
+    data = json.load(open(p))
+    if name in ('board_steel', 'detail_steel'):
+        data = normalize_steel(data)
+    return data
 
 
 TABSTRIP_RE = re.compile(
@@ -402,7 +464,9 @@ def render_board(name, depth, style='cards', empty='등록된 자료가 없습�
             body_html = f'<a href="{href}">{inner}</a>' if href else inner
             cards.append(f'<li class="bcard" data-k="{key}">{body_html}</li>')
         else:
-            inner = (f'<span class="tt">{E(t)}</span>'
+            # 연재물은 회차가 있으면 앞에 붙인다.
+            no = f'<span class="no">{it["episode"]}</span>' if it.get('episode') else ''
+            inner = (no + f'<span class="tt">{E(t)}</span>'
                      f'<span class="dt">{E(it.get("date") or "")}</span>')
             body_html = f'<a href="{href}">{inner}</a>' if href else inner
             cards.append(f'<li class="brow" data-k="{key}">{body_html}</li>')
@@ -503,6 +567,9 @@ def PAGES(depth):
         statue_page(d, 'ko'))
     P[('life', 'who.html')] = ('박태준을 말한다', '동시대인이 남긴 박태준에 대한 기록. 말한 사람과 직함을 함께 밝힙니다.',
         who_page(d, 'ko'))
+    P[('life', 'steel.html')] = ('쇳물은 멈추지 않는다',
+        '2004년 중앙일보에 연재된 박태준의 자전 에세이 90편.',
+        steel_page(d, 'ko'))
     # ── 청년사업
     # 구 사이트는 '현재 진행중인 공모전이 없습니다'라는 안내마저 이미지였다.
     # 상태 안내는 자주 바뀌는 문구이므로 텍스트여야 고치기도 쉽다.
@@ -847,7 +914,7 @@ SRC_KO = ('<p class="todo-note">※ The publications and records listed here are
           'Titles are shown as published.</p>')
 
 
-EN_DETAIL = {'books_future': 'research/books', 'reports_future': 'research/reports',
+EN_DETAIL = {'steel': 'life/steel', 'books_future': 'research/books', 'reports_future': 'research/reports',
              'contest_winners': 'research/contest', 'books_tj': 'tjpark-research/books',
              'reports_tj': 'tjpark-research/reports', 'forum': 'forum/forums',
              'seminar': 'forum/seminars', 'multimedia': 'forum/media',
@@ -906,6 +973,9 @@ def EN_PAGES(depth):
         statue_page(d, 'en'))
     P[('life', 'who.html')] = ('Who is TJ Park', 'What his contemporaries said of him, with each speaker named.',
         who_page(d, 'en'))
+    P[('life', 'steel.html')] = ('Steel Never Stops',
+        'TJ Park\u2019s autobiographical essays, serialised daily in the JoongAng Ilbo in 2004.',
+        steel_page(d, 'en'))
     # ── Youth Programmes
     P[('youth', 'index.html')] = ('Student Essay Contest', 'A national essay contest for undergraduate and graduate students.',
         '<div class="prose"><p class="lead">The Institute runs a national essay contest for undergraduate '
@@ -1022,10 +1092,11 @@ BOARD_MAP = {
     'news_notice':     ('news',     'index.html',   'news/notices',              '공지사항'),
     'news_press':      ('news',     'press.html',   'news/press-items',          '보도자료'),
     'news_column':     ('news',     'column.html',  'news/columns',              'TJ미래전략 칼럼'),
+    'steel':           ('life',     'steel.html',   'life/steel',                '쇳물은 멈추지 않는다'),
 }
 
-META_LABEL = {'author': '저자', 'publisher': '출판사', 'published': '발간일',
-              'posted': '등록일', 'date': '일자'}
+META_LABEL = {'author': '저자', 'publisher': '출판사', 'published': '연재일',
+              'posted': '등록일', 'date': '일자', 'source': '출처'}
 
 
 # 옛 공지 본문에는 구 홈페이지 주소가 그대로 적혀 있다("자세히 보기: http://...").
@@ -1066,7 +1137,7 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     """개별 글 본문. 원문 그대로 옮기되 출처를 밝힌다."""
     title = d.get('title') or d.get('list_title') or ''
     meta = d.get('meta') or {}
-    order = ['author', 'publisher', 'published', 'posted', 'date']
+    order = ['author', 'publisher', 'published', 'posted', 'date', 'source']
     seen, bits = set(), []
     for k in order:
         v = meta.get(k)
@@ -1083,8 +1154,12 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     secs = []
     for s in d.get('sections', []):
         h = f'<h2>{E(s["heading"])}</h2>' if s.get('heading') else ''
-        ps = ''.join(f'<p>{rewrite_legacy_urls(E(p), depth)}</p>'
-                     for p in s.get('paragraphs', []))
+        # 신문 연재 글에는 '▶ …' 로 시작하는 사진 설명 줄이 섞여 있다.
+        # 본문과 같은 크기로 두면 사진이 없는 자리에서 문장처럼 읽힌다.
+        ps = ''.join(
+            ('<p class="art-cap">' if p.lstrip().startswith('▶') else '<p>')
+            + rewrite_legacy_urls(E(p), depth) + '</p>'
+            for p in s.get('paragraphs', []))
         secs.append(h + ps)
 
     # 본문에 딸린 이미지 중 내려받기에 성공한 것만 싣는다.
@@ -1537,6 +1612,36 @@ def who_page(depth, lang='ko'):
     return (f'<div class="prose">{lead}</div>'
             f'<ul class="quotes">{"".join(cards)}</ul>'
             f'<div class="prose">{note}</div>')
+
+
+
+def steel_page(depth, lang='ko'):
+    """쇳물은 멈추지 않는다 — 2004년 중앙일보 연재 90편 목록.
+
+    구 홈페이지는 제목("쇳물은 멈추지 않는다!")과 소개글을 통짜 이미지
+    한 장(img6.jpg)으로 넣어 두었다. 검색도 번역도 되지 않으므로 텍스트로 옮긴다.
+    """
+    n = len(load('board_steel') or [])
+    if lang == 'ko':
+        lead = ('<div class="prose">'
+                '<p class="lead">회고담 성격이 강한 이 자전적 에세이는 2004년 8월부터 '
+                '5개월 가까이 중앙일보에 매일 연재한 것입니다.</p>'
+                '<p>이 글에서 우리는 여러 가지 일화들을 통해 박태준의 삶, 신념, 정신, '
+                f'애환 등을 확인하면서 잔잔한 감동의 파문을 느낄 수 있습니다. '
+                f'모두 {n}편이며, 연재 순서대로 실었습니다.</p></div>')
+        note = ('<p class="src-note">※ 연재에 실렸던 사진은 구 홈페이지의 원본 서버에서 '
+                '이미 사라져 옮기지 못했습니다. 사진 설명(▶ 로 시작하는 줄)은 '
+                '본문에 그대로 두었습니다.</p>')
+    else:
+        lead = ('<div class="prose">'
+                '<p class="lead">These autobiographical essays, close in spirit to a memoir, '
+                'ran daily in the JoongAng Ilbo for almost five months from August 2004.</p>'
+                f'<p>Through their many episodes they show TJ Park\u2019s life, convictions, '
+                f'spirit and struggles. All {n} instalments are here, in the order they '
+                'were published.</p></div>')
+        note = ''
+    board = render_board('steel', depth, 'rows', detail_base='life/steel')
+    return lead + board + (note if lang == 'ko' else SRC_KO)
 
 
 def statue_page(depth, lang='ko'):
