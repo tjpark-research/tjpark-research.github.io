@@ -81,3 +81,58 @@ ALL_LABELS |= {
     '박태준의삶', '박태준 연구', '청년사업', '포럼&세미나', '연구소소식', '연구소소개',
     'RESEARCH', 'INTRODUCE', "LIFE'S CHUNGAM", 'RESEARCH CHUNGAM',
 }
+
+
+# ─────────────────────────────────────────────────────────────────────
+# 영문 사이트. 한국어와 같은 구조를 쓴다 — 언어를 바꿔도 같은 자리에 같은
+# 페이지가 있어야 언어 토글이 페이지 단위로 동작한다.
+# (섹션키, 라벨, 부제, 디렉터리, [(파일, 라벨, 스펙키), ...])
+EN_SECTIONS = [
+    ('research', 'Future Strategy', 'Future Strategy Research', 'research', [
+        ('index.html',    'Background',            'en_research_intro'),
+        ('longterm.html', 'Long-term Agenda',      'en_research_longterm'),
+        ('themes.html',   'Annual Research Themes','en_research_themes'),
+        ('books.html',    'Research Series',       'en_research_books'),
+        ('reports.html',  'Research Reports',      'en_research_reports'),
+        ('contest.html',  'Student Essay Contest', 'en_research_contest'),
+    ]),
+    ('tjpark', 'TJ Park Research', 'Study of His Spirit and Leadership', 'tjpark-research', [
+        ('index.html',   'Background',          'en_tj_intro'),
+        ('themes.html',  'Fields of Research',  'en_tj_themes'),
+        ('books.html',   'Research Series',     'en_tj_books'),
+        ('reports.html', 'Research Reports',    'en_tj_reports'),
+    ]),
+    ('life', 'The Life of TJ Park', 'Life’s Chungam', 'life', [
+        ('index.html',      'Biography',      'en_life_bio'),
+        ('chronology.html', 'Chronology',     'en_life_chronology'),
+        ('statue.html',     'TJ Park Statue', 'en_life_statue'),
+        ('who.html',        'Who is TJ Park', 'en_life_who'),
+    ]),
+    ('youth', 'Youth Programmes', 'For the Next Generation', 'youth', [
+        ('index.html',      'Student Essay Contest', 'en_youth_contest'),
+        ('winners.html',    'Award-winning Essays',  'en_youth_winners'),
+        ('camp.html',       'POSTECH Vision Camp',   'en_youth_camp'),
+        ('camp-guide.html', 'Camp Guide',            'en_youth_camp_guide'),
+        ('faq.html',        'FAQ',                   'en_youth_faq'),
+    ]),
+    ('forum', 'Forums', 'Forums &amp; Seminars', 'forum', [
+        ('index.html',      'Forums',     'en_forum_forum'),
+        ('seminar.html',    'Seminars',   'en_forum_seminar'),
+        ('multimedia.html', 'Multimedia', 'en_forum_multimedia'),
+    ]),
+    ('news', 'News', 'From the Institute', 'news', [
+        ('index.html',  'Notices',      'en_news_notice'),
+        ('press.html',  'Press',        'en_news_press'),
+        ('column.html', 'TJ Columns',   'en_news_column'),
+    ]),
+    ('about', 'About', 'About the Institute', 'about', [
+        ('index.html',    'Greetings',        'en_lab_greeting'),
+        ('purpose.html',  'Founding Purpose', 'en_lab_purpose'),
+        ('mission.html',  'Mission',          'en_lab_mission'),
+        ('history.html',  'History',          'en_lab_history'),
+        ('logo.html',     'Our Logo',         'en_lab_logo'),
+        ('projects.html', 'Major Programmes', 'en_lab_projects'),
+        ('people.html',   'People',           'en_lab_people'),
+        ('location.html', 'Location',         'en_lab_location'),
+    ]),
+]

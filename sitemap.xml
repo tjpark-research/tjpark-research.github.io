@@ -1,20 +1,479 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://tjpark-research.github.io/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/"/>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <changefreq>monthly</changefreq><priority>1.0</priority>
   </url>
   <url>
     <loc>https://tjpark-research.github.io/en/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/"/>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/research/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/research/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/research/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/research/index.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/research/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/research/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/research/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/research/index.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/research/longterm.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/research/longterm.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/research/longterm.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/research/longterm.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/research/longterm.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/research/longterm.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/research/longterm.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/research/longterm.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/research/themes.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/research/themes.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/research/themes.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/research/themes.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/research/themes.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/research/themes.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/research/themes.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/research/themes.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/research/books.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/research/books.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/research/books.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/research/books.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/research/books.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/research/books.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/research/books.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/research/books.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/research/reports.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/research/reports.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/research/reports.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/research/reports.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/research/reports.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/research/reports.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/research/reports.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/research/reports.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/research/contest.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/research/contest.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/research/contest.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/research/contest.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/research/contest.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/research/contest.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/research/contest.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/research/contest.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/tjpark-research/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/tjpark-research/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/tjpark-research/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/tjpark-research/index.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/tjpark-research/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/tjpark-research/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/tjpark-research/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/tjpark-research/index.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/tjpark-research/themes.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/tjpark-research/themes.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/tjpark-research/themes.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/tjpark-research/themes.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/tjpark-research/themes.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/tjpark-research/themes.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/tjpark-research/themes.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/tjpark-research/themes.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/tjpark-research/books.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/tjpark-research/books.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/tjpark-research/books.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/tjpark-research/books.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/tjpark-research/books.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/tjpark-research/books.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/tjpark-research/books.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/tjpark-research/books.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/tjpark-research/reports.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/tjpark-research/reports.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/tjpark-research/reports.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/tjpark-research/reports.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/tjpark-research/reports.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/tjpark-research/reports.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/tjpark-research/reports.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/tjpark-research/reports.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/life/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/index.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/life/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/index.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/life/chronology.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/chronology.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/chronology.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/chronology.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/life/chronology.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/chronology.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/chronology.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/chronology.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/life/statue.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/statue.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/statue.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/statue.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/life/statue.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/statue.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/statue.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/statue.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/life/who.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/who.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/who.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/who.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/life/who.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/who.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/who.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/who.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/youth/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/youth/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/youth/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/youth/index.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/youth/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/youth/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/youth/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/youth/index.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/youth/winners.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/youth/winners.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/youth/winners.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/youth/winners.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/youth/winners.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/youth/winners.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/youth/winners.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/youth/winners.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/youth/camp.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/youth/camp.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/youth/camp.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/youth/camp.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/youth/camp.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/youth/camp.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/youth/camp.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/youth/camp.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/youth/camp-guide.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/youth/camp-guide.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/youth/camp-guide.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/youth/camp-guide.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/youth/camp-guide.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/youth/camp-guide.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/youth/camp-guide.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/youth/camp-guide.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/youth/faq.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/youth/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/youth/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/youth/faq.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/youth/faq.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/youth/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/youth/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/youth/faq.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/forum/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/forum/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/forum/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/forum/index.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/forum/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/forum/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/forum/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/forum/index.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/forum/seminar.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/forum/seminar.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/forum/seminar.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/forum/seminar.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/forum/seminar.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/forum/seminar.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/forum/seminar.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/forum/seminar.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/forum/multimedia.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/forum/multimedia.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/forum/multimedia.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/forum/multimedia.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/forum/multimedia.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/forum/multimedia.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/forum/multimedia.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/forum/multimedia.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/news/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/news/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/news/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/news/index.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/news/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/news/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/news/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/news/index.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/news/press.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/news/press.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/news/press.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/news/press.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/news/press.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/news/press.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/news/press.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/news/press.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/news/column.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/news/column.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/news/column.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/news/column.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/news/column.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/news/column.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/news/column.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/news/column.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/about/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/index.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/about/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/index.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/about/purpose.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/purpose.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/purpose.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/purpose.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/about/purpose.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/purpose.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/purpose.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/purpose.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/about/mission.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/mission.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/mission.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/mission.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/about/mission.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/mission.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/mission.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/mission.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/about/history.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/history.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/history.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/history.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/about/history.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/history.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/history.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/history.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/about/logo.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/logo.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/logo.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/logo.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/about/logo.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/logo.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/logo.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/logo.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/about/projects.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/projects.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/projects.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/projects.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/about/projects.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/projects.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/projects.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/projects.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/about/people.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/people.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/people.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/people.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/about/people.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/people.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/people.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/people.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/about/location.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/location.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/location.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/location.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/about/location.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/location.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/location.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/location.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
   </url>
 </urlset>

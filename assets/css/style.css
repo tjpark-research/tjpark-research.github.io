@@ -129,6 +129,10 @@ ul,ol{margin:0;padding:0;list-style:none}
   min-width:190px;padding:14px 0;opacity:0;visibility:hidden;transition:.22s;
 }
 .gnb>li:hover .mega{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+/* 오른쪽 끝 메뉴의 드롭다운은 가운데 정렬하면 화면 밖으로 나가 가로 스크롤이 생긴다.
+   마지막 두 항목만 오른쪽 기준으로 붙인다. */
+.gnb>li:nth-last-child(-n+2) .mega{left:auto;right:0;transform:translateY(6px)}
+.gnb>li:nth-last-child(-n+2):hover .mega{transform:translateY(0)}
 .mega a{display:block;padding:8px 22px;font-size:14px;color:var(--text-2);white-space:nowrap;transition:.18s}
 .mega a:hover{color:var(--crimson);background:var(--paper-2)}
 
@@ -348,10 +352,13 @@ ul,ol{margin:0;padding:0;list-style:none}
 /* =========================================================
    Responsive
    ========================================================= */
-@media (max-width:1240px){
-  .gnb{gap:20px}
-  .gnb>li>a{font-size:14.5px}
+@media (max-width:1400px){
+  .gnb{gap:22px}
   .hd-search{display:none}
+}
+@media (max-width:1240px){
+  .gnb{gap:16px}
+  .gnb>li>a{font-size:14px}
 }
 @media (max-width:1080px){
   .hero-grid{grid-template-columns:1fr}

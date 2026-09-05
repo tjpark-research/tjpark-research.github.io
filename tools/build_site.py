@@ -16,7 +16,7 @@ import html, json, os, re, sys
 from collections import OrderedDict
 
 sys.path.insert(0, os.path.dirname(__file__))
-from sitemap_def import SECTIONS, ALL_LABELS
+from sitemap_def import SECTIONS, EN_SECTIONS, ALL_LABELS
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 LEGACY = os.path.join(ROOT, 'data', 'legacy')
@@ -50,7 +50,11 @@ def blocks_of(page_key, drop=0):
 
     out = []
     for b in [x for x in raw if not is_concat(x)]:
-        t = re.sub(r'\s+', ' ', b).strip()
+        # 구 사이트 DB 에 저장된 본문에는 HTML 조각이 문자 그대로 들어 있는
+        # 경우가 있다 ('<span class="tit">교통편</span> : ...'). 태그를 걷어낸다.
+        t = re.sub(r'<[^>]{1,200}>', ' ', b)
+        t = html.unescape(t)
+        t = re.sub(r'\s+', ' ', t).strip()
         if not t or t in ALL_LABELS or len(t) < 3:
             continue
         # 브레드크럼이 한 줄로 뭉쳐 들어온 경우 ('연구소소개 설립목적 취지')
@@ -80,9 +84,10 @@ def rel(depth):
     return '../' * depth
 
 
-def gnb(depth, active=None):
+def gnb(depth, active=None, lang='ko'):
+    secs = SECTIONS if lang == 'ko' else EN_SECTIONS
     li = []
-    for key, label, _en, d, kids in SECTIONS:
+    for key, label, _en, d, kids in secs:
         sub = ''.join(
             f'<a href="{rel(depth)}{d}/{f}">{E(cl)}</a>' for f, cl, _s in kids)
         cls = ' class="on"' if key == active else ''
@@ -92,58 +97,90 @@ def gnb(depth, active=None):
     return '<ul class="gnb">' + ''.join(li) + '</ul>'
 
 
-def header(depth, active=None):
+def header(depth, active=None, lang='ko', alt_href=None):
+    """lang='en' 이면 라벨과 언어 토글이 영문 기준이 된다.
+    alt_href 는 '같은 내용의 반대 언어 페이지' 경로 — 언어 토글이 홈이 아니라
+    지금 보던 페이지의 짝으로 가야 한다."""
     r = rel(depth)
+    if lang == 'ko':
+        brand_sub, related = '박태준미래전략연구소', '관련사이트'
+        toggle = (f'<a href="{r}index.html" class="on">KOR</a><span>|</span>'
+                  f'<a href="{alt_href or (r + "en/index.html")}">ENG</a>')
+        sites = [('https://www.postech.ac.kr/', '포항공과대학교'),
+                 ('https://www.posco.co.kr/', '포스코'),
+                 ('https://www.postf.org/', '포스코청암재단'),
+                 ('http://museum.posco.co.kr/', '포스코박물관')]
+    else:
+        brand_sub, related = 'Tae-Joon Park Institute', 'Related Sites'
+        toggle = (f'<a href="{alt_href or (r + "../index.html")}">KOR</a><span>|</span>'
+                  f'<a href="{r}index.html" class="on">ENG</a>')
+        sites = [('https://www.postech.ac.kr/eng/', 'POSTECH'),
+                 ('https://www.posco.co.kr/', 'POSCO'),
+                 ('https://www.postf.org/', 'POSCO TJ Park Foundation'),
+                 ('http://museum.posco.co.kr/', 'POSCO Museum')]
+    opts = ''.join(f'<option value="{u}">{E(n)}</option>' for u, n in sites)
     return f'''<div class="util">
   <div class="wrap">
-    <select aria-label="관련 사이트" onchange="if(this.value)window.open(this.value)">
-      <option value="">관련사이트</option>
-      <option value="https://www.postech.ac.kr/">포항공과대학교</option>
-      <option value="https://www.posco.co.kr/">포스코</option>
-      <option value="https://www.postf.org/">포스코청암재단</option>
-      <option value="http://museum.posco.co.kr/">포스코박물관</option>
+    <select aria-label="{E(related)}" onchange="if(this.value)window.open(this.value)">
+      <option value="">{E(related)}</option>{opts}
     </select>
-    <span class="lang"><a href="{r}index.html" class="on">KOR</a><span>|</span><a href="{r}en/index.html">ENG</a></span>
+    <span class="lang">{toggle}</span>
   </div>
 </div>
 <header class="hd">
   <div class="wrap">
     <a class="brand" href="{r}index.html">
       <span class="mark">tjpi</span>
-      <span class="txt"><b>POSTECH</b><span>박태준미래전략연구소</span></span>
+      <span class="txt"><b>POSTECH</b><span>{E(brand_sub)}</span></span>
     </a>
-    <nav aria-label="주 메뉴">{gnb(depth, active)}</nav>
-    <button class="burger" aria-label="메뉴 열기"><span></span></button>
+    <nav aria-label="main">{gnb(depth, active, lang)}</nav>
+    <button class="burger" aria-label="menu"><span></span></button>
   </div>
 </header>'''
 
 
-def footer(depth):
+def footer(depth, lang='ko'):
     r = rel(depth)
-    links = ''.join(
-        f'<li><a href="{r}{d}/index.html">{E(l)}</a></li>'
-        for _k, l, _e, d, _c in SECTIONS)
+    secs = SECTIONS if lang == 'ko' else EN_SECTIONS
+    links = ''.join(f'<li><a href="{r}{d}/index.html">{E(l)}</a></li>'
+                    for _k, l, _e, d, _c in secs)
+    if lang == 'ko':
+        privacy = '개인정보처리방침'
+        addr = ('경상북도 포항시 남구 청암로 77 포항공과대학교 박태준학술정보관 6층<br>'
+                'TEL 054-279-0053~6 &nbsp;·&nbsp; FAX 054-279-0059 '
+                '&nbsp;·&nbsp; E-mail tj-park@postech.ac.kr')
+        rel_sites = [('https://www.postech.ac.kr/', '포항공과대학교'),
+                     ('https://www.posco.co.kr/', '포스코'),
+                     ('https://www.postf.org/', '포스코청암재단'),
+                     ('http://museum.posco.co.kr/', '포스코박물관')]
+    else:
+        privacy = 'Privacy Policy'
+        addr = ('6F, Tae-Joon Park Digital Library, POSTECH, 77 Cheongam-ro, '
+                'Nam-gu, Pohang, Gyeongbuk, Republic of Korea<br>'
+                'Tel +82-54-279-0053~6 &nbsp;·&nbsp; Fax +82-54-279-0059 '
+                '&nbsp;·&nbsp; E-mail tj-park@postech.ac.kr')
+        rel_sites = [('https://www.postech.ac.kr/eng/', 'POSTECH'),
+                     ('https://www.posco.co.kr/', 'POSCO'),
+                     ('https://www.postf.org/', 'POSCO TJ Park Foundation'),
+                     ('http://museum.posco.co.kr/', 'POSCO Museum')]
+    brand_sub = '박태준미래전략연구소' if lang == 'ko' else 'Tae-Joon Park Institute'
+    rl = ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{E(n)}</a></li>'
+                 for u, n in rel_sites)
     return f'''<footer class="ft">
   <div class="wrap">
     <div class="ft-top">
       <div class="brand"><span class="mark">tjpi</span>
-        <span class="txt"><b>POSTECH</b><span>박태준미래전략연구소</span></span></div>
+        <span class="txt"><b>POSTECH</b><span>{E(brand_sub)}</span></span></div>
       <ul class="ft-links">{links}
-        <li><a href="https://www.postech.ac.kr/kor/usage-guide/privacy_policy.do" target="_blank" rel="noopener">개인정보처리방침</a></li>
+        <li><a href="https://www.postech.ac.kr/kor/usage-guide/privacy_policy.do" target="_blank" rel="noopener">{E(privacy)}</a></li>
       </ul>
     </div>
     <div class="ft-bot">
       <address>
-        경상북도 포항시 남구 청암로 77 포항공과대학교 박태준학술정보관 6층<br>
-        TEL 054-279-0053~6 &nbsp;·&nbsp; FAX 054-279-0059 &nbsp;·&nbsp; E-mail tj-park@postech.ac.kr
+        {addr}
         <span class="cr" style="display:block;margin-top:14px">© POSTECH Tae-Joon Park Institute for Future Strategy. All rights reserved.</span>
       </address>
-      <ul class="ft-rel">
-        <li><a href="https://www.postech.ac.kr/" target="_blank" rel="noopener">포항공과대학교</a></li>
-        <li><a href="https://www.posco.co.kr/" target="_blank" rel="noopener">포스코</a></li>
-        <li><a href="https://www.postf.org/" target="_blank" rel="noopener">포스코청암재단</a></li>
-        <li><a href="http://museum.posco.co.kr/" target="_blank" rel="noopener">포스코박물관</a></li>
-      </ul>
+      <ul class="ft-rel">{rl}</ul>
     </div>
   </div>
 </footer>'''
@@ -159,23 +196,36 @@ def lnb(section, current_file, depth):
     return f'<nav class="lnb" aria-label="{E(label)} 하위 메뉴"><p class="lnb-t">{E(label)}<span>{E(en)}</span></p><ul>{items}</ul></nav>'
 
 
-def shell(title, desc, depth, section, current_file, body, canonical):
+def shell(title, desc, depth, section, current_file, body, canonical,
+          lang='ko', alt_href=None, alt_canonical=None):
     key, label, en, d, kids = section
     cur_label = next((cl for f, cl, _s in kids if f == current_file), label)
     r = rel(depth)
-    crumb = (f'<a href="{r}index.html">HOME</a><span>›</span>'
+    home = 'HOME'
+    crumb = (f'<a href="{r}index.html">{home}</a><span>›</span>'
              f'<a href="{r}{d}/index.html">{E(label)}</a><span>›</span><em>{E(cur_label)}</em>')
+    site = ('POSTECH 박태준미래전략연구소' if lang == 'ko'
+            else 'POSTECH Tae-Joon Park Institute')
+    skip = '본문 바로가기' if lang == 'ko' else 'Skip to content'
+    ko_url = canonical if lang == 'ko' else alt_canonical
+    en_url = alt_canonical if lang == 'ko' else canonical
+    alts = ''
+    if ko_url and en_url:
+        alts = (f'<link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/{ko_url}">\n'
+                f'<link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/{en_url}">\n'
+                f'<link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/{ko_url}">')
     return f'''<!DOCTYPE html>
-<html lang="ko">
+<html lang="{lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{E(title)} — POSTECH 박태준미래전략연구소</title>
+<title>{E(title)} — {E(site)}</title>
 <meta name="description" content="{E(desc)}">
 <link rel="canonical" href="https://tjpark-research.github.io/{canonical}">
+{alts}
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="POSTECH 박태준미래전략연구소">
-<meta property="og:title" content="{E(title)} — POSTECH 박태준미래전략연구소">
+<meta property="og:site_name" content="{E(site)}">
+<meta property="og:title" content="{E(title)} — {E(site)}">
 <meta property="og:description" content="{E(desc)}">
 <meta property="og:url" content="https://tjpark-research.github.io/{canonical}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -183,8 +233,8 @@ def shell(title, desc, depth, section, current_file, body, canonical):
 <link rel="stylesheet" href="{r}assets/css/style.css">
 </head>
 <body>
-<a class="skip" href="#main">본문 바로가기</a>
-{header(depth, key)}
+<a class="skip" href="#main">{E(skip)}</a>
+{header(depth, key, lang, alt_href)}
 <div class="sub-hero">
   <div class="wrap">
     <p class="eyebrow">{E(en)}</p>
@@ -198,7 +248,7 @@ def shell(title, desc, depth, section, current_file, body, canonical):
 {body}
   </main>
 </div>
-{footer(depth)}
+{footer(depth, lang)}
 <script src="{r}assets/js/main.js"></script>
 </body>
 </html>
@@ -450,16 +500,15 @@ def PAGES(depth):
 
 
 def sync_main_nav():
-    """메인 페이지(index.html, en/index.html)의 GNB·푸터 링크를 생성된 것으로 교체.
+    """메인 페이지(index.html, en/index.html)의 GNB 를 생성된 것으로 교체.
 
     메인은 손으로 쓴 페이지지만 네비게이션만은 sitemap_def.py 를 따라야 하므로
     해당 블록만 정규식으로 갈아끼운다."""
-    # 영문 하위 페이지가 아직 없으므로 en/index.html 은 건드리지 않는다.
-    # (한글 라벨이 영문 페이지에 주입되는 것을 막기 위함)
-    for path, depth in [('index.html', 0)]:
+    for path, depth, lang in [('index.html', 0, 'ko'),
+                              (os.path.join('en', 'index.html'), 1, 'en')]:
         p = os.path.join(ROOT, path)
         s = open(p, encoding='utf-8').read()
-        new = gnb(depth)
+        new = gnb(depth, None, lang)
         s2 = re.sub(r'<ul class="gnb">.*?</ul>\s*</nav>', new + '</nav>', s, flags=re.S)
         if s2 != s:
             open(p, 'w', encoding='utf-8').write(s2)
@@ -467,21 +516,200 @@ def sync_main_nav():
 
 
 def main():
+    # ── 한국어: /<section>/<file>   (depth 1)
+    ko_spec = PAGES(1)
     n = 0
     for section in SECTIONS:
         key, label, en, d, kids = section
         os.makedirs(os.path.join(ROOT, d), exist_ok=True)
-        spec = PAGES(1)
         for f, cl, _s in kids:
-            item = spec.get((key, f))
+            item = ko_spec.get((key, f))
             if item is None:
                 continue
             title, desc, body = item
-            html_out = shell(title, desc, 1, section, f, body, f'{d}/{f}')
-            open(os.path.join(ROOT, d, f), 'w', encoding='utf-8').write(html_out)
+            out = shell(title, desc, 1, section, f, body,
+                        canonical=f'{d}/{f}', lang='ko',
+                        alt_href=f'../en/{d}/{f}', alt_canonical=f'en/{d}/{f}')
+            open(os.path.join(ROOT, d, f), 'w', encoding='utf-8').write(out)
             n += 1
-    print(f'{n}개 페이지 생성')
+    print(f'한국어 {n}개 페이지')
+
+    # ── 영문: /en/<section>/<file>   (depth 2)
+    en_spec = EN_PAGES(2)
+    m = 0
+    for section in EN_SECTIONS:
+        key, label, en, d, kids = section
+        os.makedirs(os.path.join(ROOT, 'en', d), exist_ok=True)
+        for f, cl, _s in kids:
+            item = en_spec.get((key, f))
+            if item is None:
+                continue
+            title, desc, body = item
+            out = shell(title, desc, 2, section, f, body,
+                        canonical=f'en/{d}/{f}', lang='en',
+                        alt_href=f'../../{d}/{f}', alt_canonical=f'{d}/{f}')
+            open(os.path.join(ROOT, 'en', d, f), 'w', encoding='utf-8').write(out)
+            m += 1
+    print(f'영문 {m}개 페이지')
+
     sync_main_nav()
+
+
+# ─────────────────────────────────────────────────────── 영문 페이지
+REVIEW = ('<p class="todo-note">※ This page was translated from the Korean edition '
+          'for this renewal and has not yet been reviewed by the Institute. '
+          'The Korean page is authoritative.</p>')
+
+SRC_KO = ('<p class="todo-note">※ The publications and records listed here are in Korean. '
+          'Titles are shown as published.</p>')
+
+
+def en_board(name, depth, style='cards'):
+    return render_board(name, depth, style) + SRC_KO
+
+
+def EN_PAGES(depth):
+    d = depth
+    P = {}
+    # ── Future Strategy Research
+    P[('research', 'index.html')] = ('Background', 'Researching differentiated future strategies based on the TJ Park Spirit.',
+        render_prose([b for b in blocks_of('en_research_bg') if len(b) > 30], [], d))
+    P[('research', 'longterm.html')] = ('Long-term Agenda', 'The Institute’s long-term research directions.',
+        render_image_page(imgs_of('en_research_fields') or imgs_of('research_longterm'), d,
+                          'The Institute’s long-term research directions.'))
+    P[('research', 'themes.html')] = ('Annual Research Themes', 'Research themes selected each year.',
+        '<div class="prose"><p class="lead">Each year the Institute selects a set of themes and '
+        'commissions studies on them.</p><p>Recent cycles have addressed the arrival of artificial '
+        'intelligence and its consequences for the brain and cognition, for biotechnology, and for the '
+        'economy and society (2018–2020); and the philosophical, economic and social challenges posed by '
+        'the COVID-19 pandemic (2019–2020).</p>'
+        '<p class="todo-note">※ Detailed theme descriptions are available on the Korean page. '
+        'An English edition is being prepared.</p></div>')
+    P[('research', 'books.html')] = ('Research Series', 'The Future Strategy Research Series.',
+        en_board('books_future', d))
+    P[('research', 'reports.html')] = ('Research Reports', 'Papers, expert essays and survey reports.',
+        en_board('reports_future', d))
+    P[('research', 'contest.html')] = ('Student Essay Contest', 'Award-winning essays from the national student contest.',
+        en_board('contest_winners', d))
+    # ── TJ Park Research
+    P[('tjpark', 'index.html')] = ('Background', 'Studying the spirit and leadership of Tae-Joon Park.',
+        render_prose([b for b in blocks_of('en_tj_bg') if len(b) > 40], [], d))
+    P[('tjpark', 'themes.html')] = ('Fields of Research', 'Programmes carried out under TJ Park Research.',
+        render_prose([b for b in blocks_of('en_tj_fields') if 40 < len(b) < 1200], [], d))
+    P[('tjpark', 'books.html')] = ('Research Series', 'The TJ Park Research Series and related books.',
+        en_board('books_tj', d))
+    P[('tjpark', 'reports.html')] = ('Research Reports', 'Reports from TJ Park Research.',
+        en_board('reports_tj', d))
+    # ── The Life of TJ Park
+    P[('life', 'index.html')] = ('Biography', 'The life of Chungam Park Tae-Joon, period by period.',
+        render_prose([b for b in blocks_of('en_life_bio') if len(b) > 120], [], d))
+    P[('life', 'chronology.html')] = ('Chronology', 'A year-by-year chronology, 1927–2011.',
+        render_prose([b for b in blocks_of('en_life_chron') if len(b) > 40], [], d)
+        + '<div class="prose"><p class="todo-note">※ The full chronology is available on the Korean page. '
+          'An English edition is being prepared.</p></div>')
+    P[('life', 'statue.html')] = ('TJ Park Statue', 'The bust and full-length statue by Wu Weishan.',
+        render_prose([b for b in blocks_of('en_life_statue') if len(b) > 60], imgs_of('life_statue'), d))
+    P[('life', 'who.html')] = ('Who is TJ Park', 'What his contemporaries said of him.',
+        render_prose([b for b in blocks_of('en_life_who') if len(b) > 25], [], d))
+    # ── Youth Programmes
+    P[('youth', 'index.html')] = ('Student Essay Contest', 'A national essay contest for undergraduate and graduate students.',
+        '<div class="prose"><p class="lead">The Institute runs a national essay contest for undergraduate '
+        'and graduate students, inviting young people to set out their own view of the future.</p>'
+        '<p>Winning essays are published in the Institute’s report series and, in several years, collected '
+        'into a volume of the Future Strategy Research Series.</p>'
+        '<p>Enquiries: <a href="mailto:tj-park@postech.ac.kr">tj-park@postech.ac.kr</a> · +82-54-279-0053~6</p>'
+        + REVIEW + '</div>')
+    P[('youth', 'winners.html')] = ('Award-winning Essays', 'Essays awarded in past contests.',
+        en_board('contest_winners', d))
+    P[('youth', 'camp.html')] = ('POSTECH Vision Camp', 'A camp where students design their own vision.',
+        '<div class="prose"><p class="lead">The POSTECH Vision Camp gives students a few summer days to '
+        'work out what they want their own future to look like.</p>' + REVIEW + '</div>')
+    P[('youth', 'camp-guide.html')] = ('Camp Guide', 'How to take part in the Vision Camp.',
+        '<div class="prose"><p class="lead">Programme details, eligibility and how to apply.</p>'
+        '<p>Enquiries: <a href="mailto:tj-park@postech.ac.kr">tj-park@postech.ac.kr</a> · +82-54-279-0053~6</p>'
+        '<p class="todo-note">※ Full details are on the Korean page. An English guide is being prepared.</p></div>')
+    P[('youth', 'faq.html')] = ('FAQ', 'Frequently asked questions.',
+        '<div class="prose"><p class="lead">Questions about the contest and the camp.</p>'
+        '<p>Enquiries: <a href="mailto:tj-park@postech.ac.kr">tj-park@postech.ac.kr</a> · +82-54-279-0053~6</p>'
+        '<p class="todo-note">※ No FAQ entries have been carried over yet.</p></div>')
+    # ── Forums & Seminars
+    P[('forum', 'index.html')] = ('Forums', 'Where experts and scholars debate the nation’s future.',
+        en_board('forum', d))
+    P[('forum', 'seminar.html')] = ('Seminars', 'Seminars held by the Institute.', en_board('seminar', d))
+    P[('forum', 'multimedia.html')] = ('Multimedia', 'Video and media from forums and seminars.',
+        en_board('multimedia', d))
+    # ── News
+    P[('news', 'index.html')] = ('Notices', 'Announcements from the Institute.', en_board('news_notice', d, 'rows'))
+    P[('news', 'press.html')] = ('Press', 'The Institute in the press.', en_board('news_press', d, 'rows'))
+    P[('news', 'column.html')] = ('TJ Columns', 'Future-strategy columns from the Institute.', en_board('news_column', d))
+    # ── About
+    # 구 영문 인사말은 전임 소장의 글에 현 소장 서명이 붙어 있어 그대로 쓸 수 없다.
+    # 한국어 현행 인사말을 옮기고 검토 필요를 명시한다.
+    P[('about', 'index.html')] = ('Greetings', 'A message from the Director.',
+        '<div class="prose">'
+        '<p class="lead">I am Minseok Song, Director of the POSTECH Tae-Joon Park Institute.</p>'
+        '<p>The Institute was founded to carry forward the spirit of the late Chairman Tae-Joon Park and '
+        'to realise the vision of POSTECH. Chairman Park held that industry and education are the core of '
+        'national development. He founded POSCO and POSTECH, and led a renaissance in both the Korean '
+        'economy and Korean scholarship.</p>'
+        '<p>Believing that “education is the most important investment a nation can make in its future”, he '
+        'insisted that practical scholarship and creative research must go together, and that the task of a '
+        'university is to let students build the capacity to solve real problems rather than merely acquire '
+        'knowledge.</p>'
+        '<p>Inheriting that conviction, the Institute analyses the challenges that universities and society '
+        'will face, and pursues two central goals: to formulate POSTECH’s medium- and long-term development '
+        'strategy, and to study the spirit and leadership of Tae-Joon Park so that they may be taught to the '
+        'next generation.</p>'
+        '<p>Amid rapid change in science, technology and social structure, the Institute will set a strategic '
+        'direction for POSTECH’s growth as a world-class university and open a path toward a sustainable future.</p>'
+        '<p class="sign">Director, POSTECH Tae-Joon Park Institute <b>Minseok Song</b></p>' + REVIEW + '</div>')
+    P[('about', 'purpose.html')] = ('Founding Purpose', 'Why the Institute was founded.',
+        render_prose([b for b in blocks_of('en_lab_purpose') if len(b) > 80], [], d))
+    P[('about', 'mission.html')] = ('Mission', 'The Institute’s mission.',
+        render_image_page(imgs_of('en_lab_mission') or imgs_of('lab_mission'), d, 'The Institute’s mission.'))
+    P[('about', 'history.html')] = ('History', 'The Institute since its founding in 2013.',
+        render_timeline(blocks_of('en_lab_history')))
+    P[('about', 'logo.html')] = ('Our Logo', 'The meaning of the Institute’s logo.',
+        render_prose([], imgs_of('lab_logo'), d)
+        + '<div class="prose"><p class="todo-note">※ The explanation of the logo is on the Korean page. '
+          'An English version is being prepared.</p></div>')
+    P[('about', 'projects.html')] = ('Major Programmes', 'What the Institute does.',
+        render_image_page(imgs_of('en_lab_fields') or imgs_of('lab_projects'), d,
+                          'The Institute’s major programmes.'))
+    P[('about', 'people.html')] = ('People', 'The research office and the research committee.',
+        '<div class="prose">'
+        '<p class="lead">A small permanent staff plans, manages and evaluates the work; the research itself '
+        'is carried out with a network of scholars from across Korea.</p>'
+        '<h2>Research Office</h2>'
+        '<table class="tbl"><thead><tr><th scope="col">Name</th><th scope="col">Position</th>'
+        '<th scope="col">Tel</th></tr></thead><tbody>'
+        '<tr><th scope="row">Minseok Song</th><td>Director</td><td>+82-54-279-2387</td></tr>'
+        '<tr><th scope="row">Ki-Jun Jeong</th><td>Research Associate Professor</td><td>+82-54-279-5631</td></tr>'
+        '<tr><th scope="row">Tae-Heon Baek</th><td>Senior Researcher</td><td>+82-54-279-0057</td></tr>'
+        '<tr><th scope="row">Bo-Mi Park</th><td>Researcher</td><td>+82-54-279-0054</td></tr>'
+        '</tbody></table>'
+        '<h2>Future Strategy Research Committee</h2>'
+        '<p>The committee sets research policy and selects and plans the Institute’s projects. '
+        'It is chaired by Professor Jin-Woo Lee (POSTECH) and draws its members from POSTECH, '
+        'Seoul National University, Yonsei, Korea University, Sogang and other institutions.</p>'
+        '<h2>TJ Park Future Strategy Academy</h2>'
+        '<p>An association of professors and public intellectuals who take part in, or share the aims of, '
+        'the Institute’s research. Around one hundred researchers from major Korean universities and '
+        'research institutes are members.</p>'
+        '<p class="todo-note">※ Names follow the previous website and need updating.</p></div>')
+    P[('about', 'location.html')] = ('Location', 'How to find us.',
+        '<div class="prose"><p class="lead">The Institute is on the 6th floor of the Tae-Joon Park Digital '
+        'Library at POSTECH.</p>'
+        '<table class="tbl"><tbody>'
+        '<tr><th scope="row">Address</th><td>6F, Tae-Joon Park Digital Library, POSTECH<br>'
+        '77 Cheongam-ro, Nam-gu, Pohang, Gyeongbuk 37673, Republic of Korea</td></tr>'
+        '<tr><th scope="row">Tel</th><td>+82-54-279-0053~6</td></tr>'
+        '<tr><th scope="row">Fax</th><td>+82-54-279-0059</td></tr>'
+        '<tr><th scope="row">E-mail</th><td><a href="mailto:tj-park@postech.ac.kr">tj-park@postech.ac.kr</a></td></tr>'
+        '</tbody></table><h2>Getting here</h2>'
+        + ''.join(f'<p>{E(b)}</p>' for b in blocks_of('en_lab_location') if len(b) > 90)
+        + '<p><a class="btn btn-p" href="https://map.kakao.com/?q=POSTECH" target="_blank" rel="noopener">Open in map</a></p></div>')
+    return P
 
 
 if __name__ == '__main__':
