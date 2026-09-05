@@ -501,8 +501,8 @@ def PAGES(depth):
                      ('1993~2000', 'life_bio_5'), ('2001~2011', 'life_bio_6')], d))
     P[('life', 'chronology.html')] = ('연보', '1927년부터 2011년까지의 연보.',
         render_timeline(blocks_of('life_chron_all')))
-    P[('life', 'statue.html')] = ('청암 조각상', '청암 박태준 조각상.',
-        render_prose([b for b in blocks_of('life_statue') if len(b) > 20], imgs_of('life_statue'), d))
+    P[('life', 'statue.html')] = ('청암 조각상', '우웨이산이 만든 전신상과 흉상, 그리고 받침돌의 건립문.',
+        statue_page(d, 'ko'))
     P[('life', 'who.html')] = ('박태준을 말한다', '동시대인이 남긴 박태준에 대한 기록.',
         render_prose([b for b in blocks_of('life_who') if len(b) > 25], imgs_of('life_who'), d))
     # ── 청년사업
@@ -537,7 +537,7 @@ def PAGES(depth):
     P[('news', 'column.html')] = ('TJ미래전략 칼럼', '연구소가 전하는 미래전략 칼럼.', render_board('news_column', d, 'cards', detail_base='news/columns'))
     # ── 연구소소개
     P[('about', 'index.html')] = ('인사말', '박태준미래전략연구소 소장 인사말.',
-        render_prose(blocks_of('lab_greeting'), [], d))
+        render_prose(blocks_of('lab_greeting'), [], d) + greeting_photos(d, 'ko'))
     P[('about', 'purpose.html')] = ('설립목적', '연구소 설립의 취지.',
         render_prose(blocks_of('lab_purpose'), [], d))
     P[('about', 'mission.html')] = ('미션', '박태준미래전략연구소의 미션.', mission_page(d, 'ko'))
@@ -673,8 +673,8 @@ def EN_PAGES(depth):
         render_prose([b for b in blocks_of('en_life_chron') if len(b) > 40], [], d)
         + '<div class="prose"><p class="todo-note">※ The full chronology is available on the Korean page. '
           'An English edition is being prepared.</p></div>')
-    P[('life', 'statue.html')] = ('TJ Park Statue', 'The bust and full-length statue by Wu Weishan.',
-        render_prose([b for b in blocks_of('en_life_statue') if len(b) > 60], imgs_of('life_statue'), d))
+    P[('life', 'statue.html')] = ('TJ Park Statue', 'The full-length statue and bust by Wu Weishan.',
+        statue_page(d, 'en'))
     P[('life', 'who.html')] = ('Who is TJ Park', 'What his contemporaries said of him.',
         render_prose([b for b in blocks_of('en_life_who') if len(b) > 25], [], d))
     # ── Youth Programmes
@@ -728,7 +728,8 @@ def EN_PAGES(depth):
         'next generation.</p>'
         '<p>Amid rapid change in science, technology and social structure, the Institute will set a strategic '
         'direction for POSTECH’s growth as a world-class university and open a path toward a sustainable future.</p>'
-        '<p class="sign">Director, POSTECH Tae-Joon Park Institute <b>Minseok Song</b></p>' + REVIEW + '</div>')
+        '<p class="sign">Director, POSTECH Tae-Joon Park Institute <b>Minseok Song</b></p>' + REVIEW + '</div>'
+        + greeting_photos(d, 'en'))
     P[('about', 'purpose.html')] = ('Founding Purpose', 'Why the Institute was founded.',
         render_prose([b for b in blocks_of('en_lab_purpose') if len(b) > 80], [], d))
     P[('about', 'mission.html')] = ('Mission', 'The mission of the TJ Park Institute.', mission_page(d, 'en'))
@@ -1128,6 +1129,57 @@ def brochure_page(depth, lang='ko'):
     return (f'<div class="prose"><p class="lead">{E(lead)}</p></div>'
             f'<ul class="dl-list">{"".join(cards)}</ul>'
             f'<div class="prose"><p class="todo-note">{E(note)}</p></div>')
+
+
+# ───────────────────────── CSS 배경으로만 있던 사진 ─────────────────────────
+#
+# 구 사이트는 사진 일부를 <img> 가 아니라 CSS background 로 깔았다.
+# (예: .chungam1 { background:url(../01_about/img/img4.jpg) })
+# 태그만 훑던 수집기가 그것을 통째로 놓쳐, 조각상 사진이 새 사이트에 없었다.
+# 여러 장을 한 파일에 합쳐 두었기에 잘라서 각각 제자리에 넣는다.
+
+def _photo(src, depth, cap, cls=''):
+    c = f'<figcaption>{E(cap)}</figcaption>' if cap else ''
+    k = f' class="{cls}"' if cls else ''
+    return (f'<figure class="fig{" " + cls if cls else ""}">'
+            f'<img src="{rel(depth)}{src}" alt="{E(cap)}" loading="lazy">{c}</figure>')
+
+
+def statue_page(depth, lang='ko'):
+    P = 'assets/img/legacy/'
+    if lang == 'ko':
+        body = [b for b in blocks_of('life_statue') if len(b) > 20]
+        caps = ('노벨동산의 전신 조각상과 받침돌', '박태준학술정보관의 흉상',
+                '받침돌 뒷면에 새긴 건립문')
+        h2 = '건립문'
+        lead_note = ''
+    else:
+        body = [b for b in blocks_of('en_life_statue') if len(b) > 60]
+        caps = ('The full-length statue and its pedestal, Nobel Hill',
+                'The bust, Tae-Joon Park Digital Library',
+                'The dedication inscribed on the back of the pedestal')
+        h2 = 'Dedication'
+    lead = f'<p class="lead">{E(body[0])}</p>' if body else ''
+    rest = ''.join(f'<p>{E(b)}</p>' for b in body[1:-1]) if len(body) > 2 else ''
+    dedication = f'<h2>{h2}</h2><p>{E(body[-1])}</p>' if len(body) > 1 else ''
+    return (f'<div class="prose">{lead}{rest}</div>'
+            f'<div class="statue-grid">'
+            + _photo(P + 'statue-full.jpg', depth, caps[0], 'tall')
+            + _photo(P + 'statue-bust.jpg', depth, caps[1])
+            + '</div>'
+            f'<div class="prose">{dedication}</div>'
+            + _photo(P + 'statue-plaque.jpg', depth, caps[2]))
+
+
+def greeting_photos(depth, lang='ko'):
+    P = 'assets/img/legacy/'
+    caps = (('2010 포스코청암상 시상식', '연구소 행사')
+            if lang == 'ko' else
+            ('2010 POSCO TJ Park Prize ceremony', 'An Institute event'))
+    return ('<div class="statue-grid">'
+            + _photo(P + 'greeting-award-2010.jpg', depth, caps[0])
+            + _photo(P + 'greeting-group.jpg', depth, caps[1])
+            + '</div>')
 
 
 if __name__ == '__main__':

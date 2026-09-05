@@ -631,3 +631,10 @@ ul,ol{margin:0;padding:0;list-style:none}
   padding:22px 4px;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .dl-item h3{font-size:16.5px;font-weight:600;color:var(--text)}
 .dl-item .m{font-size:13px;color:var(--text-3);margin-top:6px}
+
+/* 사진 나란히 배치 (조각상·인사말) */
+.statue-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:26px;align-items:start;margin:32px 0}
+.statue-grid .fig{margin:0}
+.statue-grid .fig.tall img{max-height:520px;width:auto}
+@media (max-width:560px){ .statue-grid{grid-template-columns:1fr} }
