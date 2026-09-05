@@ -176,10 +176,6 @@
     <changefreq>monthly</changefreq><priority>0.7</priority>
   </url>
   <url>
-    <loc>https://tjpark-research.github.io/life/chronology-1927.html</loc>
-    <changefreq>yearly</changefreq><priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://tjpark-research.github.io/life/chronology-1961.html</loc>
     <changefreq>yearly</changefreq><priority>0.6</priority>
   </url>
@@ -197,6 +193,10 @@
   </url>
   <url>
     <loc>https://tjpark-research.github.io/life/chronology-2001.html</loc>
+    <changefreq>yearly</changefreq><priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/life/chronology-all.html</loc>
     <changefreq>yearly</changefreq><priority>0.6</priority>
   </url>
   <url>

@@ -734,3 +734,35 @@ ol.cr{list-style:none;margin:22px 0 0;padding:0 0 0 4px;
   .cr-pager{flex-direction:column}
   .cr-pager .cr-next{text-align:left}
 }
+
+/* 전체연보 표 (년도 / 당시 나이 / 내용) */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:4px}
+table.cr-tbl{width:100%;min-width:640px;border-collapse:collapse;
+  border-top:2px solid var(--text)}
+.cr-tbl caption{caption-side:top;text-align:left;padding:0 0 10px;
+  font-size:12.5px;color:var(--text-3);font-weight:var(--w-body)}
+.cr-tbl thead th{padding:13px 14px;background:#f7f7f8;
+  border-bottom:1px solid var(--line);font-size:13px;font-weight:700;
+  color:var(--text);letter-spacing:0;text-align:left;white-space:nowrap}
+.cr-tbl tbody th,.cr-tbl tbody td{padding:14px;border-bottom:1px solid var(--line);
+  font-size:14.5px;line-height:1.8;vertical-align:top;text-align:left}
+.cr-tbl tbody th{width:96px;white-space:nowrap;font-weight:700;
+  color:var(--crimson);letter-spacing:0}
+.cr-tbl .cr-age{width:92px;white-space:nowrap;color:var(--text-3);
+  font-size:13px;font-weight:600}
+.cr-tbl tbody td:last-child{color:var(--text-2);font-weight:var(--w-body)}
+.cr-tbl tbody tr:hover{background:#fafafb}
+
+@media (max-width:560px){
+  /* 좁은 화면에서 표를 옆으로 밀며 읽게 하지 않는다.
+     연도·나이를 한 줄로 올리고 내용을 그 아래로 내린다. */
+  table.cr-tbl{min-width:0;border-top:1px solid var(--line)}
+  .cr-tbl thead{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  .cr-tbl tbody tr{display:block;padding:15px 0;
+    border-bottom:1px solid var(--line)}
+  .cr-tbl tbody tr:hover{background:none}
+  .cr-tbl tbody th,.cr-tbl tbody td{display:inline;width:auto;padding:0;border:0}
+  .cr-tbl tbody th{font-size:16px}
+  .cr-tbl .cr-age{margin-left:8px}
+  .cr-tbl tbody td:last-child{display:block;margin-top:7px}
+}

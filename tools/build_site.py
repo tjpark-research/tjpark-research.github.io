@@ -497,8 +497,8 @@ def PAGES(depth):
     # ── 박태준의 삶
     P[('life', 'index.html')] = ('생애', '청암 박태준이 걸어온 길을 시대별로 살펴봅니다.',
         bio_page(d))
-    P[('life', 'chronology.html')] = ('연보', '1927년부터 2011년까지의 연보를 시대별로, 사진과 함께.',
-        chronology_page(d))
+    # ('life', 'chronology.html') 은 build_chrono_pages() 가 쓴다.
+    # 메뉴의 '연보'는 구 홈페이지처럼 첫 시대(1927~1960)로 들어간다.
     P[('life', 'statue.html')] = ('청암 조각상', '우웨이산이 만든 전신상과 흉상, 그리고 받침돌의 건립문.',
         statue_page(d, 'ko'))
     P[('life', 'who.html')] = ('박태준을 말한다', '동시대인이 남긴 박태준에 대한 기록.',
@@ -639,10 +639,12 @@ def chrono_entries():
     return [e for e in out if e['text']]
 
 
-CHRONO_FILES = ['chronology-1927.html', 'chronology-1961.html',
+# 구 홈페이지와 같은 배치: 메뉴의 '연보'를 누르면 첫 시대(1927~1960)가 열리고,
+# 전체연보는 마지막 탭의 별도 주소다(구 01_1.php … 01_1_6.php).
+CHRONO_FILES = ['chronology.html', 'chronology-1961.html',
                 'chronology-1971.html', 'chronology-1981.html',
                 'chronology-1991.html', 'chronology-2001.html']
-CHRONO_ALL = 'chronology.html'
+CHRONO_ALL = 'chronology-all.html'
 
 
 def chrono_tabs(current, depth):
@@ -701,17 +703,29 @@ def chrono_note(depth, n):
 
 
 def chronology_page(depth):
-    """전체연보 — 여섯 시대를 한 페이지에 이어서 보여 준다."""
-    n = sum(1 for e in chrono_entries() if e['year'] in CHRONO_PHOTOS)
-    body = [
+    """전체연보 — 구 홈페이지와 같이 '년도 / 당시 나이 / 내용' 표로 보여 준다.
+    사진은 시대별 페이지 쪽에 둔다(표는 훑어보기 위한 것이다)."""
+    rows = []
+    for e in chrono_entries():
+        n = e['age'] or (str(e['year'] - 1927) if e['year'] > 1927 else '')
+        age = f'{E(n)}세' if n else '&ndash;'
+        txt = ' '.join(E(t) for t in e['text'])
+        rows.append(f'<tr><th scope="row">{e["year"]}년</th>'
+                    f'<td class="cr-age">{age}</td><td>{txt}</td></tr>')
+    table = (
+        '<div class="tbl-wrap"><table class="cr-tbl">'
+        '<caption>청암 박태준 전체연보 (1927~2011)</caption>'
+        '<thead><tr><th scope="col">년도</th><th scope="col">당시 나이</th>'
+        '<th scope="col">내용</th></tr></thead>'
+        f'<tbody>{"".join(rows)}</tbody></table></div>')
+    return '\n'.join([
         chrono_tabs(CHRONO_ALL, depth),
         '<div class="prose"><p class="lead">1927년 경남 임랑리에서 태어나 '
-        '2011년 12월 영면하기까지, 청암 박태준이 걸어온 85년의 기록입니다. '
-        '시대별로 나누어 보려면 시대 탭을 누르십시오.</p></div>',
-    ]
-    body += [chrono_era_block(i, depth) for i in range(len(CHRONO_ERAS))]
-    body.append(chrono_note(depth, n))
-    return '\n'.join(body)
+        '2011년 12월 영면하기까지, 청암 박태준이 걸어온 85년을 한 표로 정리했습니다. '
+        '사진과 함께 시대별로 보려면 위의 시대 탭을 누르십시오.</p></div>',
+        table,
+        '<p class="src-note">※ 구 홈페이지 「전체연보」를 그대로 옮긴 것입니다.</p>',
+    ])
 
 
 def chrono_era_page(i, depth):
@@ -744,20 +758,27 @@ def chrono_era_page(i, depth):
 
 
 def build_chrono_pages():
-    """시대별 연보 6쪽. LNB 에는 '연보' 하나만 두고(메뉴가 늘어나지 않는다),
-    페이지 안의 탭으로 오가게 한다 — 구 홈페이지와 같은 구조다."""
+    """연보 6쪽 + 전체연보 1쪽. LNB 에는 '연보' 하나만 두고(좌측 메뉴가 늘어나지
+    않는다), 페이지 안의 탭으로 오가게 한다 — 구 홈페이지와 같은 구조다."""
     section = next(s for s in SECTIONS if s[0] == 'life')
     for i, (label, sub, _b) in enumerate(CHRONO_ERAS):
         f = CHRONO_FILES[i]
         out = shell(f'연보 {label}',
                     f'청암 박태준 연보 {label} — {sub}.',
-                    1, section, CHRONO_ALL, chrono_era_page(i, 1),
+                    1, section, CHRONO_FILES[0], chrono_era_page(i, 1),
                     canonical=f'life/{f}', lang='ko',
-                    alt_href=f'../en/life/{CHRONO_ALL}',
-                    alt_canonical=f'en/life/{CHRONO_ALL}',
+                    alt_href=f'../en/life/{CHRONO_FILES[0]}',
+                    alt_canonical=f'en/life/{CHRONO_FILES[0]}',
                     article_title=f'{label} · {sub}')
         open(os.path.join(ROOT, 'life', f), 'w', encoding='utf-8').write(out)
-    print(f'시대별 연보 {len(CHRONO_ERAS)}개 페이지')
+    out = shell('전체연보', '청암 박태준의 1927~2011년 전체연보를 년도·나이·내용 표로.',
+                1, section, CHRONO_FILES[0], chronology_page(1),
+                canonical=f'life/{CHRONO_ALL}', lang='ko',
+                alt_href=f'../en/life/{CHRONO_FILES[0]}',
+                alt_canonical=f'en/life/{CHRONO_FILES[0]}',
+                article_title='전체연보')
+    open(os.path.join(ROOT, 'life', CHRONO_ALL), 'w', encoding='utf-8').write(out)
+    print(f'연보 {len(CHRONO_ERAS)}개 시대 + 전체연보 1개 페이지')
 
 
 def sync_main_nav():
