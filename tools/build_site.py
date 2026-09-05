@@ -535,6 +535,8 @@ def PAGES(depth):
     P[('about', 'projects.html')] = ('주요사업', '연구소의 중점사업과 사업원칙.', projects_page(d, 'ko'))
     P[('about', 'people.html')] = ('연구소사람들', '연구기획실과 연구위원회 구성.', people_page(d))
     P[('about', 'location.html')] = ('오시는 길', '연구소 위치와 연락처.', location_page(d))
+    P[('about', 'brochure.html')] = ('E-카다로그', '연구소 소개 책자를 PDF로 내려받을 수 있습니다.',
+        brochure_page(d, 'ko'))
     return P
 
 
@@ -758,6 +760,8 @@ def EN_PAGES(depth):
         '</tbody></table><h2>Getting here</h2>'
         + ''.join(f'<p>{E(b)}</p>' for b in blocks_of('en_lab_location') if len(b) > 90)
         + '<p><a class="btn btn-p" href="https://map.kakao.com/?q=POSTECH" target="_blank" rel="noopener">Open in map</a></p></div>')
+    P[('about', 'brochure.html')] = ('Brochure', 'Download the Institute’s brochure as a PDF.',
+        brochure_page(d, 'en'))
     return P
 
 
@@ -781,6 +785,40 @@ META_LABEL = {'author': '저자', 'publisher': '출판사', 'published': '발간
               'posted': '등록일', 'date': '일자'}
 
 
+# 옛 공지 본문에는 구 홈페이지 주소가 그대로 적혀 있다("자세히 보기: http://...").
+# 구 사이트가 내려가면 그 주소는 죽는다. 문구를 지우면 공지의 기록이 훼손되므로,
+# 같은 내용이 있는 새 주소로 바꿔 준다. (주소만 갈아끼우는 것이지 내용은 그대로다.)
+LEGACY_URL = re.compile(r'https?://tjpark\.postech\.ac\.kr(/[0-9A-Za-z_./%-]*)?(?:\?[^\s"\'<]*)?')
+LEGACY_MAP = [
+    ('/08_youth/01', 'youth/index.html', '대학(원)생 공모전'),
+    ('/08_youth/02', 'youth/camp.html', '포스텍 청년비전캠프'),
+    ('/08_youth', 'youth/index.html', '청년사업'),
+    ('/03_research/03_1', 'research/reports.html', '연구보고서'),
+    ('/03_research/03', 'research/books.html', '연구총서'),
+    ('/03_research/04', 'research/contest.html', '공모전 수상작'),
+    ('/03_research', 'research/index.html', '미래전략연구'),
+    ('/04_research_park', 'tjpark-research/index.html', '박태준연구'),
+    ('/05_news/03', 'news/press.html', '보도자료'),
+    ('/05_news/04', 'news/column.html', 'TJ미래전략 칼럼'),
+    ('/05_news', 'news/index.html', '공지사항'),
+    ('/09_forum', 'forum/index.html', '포럼 & 세미나'),
+    ('/02_lab', 'about/index.html', '연구소소개'),
+    ('/01_about', 'life/index.html', '박태준의 삶'),
+]
+
+
+def rewrite_legacy_urls(text, depth):
+    """본문에 적힌 구 홈페이지 주소를 새 사이트의 같은 자리로 바꾼다.
+    날것의 경로가 아니라 사람이 읽을 수 있는 링크로 만든다."""
+    def sub(m):
+        path = m.group(1) or '/'
+        for old, new, label in LEGACY_MAP:
+            if path.startswith(old):
+                return f'<a href="{rel(depth)}{new}">{E(label)}</a>'
+        return f'<a href="{rel(depth)}index.html">박태준미래전략연구소 홈페이지</a>'
+    return LEGACY_URL.sub(sub, text)
+
+
 def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     """개별 글 본문. 원문 그대로 옮기되 출처를 밝힌다."""
     title = d.get('title') or d.get('list_title') or ''
@@ -802,7 +840,8 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     secs = []
     for s in d.get('sections', []):
         h = f'<h2>{E(s["heading"])}</h2>' if s.get('heading') else ''
-        ps = ''.join(f'<p>{E(p)}</p>' for p in s.get('paragraphs', []))
+        ps = ''.join(f'<p>{rewrite_legacy_urls(E(p), depth)}</p>'
+                     for p in s.get('paragraphs', []))
         secs.append(h + ps)
 
     # 본문에 딸린 이미지 중 내려받기에 성공한 것만 싣는다.
@@ -828,10 +867,10 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
         nav.append(f'<a class="pn next" href="{next_item[0]}"><span>다음 글</span>{E(next_item[1])}</a>')
     navhtml = f'<nav class="art-nav">{"".join(nav)}</nav>' if nav else ''
 
+    # 구 홈페이지 '원문 보기' 링크는 두지 않는다.
+    # 구 사이트가 곧 내려가므로 링크를 남기면 461개의 죽은 링크가 된다.
+    # 원문 URL 은 data/legacy/detail_*.json 에 그대로 보관되어 있다.
     src = ''
-    if d.get('url'):
-        src = (f'<p class="art-src">이 글은 구 홈페이지에서 옮겨온 것입니다. '
-               f'<a href="{E(d["url"])}" target="_blank" rel="noopener">원문 보기</a></p>')
 
     return f'''<article class="art">
   <header class="art-hd">
@@ -1039,6 +1078,43 @@ def research_intro_page(depth):
         out += [f'<p>{E(x)}</p>' for x in network]
     out.append('</div>')
     return ''.join(out)
+
+
+def brochure_page(depth, lang='ko'):
+    """E-카다로그.
+
+    구 홈페이지에만 있던 소개 책자 PDF 두 종을 저장소로 옮겨 왔다.
+    구 사이트가 내려가면 사라질 자료였다. 원본이 71MB / 50MB 여서
+    웹에서 열기 어려웠던 것을 페이지 수와 화질을 유지한 채 재압축했다.
+    """
+    r = rel(depth)
+    items = [
+        ('tjpi-brochure-2022.pdf', '박태준미래전략연구소 브로슈어',
+         'TJPI Brochure', '2022', '11쪽 · 1.5MB', '11 pages · 1.5 MB'),
+        ('tjpi-pamphlet-2020.pdf', '박태준미래전략연구소 팸플릿',
+         'TJPI Pamphlet', '2020', '11쪽 · 1.0MB', '11 pages · 1.0 MB'),
+    ]
+    if lang == 'ko':
+        lead = '연구소 소개 책자입니다. 눌러서 바로 보거나 내려받을 수 있습니다.'
+        note = ('※ 구 홈페이지에 있던 원본(각각 71MB, 50MB)을 그대로 옮기면 열기 어려워, '
+                '쪽수와 내용을 유지한 채 웹에서 볼 수 있는 크기로 다시 압축했습니다.')
+        verb = '보기 · 내려받기'
+    else:
+        lead = 'Introductory booklets. Open them in the browser or download.'
+        note = ('※ The originals on the previous website were 71 MB and 50 MB. '
+                'They have been recompressed for the web with all pages and content intact.')
+        verb = 'View · download'
+    cards = []
+    for fn, ko_t, en_t, year, ko_m, en_m in items:
+        title = ko_t if lang == 'ko' else en_t
+        meta = f'{year} · ' + (ko_m if lang == 'ko' else en_m)
+        cards.append(
+            f'<li class="dl-item"><div><h3>{E(title)}</h3><p class="m">{E(meta)}</p></div>'
+            f'<a class="btn btn-p" href="{r}assets/files/{fn}" target="_blank" '
+            f'rel="noopener">{E(verb)}</a></li>')
+    return (f'<div class="prose"><p class="lead">{E(lead)}</p></div>'
+            f'<ul class="dl-list">{"".join(cards)}</ul>'
+            f'<div class="prose"><p class="todo-note">{E(note)}</p></div>')
 
 
 if __name__ == '__main__':

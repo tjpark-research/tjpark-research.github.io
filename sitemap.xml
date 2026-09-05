@@ -477,6 +477,20 @@
     <changefreq>monthly</changefreq><priority>0.5</priority>
   </url>
   <url>
+    <loc>https://tjpark-research.github.io/about/brochure.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/brochure.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/brochure.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/brochure.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/about/brochure.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/about/brochure.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/about/brochure.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/about/brochure.html"/>
+    <changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://tjpark-research.github.io/research/books/64.html</loc>
     <changefreq>monthly</changefreq><priority>0.4</priority>
   </url>

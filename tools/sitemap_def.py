@@ -57,6 +57,7 @@ SECTIONS = [
         ('projects.html',  '주요사업',     'lab_projects'),
         ('people.html',    '연구소사람들',  'lab_people'),
         ('location.html',  '오시는 길',    'lab_location'),
+        ('brochure.html',  'E-카다로그',   'lab_brochure'),
     ]),
 ]
 
@@ -134,5 +135,6 @@ EN_SECTIONS = [
         ('projects.html', 'Major Programmes', 'en_lab_projects'),
         ('people.html',   'People',           'en_lab_people'),
         ('location.html', 'Location',         'en_lab_location'),
+        ('brochure.html', 'Brochure',         'en_lab_brochure'),
     ]),
 ]
