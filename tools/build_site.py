@@ -106,6 +106,13 @@ MEET_SRC = re.compile(r'^\[출처\]\s*본 기사는 프리미엄조선')
 # 페이지에 이미 제목이 있으므로 같은 줄을 두 번 읽히게 두지 않는다.
 MEET_HEAD = re.compile(r'^위대한\s*만남\s*[-–—]?\s*박정희와\s*박태준\s*[(\[]?\s*\d+')
 
+# 구 홈페이지 원본에 제목이 잘리고 연재일이 빠져 있던 1편.
+# 원문(프리미엄조선 2014.10.13)을 확인해 채운다.
+MEET_FIX = {
+    '764': ('박정희, 독일 제철소장에게 "저건 짓는데 얼마듭니까?" 꼼꼼히 물어',
+            '2014-10-13'),
+}
+
 
 def normalize_meet(items):
     out = []
@@ -123,6 +130,9 @@ def normalize_meet(items):
             g = [x for x in d.groups() if x]
             day = f'{int(g[0]):04d}-{int(g[1]):02d}-{int(g[2]):02d}'
             t = MEET_TAIL.sub('', t).strip()
+        fix = MEET_FIX.get(str(it.get('idx')))
+        if fix:
+            t, day = fix
         it['title'] = t
         if it.get('list_title'):
             it['list_title'] = t
@@ -1256,9 +1266,9 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     locals_ = [v for _k, v in sorted((d.get('images_local') or {}).items(), key=lambda x: int(x[0]))]
     locals_ = [v for v in locals_ if v != d.get('image_local')]
     if locals_:
-        gal = ('<div class="art-gal">'
+        gal = ('<div class="art-gal"><div class="art-gal-in">'
                + ''.join(f'<img src="{rel(depth)}{v}" alt="" loading="lazy">' for v in locals_)
-               + '</div>')
+               + '</div></div>')
 
     files = ''
     if d.get('files'):
@@ -1750,9 +1760,9 @@ def meet_page(depth, lang='ko'):
                 '남겨둔, 흥미롭고 아름다운 ‘박정희와 박태준의 완전한 신뢰의 인간관계’를 '
                 f'사실 그대로 담아내고 있습니다. 모두 {n}편이며, 연재 순서대로 실었습니다.'
                 '</p></div>')
-        note = ('<p class="src-note">※ 연재에 실렸던 사진은 조선일보가 저작권을 가진 '
-                '자료라 옮기지 않았습니다. 사진 설명은 본문에 그대로 두었습니다. '
-                '제24회는 구 홈페이지 원본에 제목 일부와 연재일이 빠져 있어 그대로 두었습니다.</p>')
+        note = ('<p class="src-note">※ 연재에 실린 사진은 조선일보가 저작권을 가진 '
+                '자료입니다. 구 홈페이지가 조선일보 서버를 직접 링크해 두어, 구 사이트를 '
+                '내리면 함께 사라지므로 이곳으로 옮겨 두었습니다.</p>')
     else:
         lead = ('<div class="prose">'
                 '<p class="lead">“The Great Encounter: Park Chung-hee and Park Tae-joon” '

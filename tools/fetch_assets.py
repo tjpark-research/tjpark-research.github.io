@@ -30,7 +30,11 @@ def local_name(url):
 
 # 본문에는 외부 언론사 서버 이미지 링크가 섞여 있다. 남의 서버라 사라지기도 하고
 # 응답이 느려 수집이 멈춘다. 우리가 가져올 수 있는 것은 연구소 자체 서버뿐이다.
-OWN_HOSTS = ('tjpark.postech.ac.kr', 'postech1.dever-host.com')
+OWN_HOSTS = ('tjpark.postech.ac.kr', 'postech1.dever-host.com',
+             # 「위대한 만남」 연재에 실린 사진. 구 홈페이지가 조선일보 서버를
+             # 직접 링크해 두어, 구 사이트를 내리면 함께 사라진다.
+             # 저작권은 조선일보에 있으므로 게재 조건은 연구소가 확인해야 한다.
+             'image.chosun.com')
 DEADLINE = float(os.environ.get('FETCH_SECONDS', '150'))
 
 
