@@ -89,6 +89,80 @@ def normalize_steel(items):
     return out
 
 
+# 「위대한 만남 · 박정희와 박태준」은 포항종합제철 준공 41주년인 2014년 7월부터
+# 이듬해 7월까지 조선일보 프리미엄조선에 연재된 글 97편이다.
+# 구 홈페이지 게시판(bid=meet)의 제목은 '(24) 제목 - 2015.03.13 [프리미엄조선 연재]'
+# 꼴인데, 회차 번호·연재일·매체가 제목 한 줄에 뭉쳐 있고 표기도 제각각이다
+# ('프리미엄 조선 연재', '프리미언조선 연재', 닫는 괄호가 ')' 인 것 …).
+# 회차와 날짜를 뽑아 메타로 올리고, 최신순이던 목록을 연재 순서로 되돌린다.
+MEET_NO = re.compile(r'^\(\s*(\d+)\s*(?:-\s*(\d+))?\s*\)\s*')
+MEET_TAIL = re.compile(
+    r'\s*[-–—]\s*'
+    r'(?:(\d{4})[.\s]\s*(\d{1,2})[.\s]\s*(\d{1,2})\.?'
+    r'|(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일)\s*'
+    r'[\[(]?\s*프리미[^\])]*[\])]?\s*$')
+MEET_SRC = re.compile(r'^\[출처\]\s*본 기사는 프리미엄조선')
+# 초기 6편은 본문 첫 줄에 연재 표제와 기사 제목을 한 번 더 얹어 두었다.
+# 페이지에 이미 제목이 있으므로 같은 줄을 두 번 읽히게 두지 않는다.
+MEET_HEAD = re.compile(r'^위대한\s*만남\s*[-–—]?\s*박정희와\s*박태준\s*[(\[]?\s*\d+')
+
+
+def normalize_meet(items):
+    out = []
+    for it in items:
+        it = dict(it)
+        t = (it.get('title') or it.get('list_title') or '').strip()
+        m = MEET_NO.match(t)
+        no, sub = (int(m.group(1)), int(m.group(2) or 0)) if m else (10**6, 0)
+        if m:
+            t = MEET_NO.sub('', t).strip()
+            it['episode'] = f'{no}-{sub}' if sub else f'{no}'
+        day = None
+        d = MEET_TAIL.search(t)
+        if d:
+            g = [x for x in d.groups() if x]
+            day = f'{int(g[0]):04d}-{int(g[1]):02d}-{int(g[2]):02d}'
+            t = MEET_TAIL.sub('', t).strip()
+        it['title'] = t
+        if it.get('list_title'):
+            it['list_title'] = t
+        meta = dict(it.get('meta') or {})
+        meta.pop('posted', None)
+        meta.pop('date', None)
+        if day:
+            it['date'] = day
+            meta['published'] = day
+        else:
+            it['date'] = ''          # 구 사이트 원본에 연재일이 없는 1편
+        meta['source'] = '조선일보 프리미엄조선 연재'
+        it['meta'] = meta
+        secs = []
+        drop_title = False
+        for si, sec in enumerate(it.get('sections') or []):
+            ps = []
+            for pi, x in enumerate(sec.get('paragraphs', [])):
+                x = x.strip()
+                if not x or MEET_SRC.match(x):
+                    continue
+                if si == 0 and pi == 0 and MEET_HEAD.match(x):
+                    drop_title = True          # 다음 줄의 제목 반복도 함께 뺀다
+                    continue
+                if drop_title and not ps:
+                    drop_title = False
+                    if t and x.rstrip('.').startswith(t[:12]):
+                        continue
+                ps.extend(paras(x, 230) if len(x) > 300 else [x])
+            secs.append(dict(sec, paragraphs=ps))
+        if secs:
+            it['sections'] = secs
+        it['_sort'] = (no, sub)
+        out.append(it)
+    out.sort(key=lambda x: x['_sort'])
+    for it in out:
+        it.pop('_sort', None)
+    return out
+
+
 def load(name):
     p = os.path.join(LEGACY, name + '.json')
     if not os.path.exists(p):
@@ -96,6 +170,8 @@ def load(name):
     data = json.load(open(p))
     if name in ('board_steel', 'detail_steel'):
         data = normalize_steel(data)
+    elif name in ('board_meet', 'detail_meet'):
+        data = normalize_meet(data)
     return data
 
 
@@ -575,6 +651,9 @@ def PAGES(depth):
     P[('life', 'steel.html')] = ('쇳물은 멈추지 않는다',
         '2004년 중앙일보에 연재된 박태준의 자전 에세이 90편.',
         steel_page(d, 'ko'))
+    P[('life', 'meet.html')] = ('위대한 만남 · 박정희와 박태준',
+        '2014~2015년 조선일보 프리미엄조선에 연재된 97편.',
+        meet_page(d, 'ko'))
     # ── 청년사업
     # 구 사이트는 '현재 진행중인 공모전이 없습니다'라는 안내마저 이미지였다.
     # 상태 안내는 자주 바뀌는 문구이므로 텍스트여야 고치기도 쉽다.
@@ -919,7 +998,7 @@ SRC_KO = ('<p class="todo-note">※ The publications and records listed here are
           'Titles are shown as published.</p>')
 
 
-EN_DETAIL = {'steel': 'life/steel', 'books_future': 'research/books', 'reports_future': 'research/reports',
+EN_DETAIL = {'steel': 'life/steel', 'meet': 'life/meet', 'books_future': 'research/books', 'reports_future': 'research/reports',
              'contest_winners': 'research/contest', 'books_tj': 'tjpark-research/books',
              'reports_tj': 'tjpark-research/reports', 'forum': 'forum/forums',
              'seminar': 'forum/seminars', 'multimedia': 'forum/media',
@@ -981,6 +1060,9 @@ def EN_PAGES(depth):
     P[('life', 'steel.html')] = ('Steel Never Stops',
         'TJ Park\u2019s autobiographical essays, serialised daily in the JoongAng Ilbo in 2004.',
         steel_page(d, 'en'))
+    P[('life', 'meet.html')] = ('The Great Encounter',
+        'Park Chung-hee and Park Tae-joon \u2014 a series of 97 instalments, 2014\u20132015.',
+        meet_page(d, 'en'))
     # ── Youth Programmes
     P[('youth', 'index.html')] = ('Student Essay Contest', 'A national essay contest for undergraduate and graduate students.',
         '<div class="prose"><p class="lead">The Institute runs a national essay contest for undergraduate '
@@ -1098,6 +1180,7 @@ BOARD_MAP = {
     'news_press':      ('news',     'press.html',   'news/press-items',          '보도자료'),
     'news_column':     ('news',     'column.html',  'news/columns',              'TJ미래전략 칼럼'),
     'steel':           ('life',     'steel.html',   'life/steel',                '쇳물은 멈추지 않는다'),
+    'meet':            ('life',     'meet.html',    'life/meet',                 '위대한 만남'),
 }
 
 META_LABEL = {'author': '저자', 'publisher': '출판사', 'published': '연재일',
@@ -1646,6 +1729,41 @@ def steel_page(depth, lang='ko'):
                 'were published.</p></div>')
         note = ''
     board = render_board('steel', depth, 'rows', detail_base='life/steel')
+    return lead + board + (note if lang == 'ko' else SRC_KO)
+
+
+
+def meet_page(depth, lang='ko'):
+    """위대한 만남 · 박정희와 박태준 — 조선일보 프리미엄조선 연재 97편.
+
+    제목·소개글이 배너 이미지(img8.jpg) 한 장에 박혀 있었다. 텍스트로 옮긴다.
+    """
+    n = len(load('board_meet') or [])
+    if lang == 'ko':
+        lead = ('<div class="prose">'
+                '<p class="lead">〈위대한 만남 · 박정희와 박태준〉은 포항종합제철 준공 '
+                '41주년을 맞은 2014년 7월부터 이듬해 7월까지 조선일보 프리미엄조선에 '
+                '연재되었습니다.</p>'
+                '<p>‘진정한 신뢰, 완전한 신뢰란 무엇인가?’라는 질문에 확실한 대답을 주는 '
+                '『위대한 만남 박정희와 박태준』은 《박태준의 박정희 회고》를 바탕으로 '
+                '구성되었으며, 먼 험로(險路)를 걸어가는 동안 보이지 않는 발자취처럼 '
+                '남겨둔, 흥미롭고 아름다운 ‘박정희와 박태준의 완전한 신뢰의 인간관계’를 '
+                f'사실 그대로 담아내고 있습니다. 모두 {n}편이며, 연재 순서대로 실었습니다.'
+                '</p></div>')
+        note = ('<p class="src-note">※ 연재에 실렸던 사진은 조선일보가 저작권을 가진 '
+                '자료라 옮기지 않았습니다. 사진 설명은 본문에 그대로 두었습니다. '
+                '제24회는 구 홈페이지 원본에 제목 일부와 연재일이 빠져 있어 그대로 두었습니다.</p>')
+    else:
+        lead = ('<div class="prose">'
+                '<p class="lead">“The Great Encounter: Park Chung-hee and Park Tae-joon” '
+                'ran in Premium Chosun, the online edition of the Chosun Ilbo, from '
+                'July 2014 \u2014 the 41st anniversary of the completion of Pohang Iron '
+                'and Steel \u2014 through July of the following year.</p>'
+                f'<p>Built on TJ Park\u2019s own recollections of Park Chung-hee, the series '
+                'sets out the complete trust between the two men as it actually was. '
+                f'All {n} instalments are here, in the order they were published.</p></div>')
+        note = ''
+    board = render_board('meet', depth, 'rows', detail_base='life/meet')
     return lead + board + (note if lang == 'ko' else SRC_KO)
 
 
