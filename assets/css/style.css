@@ -524,3 +524,51 @@ ul,ol{margin:0;padding:0;list-style:none}
   .blist li{flex-wrap:wrap;gap:6px}
   .board-search input{min-width:0;width:100%}
 }
+
+/* =========================================================
+   개별 글 상세 (build_details)
+   ========================================================= */
+.sub-hero h1.h1-art{font-size:clamp(21px,2.5vw,31px);line-height:1.45;max-width:26ch}
+.art-hd{padding-bottom:20px;border-bottom:2px solid var(--ink);margin-bottom:30px}
+.art-hd:empty{display:none}
+.art-m{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:13px;color:var(--text-3)}
+.art-m b{font-weight:600;color:var(--bronze);margin-right:6px}
+
+.art-cover{margin:0 0 30px;max-width:260px}
+.art-cover img{width:100%;border:1px solid var(--line);box-shadow:0 10px 26px rgba(20,22,28,.14)}
+
+.art-body h2{font-size:18px;margin:36px 0 14px;padding-top:20px;border-top:1px solid var(--line)}
+.art-body h2:first-child{margin-top:0;padding-top:0;border-top:0}
+.art-body p+p{margin-top:14px}
+
+.art-gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin:32px 0}
+.art-gal img{width:100%;border:1px solid var(--line)}
+
+.art-files{margin-top:36px}
+.art-files h2{font-size:16px;margin-bottom:12px}
+.art-files li{padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+.art-files a{color:var(--crimson)}
+
+.art-src{margin-top:34px;font-size:12.5px;color:var(--text-3);
+  padding:14px 16px;background:var(--paper-2);border-left:3px solid var(--line)}
+.art-src a{color:var(--text-2);border-bottom:1px solid var(--line)}
+.art-src a:hover{color:var(--crimson)}
+
+.art-nav{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);
+  border:1px solid var(--line);margin-top:40px}
+.art-nav .pn{background:var(--paper);padding:18px 20px;font-size:14px;color:var(--text-2);
+  display:block;transition:.2s;line-height:1.5;
+  overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.art-nav .pn:hover{background:var(--paper-2);color:var(--crimson)}
+.art-nav .pn span{display:block;font-size:11px;letter-spacing:.1em;color:var(--bronze);
+  font-weight:700;margin-bottom:7px}
+.art-nav .next{text-align:right}
+.art-nav .prev:only-child{grid-column:1/-1}
+
+.art-back{margin-top:36px;text-align:center}
+
+@media (max-width:560px){
+  .art-nav{grid-template-columns:1fr}
+  .art-nav .next{text-align:left}
+  .art-gal{grid-template-columns:1fr}
+}

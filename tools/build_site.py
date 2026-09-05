@@ -197,13 +197,22 @@ def lnb(section, current_file, depth):
 
 
 def shell(title, desc, depth, section, current_file, body, canonical,
-          lang='ko', alt_href=None, alt_canonical=None):
+          lang='ko', alt_href=None, alt_canonical=None, article_title=None):
+    """article_title 이 주어지면 개별 글 페이지로 취급한다.
+    이때 h1 은 글 제목이어야 한다 — 목록 이름을 h1 으로 두면 461개 글이
+    전부 같은 제목을 갖게 되어 검색에도 스크린리더에도 불리하다."""
     key, label, en, d, kids = section
     cur_label = next((cl for f, cl, _s in kids if f == current_file), label)
     r = rel(depth)
     home = 'HOME'
     crumb = (f'<a href="{r}index.html">{home}</a><span>›</span>'
-             f'<a href="{r}{d}/index.html">{E(label)}</a><span>›</span><em>{E(cur_label)}</em>')
+             f'<a href="{r}{d}/index.html">{E(label)}</a><span>›</span>')
+    if article_title:
+        crumb += f'<a href="{r}{d}/{current_file}">{E(cur_label)}</a><span>›</span><em>{E(article_title[:40])}</em>'
+    else:
+        crumb += f'<em>{E(cur_label)}</em>'
+    hero_kicker = cur_label if article_title else en
+    hero_h1 = article_title if article_title else cur_label
     site = ('POSTECH 박태준미래전략연구소' if lang == 'ko'
             else 'POSTECH Tae-Joon Park Institute')
     skip = '본문 바로가기' if lang == 'ko' else 'Skip to content'
@@ -237,8 +246,8 @@ def shell(title, desc, depth, section, current_file, body, canonical,
 {header(depth, key, lang, alt_href)}
 <div class="sub-hero">
   <div class="wrap">
-    <p class="eyebrow">{E(en)}</p>
-    <h1>{E(cur_label)}</h1>
+    <p class="eyebrow">{E(hero_kicker)}</p>
+    <h1{' class="h1-art"' if article_title else ''}>{E(hero_h1)}</h1>
     <p class="crumb">{crumb}</p>
   </div>
 </div>
@@ -335,12 +344,20 @@ def render_eras(specs, depth):
             f'<div class="prose">{"".join(panes)}</div></div>')
 
 
-def render_board(name, depth, style='cards', empty='등록된 자료가 없습니다.'):
+def render_board(name, depth, style='cards', empty='등록된 자료가 없습니다.',
+                 detail_base=None):
+    """detail_base 가 주어지면 각 항목을 개별 글 페이지로 링크한다.
+    (예: 'research/books' → /research/books/<idx>.html)"""
     items = load('board_' + name) or []
     if not items:
         return f'<div class="prose"><p>{E(empty)}</p></div>'
+    have_detail = {d['idx'] for d in (load('detail_' + name) or [])
+                   if d.get('idx') and d.get('sections')}
     cards = []
     for it in items:
+        href = None
+        if detail_base and it.get('idx') in have_detail:
+            href = f'{rel(depth)}{detail_base}/{it["idx"]}.html'
         t = it.get('title') or ''
         meta = ' · '.join(x for x in [it.get('author'), it.get('publisher'), it.get('date')] if x)
         summ = (it.get('summary') or '')[:150]
@@ -348,16 +365,18 @@ def render_board(name, depth, style='cards', empty='등록된 자료가 없습�
         if style == 'cards':
             img = (f'<img src="{rel(depth)}{it["local"]}" alt="" loading="lazy">'
                    if it.get('local') else '<span class="noimg">TJPI</span>')
-            cards.append(
-                f'<li class="bcard" data-k="{key}"><div class="bcard-cov">{img}</div>'
-                f'<div class="bcard-b"><h3>{E(t)}</h3>'
-                + (f'<p class="m">{E(meta)}</p>' if meta else '')
-                + (f'<p class="s">{E(summ)}</p>' if summ else '')
-                + '</div></li>')
+            inner = (f'<div class="bcard-cov">{img}</div>'
+                     f'<div class="bcard-b"><h3>{E(t)}</h3>'
+                     + (f'<p class="m">{E(meta)}</p>' if meta else '')
+                     + (f'<p class="s">{E(summ)}</p>' if summ else '')
+                     + '</div>')
+            body_html = f'<a href="{href}">{inner}</a>' if href else inner
+            cards.append(f'<li class="bcard" data-k="{key}">{body_html}</li>')
         else:
-            cards.append(
-                f'<li class="brow" data-k="{key}"><span class="tt">{E(t)}</span>'
-                f'<span class="dt">{E(it.get("date") or "")}</span></li>')
+            inner = (f'<span class="tt">{E(t)}</span>'
+                     f'<span class="dt">{E(it.get("date") or "")}</span>')
+            body_html = f'<a href="{href}">{inner}</a>' if href else inner
+            cards.append(f'<li class="brow" data-k="{key}">{body_html}</li>')
     cls = 'bgrid' if style == 'cards' else 'blist'
     return f'''<div class="board" data-page-size="{12 if style=="cards" else 20}">
   <div class="board-top">
@@ -432,20 +451,20 @@ def PAGES(depth):
                      ('2016~2017', 'research_theme_16_17'), ('2015~2016', 'research_theme_15_16'),
                      ('2014~2015', 'research_theme_14_15')], d))
     P[('research', 'books.html')] = ('연구총서', '미래전략연구총서 — 미래 핵심 의제에 대한 학제적 연구 성과.',
-        render_board('books_future', d, 'cards'))
+        render_board('books_future', d, 'cards', detail_base='research/books'))
     P[('research', 'reports.html')] = ('연구보고서', '연구논문·전문가 에세이·여론조사 보고서.',
-        render_board('reports_future', d, 'cards'))
+        render_board('reports_future', d, 'cards', detail_base='research/reports'))
     P[('research', 'contest.html')] = ('대학(원)생 공모전 수상작', '전국 대학생·대학원생 에세이 공모전 수상작.',
-        render_board('contest_winners', d, 'cards'))
+        render_board('contest_winners', d, 'cards', detail_base='research/contest'))
     # ── 박태준연구
     P[('tjpark', 'index.html')] = ('연구소개', '박태준의 정신과 리더십을 체계적으로 연구하고 사회적 자산으로 전파합니다.',
         render_prose(blocks_of('tj_research_intro'), imgs_of('tj_research_intro'), d))
     P[('tjpark', 'themes.html')] = ('연구분야', '박태준연구의 연도별 주제입니다.',
         render_prose(blocks_of('tj_research_theme'), imgs_of('tj_research_theme'), d))
     P[('tjpark', 'books.html')] = ('연구총서', '박태준 연구총서와 관련 단행본.',
-        render_board('books_tj', d, 'cards'))
+        render_board('books_tj', d, 'cards', detail_base='tjpark-research/books'))
     P[('tjpark', 'reports.html')] = ('연구보고서', '박태준연구 보고서.',
-        render_board('reports_tj', d, 'cards'))
+        render_board('reports_tj', d, 'cards', detail_base='tjpark-research/reports'))
     # ── 박태준의 삶
     P[('life', 'index.html')] = ('생애', '청암 박태준이 걸어온 길을 시대별로 살펴봅니다.',
         render_eras([('1927~1947', 'life_bio_1'), ('1948~1960', 'life_bio_2'),
@@ -461,7 +480,7 @@ def PAGES(depth):
     P[('youth', 'index.html')] = ('대학(원)생 공모전', '전국 대학생·대학원생을 대상으로 한 에세이 공모전.',
         render_prose(blocks_of('youth_contest'), imgs_of('youth_contest'), d))
     P[('youth', 'winners.html')] = ('수상작 보기', '역대 공모전 수상작.',
-        render_board('contest_winners', d, 'cards'))
+        render_board('contest_winners', d, 'cards', detail_base='research/contest'))
     P[('youth', 'camp.html')] = ('포스텍 청년비전캠프', '스스로의 비전을 설계하는 캠프.',
         render_prose(blocks_of('youth_camp'), imgs_of('youth_camp'), d))
     P[('youth', 'camp-guide.html')] = ('캠프 안내', '청년비전캠프 참가 안내.',
@@ -472,15 +491,15 @@ def PAGES(depth):
         '<p class="todo-note">※ 구 홈페이지의 FAQ 항목이 비어 있어 옮길 내용이 없습니다. 문항을 정리해 주시면 채우겠습니다.</p></div>')
     # ── 포럼 & 세미나
     P[('forum', 'index.html')] = ('포럼', '산학연관 전문가와 석학이 모여 국가의 미래를 논의하는 자리.',
-        render_board('forum', d, 'cards'))
+        render_board('forum', d, 'cards', detail_base='forum/forums'))
     P[('forum', 'seminar.html')] = ('세미나', '연구소가 개최한 세미나.',
-        render_board('seminar', d, 'cards'))
+        render_board('seminar', d, 'cards', detail_base='forum/seminars'))
     P[('forum', 'multimedia.html')] = ('멀티미디어', '포럼·세미나 영상과 미디어 자료.',
-        render_board('multimedia', d, 'cards'))
+        render_board('multimedia', d, 'cards', detail_base='forum/media'))
     # ── 연구소소식
-    P[('news', 'index.html')] = ('공지사항', '연구소 공지사항.', render_board('news_notice', d, 'rows'))
-    P[('news', 'press.html')] = ('보도자료', '언론에 보도된 연구소 소식.', render_board('news_press', d, 'rows'))
-    P[('news', 'column.html')] = ('TJ미래전략 칼럼', '연구소가 전하는 미래전략 칼럼.', render_board('news_column', d, 'cards'))
+    P[('news', 'index.html')] = ('공지사항', '연구소 공지사항.', render_board('news_notice', d, 'rows', detail_base='news/notices'))
+    P[('news', 'press.html')] = ('보도자료', '언론에 보도된 연구소 소식.', render_board('news_press', d, 'rows', detail_base='news/press-items'))
+    P[('news', 'column.html')] = ('TJ미래전략 칼럼', '연구소가 전하는 미래전략 칼럼.', render_board('news_column', d, 'cards', detail_base='news/columns'))
     # ── 연구소소개
     P[('about', 'index.html')] = ('인사말', '박태준미래전략연구소 소장 인사말.',
         render_prose(blocks_of('lab_greeting'), [], d))
@@ -564,8 +583,21 @@ SRC_KO = ('<p class="todo-note">※ The publications and records listed here are
           'Titles are shown as published.</p>')
 
 
+EN_DETAIL = {'books_future': 'research/books', 'reports_future': 'research/reports',
+             'contest_winners': 'research/contest', 'books_tj': 'tjpark-research/books',
+             'reports_tj': 'tjpark-research/reports', 'forum': 'forum/forums',
+             'seminar': 'forum/seminars', 'multimedia': 'forum/media',
+             'news_notice': 'news/notices', 'news_press': 'news/press-items',
+             'news_column': 'news/columns'}
+
+
 def en_board(name, depth, style='cards'):
-    return render_board(name, depth, style) + SRC_KO
+    # 상세 글은 한국어판 하나만 둔다. 내용 자체가 한국어라 영문 사본을 만들면
+    # 같은 글이 두 벌 생기고 검색엔진에는 중복으로 잡힌다.
+    # detail_base 는 사이트 루트 기준 경로다. render_board 가 rel(depth) 를
+    # 앞에 붙이므로 여기서 '../' 를 더하면 한 단계 더 올라가 버린다.
+    return render_board(name, depth, style,
+                        detail_base=EN_DETAIL.get(name)) + SRC_KO
 
 
 def EN_PAGES(depth):
@@ -712,5 +744,127 @@ def EN_PAGES(depth):
     return P
 
 
+# ─────────────────────────────────────────────────────── 개별 글 상세
+# 게시판 → (섹션키, 목록파일, 상세 디렉터리, 목록 라벨)
+BOARD_MAP = {
+    'books_future':    ('research', 'books.html',   'research/books',            '연구총서'),
+    'reports_future':  ('research', 'reports.html', 'research/reports',          '연구보고서'),
+    'contest_winners': ('research', 'contest.html', 'research/contest',          '공모전 수상작'),
+    'books_tj':        ('tjpark',   'books.html',   'tjpark-research/books',     '연구총서'),
+    'reports_tj':      ('tjpark',   'reports.html', 'tjpark-research/reports',   '연구보고서'),
+    'forum':           ('forum',    'index.html',   'forum/forums',              '포럼'),
+    'seminar':         ('forum',    'seminar.html', 'forum/seminars',            '세미나'),
+    'multimedia':      ('forum',    'multimedia.html', 'forum/media',            '멀티미디어'),
+    'news_notice':     ('news',     'index.html',   'news/notices',              '공지사항'),
+    'news_press':      ('news',     'press.html',   'news/press-items',          '보도자료'),
+    'news_column':     ('news',     'column.html',  'news/columns',              'TJ미래전략 칼럼'),
+}
+
+META_LABEL = {'author': '저자', 'publisher': '출판사', 'published': '발간일',
+              'posted': '등록일', 'date': '일자'}
+
+
+def detail_body(d, depth, list_href, list_label, prev_item, next_item):
+    """개별 글 본문. 원문 그대로 옮기되 출처를 밝힌다."""
+    title = d.get('title') or d.get('list_title') or ''
+    meta = d.get('meta') or {}
+    order = ['author', 'publisher', 'published', 'posted', 'date']
+    seen, bits = set(), []
+    for k in order:
+        v = meta.get(k)
+        if not v or v in seen:
+            continue
+        seen.add(v)
+        bits.append(f'<span><b>{E(META_LABEL.get(k, k))}</b> {E(v)}</span>')
+
+    cover = ''
+    if d.get('image_local'):
+        cover = (f'<figure class="art-cover"><img src="{rel(depth)}{d["image_local"]}" '
+                 f'alt="" loading="lazy"></figure>')
+
+    secs = []
+    for s in d.get('sections', []):
+        h = f'<h2>{E(s["heading"])}</h2>' if s.get('heading') else ''
+        ps = ''.join(f'<p>{E(p)}</p>' for p in s.get('paragraphs', []))
+        secs.append(h + ps)
+
+    # 본문에 딸린 이미지 중 내려받기에 성공한 것만 싣는다.
+    # (외부 언론사 서버 링크는 HTTPS 에서 어차피 막히고 원본도 자주 사라진다.)
+    gal = ''
+    locals_ = [v for _k, v in sorted((d.get('images_local') or {}).items(), key=lambda x: int(x[0]))]
+    locals_ = [v for v in locals_ if v != d.get('image_local')]
+    if locals_:
+        gal = ('<div class="art-gal">'
+               + ''.join(f'<img src="{rel(depth)}{v}" alt="" loading="lazy">' for v in locals_)
+               + '</div>')
+
+    files = ''
+    if d.get('files'):
+        li = ''.join(f'<li><a href="{E(f["href"])}" target="_blank" rel="noopener">{E(f["name"])}</a></li>'
+                     for f in d['files'])
+        files = f'<div class="art-files"><h2>첨부</h2><ul>{li}</ul></div>'
+
+    nav = []
+    if prev_item:
+        nav.append(f'<a class="pn prev" href="{prev_item[0]}"><span>이전 글</span>{E(prev_item[1])}</a>')
+    if next_item:
+        nav.append(f'<a class="pn next" href="{next_item[0]}"><span>다음 글</span>{E(next_item[1])}</a>')
+    navhtml = f'<nav class="art-nav">{"".join(nav)}</nav>' if nav else ''
+
+    src = ''
+    if d.get('url'):
+        src = (f'<p class="art-src">이 글은 구 홈페이지에서 옮겨온 것입니다. '
+               f'<a href="{E(d["url"])}" target="_blank" rel="noopener">원문 보기</a></p>')
+
+    return f'''<article class="art">
+  <header class="art-hd">
+    {f'<p class="art-m">{"".join(bits)}</p>' if bits else ''}
+  </header>
+  {cover}
+  <div class="prose art-body">{''.join(secs)}</div>
+  {gal}
+  {files}
+  {src}
+  {navhtml}
+  <p class="art-back"><a class="btn btn-g" href="{list_href}">{E(list_label)} 목록으로</a></p>
+</article>'''
+
+
+def build_details():
+    made = 0
+    for board, (skey, lfile, ddir, llabel) in BOARD_MAP.items():
+        items = load('detail_' + board) or []
+        items = [d for d in items if d.get('idx') and d.get('sections')]
+        if not items:
+            continue
+        section = next(s for s in SECTIONS if s[0] == skey)
+        outdir = os.path.join(ROOT, *ddir.split('/'))
+        os.makedirs(outdir, exist_ok=True)
+        depth = len(ddir.split('/'))            # 예: research/books → 2
+        list_href = f'{rel(depth)}{section[3]}/{lfile}'
+        for i, d in enumerate(items):
+            title = d.get('title') or d.get('list_title') or ''
+            prev_item = next_item = None
+            if i > 0:
+                p = items[i - 1]
+                prev_item = (f'{p["idx"]}.html', p.get('title') or p.get('list_title') or '')
+            if i < len(items) - 1:
+                nx = items[i + 1]
+                next_item = (f'{nx["idx"]}.html', nx.get('title') or nx.get('list_title') or '')
+            first = ''
+            for s in d.get('sections', []):
+                if s.get('paragraphs'):
+                    first = s['paragraphs'][0][:150]
+                    break
+            body = detail_body(d, depth, list_href, llabel, prev_item, next_item)
+            out = shell(title[:70] or llabel, first or title, depth, section, lfile, body,
+                        canonical=f'{ddir}/{d["idx"]}.html', lang='ko',
+                        article_title=title or llabel)
+            open(os.path.join(outdir, f'{d["idx"]}.html'), 'w', encoding='utf-8').write(out)
+            made += 1
+    print(f'개별 글 {made}개 페이지')
+
+
 if __name__ == '__main__':
     main()
+    build_details()

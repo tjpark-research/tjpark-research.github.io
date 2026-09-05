@@ -34,5 +34,20 @@
   "http://tjpark.postech.ac.kr/eng_site/01_about/img/txt1_10.jpg",
   "http://tjpark.postech.ac.kr/eng_site/01_about/img/txt1_11.jpg",
   "http://tjpark.postech.ac.kr/eng_site/01_about/img/txt1_12.jpg"
- ]
+ ],
+ "images_local": {
+  "0": "assets/img/legacy/247c7f551f81.jpg",
+  "1": "assets/img/legacy/b56abead2db3.jpg",
+  "2": "assets/img/legacy/777670492400.jpg",
+  "3": "assets/img/legacy/d6c9aced5a04.jpg",
+  "4": "assets/img/legacy/a423616048c5.jpg",
+  "5": "assets/img/legacy/f04ee05f3561.jpg",
+  "6": "assets/img/legacy/0e109c38274e.jpg",
+  "7": "assets/img/legacy/023cb4c467b0.jpg",
+  "8": "assets/img/legacy/0ffc14011eb7.jpg",
+  "9": "assets/img/legacy/13cb83cb78f6.jpg",
+  "10": "assets/img/legacy/2a6b46f097f2.jpg",
+  "11": "assets/img/legacy/ec7d5a4eb069.jpg",
+  "12": "assets/img/legacy/509a7b619f18.jpg"
+ }
 }

@@ -35,5 +35,13 @@
   "http://tjpark.postech.ac.kr/03_research/img/img3_1703.jpg",
   "http://tjpark.postech.ac.kr/03_research/img/img3_1704.jpg",
   "http://tjpark.postech.ac.kr/03_research/img/img3_1705.jpg"
- ]
+ ],
+ "images_local": {
+  "0": "assets/img/legacy/633000691972.jpg",
+  "1": "assets/img/legacy/1592d78de263.jpg",
+  "2": "assets/img/legacy/1a470800eecc.jpg",
+  "3": "assets/img/legacy/d253e82350bb.jpg",
+  "4": "assets/img/legacy/ff3f57be379a.jpg",
+  "5": "assets/img/legacy/c275f0b3675e.jpg"
+ }
 }

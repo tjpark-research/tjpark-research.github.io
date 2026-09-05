@@ -25,5 +25,9 @@
  "images": [
   "http://tjpark.postech.ac.kr/03_research/img/img3_1.jpg",
   "http://tjpark.postech.ac.kr/03_research/img/img3_2.jpg"
- ]
+ ],
+ "images_local": {
+  "0": "assets/img/legacy/633000691972.jpg",
+  "1": "assets/img/legacy/69b0543bb273.jpg"
+ }
 }

@@ -33,5 +33,17 @@
   "http://tjpark.postech.ac.kr/08_youth/img/pro_4.jpg",
   "http://tjpark.postech.ac.kr/08_youth/img/pro_5.jpg",
   "http://tjpark.postech.ac.kr/08_youth/img/pro_6.jpg"
- ]
+ ],
+ "images_local": {
+  "0": "assets/img/legacy/d65803abd713.jpg",
+  "1": "assets/img/legacy/4aa36b6a819a.jpg",
+  "2": "assets/img/legacy/ddce966aab4c.jpg",
+  "3": "assets/img/legacy/2b2976ddd304.jpg",
+  "4": "assets/img/legacy/898d3c56f579.jpg",
+  "5": "assets/img/legacy/2ac1db0b7f7b.jpg",
+  "6": "assets/img/legacy/5986b4f1019b.jpg",
+  "7": "assets/img/legacy/833d2ab355e2.jpg",
+  "8": "assets/img/legacy/67a1feebd70a.jpg",
+  "9": "assets/img/legacy/7ddcb5978c42.jpg"
+ }
 }

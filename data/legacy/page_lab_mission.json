@@ -8,5 +8,8 @@
  ],
  "images": [
   "http://tjpark.postech.ac.kr/02_lab/img/img3.jpg"
- ]
+ ],
+ "images_local": {
+  "0": "assets/img/legacy/2a43267245b8.jpg"
+ }
 }

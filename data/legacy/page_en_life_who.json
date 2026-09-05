@@ -56,5 +56,8 @@
  ],
  "images": [
   "http://tjpark.postech.ac.kr/eng_site/01_about/img/img5.jpg"
- ]
+ ],
+ "images_local": {
+  "0": "assets/img/legacy/6f4a908f6555.jpg"
+ }
 }

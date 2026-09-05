@@ -19,5 +19,12 @@
   "http://tjpark.postech.ac.kr/images/sns/kakao-btn.jpg",
   "http://tjpark.postech.ac.kr/images/sns/twitter-btn.jpg",
   "http://tjpark.postech.ac.kr/08_youth/img/img2_1.jpg"
- ]
+ ],
+ "images_local": {
+  "0": "assets/img/legacy/d65803abd713.jpg",
+  "1": "assets/img/legacy/4aa36b6a819a.jpg",
+  "2": "assets/img/legacy/ddce966aab4c.jpg",
+  "3": "assets/img/legacy/2b2976ddd304.jpg",
+  "4": "assets/img/legacy/58d177b3a510.jpg"
+ }
 }

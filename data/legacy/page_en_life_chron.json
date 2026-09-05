@@ -17,5 +17,9 @@
  "images": [
   "http://tjpark.postech.ac.kr/eng_site/01_about/img/img2.jpg",
   "http://tjpark.postech.ac.kr/eng_site/01_about/img/p_history01.jpg"
- ]
+ ],
+ "images_local": {
+  "0": "assets/img/legacy/6c2db9ae45d5.jpg",
+  "1": "assets/img/legacy/1dfd0c14c636.jpg"
+ }
 }

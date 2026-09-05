@@ -28,8 +28,18 @@ def local_name(url):
     return f'{h}{ext}'
 
 
+# 본문에는 외부 언론사 서버 이미지 링크가 섞여 있다. 남의 서버라 사라지기도 하고
+# 응답이 느려 수집이 멈춘다. 우리가 가져올 수 있는 것은 연구소 자체 서버뿐이다.
+OWN_HOSTS = ('tjpark.postech.ac.kr', 'postech1.dever-host.com')
+DEADLINE = float(os.environ.get('FETCH_SECONDS', '150'))
+
+
+def is_own(url):
+    return any(h in url for h in OWN_HOSTS)
+
+
 def fetch(url, dest):
-    r = S.get(url, timeout=30)
+    r = S.get(url, timeout=8)
     if r.status_code != 200 or len(r.content) < 500:
         raise ValueError(f'HTTP {r.status_code}, {len(r.content)}B')
     data = r.content
@@ -52,8 +62,11 @@ def fetch(url, dest):
 
 def main():
     os.makedirs(OUTDIR, exist_ok=True)
+    global T0
+    T0 = time.time()
     ok = skip = fail = 0
-    for path in sorted(glob.glob(os.path.join(ROOT, 'data', 'legacy', '*.json'))):
+    try:
+      for path in sorted(glob.glob(os.path.join(ROOT, 'data', 'legacy', '*.json'))):
         data = json.load(open(path))
         items = data if isinstance(data, list) else [data]
         changed = False
@@ -64,9 +77,17 @@ def main():
                     urls.append(('image', it['image']))
                 for i, u in enumerate(it.get('images', []) or []):
                     urls.append((('images', i), u))
+                # 상세 페이지 본문 이미지. 외부 언론사 서버 링크가 섞여 있어
+                # 실패가 나오는 게 정상이다(원본이 이미 사라진 것).
+                for i, u in enumerate(it.get('images', []) or []):
+                    pass
             for key, url in urls:
                 if not url or not url.startswith('http'):
                     continue
+                if not is_own(url):
+                    continue
+                if time.time() - T0 > DEADLINE:
+                    raise TimeoutError('deadline')
                 name = local_name(url)
                 dest = os.path.join(OUTDIR, name)
                 rel = 'assets/img/legacy/' + name
@@ -77,9 +98,10 @@ def main():
                         fetch(url, dest)
                         ok += 1
                         time.sleep(0.1)
+                    except TimeoutError:
+                        raise
                     except Exception as e:
                         fail += 1
-                        print(f'  FAIL {url} — {e}')
                         continue
                 if key == 'image':
                     it['local'] = rel
@@ -89,6 +111,11 @@ def main():
         if changed:
             json.dump(data, open(path, 'w'), ensure_ascii=False, indent=1)
         print(f'{os.path.basename(path):34s} 처리')
+        if time.time() - T0 > DEADLINE:
+            print('  (시간 제한 도달 — 다시 실행하면 이어서 받습니다)')
+            break
+    except TimeoutError:
+        print('  (시간 제한 도달 — 다시 실행하면 이어서 받습니다)')
     print(f'\n내려받음 {ok} / 이미 있음 {skip} / 실패 {fail}')
 
 

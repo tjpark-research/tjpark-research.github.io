@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="en"  data-adblockkey=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANnylWw2vLY4hUn9w06zQKbhKBfvjFUCsdFlb6TdQhxb9RXWXuI4t31c+o8fYOv/s8q1LGPga3DE1L/tHU4LENMCAwEAAQ==_s+XEqdQPoh306i+4GoqC7/MOVKPxEz9vi+EJHPxC1g2AMIUpqmv7X36c30xp03j4BM56IEsqxMEJCrSvt6x9WQ==><head><meta charset="utf-8"><title>dever-host.com&nbsp;-&nbsp;dever host 자료와 정보</title><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0"><meta name="description" content="dever-host.com 은(는) dever host에 대한 정보를 위한 최초 및 최고의 소스입니다. 여기서 일반 관심사에 관련된 주제도 찾을 수 있습니다. 여러분이 원하는 것을 찾으실 수 있기를 바랍니다!"><link
+        rel="icon"
+        type="image/png"
+        href="//img.sedoparking.com/templates/logos/sedo_logo.png"
+/></head><body><img width="16" height="16" src="https://img.sedoparking.com/images/js_preloader.gif" alt="" /><script type="text/javascript">
+    const CHEQ_BLOCKED_REASONS = [
+        "Automation tool", "Disabled JS", "Malicious Bots",
+        "False Representation", "Low quality users",
+        "Location Spoofing", "IP reputation", "Browser Anomalies",
+        "Invalid Bot Activity"
+    ];
+
+    function doRedirect() {
+        const request = new XMLHttpRequest();
+        request.open('GET', "\/\/postech1.dever\u002Dhost.com/search/tsc.php?ses\u003DogcBqImnMZKXkdavgogzRtoMKTKK9qwQdWkaI795zj7GxhxQes78\u002Dl\u002DyTKzw0XLWIBTGDjAhS8hK46gzKwMZZ5ucZdV8TikwSosHLsP8Tw4A69kuqkCIFG4QjrylTGtrlJuOCAOSnmMFoM06VhYrwo2qPv9FMXYjeDDHqxAOftNDIYaFRFkQGYhidFVv1kWBog1F5kaPFI840CT9iOn2MsQ2rlZObdY6oKe3Ils\u002DpnSvGWuQvXSxIWPMEgzggSwp4kpk9Ry\u002DnCY4QdeJ1B_r_xThtCl3elE_711l\u002Dsd58pta1Xxrbd7tOC9SN1nVwVzF8_6angZqkoXL6a\u002DLuNeV8e5u10PLSVRsj3rVBd0K7KyU03nGlL4VrFcVUUoeTYK\u0026cv\u003D2");
+        request.send();
+                request.onreadystatechange = function () {
+            if (request.readyState === 4 && request.status === 200) {
+                window.location = "\/\/postech1.dever\u002Dhost.com\/search\/redirect.php\u003Ff\u003Dhttp\u00253A\u00252F\u00252Fonlineresultsfinder.com\u00253Fdn\u00253Ddever\u002Dhost.com\u002526sksubid\u00253D6949930\u002526_slsen\u00253D0\u0026v\u003DogcpjggkJhQ5xXpXt_DYYJXpxhqsoYhlFR4jJovhU3oDnkU7yIVPCmsiCvl15YrU9Z9X_ZVqXR1daixUbFwo2l0nWhlXngIyqXsZjxQD\u002DL4Y2_M2KixB8Fg3kblxqFzY5AIxdPNEsRcQUOJ52d7Ip8YrjoT2aexHxNpbd2z4SwLYt40Bmvkercqb5Ya81mX9ur3Tfp57IOj3DwUwse2qb7vy0KMLf8\u0026l\u003DogcpJDLxXuaBK6EWbv_3Qi8FsrnS4YIJAHEngWvjrz6pNaSincC7lwB61F9QLojC\u002Dgwls3XvSkvfNrclIWc_TcjRowTEWMrBf4wfFJYBha80_cINu9V7yNJ\u002DX0jxV\u002DNygcHzy07sPBp1_5C1hfJSTlCJ0358YIeVMknQMtD8BT2NTz3HtJgdpf5syR\u002Dd76HAfhIY2YdYHb4IyDY_boc1rcyj2nx8NFI5YO5wo0Om6fLyBbZahz_EWE\u002DZjE5nIMqzkGhrmQnTE4ikb0JxRCn0bAL9\u002DZ6v37lkB91jrBn7a2AVcQ2j1zQkUPScjjHgtne3wu217slG0Or2U23pIcCBHH8q4gxfxqFMBeK6aVf5hpCz\u002D1k4sdEJUdJw0Ltq_L24lH0WF0wBheGZb4GnkVJAEblAHsgnqI8aIZkvFIECkFlCZco3P2VLTAdMDuqAFhTr0avw1pZyyfsRWFhn1s_bGiFm1TRSqiFWmZqYe8dGJMSRoVQ5IKsaAaMHbnovi9w7zo9hg5HpfaIHpm8SdZwDEWOrFM3ekD588Ol4BIKGNN7joWc\u002D88pkdKab8RZYmxIOYMqj4ArqsBrbAqemRCSlNgyIHU4Qop25lFbwCtmEwdZVnAp4uN6dZDYh6B0a7fnO_b\u002DXsybIgKqMXwRKuH5ZuT\u002DVWKQBNC1v75THA1MJ0xmocVmfyndpW3oht43aKbxKtznaRwZRj6LffG_PWAXynd8PctOsykt0u1H";
+            }
+        };
+            }
+
+            doRedirect();
+    </script></body></html>
