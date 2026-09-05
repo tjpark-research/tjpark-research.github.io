@@ -98,50 +98,24 @@
     show(0);
   }
 
-  /* ---------- 하위 페이지: 게시판 검색 + 더 보기 ----------
+  /* ---------- 하위 페이지: 게시판 '더 보기' ----------
      항목은 전부 HTML 에 들어 있다(JS 없이도 전체가 보인다).
-     JS 가 있을 때만 접어서 보여주고 검색으로 걸러 낸다. */
+     JS 가 있을 때만 접어서 조금씩 펼쳐 준다. */
   document.querySelectorAll('.board').forEach(function (board) {
     var size = parseInt(board.getAttribute('data-page-size') || '12', 10);
     var list = board.querySelector('ul');
     var all = Array.prototype.slice.call(list.children);
     var moreWrap = board.querySelector('.board-more');
     var moreBtn = board.querySelector('[data-board-more]');
-    var search = board.querySelector('[data-board-search]');
-    var cnt = board.querySelector('.cnt b');
     var shown = size;
-    var q = '';
-
-    var empty = document.createElement('p');
-    empty.className = 'board-empty';
-    empty.textContent = '검색 결과가 없습니다.';
-    empty.hidden = true;
-    list.parentNode.insertBefore(empty, list.nextSibling);
 
     function apply() {
-      var matched = 0, visible = 0;
-      all.forEach(function (li) {
-        var hit = !q || (li.getAttribute('data-k') || '').indexOf(q) !== -1;
-        if (!hit) { li.hidden = true; return; }
-        matched++;
-        var ok = visible < shown;
-        li.hidden = !ok;
-        if (ok) visible++;
-      });
-      if (cnt) cnt.textContent = matched;
-      empty.hidden = matched !== 0;
-      if (moreWrap) moreWrap.hidden = matched <= shown;
+      all.forEach(function (li, i) { li.hidden = i >= shown; });
+      if (moreWrap) moreWrap.hidden = all.length <= shown;
     }
 
     if (moreBtn) {
       moreBtn.addEventListener('click', function () { shown += size; apply(); });
-    }
-    if (search) {
-      search.addEventListener('input', function () {
-        q = this.value.trim().toLowerCase();
-        shown = size;
-        apply();
-      });
     }
     apply();
   });

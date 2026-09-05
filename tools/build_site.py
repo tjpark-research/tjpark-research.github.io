@@ -460,7 +460,6 @@ def render_board(name, depth, style='cards', empty='등록된 자료가 없습�
         t = it.get('title') or ''
         meta = ' · '.join(x for x in [it.get('author'), it.get('publisher'), it.get('date')] if x)
         summ = (it.get('summary') or '')[:150]
-        key = E((t + ' ' + (it.get('author') or '')).lower())
         if style == 'cards':
             img = (f'<img src="{rel(depth)}{it["local"]}" alt="" loading="lazy">'
                    if it.get('local') else '<span class="noimg">TJPI</span>')
@@ -470,20 +469,18 @@ def render_board(name, depth, style='cards', empty='등록된 자료가 없습�
                      + (f'<p class="s">{E(summ)}</p>' if summ else '')
                      + '</div>')
             body_html = f'<a href="{href}">{inner}</a>' if href else inner
-            cards.append(f'<li class="bcard" data-k="{key}">{body_html}</li>')
+            cards.append(f'<li class="bcard">{body_html}</li>')
         else:
             # 연재물은 회차가 있으면 앞에 붙인다.
             no = f'<span class="no">{it["episode"]}</span>' if it.get('episode') else ''
             inner = (no + f'<span class="tt">{E(t)}</span>'
                      f'<span class="dt">{E(it.get("date") or "")}</span>')
             body_html = f'<a href="{href}">{inner}</a>' if href else inner
-            cards.append(f'<li class="brow" data-k="{key}">{body_html}</li>')
+            cards.append(f'<li class="brow">{body_html}</li>')
     cls = 'bgrid' if style == 'cards' else 'blist'
     return f'''<div class="board" data-page-size="{12 if style=="cards" else 20}">
   <div class="board-top">
     <p class="cnt">전체 <b>{len(items)}</b>건</p>
-    <label class="board-search"><span class="sr">검색</span>
-      <input type="search" placeholder="제목·저자 검색" data-board-search></label>
   </div>
   <ul class="{cls}">{''.join(cards)}</ul>
   <div class="board-more"><button type="button" data-board-more>더 보기</button></div>
