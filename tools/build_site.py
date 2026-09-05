@@ -1188,32 +1188,39 @@ def greeting_photos(depth, lang='ko'):
 # (원래는 첫 이미지만 가져오는 바람에 여섯 시대에 같은 배너가 반복되고
 #  정작 시대별 사진은 하나도 나오지 않았다.)
 
+# (시대, 수집키, 소제목, [(파일, 설명, 이 문장 옆에 놓기)])
+# 세 번째 값은 본문을 문장 단위로 끊었을 때의 번호다.
+# 사진이 글과 따로 놀지 않도록, 그 사건을 말하는 대목 옆에 붙인다.
 BIO_ERAS = [
     ('1927~1947', 'life_bio_1', '유년에서 청년까지', [
-        ('1927-japan-school.jpg', '일본 중학교 시절'),
+        ('1927-japan-school.jpg', '일본 중학교 시절', 0),
     ]),
     ('1948~1960', 'life_bio_2', '“짧은 인생을 영원 조국에” — 군인으로 살다', [
-        ('1948-medal.jpg', '무공훈장을 받는 박태준'),
-        ('1948-us-delegation.jpg', '박태준(앞줄 맨 가운데)이 인솔한 도미사찰단이 미국공항에 내린 모습'),
+        ('1948-medal.jpg', '무공훈장을 받는 박태준', 18),
+        ('1948-us-delegation.jpg',
+         '박태준(앞줄 맨 가운데)이 인솔한 도미사찰단이 미국공항에 내린 모습', 24),
     ]),
     ('1961~1967', 'life_bio_3', '국가의 경제 일꾼으로 나서다', [
-        ('1961-supreme-council.jpg', '국가재건최고회의 상공담당 최고위원 시절의 박태준(가운데)'),
-        ('1964-japan-visit.jpg', '일본 순방 (1964년)'),
+        ('1961-supreme-council.jpg', '국가재건최고회의 상공담당 최고위원 시절의 박태준(가운데)', 3),
+        ('1964-japan-visit.jpg', '일본 순방 (1964년)', 6),
     ]),
     ('1968~1992', 'life_bio_4', '포항종합제철(POSCO)을 세계 최고로 키우다', [
-        ('1968-groundbreaking.jpg', '착공식에서 파일 항타의 버튼을 누르는 박태준·박정희·김학렬 (왼쪽부터)'),
-        ('1973-first-tapping.jpg', '첫 출선에 감동하여 만세를 외치는 박태준과 직원들'),
-        ('1987-campus-inspection.jpg', '2단계 대학 공사현장 순시 (1987년 3월)'),
-        ('1992-completion.jpg', '4반세기 대역사 종합준공보고 (1992년 10월 3일)'),
+        ('1968-groundbreaking.jpg',
+         '착공식에서 파일 항타의 버튼을 누르는 박태준·박정희·김학렬 (왼쪽부터)', 11),
+        ('1973-first-tapping.jpg', '첫 출선에 감동하여 만세를 외치는 박태준과 직원들', 13),
+        ('1992-completion.jpg', '4반세기 대역사 종합준공보고 (1992년 10월 3일)', 17),
+        ('1987-campus-inspection.jpg', '2단계 대학 공사현장 순시 (1987년 3월)', 29),
     ]),
     ('1993~2000', 'life_bio_5', '해외유랑 후 국가부도위기 극복에 앞장서다', [
-        ('1998-president-elect.jpg', '김대중 대통령 당선자와 환담하는 박태준 (1998년)'),
-        ('1998-assembly-speech.jpg', '국회 교섭단체 대표연설을 하는 자민련 총재 박태준 (1998년 11월 12일)'),
+        ('1998-president-elect.jpg', '김대중 대통령 당선자와 환담하는 박태준 (1998년)', 3),
+        ('1998-assembly-speech.jpg',
+         '국회 교섭단체 대표연설을 하는 자민련 총재 박태준 (1998년 11월 12일)', 4),
     ]),
     ('2001~2011', 'life_bio_6', '황혼의 박태준과 그의 마지막 계절', [
-        ('2009-tjpark-prize.jpg', '2009 포스코청암상 수상자와 청암 박태준'),
-        ('2011-last-speech.jpg', '2011년 9월 19일 포스코한마당체육관에서 열린 박태준 명예회장과 '
-                                 '퇴직 직원의 19년 만의 만남에서 행한 생애 마지막 연설'),
+        ('2009-tjpark-prize.jpg', '2009 포스코청암상 수상자와 청암 박태준', 4),
+        ('2011-last-speech.jpg',
+         '2011년 9월 19일 포스코한마당체육관에서 열린 박태준 명예회장과 '
+         '퇴직 직원의 19년 만의 만남에서 행한 생애 마지막 연설', 12),
     ]),
 ]
 
@@ -1228,20 +1235,49 @@ BIO_INTRO = [
 ]
 
 
+SENT_SPLIT = re.compile(r'(?<=다\.)\s+')
+
+
 def bio_page(depth):
+    """생애 — 시대별 본문과 사진.
+
+    구 사이트 본문은 한 시대가 통째로 한 문단이라 2,400자짜리 벽이 되기도 했다.
+    문장 단위로 끊어 문단으로 묶고, 각 사진을 그 사건을 말하는 대목 옆에 띄운다.
+    """
     P = 'assets/img/legacy/bio/'
     tabs, panes = [], []
     for i, (label, key, subtitle, photos) in enumerate(BIO_ERAS):
+        # 같은 글이 두 번 수집된 시대가 있어(1993~2000) 중복 문단을 걸러낸다
+        blocks, seen = [], set()
+        for b in blocks_of(key):
+            if len(b) > 60 and b not in seen:
+                seen.add(b)
+                blocks.append(b)
+        sents = [x.strip() for b in blocks for x in SENT_SPLIT.split(b) if x.strip()]
+
+        at = {}
+        for fn, cap, idx in photos:
+            at.setdefault(min(idx, max(len(sents) - 1, 0)), []).append((fn, cap))
+
+        breaks = set(list(at.keys()) + list(range(0, len(sents), 5)))
+        html, cur = [], []
+        for n, sent in enumerate(sents):
+            if n in breaks and cur:
+                html.append(f'<p>{E(" ".join(cur))}</p>')
+                cur = []
+            for fn, cap in at.get(n, []):
+                html.append(_photo(P + fn, depth, cap, 'bio-fig'))
+            cur.append(sent)
+        if cur:
+            html.append(f'<p>{E(" ".join(cur))}</p>')
+
         on = ' class="on"' if i == 0 else ''
         tabs.append(f'<button type="button"{on} data-era="{i}">{E(label)}</button>')
-        text = ''.join(f'<p>{E(b)}</p>' for b in blocks_of(key) if len(b) > 60)
-        figs = ''.join(_photo(P + fn, depth, cap) for fn, cap in photos)
         panes.append(
             f'<section class="era-pane" data-era="{i}">'
             f'<h2 class="era-h">{E(label)}</h2>'
             f'<p class="era-sub">{E(subtitle)} <span>{E(label)}</span></p>'
-            f'<div class="bio-body">{text}</div>'
-            f'<div class="bio-photos">{figs}</div>'
+            f'<div class="bio-body">{"".join(html)}</div>'
             f'</section>')
     intro = ''.join(f'<p>{E(t)}</p>' for t in BIO_INTRO)
     return (f'<div class="prose bio-intro"><p class="lead">청암 박태준, 그가 걸어온 길을 들여다 보다</p>'

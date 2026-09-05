@@ -644,8 +644,12 @@ ul,ol{margin:0;padding:0;list-style:none}
 .era-sub{font-size:15px;font-weight:600;color:var(--bronze);margin-bottom:20px}
 .era-sub span{color:var(--text-3);font-weight:400;margin-left:8px;font-size:13px}
 .js .era-pane.on .era-sub{display:block}
-.bio-photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
-  gap:24px;margin-top:34px}
-.bio-photos .fig{margin:0}
-.bio-photos .fig img{width:100%}
-.bio-photos figcaption{font-size:12.5px;line-height:1.6}
+/* 사진을 본문 오른쪽에 띄워 해당 대목 옆에 오게 한다 */
+.bio-body{overflow:hidden}
+.bio-body .bio-fig{float:right;width:224px;margin:6px 0 20px 30px;clear:right}
+.bio-body .bio-fig img{width:100%}
+.bio-body .bio-fig figcaption{font-size:12.5px;line-height:1.6;margin-top:8px}
+.bio-body p+p{margin-top:16px}
+@media (max-width:720px){
+  .bio-body .bio-fig{float:none;width:100%;max-width:320px;margin:22px auto}
+}
