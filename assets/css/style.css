@@ -735,23 +735,34 @@ ol.cr{list-style:none;margin:22px 0 0;padding:0 0 0 4px;
   .cr-pager .cr-next{text-align:left}
 }
 
-/* 전체연보 표 (년도 / 당시 나이 / 내용) */
+/* 전체연보 표 (년도 / 당시 나이 / 내용)
+   45행짜리 표는 가로줄만으로는 열이 안 읽힌다. 세로 구분선 + 줄무늬 +
+   열마다 다른 정렬·색으로 세 열이 눈에 바로 갈리게 한다. */
 .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:4px}
-table.cr-tbl{width:100%;min-width:640px;border-collapse:collapse;
-  border-top:2px solid var(--text)}
+table.cr-tbl{width:100%;min-width:680px;border-collapse:collapse;
+  border:1px solid var(--line);border-top:2px solid var(--text);background:#fff}
 .cr-tbl caption{caption-side:top;text-align:left;padding:0 0 10px;
   font-size:12.5px;color:var(--text-3);font-weight:var(--w-body)}
-.cr-tbl thead th{padding:13px 14px;background:#f7f7f8;
-  border-bottom:1px solid var(--line);font-size:13px;font-weight:700;
-  color:var(--text);letter-spacing:0;text-align:left;white-space:nowrap}
-.cr-tbl tbody th,.cr-tbl tbody td{padding:14px;border-bottom:1px solid var(--line);
-  font-size:14.5px;line-height:1.8;vertical-align:top;text-align:left}
-.cr-tbl tbody th{width:96px;white-space:nowrap;font-weight:700;
+.cr-tbl th,.cr-tbl td{border-right:1px solid var(--line)}
+.cr-tbl tr>*:last-child{border-right:0}
+.cr-tbl thead th{padding:13px 14px;background:#eef0f3;
+  border-bottom:1px solid #cfd4db;border-right-color:#dfe3e8;
+  font-size:13px;font-weight:700;color:var(--text);letter-spacing:0;
+  white-space:nowrap}
+.cr-tbl thead th:nth-child(-n+2){text-align:center}
+.cr-tbl thead th:last-child{text-align:left}
+.cr-tbl tbody th,.cr-tbl tbody td{padding:14px 16px;
+  border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.8;
+  vertical-align:top}
+.cr-tbl tbody tr:last-child th,.cr-tbl tbody tr:last-child td{border-bottom:0}
+.cr-tbl tbody tr:nth-child(even){background:#f8f9fa}
+.cr-tbl tbody th{text-align:center;white-space:nowrap;font-weight:700;
   color:var(--crimson);letter-spacing:0}
-.cr-tbl .cr-age{width:92px;white-space:nowrap;color:var(--text-3);
+.cr-tbl .cr-age{text-align:center;white-space:nowrap;color:var(--text-3);
   font-size:13px;font-weight:600}
-.cr-tbl tbody td:last-child{color:var(--text-2);font-weight:var(--w-body)}
-.cr-tbl tbody tr:hover{background:#fafafb}
+.cr-tbl tbody td:last-child{text-align:left;color:var(--text-2);
+  font-weight:var(--w-body)}
+.cr-tbl tbody tr:hover{background:#fdf3f4}
 
 @media (max-width:560px){
   /* 좁은 화면에서 표를 옆으로 밀며 읽게 하지 않는다.
@@ -765,4 +776,16 @@ table.cr-tbl{width:100%;min-width:640px;border-collapse:collapse;
   .cr-tbl tbody th{font-size:16px}
   .cr-tbl .cr-age{margin-left:8px}
   .cr-tbl tbody td:last-child{display:block;margin-top:7px}
+}
+
+.cr-tbl col.c-y{width:104px}
+.cr-tbl col.c-a{width:104px}
+@media (max-width:560px){
+  .cr-tbl col.c-y,.cr-tbl col.c-a{width:auto}
+  /* 세로줄과 좌우 테두리는 좁은 화면에서 의미가 없다 — 글이 테두리에
+     붙어 보이지 않도록 지운다. */
+  table.cr-tbl{border-left:0;border-right:0}
+  .cr-tbl th,.cr-tbl td{border-right:0}
+  .cr-tbl tbody tr:nth-child(even){background:none}
+  .cr-tbl tbody tr:last-child th,.cr-tbl tbody tr:last-child td{border-bottom:0}
 }

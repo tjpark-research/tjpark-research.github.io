@@ -715,6 +715,7 @@ def chronology_page(depth):
     table = (
         '<div class="tbl-wrap"><table class="cr-tbl">'
         '<caption>청암 박태준 전체연보 (1927~2011)</caption>'
+        '<colgroup><col class="c-y"><col class="c-a"><col></colgroup>'
         '<thead><tr><th scope="col">년도</th><th scope="col">당시 나이</th>'
         '<th scope="col">내용</th></tr></thead>'
         f'<tbody>{"".join(rows)}</tbody></table></div>')
