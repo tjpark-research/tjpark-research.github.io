@@ -97,18 +97,28 @@ def imgs_of(page_key):
 
 # ─────────────────────────────────────────────────────────── 공통 조각
 def rel(depth):
+    """현재 문서에서 '사이트 루트'까지 올라가는 상대경로."""
     return '../' * depth
+
+
+def base(depth, lang='ko'):
+    """현재 문서에서 '그 언어판의 루트'까지 가는 상대경로.
+
+    한국어는 사이트 루트가 곧 언어 루트지만, 영문은 /en/ 이 언어 루트다.
+    이걸 구분하지 않으면 영문 페이지의 메뉴가 전부 한국어 페이지를 가리킨다.
+    """
+    return rel(depth) + ('en/' if lang == 'en' else '')
 
 
 def gnb(depth, active=None, lang='ko'):
     secs = SECTIONS if lang == 'ko' else EN_SECTIONS
+    b = base(depth, lang)
     li = []
     for key, label, _en, d, kids in secs:
-        sub = ''.join(
-            f'<a href="{rel(depth)}{d}/{f}">{E(cl)}</a>' for f, cl, _s in kids)
+        sub = ''.join(f'<a href="{b}{d}/{f}">{E(cl)}</a>' for f, cl, _s in kids)
         cls = ' class="on"' if key == active else ''
         li.append(
-            f'<li{cls}><a href="{rel(depth)}{d}/index.html">{E(label)}</a>'
+            f'<li{cls}><a href="{b}{d}/index.html">{E(label)}</a>'
             f'<div class="mega">{sub}</div></li>')
     return '<ul class="gnb">' + ''.join(li) + '</ul>'
 
@@ -128,8 +138,8 @@ def header(depth, active=None, lang='ko', alt_href=None):
                  ('http://museum.posco.co.kr/', '포스코박물관')]
     else:
         brand_sub, related = 'Tae-Joon Park Institute', 'Related Sites'
-        toggle = (f'<a href="{alt_href or (r + "../index.html")}">KOR</a><span>|</span>'
-                  f'<a href="{r}index.html" class="on">ENG</a>')
+        toggle = (f'<a href="{alt_href or (r + "index.html")}">KOR</a><span>|</span>'
+                  f'<a href="{base(depth, "en")}index.html" class="on">ENG</a>')
         sites = [('https://www.postech.ac.kr/eng/', 'POSTECH'),
                  ('https://www.posco.co.kr/', 'POSCO'),
                  ('https://www.postf.org/', 'POSCO TJ Park Foundation'),
@@ -145,7 +155,7 @@ def header(depth, active=None, lang='ko', alt_href=None):
 </div>
 <header class="hd">
   <div class="wrap">
-    <a class="brand" href="{r}index.html">
+    <a class="brand" href="{base(depth, lang)}index.html">
       <span class="mark">tjpi</span>
       <span class="txt"><b>POSTECH</b><span>{E(brand_sub)}</span></span>
     </a>
@@ -158,7 +168,8 @@ def header(depth, active=None, lang='ko', alt_href=None):
 def footer(depth, lang='ko'):
     r = rel(depth)
     secs = SECTIONS if lang == 'ko' else EN_SECTIONS
-    links = ''.join(f'<li><a href="{r}{d}/index.html">{E(l)}</a></li>'
+    b = base(depth, lang)
+    links = ''.join(f'<li><a href="{b}{d}/index.html">{E(l)}</a></li>'
                     for _k, l, _e, d, _c in secs)
     if lang == 'ko':
         privacy = '개인정보처리방침'
@@ -202,12 +213,13 @@ def footer(depth, lang='ko'):
 </footer>'''
 
 
-def lnb(section, current_file, depth):
+def lnb(section, current_file, depth, lang='ko'):
     key, label, en, d, kids = section
+    b = base(depth, lang)
     parts = []
     for f, cl, _s in kids:
         on = ' class="on"' if f == current_file else ''
-        parts.append(f'<li{on}><a href="{rel(depth)}{d}/{f}">{E(cl)}</a></li>')
+        parts.append(f'<li{on}><a href="{b}{d}/{f}">{E(cl)}</a></li>')
     items = ''.join(parts)
     return f'<nav class="lnb" aria-label="{E(label)} 하위 메뉴"><p class="lnb-t">{E(label)}<span>{E(en)}</span></p><ul>{items}</ul></nav>'
 
@@ -221,10 +233,11 @@ def shell(title, desc, depth, section, current_file, body, canonical,
     cur_label = next((cl for f, cl, _s in kids if f == current_file), label)
     r = rel(depth)
     home = 'HOME'
-    crumb = (f'<a href="{r}index.html">{home}</a><span>›</span>'
-             f'<a href="{r}{d}/index.html">{E(label)}</a><span>›</span>')
+    b = base(depth, lang)
+    crumb = (f'<a href="{b}index.html">{home}</a><span>›</span>'
+             f'<a href="{b}{d}/index.html">{E(label)}</a><span>›</span>')
     if article_title:
-        crumb += f'<a href="{r}{d}/{current_file}">{E(cur_label)}</a><span>›</span><em>{E(article_title[:40])}</em>'
+        crumb += f'<a href="{b}{d}/{current_file}">{E(cur_label)}</a><span>›</span><em>{E(article_title[:40])}</em>'
     else:
         crumb += f'<em>{E(cur_label)}</em>'
     hero_kicker = cur_label if article_title else en
@@ -268,7 +281,7 @@ def shell(title, desc, depth, section, current_file, body, canonical,
   </div>
 </div>
 <div class="sub-wrap wrap">
-  {lnb(section, current_file, depth)}
+  {lnb(section, current_file, depth, lang)}
   <main id="main" class="sub-main">
 {body}
   </main>
