@@ -1296,10 +1296,17 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     # 본문에 딸린 이미지 중 내려받기에 성공한 것만 싣는다.
     # (외부 언론사 서버 링크는 HTTPS 에서 어차피 막히고 원본도 자주 사라진다.)
     # 본문에 사진을 제자리에 넣었으면 아래에 또 늘어놓지 않는다.
+    # 자리를 찾지 못한 사진이 두어 장뿐이면(대개 기사 스캔 한 장이 곧 본문인
+    # 경우다) 격자로 묶지 말고 본문 흐름에 그대로 이어 붙인다.
     gal = ''
     locals_ = [] if inline_n else [
         v for _k, v in sorted((d.get('images_local') or {}).items(), key=lambda x: int(x[0]))]
     locals_ = [v for v in locals_ if v != d.get('image_local')]
+    if locals_ and len(locals_) <= 3:
+        secs.append(''.join(
+            f'<figure class="art-fig"><img src="{rel(depth)}{v}" alt="" loading="lazy"></figure>'
+            for v in locals_))
+        locals_ = []
     if locals_:
         gal = ('<div class="art-gal"><div class="art-gal-in">'
                + ''.join(f'<img src="{rel(depth)}{v}" alt="" loading="lazy">' for v in locals_)
@@ -1829,10 +1836,10 @@ def media_page(depth, lang='ko'):
                 '모았습니다.</p>'
                 f'<p>청암 박태준과 관련된 기사 {n}건입니다. 제목 앞의 대괄호는 '
                 '보도 매체를 가리킵니다.</p></div>')
-        note = ('<p class="src-note">※ 기사 본문은 각 언론사가 저작권을 가진 '
+        note = ('<p class="src-note">※ 기사와 사진은 각 언론사가 저작권을 가진 '
                 '자료입니다. 구 홈페이지에 실려 있던 그대로 옮겼으며, 본문 끝에 '
-                '원문 주소를 남겨 두었습니다. 언론사 서버에 있던 사진은 옮기지 '
-                '않았고, 사진 설명만 남아 있는 자리가 있습니다.</p>')
+                '원문 주소를 남겨 두었습니다. 언론사 서버에서 이미 사라진 사진은 '
+                '설명만 남아 있습니다.</p>')
     else:
         lead = ('<div class="prose">'
                 '<p class="lead">How the press and broadcasters have recorded '

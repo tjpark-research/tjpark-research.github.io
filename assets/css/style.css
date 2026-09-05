@@ -545,8 +545,6 @@ ul,ol{margin:0;padding:0;list-style:none}
 /* 본문에 딸린 사진. 원본은 가로·세로·크기가 제각각이라 그대로 늘어놓으면
    줄이 들쭉날쭉해진다. 칸 높이를 맞추고 그 안에서 비율을 지켜 담는다. */
 .art-gal{margin:34px 0 0;padding-top:22px;border-top:1px solid var(--line)}
-.art-gal::before{content:"연재 사진";display:block;margin-bottom:14px;font-size:12px;
-  font-weight:700;letter-spacing:.06em;color:var(--bronze)}
 .art-gal-in{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
   gap:14px}
 .art-gal-in img{width:100%;height:190px;object-fit:contain;background:#f4f5f6;

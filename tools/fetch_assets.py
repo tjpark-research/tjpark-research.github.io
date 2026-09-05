@@ -38,8 +38,22 @@ OWN_HOSTS = ('tjpark.postech.ac.kr', 'postech1.dever-host.com',
 DEADLINE = float(os.environ.get('FETCH_SECONDS', '150'))
 
 
-def is_own(url):
-    return any(h in url for h in OWN_HOSTS)
+# 광고·추적 픽셀. 기사 본문에 섞여 들어오지만 콘텐츠가 아니다.
+AD_HOSTS = ('criteo.com', 'doubleclick.net', 'googlesyndication.com',
+            'cad.chosun.com', 'ad.', 'analytics.')
+
+# 이 파일들은 외부(언론사) 서버 이미지도 가져온다.
+# 언론자료는 기사와 사진이 한 벌이라 사진 없이 캡션만 남으면 뜻이 통하지 않는다.
+# 저작권은 각 언론사에 있으므로 게재 조건은 연구소가 확인해야 한다.
+EXTERNAL_OK = {'detail_tj_media.json'}
+
+
+def is_own(url, allow_external=False):
+    if any(h in url for h in AD_HOSTS):
+        return False
+    if any(h in url for h in OWN_HOSTS):
+        return True
+    return allow_external and url.startswith('http')
 
 
 def fetch(url, dest):
@@ -72,6 +86,7 @@ def main():
     try:
       for path in sorted(glob.glob(os.path.join(ROOT, 'data', 'legacy', '*.json'))):
         data = json.load(open(path))
+        allow_external = os.path.basename(path) in EXTERNAL_OK
         items = data if isinstance(data, list) else [data]
         changed = False
         for it in items:
@@ -88,7 +103,7 @@ def main():
             for key, url in urls:
                 if not url or not url.startswith('http'):
                     continue
-                if not is_own(url):
+                if not is_own(url, allow_external):
                     continue
                 if time.time() - T0 > DEADLINE:
                     raise TimeoutError('deadline')

@@ -143,8 +143,12 @@ def extract(url):
     for a in scope.select('a[href]'):
         h = a.get('href') or ''
         if h.lower().endswith(FILE_EXT) or 'download' in h.lower():
+            # 첨부 링크의 이름이 이미지 버튼인 경우가 있다. 위에서 이미지를
+            # 자리표시자로 바꿔 두었으므로 그 표시자가 이름에 섞이지 않게 한다.
+            nm = clean(a.get_text(' '))
+            nm = re.sub(r'\[\[IMG\|[^|]*\|([^\]]*)\]\]', r'\1', nm).strip()
             out['files'].append({'href': urljoin(url, h),
-                                 'name': clean(a.get_text(' ')) or os.path.basename(h)})
+                                 'name': nm or os.path.basename(h)})
     return out
 
 
