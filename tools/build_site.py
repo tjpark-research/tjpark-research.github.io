@@ -444,8 +444,8 @@ def PAGES(depth):
     # ── 미래전략연구
     P[('research', 'index.html')] = ('연구소개', '‘박태준 정신’을 기반으로 미래 핵심문제를 조망하고 대응 방향을 제안합니다.',
         render_prose(blocks_of('research_intro'), imgs_of('research_intro'), d))
-    P[('research', 'longterm.html')] = ('중장기 연구주제', '연구소가 설정한 중장기 연구 방향입니다.',
-        render_image_page(imgs_of('research_longterm'), d, '연구소의 중장기 연구 방향입니다.'))
+    P[('research', 'longterm.html')] = ('중장기 연구주제', '연구소가 중장기적으로 붙들고 있는 세 갈래 질문.',
+        longterm_page(d, 'ko'))
     P[('research', 'themes.html')] = ('연도별 연구주제', '연도별로 선정한 미래전략 연구주제와 세부 과제입니다.',
         render_eras([('2018~2020', 'research_theme_18_20'), ('2017~2018', 'research_theme_17_18'),
                      ('2016~2017', 'research_theme_16_17'), ('2015~2016', 'research_theme_15_16'),
@@ -505,14 +505,12 @@ def PAGES(depth):
         render_prose(blocks_of('lab_greeting'), [], d))
     P[('about', 'purpose.html')] = ('설립목적', '연구소 설립의 취지.',
         render_prose(blocks_of('lab_purpose'), [], d))
-    P[('about', 'mission.html')] = ('미션', '연구소의 미션.',
-        render_image_page(imgs_of('lab_mission'), d, '연구소의 미션입니다.'))
+    P[('about', 'mission.html')] = ('미션', '박태준미래전략연구소의 미션.', mission_page(d, 'ko'))
     P[('about', 'history.html')] = ('연혁', '2013년 개소 이후의 연혁.',
         render_timeline(blocks_of('lab_history')))
     P[('about', 'logo.html')] = ('로고 소개', '연구소 로고의 의미.',
         render_prose([b for b in blocks_of('lab_logo') if len(b) > 15], imgs_of('lab_logo'), d))
-    P[('about', 'projects.html')] = ('주요사업', '연구소의 주요 사업.',
-        render_image_page(imgs_of('lab_projects'), d, '연구소가 수행하는 주요 사업입니다.'))
+    P[('about', 'projects.html')] = ('주요사업', '연구소의 중점사업과 사업원칙.', projects_page(d, 'ko'))
     P[('about', 'people.html')] = ('연구소사람들', '연구기획실과 연구위원회 구성.', people_page(d))
     P[('about', 'location.html')] = ('오시는 길', '연구소 위치와 연락처.', location_page(d))
     return P
@@ -606,9 +604,8 @@ def EN_PAGES(depth):
     # ── Future Strategy Research
     P[('research', 'index.html')] = ('Background', 'Researching differentiated future strategies based on the TJ Park Spirit.',
         render_prose([b for b in blocks_of('en_research_bg') if len(b) > 30], [], d))
-    P[('research', 'longterm.html')] = ('Long-term Agenda', 'The Institute’s long-term research directions.',
-        render_image_page(imgs_of('en_research_fields') or imgs_of('research_longterm'), d,
-                          'The Institute’s long-term research directions.'))
+    P[('research', 'longterm.html')] = ('Long-term Agenda', 'Three lines of enquiry pursued over the long term.',
+        longterm_page(d, 'en'))
     P[('research', 'themes.html')] = ('Annual Research Themes', 'Research themes selected each year.',
         '<div class="prose"><p class="lead">Each year the Institute selects a set of themes and '
         'commissions studies on them.</p><p>Recent cycles have addressed the arrival of artificial '
@@ -697,17 +694,15 @@ def EN_PAGES(depth):
         '<p class="sign">Director, POSTECH Tae-Joon Park Institute <b>Minseok Song</b></p>' + REVIEW + '</div>')
     P[('about', 'purpose.html')] = ('Founding Purpose', 'Why the Institute was founded.',
         render_prose([b for b in blocks_of('en_lab_purpose') if len(b) > 80], [], d))
-    P[('about', 'mission.html')] = ('Mission', 'The Institute’s mission.',
-        render_image_page(imgs_of('en_lab_mission') or imgs_of('lab_mission'), d, 'The Institute’s mission.'))
+    P[('about', 'mission.html')] = ('Mission', 'The mission of the TJ Park Institute.', mission_page(d, 'en'))
     P[('about', 'history.html')] = ('History', 'The Institute since its founding in 2013.',
         render_timeline(blocks_of('en_lab_history')))
     P[('about', 'logo.html')] = ('Our Logo', 'The meaning of the Institute’s logo.',
         render_prose([], imgs_of('lab_logo'), d)
         + '<div class="prose"><p class="todo-note">※ The explanation of the logo is on the Korean page. '
           'An English version is being prepared.</p></div>')
-    P[('about', 'projects.html')] = ('Major Programmes', 'What the Institute does.',
-        render_image_page(imgs_of('en_lab_fields') or imgs_of('lab_projects'), d,
-                          'The Institute’s major programmes.'))
+    P[('about', 'projects.html')] = ('Major Programmes', 'Key projects and the principles behind them.',
+        projects_page(d, 'en'))
     P[('about', 'people.html')] = ('People', 'The research office and the research committee.',
         '<div class="prose">'
         '<p class="lead">A small permanent staff plans, manages and evaluates the work; the research itself '
@@ -863,6 +858,139 @@ def build_details():
             open(os.path.join(outdir, f'{d["idx"]}.html'), 'w', encoding='utf-8').write(out)
             made += 1
     print(f'개별 글 {made}개 페이지')
+
+
+# ────────────────────────────────── 이미지로만 있던 페이지의 텍스트판
+#
+# 구 사이트의 미션·주요사업·중장기 연구주제는 본문 전체가 이미지 한 장이었다.
+# 이미지 속 글자는 검색도, 확대도, 스크린리더도, 번역도 되지 않는다.
+# 아래 내용은 그 이미지를 그대로 옮겨 적은 것이다(문구를 바꾸지 않았다).
+
+def _matrix(rows):
+    out = ['<div class="matrix">']
+    for tone, key, val in rows:
+        out.append(f'<div class="mrow"><div class="mkey {tone}">{key}</div>'
+                   f'<div class="mval">{val}</div></div>')
+    out.append('</div>')
+    return ''.join(out)
+
+
+def _ul(items):
+    return '<ul>' + ''.join(f'<li>{E(x)}</li>' for x in items) + '</ul>'
+
+
+def mission_page(depth, lang='ko'):
+    if lang == 'ko':
+        return f'''<div class="mission">
+  <p class="who">박태준미래전략연구소는</p>
+  <p>인류와 국가의 더 나은 내일을 위하여<br>미래사회를 조망하고 대응전략을 연구하며,</p>
+  <p class="hi">박태준 정신과 리더십을<br>체계적으로 탐구하고 사회에 전파한다.</p>
+</div>
+<div class="prose"><p class="todo-note">※ 이 문안은 구 홈페이지에서 이미지로 제작되어 있던 것을
+텍스트로 옮긴 것입니다. 문구는 원본 그대로이며, 이제 검색·확대·스크린리더 이용이 가능합니다.</p></div>'''
+    return f'''<div class="mission">
+  <p class="who">The TJ Park Institute aims to</p>
+  <p>provide new insights into the future society,<br>and to develop future strategies.</p>
+  <p class="hi">It explores Tae-Joon Park’s spirit and his leadership systematically,<br>
+  and shares those findings with society for the betterment of humanity<br>
+  as well as the advancement of Korea.</p>
+</div>
+<div class="prose"><p class="todo-note">※ Transcribed from the image used on the previous website,
+wording unchanged, so that it can now be searched, zoomed and read by screen readers.</p></div>'''
+
+
+def projects_page(depth, lang='ko'):
+    if lang == 'ko':
+        grid = ('<div class="mgrid">'
+                '<div><h3>미래전략연구</h3>' + _ul(['미래 조망과 대응전략 연구',
+                                                '연구결과의 사회적 공유']) + '</div>'
+                '<div><h3>박태준연구</h3>' + _ul(['리더십 교재개발',
+                                               '박태준 학술연구']) + '</div></div>')
+        rows = [('t1', '중점사업', grid),
+                ('t2', '사업원칙', _ul([
+                    '지식네트워크를 통한 미래조망과 대응전략 연구',
+                    '박태준 창의 · 도전 · 사회공헌정신의 체계화 및 사회전파',
+                    '사회적 수용성과 영향력이 큰 사업의 우선 수행']))]
+        note = ('※ 구 홈페이지에서 이미지로 제작되어 있던 표를 텍스트로 옮긴 것입니다. '
+                '문구는 원본 그대로입니다.')
+        lead = '연구소가 힘을 싣는 사업과, 사업을 고를 때의 원칙입니다.'
+    else:
+        grid = ('<div class="mgrid">'
+                '<div><h3>Future Strategy Research</h3>' + _ul([
+                    'Researching future society',
+                    'Prospects and strategies, and sharing results with society']) + '</div>'
+                '<div><h3>TJ Park Research</h3>' + _ul([
+                    'Developing leadership teaching materials',
+                    'Conducting academic research on TJ Park']) + '</div></div>')
+        rows = [('t1', 'Key Projects', grid),
+                ('t2', 'Principles', _ul([
+                    'Prospect and research through a knowledge network',
+                    'Systematisation and spreading of TJ Park’s spirit — creativity, '
+                    'challenge and social contribution',
+                    'Priority on work with larger social influence and acceptance']))]
+        note = ('※ Transcribed from the image used on the previous website, wording unchanged.')
+        lead = 'Where the Institute concentrates its work, and how it chooses that work.'
+    return (f'<div class="prose"><p class="lead">{E(lead)}</p></div>'
+            + _matrix(rows)
+            + f'<div class="prose"><p class="todo-note">{E(note)}</p></div>')
+
+
+def longterm_page(depth, lang='ko'):
+    if lang == 'ko':
+        rows = [
+            ('t1', '바람직한<br>미래사회의 모습', _ul([
+                '국가 엘리트(지도자)는 어떻게 만들어지는가?',
+                '21세기의 새로운 리더의 유형과 역할',
+                '한국적 상황과 바람직한 리더십',
+                '미래사회의 윤리',
+                '일류(선진)사회의 모습과 그 실현 방안',
+                '미래사회에 통용될 수 있는 한국적 가치의 발견'])),
+            ('t2', '국가와 기업의<br>지속적 성장모델 탐구', _ul([
+                '21세기의 일류국가의 조건은 무엇인가?',
+                '국가 성장의 모멘텀과 리더십',
+                '바람직한 국가와 기업의 지배구조',
+                '한국 경제 근대화 성공모델의 글로벌 전파',
+                '국가, 기업의 의사결정과정에서의 리스크 커뮤니케이션',
+                '한국산업의 새로운 먹거리',
+                '한국경제가 저성장 기조에 적응하기 위한 전략',
+                '한국 기업이 ‘빠른 추종자’에서 ‘혁신 선도자’로 전환하기 위한 방안'])),
+            ('t3', '동북아<br>공존공영의 길', _ul([
+                '한반도 평화통일 준비 연구 : 북한의 개방체제 연착륙 방안',
+                '동북아 3국의 바람직한 리더십',
+                '한 · 중 · 일의 공존공영 방안'])),
+        ]
+        lead = '연구소가 중장기적으로 붙들고 있는 세 갈래 질문입니다.'
+        note = ('※ 구 홈페이지에서 이미지로 제작되어 있던 표를 텍스트로 옮긴 것입니다. '
+                '문구는 원본 그대로입니다.')
+    else:
+        rows = [
+            ('t1', 'Desirable<br>future society', _ul([
+                'How are the elite group (leaders) of a nation made?',
+                'Types and roles of a new leadership in the 21st century',
+                'The unique situation of Korea and the desirable leadership',
+                'Ethics of the future society',
+                'Depicting the first-class (developed) society and planning how to realise it',
+                'Discovering Korean values applicable in the future society'])),
+            ('t2', 'A sustainable<br>growth model for<br>nations and enterprises', _ul([
+                'What are the conditions of a first-class nation in the 21st century?',
+                'Creating momentum and leadership for another national growth',
+                'Ideal governing structure of nations and companies',
+                'Spreading Korea’s success model of modernisation throughout the world',
+                'Risk communication in decision-making in nations and enterprises',
+                'New growth engines in Korean industry',
+                'Strategies for the Korean economy to adapt to low growth',
+                'Ways Korean enterprises can switch from “fast follower” to “innovative leader”'])),
+            ('t3', 'Northeast Asia’s path<br>toward coexistence<br>and prosperity', _ul([
+                'Preparatory studies on the unification of the Korean peninsula: ways to help '
+                'open up North Korea for a soft landing as a new system',
+                'Desirable leadership of the three Northeast Asian nations: Korea, China and Japan',
+                'Ways Korea, China and Japan can coexist and prosper'])),
+        ]
+        lead = 'Three lines of enquiry the Institute pursues over the long term.'
+        note = '※ Transcribed from the image used on the previous website, wording unchanged.'
+    return (f'<div class="prose"><p class="lead">{E(lead)}</p></div>'
+            + _matrix(rows)
+            + f'<div class="prose"><p class="todo-note">{E(note)}</p></div>')
 
 
 if __name__ == '__main__':
