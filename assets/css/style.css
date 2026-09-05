@@ -837,3 +837,11 @@ table.cr-tbl{width:100%;min-width:680px;border-collapse:collapse;
    브라우저 기본 [hidden]{display:none} 보다 우선순위가 높아 항목이
    그대로 보였다 — 12개 게시판 전부에서 '더 보기'가 죽어 있었다. */
 .board li[hidden],.board [hidden]{display:none!important}
+
+/* 본문 중간에 놓인 사진 (원문에서 캡션과 짝지어 있던 자리 그대로) */
+.art-body .art-fig{margin:30px 0;text-align:center}
+/* 전역 img{display:block} 때문에 text-align 만으로는 가운데로 오지 않는다. */
+.art-body .art-fig img{display:block;margin:0 auto;max-width:100%;width:auto;
+  height:auto;border:1px solid var(--line)}
+.art-body .art-fig figcaption{margin:10px auto 0;max-width:640px;font-size:13px;
+  line-height:1.7;color:var(--text-3);font-weight:var(--w-body)}

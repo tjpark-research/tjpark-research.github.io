@@ -25,7 +25,8 @@ from crawl_legacy import soup, clean, BASE
 ROOT = os.path.join(os.path.dirname(__file__), '..')
 LEGACY = os.path.join(ROOT, 'data', 'legacy')
 
-SKIP_IMG = ('/images/common/', '/images/board/', '/images/main/')
+SKIP_IMG = ('/images/common/', '/images/board/', '/images/main/',
+            '/01_about/img/')   # 페이지 상단 배너(제목 이미지)
 FILE_EXT = ('.pdf', '.hwp', '.hwpx', '.zip', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx')
 NOISE = re.compile(r'^(목록|이전글|다음글|프린트|인쇄|첨부파일|조회수|등록일|작성자|글쓰기|수정|삭제)\s*[:：]?\s*$')
 
@@ -48,6 +49,42 @@ def extract(url):
     # get_text 는 <br> 을 빈 문자열로 흘려보내므로 문단이 통째로 붙어 버린다.
     for br in scope.find_all('br'):
         br.replace_with('\n')
+
+    # 본문 사진은 <div class="center_img"><dl><dd><img></dd><dt>캡션</dt></dl></div>
+    # 꼴로 글 중간에 놓여 있다. 사진을 그냥 걷어내면 캡션만 본문에 남아
+    # 무엇을 설명하는 문장인지 알 수 없게 된다. 자리를 지킨 채 자리표시자로
+    # 바꿔 두고, 빌더가 그 자리에 사진+캡션을 되살린다.
+    inline = []
+    for box in scope.select('div.center_img'):
+        im = box.find('img')
+        if im is None:
+            box.decompose()
+            continue
+        src = urljoin(url, im.get('src') or '')
+        dt = box.find('dt')
+        cap = clean(dt.get_text(' ')) if dt else clean(im.get('alt') or '')
+        inline.append(src)
+        box.replace_with(f'\n[[IMG|{src}|{cap.replace("|", " ")}]]\n')
+
+    # 초기 연재분은 center_img 없이 <dd><img></dd><dt>캡션</dt> 꼴이다.
+    # 다행히 img 의 alt 에 같은 캡션이 들어 있으므로 그것을 쓰고,
+    # 뒤따르는 <dt> 는 같은 문구가 두 번 나오지 않도록 지운다.
+    for im in scope.select('img'):
+        src = im.get('src') or ''
+        if not src or any(k in src for k in SKIP_IMG):
+            continue
+        src = urljoin(url, src)
+        cap = clean(im.get('alt') or '')
+        holder = im.find_parent('dd') or im
+        nxt = holder.find_next_sibling('dt')
+        if nxt is not None:
+            dt_text = clean(nxt.get_text(' '))
+            if not cap:
+                cap = dt_text
+            if dt_text and dt_text == cap:
+                nxt.decompose()
+        inline.append(src)
+        holder.replace_with(f'\n[[IMG|{src}|{cap.replace("|", " ")}]]\n')
 
     out = {'url': url, 'title': None, 'meta': {}, 'sections': [],
            'images': [], 'files': []}
@@ -97,10 +134,13 @@ def extract(url):
                 out['sections'].append({'heading': None, 'paragraphs': paras})
 
     # 제목을 못 찾았으면 본문 앞에서 유추하지 않고 비워 둔다(목록 제목을 쓴다)
+    out['images'].extend(inline)
     for im in scope.select('img'):
         src = im.get('src') or ''
         if src and not any(k in src for k in SKIP_IMG):
-            out['images'].append(urljoin(url, src))
+            u = urljoin(url, src)
+            if u not in out['images']:
+                out['images'].append(u)
     for a in scope.select('a[href]'):
         h = a.get('href') or ''
         if h.lower().endswith(FILE_EXT) or 'download' in h.lower():

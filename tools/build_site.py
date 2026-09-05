@@ -482,6 +482,7 @@ def render_image_page(images, depth, note):
             f'가능해집니다.</p></div>')
 
 
+IMG_TOKEN = re.compile(r'^\[\[IMG\|(.*?)\|(.*)\]\]$', re.S)
 YEAR_RE = re.compile(r'^(\d{4})\s*년$')
 DATE_RE = re.compile(r'^(\d{1,2})\s*[.]\s*(\d{1,2})\s+(.*)$')
 
@@ -1249,21 +1250,48 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
         cover = (f'<figure class="art-cover"><img src="{rel(depth)}{d["image_local"]}" '
                  f'alt="" loading="lazy"></figure>')
 
+    # 본문 사진은 원문에서 글 중간에, 바로 아래 캡션과 짝지어 놓여 있었다.
+    # 수집 때 자리표시자로 남겨 둔 그 자리에 사진과 캡션을 되살린다.
+    imgs = d.get('images') or []
+    locmap = {}
+    for k, v in (d.get('images_local') or {}).items():
+        try:
+            locmap[imgs[int(k)]] = v
+        except (ValueError, IndexError):
+            pass
+
+    def one_para(p):
+        m = IMG_TOKEN.match(p.strip())
+        if m:
+            src, cap = m.group(1), m.group(2).strip()
+            loc = locmap.get(src)
+            c = f'<figcaption>{E(cap)}</figcaption>' if cap else ''
+            if not loc:
+                # 원본이 사라진 사진. 설명만이라도 남긴다.
+                return f'<p class="art-cap">{E(cap)}</p>' if cap else ''
+            return (f'<figure class="art-fig"><img src="{rel(depth)}{loc}" '
+                    f'alt="{E(cap)}" loading="lazy">{c}</figure>')
+        # 신문 연재 글에는 '▶ …' 로 시작하는 사진 설명 줄도 섞여 있다.
+        cls = ' class="art-cap"' if p.lstrip().startswith('▶') else ''
+        return f'<p{cls}>{rewrite_legacy_urls(E(p), depth)}</p>'
+
+    inline_n = 0
     secs = []
     for s in d.get('sections', []):
         h = f'<h2>{E(s["heading"])}</h2>' if s.get('heading') else ''
-        # 신문 연재 글에는 '▶ …' 로 시작하는 사진 설명 줄이 섞여 있다.
-        # 본문과 같은 크기로 두면 사진이 없는 자리에서 문장처럼 읽힌다.
-        ps = ''.join(
-            ('<p class="art-cap">' if p.lstrip().startswith('▶') else '<p>')
-            + rewrite_legacy_urls(E(p), depth) + '</p>'
-            for p in s.get('paragraphs', []))
-        secs.append(h + ps)
+        parts = []
+        for p in s.get('paragraphs', []):
+            if IMG_TOKEN.match(p.strip()):
+                inline_n += 1
+            parts.append(one_para(p))
+        secs.append(h + ''.join(parts))
 
     # 본문에 딸린 이미지 중 내려받기에 성공한 것만 싣는다.
     # (외부 언론사 서버 링크는 HTTPS 에서 어차피 막히고 원본도 자주 사라진다.)
+    # 본문에 사진을 제자리에 넣었으면 아래에 또 늘어놓지 않는다.
     gal = ''
-    locals_ = [v for _k, v in sorted((d.get('images_local') or {}).items(), key=lambda x: int(x[0]))]
+    locals_ = [] if inline_n else [
+        v for _k, v in sorted((d.get('images_local') or {}).items(), key=lambda x: int(x[0]))]
     locals_ = [v for v in locals_ if v != d.get('image_local')]
     if locals_:
         gal = ('<div class="art-gal"><div class="art-gal-in">'
@@ -1323,10 +1351,14 @@ def build_details():
             if i < len(items) - 1:
                 nx = items[i + 1]
                 next_item = (f'{nx["idx"]}.html', nx.get('title') or nx.get('list_title') or '')
+            # 페이지 설명문에 사진 자리표시자가 들어가지 않도록 첫 '글'을 찾는다.
             first = ''
             for s in d.get('sections', []):
-                if s.get('paragraphs'):
-                    first = s['paragraphs'][0][:150]
+                for p0 in s.get('paragraphs', []):
+                    if p0.strip() and not IMG_TOKEN.match(p0.strip()):
+                        first = p0[:150]
+                        break
+                if first:
                     break
             body = detail_body(d, depth, list_href, llabel, prev_item, next_item)
             out = shell(title[:70] or llabel, first or title, depth, section, lfile, body,
