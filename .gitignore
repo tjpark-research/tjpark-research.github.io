@@ -21,3 +21,9 @@ Claude outputs/
 
 # 렌더 검증용 임시 스냅샷
 _site_snapshot.tgz
+
+__pycache__/
+*.pyc
+_site_snapshot.tgz
+_sheet.png
+_caps*.png

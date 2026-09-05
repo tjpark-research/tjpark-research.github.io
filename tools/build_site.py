@@ -497,8 +497,8 @@ def PAGES(depth):
     # ── 박태준의 삶
     P[('life', 'index.html')] = ('생애', '청암 박태준이 걸어온 길을 시대별로 살펴봅니다.',
         bio_page(d))
-    P[('life', 'chronology.html')] = ('연보', '1927년부터 2011년까지의 연보.',
-        render_timeline(blocks_of('life_chron_all')))
+    P[('life', 'chronology.html')] = ('연보', '1927년부터 2011년까지의 연보를 시대별로, 사진과 함께.',
+        chronology_page(d))
     P[('life', 'statue.html')] = ('청암 조각상', '우웨이산이 만든 전신상과 흉상, 그리고 받침돌의 건립문.',
         statue_page(d, 'ko'))
     P[('life', 'who.html')] = ('박태준을 말한다', '동시대인이 남긴 박태준에 대한 기록.',
@@ -549,6 +549,144 @@ def PAGES(depth):
     P[('about', 'brochure.html')] = ('E-카다로그', '연구소 소개 책자를 PDF로 내려받을 수 있습니다.',
         brochure_page(d, 'ko'))
     return P
+
+
+# ─────────────────────────────────────────────────────── 연보 (시대별)
+# 구 홈페이지는 시대별 연보를 '통짜 이미지 한 장 + 이미지맵'으로 만들어 두었다.
+# 본문 글자는 검색도 확대도 스크린리더도 되지 않았고, 사진은 이미지맵 좌표
+# 뒤에 숨은 lightbox 링크(./img/p_1933.jpg 등)로만 접근할 수 있었다.
+# 여기서는 (1) 사진 20장을 원본 그대로 내려받아 캡션 띠를 잘라 내고,
+# (2) 글은 더 자세한 '전체연보' 텍스트를 쓰고, (3) 둘을 연도로 이어 붙인다.
+
+CHRONO_ERAS = [
+    ('1927~1960', '출생에서 군인의 길까지',
+     '임랑리에서 태어나 일본에서 자랐고, 광복 뒤 육군사관학교를 거쳐 '
+     '6·25전쟁과 군의 요직을 지나며 스스로를 단련한 시기.'),
+    ('1961~1970', '제철소를 향한 준비',
+     '국가재건최고회의와 대한중석을 거쳐 종합제철건설사업추진위원장을 맡고, '
+     '영일만에 포항종합제철을 세우기까지.'),
+    ('1971~1980', '영일만의 신화',
+     '제1고로 첫 출선과 포항종합제철 준공, 그리고 제2제철소 입지를 광양만으로 '
+     '확정하기까지 한국 철강산업의 뼈대를 세운 시기.'),
+    ('1981~1990', '광양, 그리고 포스텍',
+     '광양제철소 착공과 포항공과대학교·RIST 설립으로 “교육과 연구”라는 '
+     '또 하나의 축을 세운 시기.'),
+    ('1991~2000', '대역사의 완성과 그 이후',
+     '4반세기 대역사를 준공하고 포철을 떠난 뒤, 해외 유랑과 정계 복귀를 거쳐 '
+     '국무총리에 이르기까지.'),
+    ('2001~2011', '마지막까지의 소명',
+     'POSCO청암재단과 강연을 통해 마지막까지 후학과 나라의 미래를 당부한 시기.'),
+]
+
+CHRONO_BOUNDS = [(1927, 1960), (1961, 1970), (1971, 1980),
+                 (1981, 1990), (1991, 2000), (2001, 2011)]
+
+# 연도 → (파일명, 캡션). 캡션은 원본 이미지에 새겨져 있던 문구 그대로.
+CHRONO_PHOTOS = {
+    1933: ('1933.jpg', '일본 중학교 시절'),
+    1945: ('1945.jpg', '와세다대학 입학 무렵의 박태준'),
+    1953: ('1953.jpg', '무공훈장을 받는 박태준'),
+    1954: ('1954.jpg', '신혼시절의 박태준 부부'),
+    1956: ('1956.jpg', '국방대학 교수 시절의 박태준 (앞줄 가운데)'),
+    1959: ('1959.jpg', '박태준(앞줄 맨 가운데)이 인솔한 도미시찰단이 미국 공항에 내린 모습'),
+    1961: ('1961.jpg', '구라파 통상사절단을 인솔하고 베를린장벽 앞에 선 박태준 (1961년)'),
+    1967: ('1967.jpg', '포항종합제철 건설을 경축하는 포항시민들 (1967년 10월)'),
+    1968: ('1968.jpg', '공사현장을 둘러보려고 롬멜하우스를 나서는 박태준과 박정희(첫줄 맨 오른쪽), 1968년 11월 12일'),
+    1970: ('1969.jpg', '박정희 대통령의 친필 서명, 종이마패 (1970년 2월 2일)'),
+    1973: ('1973.jpg', '첫 출선에 감동하여 만세를 외치는 박태준(가운데)과 직원들'),
+    1978: ('1978.jpg', '건설 중인 제3고로 풍구에서 언론인 선우휘(가운데)에게 설명하는 박태준 (1978년)'),
+    1983: ('1983.jpg', 'POSCO 광양제철소 준설 매립공사'),
+    1986: ('1986.jpg', '대학 건설현장 순시 (1986년 8월)'),
+    1987: ('1987.jpg', '영국금속학회 애터튼 회장에게서 베서머 금상을 받는 박태준 (1987년 5월 13일)'),
+    1992: ('1992.jpg', '광양제철소 전경'),
+    1997: ('1997.jpg', '국회의원 보궐선거(포항 북구)에 당선이 확정된 후 포항시민들에게 인사하는 박태준 (1997년 7월)'),
+    1999: ('1999.jpg', '김대중 대통령 당선자와 환담하는 박태준'),
+    2008: ('2008.jpg', '제1회 ‘포스코청암상’ 시상식'),
+    2011: ('2011.jpg', '故 청암 박태준 현충원 묘지'),
+}
+
+CHRONO_FIX = {
+    # 구 홈페이지의 명백한 오기. 포항 1기 설비는 조강 '연산 103만 톤' 체제다.
+    '제1고로 첫 출선 성공(6월 9일), 포항종합제철 준공(7월 3일). '
+    '조강 연산 103톤 체제의 한국 최초 종합제철소 출범.':
+    '제1고로 첫 출선 성공(6월 9일), 포항종합제철 준공(7월 3일). '
+    '조강 연산 103만 톤 체제의 한국 최초 종합제철소 출범.',
+}
+
+
+CHRONO_YEAR = re.compile(r'^(\d{4})\s*년$')
+CHRONO_AGE = re.compile(r'^(\d{1,3})\s*세$')
+
+
+def chrono_entries():
+    """'전체연보' 블록을 (연도, 나이, 본문) 목록으로 되돌린다."""
+    out, cur = [], None
+    for b in blocks_of('life_chron_all'):
+        b = b.strip()
+        m = CHRONO_YEAR.match(b)
+        if m:
+            cur = {'year': int(m.group(1)), 'age': '', 'text': []}
+            out.append(cur)
+            continue
+        if cur is None:
+            continue
+        a = CHRONO_AGE.match(b)
+        if a:
+            cur['age'] = a.group(1)
+            continue
+        if len(b) > 8:
+            cur['text'].append(CHRONO_FIX.get(b, b))
+    return [e for e in out if e['text']]
+
+
+def chronology_page(depth):
+    P = 'assets/img/legacy/chrono/'
+    entries = chrono_entries()
+    photo_n = sum(1 for e in entries if e['year'] in CHRONO_PHOTOS)
+
+    nav = ''.join(
+        f'<a href="#era{i}">{E(lab)}</a>'
+        for i, (lab, _, _) in enumerate(CHRONO_ERAS))
+
+    out = [
+        '<div class="prose"><p class="lead">1927년 경남 임랑리에서 태어나 '
+        '2011년 12월 영면하기까지, 청암 박태준이 걸어온 85년을 시대별로 정리했습니다.</p></div>',
+        f'<nav class="cr-nav" aria-label="시대 바로가기">{nav}</nav>',
+    ]
+
+    for i, (label, sub, blurb) in enumerate(CHRONO_ERAS):
+        lo, hi = CHRONO_BOUNDS[i]
+        rows = []
+        for e in entries:
+            if not (lo <= e['year'] <= hi):
+                continue
+            # blocks_of() 가 '5세' 같은 아주 짧은 블록을 걸러 내므로
+            # 나이는 출생연도(1927)로부터 직접 계산한다. 원본 표기와 일치한다.
+            n = e['age'] or (str(e['year'] - 1927) if e['year'] > 1927 else '')
+            age = f'<i>{E(n)}세</i>' if n else ''
+            text = ''.join(f'<p>{E(t)}</p>' for t in e['text'])
+            ph = CHRONO_PHOTOS.get(e['year'])
+            figure = ''
+            if ph:
+                f, cap = ph
+                figure = (f'<figure class="cr-p"><img src="{rel(depth)}{P}{f}" '
+                          f'alt="{E(cap)}" loading="lazy">'
+                          f'<figcaption>{E(cap)}</figcaption></figure>')
+            rows.append(
+                f'<li class="cr-i{" has-p" if ph else ""}">'
+                f'<div class="cr-y"><b>{e["year"]}</b>{age}</div>'
+                f'<div class="cr-b"><div class="cr-t">{text}</div>{figure}</div>'
+                f'</li>')
+        out.append(
+            f'<section class="cr-era" id="era{i}">'
+            f'<header class="cr-h"><p class="cr-range">{E(label)}</p>'
+            f'<h2>{E(sub)}</h2><p class="cr-blurb">{E(blurb)}</p></header>'
+            f'<ol class="cr">{"".join(rows)}</ol></section>')
+
+    out.append(
+        '<p class="src-note">※ 연보의 글은 구 홈페이지 「전체연보」를, 사진 '
+        f'{photo_n}장은 시대별 연보 페이지의 원본 이미지를 그대로 옮긴 것입니다.</p>')
+    return '\n'.join(out)
 
 
 def sync_main_nav():
