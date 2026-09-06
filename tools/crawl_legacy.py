@@ -104,20 +104,46 @@ def detail(url, stub=None):
         lines = [clean(x) for x in scope.get_text('\n').split('\n')]
         lines = [x for x in lines if x]
 
+        # 페이지 아래쪽의 '이전글 / 다음글' 도 같은 게시판의 제목이라
+        # 잘린 제목의 앞부분과 겹치기 쉽다. 실제로 TJ칼럼에서 11편의
+        # 제목이 이전글인 12편으로 바뀌어 있었다. 본문 아래는 잘라 낸다.
+        # '게시판 List' 는 페이지 맨 위에도 나오므로 기준으로 쓰면 본문이
+        # 통째로 잘린다. 아래쪽 글 넘김 링크만 기준으로 삼는다.
+        STOP = ('이전글', '다음글')
+        stop = next((i for i, x in enumerate(lines) if x in STOP), len(lines))
+        head_lines = lines[:stop] or lines
+
         title = None
         if stub:
             head = stub.rstrip('\ufffd.… ')[:12]
-            cands = [x for x in lines if head and x.startswith(head)]
+            # 문서에 나온 차례대로 첫 번째 것을 쓴다. 가장 긴 것을 고르면
+            # 이전글 제목이 더 길 때 그쪽으로 끌려간다.
+            cands = [x for x in head_lines if head and x.startswith(head)]
+            if not cands:
+                cands = [x for x in lines if head and x.startswith(head)]
             if cands:
-                title = max(cands, key=len)
+                title = cands[0]
         if not title:
             n = scope.select_one('.boardtit')
             title = clean(n.get_text(' ')) if n else None
 
-        body = [x for x in lines if len(x) > 60 and x != title]
+        body = [x for x in head_lines if len(x) > 60 and x != title]
         return {'title': title, 'body': max(body, key=len) if body else None}
     except Exception:
         return {}
+
+
+def _dd_summary(row, title):
+    """카드형 목록의 <dd> 한 줄 소개. 제목과 같은 줄은 버린다."""
+    if not hasattr(row, 'select'):
+        return None
+    for dd in row.select('dd'):
+        t = clean(dd.get_text(' '))
+        # 제목이 통째로 다시 들어온 dd 만 버린다. 앞 열두 글자만 보면
+        # '[박태준의 리더십 이야기 8편]은 …' 같은 소개까지 지워진다.
+        if t and t != title and not title.startswith(t):
+            return t
+    return None
 
 
 def board(path, bid=None, max_pages=40, details=False):
@@ -151,7 +177,10 @@ def board(path, bid=None, max_pages=40, details=False):
             idx = m.group(1) if m else None
             if idx and idx in seen:
                 continue
-            row = a.find_parent('tr') or a.find_parent('li') or a.parent
+            # 카드형(dl.comp-wrap_01)은 제목이 <dt> 안에 있어 a.parent 가
+            # <dt> 가 된다. 그러면 형제인 <dd>(한 줄 소개)를 못 본다.
+            row = (a.find_parent('tr') or a.find_parent('li')
+                   or a.find_parent('dl') or a.parent)
             if row is None:
                 continue
             def pick(cls):
@@ -181,7 +210,9 @@ def board(path, bid=None, max_pages=40, details=False):
                 'date': g(r'(?:발간일|발행일|등록일)\s*:\s*([0-9./\-년월일 ]+)')
                         or (lambda mm: mm.group(1) if mm else None)(
                             re.search(r'(\d{4}[-.]\d{1,2}[-.]\d{1,2})', clean(row.get_text(' ')))),
-                'summary': pick('cont'),
+                # 카드형 게시판(TJ칼럼)은 dl.comp-wrap_01 > dt(제목) + dd(요약)
+                # 구조라 li.cont 가 없다. dd 에서 한 줄 소개를 건져 온다.
+                'summary': pick('cont') or _dd_summary(row, title),
             })
         if len(seen) == before:      # 새 항목이 없으면 마지막 쪽이다
             break
