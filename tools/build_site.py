@@ -173,13 +173,38 @@ def normalize_meet(items):
     return out
 
 
-# 언론자료는 구 홈페이지 등록일이 기사 보도일과 한참 다르다
-# (2011년 기사를 2014년에 한꺼번에 올려 두었다). 보도일은 제목 안에
-# '_2020.01.20', '_한국일보 2018.04.01', '(2011년 12월 14일)' 처럼
-# 여러 꼴로 적혀 있다 — 마지막에 나오는 날짜를 보도일로 본다.
+# 언론자료의 제목 한 줄에는 매체·기사 제목·보도일이 뒤섞여 있고 표기도 제각각이다.
+#   '제목 _ 조선일보(2011년 12월 14일)'   '[중앙일보] 제목 _ 2020.01.25'
+#   '제목_ 매일경제 2018.04.25'           '제목 _(서울신문 2015-03-05 18면)'
+# 셋을 갈라 내어 매체·제목·보도일을 각각의 자리에 놓는다.
+MEDIA_OUTLETS = [
+    'The Wall Street Journal', 'The Korea Herald', 'The Korea Times', 'The Bell',
+    '중앙시사매거진', '파이낸셜뉴스', '일경산업신문', '일본 경제신문', '포브스코리아',
+    '머니투데이', '코미디닷컴', '헤럴드 경제', '헤럴드경제', '중앙썬데이', '중앙선데이',
+    '한국경제', '매일경제', '서울경제', '문화일보', '세계일보', '국민일보', '서울신문',
+    '경향신문', '한국일보', '동아일보', '중앙일보', '조선일보', '경북일보', '백세시대',
+    '뉴스웨이', '조일신문', '한겨례', '한겨레', '뉴스로', '머니S',
+]
+# 매체명 표기 바로잡기
+MEDIA_RENAME = {
+    '한겨례': '한겨레',
+    '조일신문': '아사히신문',
+    '일경산업신문': '닛케이산업신문',
+    '일본 경제신문': '니혼게이자이신문',
+    '중앙썬데이': '중앙선데이',
+    '헤럴드 경제': '헤럴드경제',
+    '코미디닷컴': '코메디닷컴',
+}
+# 구 홈페이지 제목의 오탈자
+MEDIA_TYPO = {
+    '짖는 제철소': '짓는 제철소',
+    '실퍠하면': '실패하면',
+    '토근 미룬채': '퇴근 미룬 채',
+    '사월주택': '사원주택',
+}
 MEDIA_DATE = [
-    re.compile(r'(20\d{2})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})'),
     re.compile(r'(20\d{2})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일?'),
+    re.compile(r'(20\d{2})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})\.?'),
 ]
 # 기사 본문에 섞여 들어온 공유 버튼·아이콘. 사진이 아니다.
 MEDIA_UI_IMG = ('/common/button/', '/bil/', 'site_images/sub/')
@@ -187,27 +212,79 @@ MEDIA_UI_CAP = {'페이스북', '트위터', '네이버 블로그', '카카오�
                 '프린트', 'E-mail', 'PDF', '닫기'}
 
 
-def _media_date(title):
+def parse_media_title(raw):
+    """'제목 _ 조선일보(2011년 12월 14일)' → ('조선일보', '제목', '2011-12-14')"""
+    t = (raw or '').strip()
+    for a, b in MEDIA_TYPO.items():
+        t = t.replace(a, b)
+
+    day = None
     for pat in MEDIA_DATE:
-        ms = list(pat.finditer(title or ''))
+        ms = list(pat.finditer(t))
         if not ms:
             continue
-        y, m, d = (int(x) for x in ms[-1].groups())
-        if 1 <= m <= 12 and 1 <= d <= 31:
-            return f'{y:04d}-{m:02d}-{d:02d}'
-    return None
+        m = ms[-1]
+        y, mo, dd = (int(x) for x in m.groups())
+        if 1 <= mo <= 12 and 1 <= dd <= 31:
+            day = f'{y:04d}-{mo:02d}-{dd:02d}'
+            t = (t[:m.start()] + ' ' + t[m.end():])
+        break
+
+    outlet = None
+    low = t
+    for name in MEDIA_OUTLETS:                 # 긴 이름부터 맞춰 본다
+        i = low.rfind(name)
+        if i < 0:
+            continue
+        if outlet is None or len(name) > len(outlet):
+            outlet, oi, ol = name, i, len(name)
+    if outlet:
+        t = t[:oi] + ' ' + t[oi + ol:]
+        outlet = MEDIA_RENAME.get(outlet, outlet)
+
+    # 매체·날짜를 걷어낸 자리에 남은 구분기호와 빈 괄호를 정리한다
+    t = re.sub(r'\d+\s*면', ' ', t)
+    t = re.sub(r'[(（\[]\s*[)）\]]', ' ', t)
+    t = re.sub(r'[(（]\s*(?=[)）])', ' ', t)
+    t = re.sub(r'\s*[(（]\s*[)）]\s*', ' ', t)
+    t = re.sub(r'\s+', ' ', t).strip()
+    t = re.sub(r'[_\-–—·]\s*$', '', t).strip()
+    t = re.sub(r'^\s*[_\-–—·]\s*', '', t).strip()
+    t = re.sub(r'[_\s]*[(（]\s*$', '', t).strip()
+    t = re.sub(r'^\s*[)）]\s*', '', t).strip()
+    t = re.sub(r'\s*_\s*$', '', t).strip()
+    t = re.sub(r'[_\s]*일자\s*$', '', t).strip()      # '_2019-10-24일자'의 잔재
+    t = re.sub(r'[(\[（]\s+', lambda m: m.group(0)[0], t)   # '[ 만물상]' → '[만물상]'
+    t = re.sub(r'\s+([)\]）])', r'\1', t)
+    t = t.rstrip('_ ').strip()
+    return outlet, t, day
+
+
+def _media_key(outlet, title):
+    k = re.sub(r'[^0-9A-Za-z가-힣]', '', (title or '')).lower()
+    return (outlet or '', k)
 
 
 def normalize_media(items):
-    out = []
+    """매체·제목·보도일을 갈라 내고, 같은 기사가 여러 번 등록된 것을 하나로 합친다."""
+    parsed = []
     for it in items:
         it = dict(it)
-        day = _media_date(it.get('title') or it.get('list_title'))
+        if it.get('link'):                      # 새로 넣은 요약형 항목은 그대로
+            parsed.append(it)
+            continue
+        outlet, title, day = parse_media_title(
+            it.get('title') or it.get('list_title'))
+        it['title'] = title
+        if it.get('list_title'):
+            it['list_title'] = title
+        it['outlet'] = outlet
         meta = dict(it.get('meta') or {})
         posted = meta.get('posted') or meta.get('date')
-        meta.pop('posted', None)
-        meta.pop('date', None)
-        meta.pop('source', None)
+        for k in ('posted', 'date', 'source', 'publisher'):
+            meta.pop(k, None)
+        if outlet:
+            meta['outlet'] = outlet
         if day:
             it['date'] = day
             meta['published'] = day
@@ -234,7 +311,19 @@ def normalize_media(items):
             it['sections'] = secs
         it['files'] = [f for f in (it.get('files') or [])
                        if not f.get('href', '').startswith('javascript:')]
-        out.append(it)
+        parsed.append(it)
+
+    # 같은 기사가 두세 번 올라와 있다(제목 표기만 조금씩 다르다).
+    # 본문이 가장 온전한 것 하나만 남긴다.
+    best = {}
+    for it in parsed:
+        key = (_media_key(it.get('outlet'), it.get('title')), it.get('date'))
+        size = sum(len(p) for s in it.get('sections') or []
+                   for p in s.get('paragraphs', []))
+        cur = best.get(key)
+        if cur is None or size > cur[0]:
+            best[key] = (size, it)
+    out = [v[1] for v in best.values()]
     out.sort(key=lambda x: (x.get('date') or '', int(x.get('idx') or 0)), reverse=True)
     return out
 
@@ -254,17 +343,19 @@ def media_link_items(kind):
     """kind: 'board' 이면 목록 항목, 'detail' 이면 상세 항목으로 만든다."""
     out = []
     for a in media_links():
-        title = f'[{a["outlet"]}] {a["headline"]}'
         if kind == 'board':
-            out.append({'idx': a['idx'], 'title': title, 'date': a['date'],
-                        'summary': ' '.join(a.get('summary') or []),
+            out.append({'idx': a['idx'], 'title': a['headline'], 'date': a['date'],
+                        'outlet': a['outlet'], 'summary': ' '.join(a.get('summary') or []),
                         'href': a['url'], 'truncated': False,
-                        'image': None, 'author': None, 'publisher': None})
+                        'image': None, 'author': None, 'publisher': None,
+                        'link': a['url']})
         else:
             meta = {'outlet': a['outlet'], 'published': a['date']}
             if a.get('byline'):
                 meta['author'] = a['byline']
-            out.append({'idx': a['idx'], 'title': title, 'list_title': title,
+            out.append({'idx': a['idx'], 'title': a['headline'],
+                        'list_title': a['headline'], 'outlet': a['outlet'],
+                        'date': a['date'],
                         'url': a['url'], 'meta': meta, 'images': [],
                         'files': [], 'link': a['url'], 'link_note': a.get('note'),
                         'sections': [{'heading': None,
@@ -660,8 +751,10 @@ def render_board(name, depth, style='cards', empty='등록된 자료가 없습�
             body_html = f'<a href="{href}">{inner}</a>' if href else inner
             cards.append(f'<li class="bcard">{body_html}</li>')
         else:
-            # 연재물은 회차가 있으면 앞에 붙인다.
+            # 연재물은 회차가, 언론 기사는 매체가 제목 앞에 온다.
             no = f'<span class="no">{it["episode"]}</span>' if it.get('episode') else ''
+            if 'outlet' in it:      # 매체를 아는 게시판이면 칸을 비워서라도 맞춘다
+                no = f'<span class="src">{E(it.get("outlet") or "")}</span>'
             inner = (no + f'<span class="tt">{E(t)}</span>'
                      f'<span class="dt">{E(it.get("date") or "")}</span>')
             body_html = f'<a href="{href}">{inner}</a>' if href else inner
@@ -1948,8 +2041,8 @@ def media_page(depth, lang='ko'):
         lead = ('<div class="prose">'
                 '<p class="lead">신문과 방송이 청암 박태준을 어떻게 기록했는지 '
                 '모았습니다.</p>'
-                f'<p>청암 박태준과 관련된 기사 {n}건입니다. 제목 앞의 대괄호는 '
-                '보도 매체를 가리킵니다.</p></div>')
+                f'<p>청암 박태준과 관련된 기사 {n}건입니다. 매체·제목·보도일 순으로 '
+                '실었고, 보도일은 기사가 실제로 나온 날짜입니다.</p></div>')
         note = ('<p class="src-note">※ 기사와 사진은 각 언론사가 저작권을 가진 '
                 '자료입니다. 본문 끝에 원문 주소를 남겨 두었습니다. '
                 '언론사 서버에서 이미 사라진 사진은 설명만 남아 있습니다.</p>')
@@ -1957,8 +2050,8 @@ def media_page(depth, lang='ko'):
         lead = ('<div class="prose">'
                 '<p class="lead">How the press and broadcasters have recorded '
                 'Chungam Park Tae-joon.</p>'
-                f'<p>{n} articles about TJ Park. The bracketed prefix in each '
-                'title names the outlet that carried it.</p></div>')
+                f'<p>{n} articles about TJ Park, listed by outlet, headline and '
+                'the date the piece actually ran.</p></div>')
         note = ''
     board = render_board('tj_media', depth, 'rows', detail_base='life/media')
     return lead + board + (note if lang == 'ko' else SRC_KO)
