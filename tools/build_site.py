@@ -370,10 +370,18 @@ def media_links():
     return json.load(open(p, encoding='utf-8')) if os.path.exists(p) else []
 
 
-def media_link_items(kind):
-    """kind: 'board' 이면 목록 항목, 'detail' 이면 상세 항목으로 만든다."""
+def media_link_items(kind, board='media'):
+    """kind: 'board' 이면 목록 항목, 'detail' 이면 상세 항목으로 만든다.
+
+    board: 이 항목이 실릴 게시판. 'media'(언론자료) 또는 'press'(보도자료 및
+    신문기사). media_links.json 의 "board" 값으로 정한다(없으면 언론자료).
+
+    'body' 가 있으면 기사 전문을 그대로 싣고, 없으면 요약만 싣는다.
+    """
     out = []
     for a in media_links():
+        if a.get('board', 'media') != board:
+            continue
         if kind == 'board':
             out.append({'idx': a['idx'], 'title': a['headline'], 'date': a['date'],
                         'outlet': a['outlet'], 'summary': ' '.join(a.get('summary') or []),
@@ -384,13 +392,20 @@ def media_link_items(kind):
             meta = {'outlet': a['outlet'], 'published': a['date']}
             if a.get('byline'):
                 meta['author'] = a['byline']
+            if a.get('body'):
+                secs = [{'heading': b.get('heading'),
+                         'paragraphs': list(b['paragraphs'])} for b in a['body']]
+                full = True
+            else:
+                secs = [{'heading': None,
+                         'paragraphs': list(a.get('summary') or [])}]
+                full = False
             out.append({'idx': a['idx'], 'title': a['headline'],
                         'list_title': a['headline'], 'outlet': a['outlet'],
                         'date': a['date'],
                         'url': a['url'], 'meta': meta, 'images': [],
                         'files': [], 'link': a['url'], 'link_note': a.get('note'),
-                        'sections': [{'heading': None,
-                                      'paragraphs': list(a.get('summary') or [])}]})
+                        'link_full': full, 'sections': secs})
     return out
 
 
@@ -408,14 +423,14 @@ def load(name):
         data = [x for x in data
                 if str(x.get('idx')) not in MOVED_TO_PRESS
                 and str(x.get('idx')) not in MEDIA_DROP]
-        data = normalize_media(data + media_link_items(kind))
+        data = normalize_media(data + media_link_items(kind, 'media'))
     elif name in ('board_news_press', 'detail_news_press'):
         # 보도자료도 제목 한 줄에 매체·날짜가 뒤섞여 있다. 같은 규칙으로 정리하고,
         # 언론자료에서 옮겨 온 글을 합친다.
         kind = 'board' if name.startswith('board') else 'detail'
         src = load_raw('tj_media', kind)
         moved = [x for x in src if str(x.get('idx')) in MOVED_TO_PRESS]
-        data = normalize_media(data + moved)
+        data = normalize_media(data + moved + media_link_items(kind, 'press'))
     return data
 
 
@@ -776,14 +791,25 @@ def render_board(name, depth, style='cards', empty='등록된 자료가 없습�
     items = load('board_' + name) or []
     if not items:
         return f'<div class="prose"><p>{E(empty)}</p></div>'
-    have_detail = {d['idx'] for d in (load('detail_' + name) or [])
-                   if d.get('idx') and d.get('sections')}
+    details = [d for d in (load('detail_' + name) or [])
+               if d.get('idx') and d.get('sections')]
+    have_detail = {d['idx'] for d in details}
+    # 구 CMS 는 목록의 링크 idx 와 상세 페이지 자신의 idx 가 다른 글이 몇 개
+    # 있다(리다이렉트로 넘어간 듯하다). idx 가 안 맞으면 제목으로 이어 붙인다.
+    # 그러지 않으면 상세 페이지는 만들어지되 아무도 가리키지 않는 고아가 된다.
+    by_title = {}
+    for d in details:
+        by_title.setdefault((d.get('title') or '').strip(), d['idx'])
     has_outlet = any('outlet' in it for it in items)
     cards = []
     for it in items:
         href = None
-        if detail_base and it.get('idx') in have_detail:
-            href = f'{rel(depth)}{detail_base}/{it["idx"]}.html'
+        if detail_base:
+            key = it.get('idx')
+            if key not in have_detail:
+                key = by_title.get((it.get('title') or '').strip())
+            if key:
+                href = f'{rel(depth)}{detail_base}/{key}.html'
         t = it.get('title') or ''
         meta = ' · '.join(x for x in [it.get('author'), it.get('publisher'), it.get('date')] if x)
         summ = (it.get('summary') or '')[:150]
@@ -1587,9 +1613,13 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     if d.get('link'):
         note = (f'<p class="art-src-note">{E(d["link_note"])}</p>'
                 if d.get('link_note') else '')
+        lead = ('본문은 원문 기사를 그대로 옮긴 것이며, 기사 저작권은 해당 '
+                '언론사에 있습니다.'
+                if d.get('link_full') else
+                '본 항목은 기사 전문을 옮기지 않고 요약과 원문 링크만 싣습니다. '
+                '기사 저작권은 해당 언론사에 있습니다.')
         src = ('<div class="art-src">'
-               '<p>본 항목은 기사 전문을 옮기지 않고 요약과 원문 링크만 싣습니다. '
-               '기사 저작권은 해당 언론사에 있습니다.</p>'
+               f'<p>{lead}</p>'
                f'<p class="go"><a class="btn btn-g" href="{E(d["link"])}" '
                f'target="_blank" rel="noopener">원문 보기 ↗</a></p>'
                f'{note}</div>')
