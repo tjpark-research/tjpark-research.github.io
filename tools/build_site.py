@@ -1314,6 +1314,24 @@ def sync_main_nav():
         s = open(p, encoding='utf-8').read()
         new = gnb(depth, None, lang)
         s2 = re.sub(r'<ul class="gnb">.*?</ul>\s*</nav>', new + '</nav>', s, flags=re.S)
+        # 푸터 링크도 손으로 적어 두어 본메뉴와 어긋나 있었다(박태준의 삶·
+        # 연구소소식이 빠지고 순서도 달랐다). 다른 페이지들처럼 sitemap_def
+        # 를 따르게 한다.
+        secs = SECTIONS if lang == 'ko' else EN_SECTIONS
+        b = base(depth, lang)
+        flinks = ''.join(f'<li><a href="{b}{d}/index.html">{E(lb)}</a></li>'
+                         for _k, lb, _e, d, _kids in secs)
+        priv = ('https://www.postech.ac.kr/kor/usage-guide/privacy_policy.do')
+        plabel = '개인정보처리방침' if lang == 'ko' else 'Privacy Policy'
+        # 마지막 항목(개인정보처리방침)은 그대로 두고 앞의 섹션 링크만 바꾼다.
+        # 영문 푸터는 개인정보 주소가 달라 URL 로 자르면 관련 사이트 목록까지
+        # 삼켜 버린다. </ul> 을 경계로 삼는다.
+        s2 = re.sub(
+            r'<ul class="ft-links">.*?</ul>',
+            ('<ul class="ft-links">' + flinks
+             + f'\n        <li><a href="{priv}" target="_blank" '
+               f'rel="noopener">{E(plabel)}</a></li>\n      </ul>'),
+            s2, count=1, flags=re.S)
         if s2 != s:
             open(p, 'w', encoding='utf-8').write(s2)
             print(f'  nav 갱신: {path}')
