@@ -296,6 +296,82 @@ MOVED_TO_PRESS = {
 }
 
 
+# ── 공지사항 -----------------------------------------------------------
+# 구 CMS 의 목록 제목이 제목 구실을 못 하는 글들이다. 본문 첫머리에 진짜
+# 제목이 적혀 있어(1550·875) 또는 본문 내용에 맞춰(643·464·899·674) 고쳤고,
+# 993 은 첨부 파일 이름이 제목 자리에 들어가 있었다.
+NOTICE_TITLE = {
+    '1550': '포스텍 박태준미래전략연구소와 경상북도, 경북 미래이슈 대응방안 '
+            '모색을 위한 업무협약(MOU) 체결',
+    '875':  '포항시 70인 시민위원회 리더십 역량 강화 교육 및 수료식 진행',
+    '643':  '「2017 포스텍 청년비전캠프」 개최 안내',
+    '464':  '「2016 포스텍 청년비전캠프」 개최 안내',
+    '993':  '박태준미래전략연구소 연구교수 채용 안내',
+    # 899 는 제목이 909(제출서류·준비물 안내)와 똑같이 붙어 있었는데
+    # 본문은 전국 대학(원)생 대상 참가자 모집 안내다.
+    '899':  '「2019 포항공과대학교 청년비전캠프」 참가자 모집 안내',
+    # 674 는 672(개최 안내)와 제목이 같았는데 본문은 확정된 일정이다.
+    '674':  '제5회 포스텍 박태준미래전략연구 포럼 일정 안내',
+}
+
+# 붙여 써서 읽기 어려운 제목들.
+NOTICE_SPACING = {
+    '포스텍 대학원생‘리더십 역량 강화’프로그램':
+        '포스텍 대학원생 ‘리더십 역량 강화’ 프로그램',
+    '포스텍 박태준 미래전략연구소ㆍ창원대학교 미래융합연구소공동학술세미나':
+        '포스텍 박태준미래전략연구소·창원대학교 미래융합연구소 공동학술세미나',
+    '[채용 공고]박태준미래전략연구소 연구원 채용 안내':
+        '[채용 공고] 박태준미래전략연구소 연구원 채용 안내',
+    '제 5회 박태준미래전략연구소 공모전 수상작 발표':
+        '제5회 박태준미래전략연구소 공모전 수상작 발표',
+}
+
+# 언론 보도를 알리는 공지는 제목 끝에 ' _ 2020.11.03' 처럼 보도일이 붙어
+# 있다. 등록일과 헷갈리므로 괄호로 묶어 형식을 통일한다.
+NOTICE_TAIL = re.compile(r'\s*_\s*(\d{4})[.\-](\d{1,2})[.\-](\d{1,2})\.?\s*$')
+
+
+def notice_title(idx, title):
+    t = NOTICE_TITLE.get(str(idx))
+    if t:
+        return t
+    t = (title or '').strip()
+    t = NOTICE_SPACING.get(t, t)
+    m = NOTICE_TAIL.search(t)
+    if m:
+        t = (NOTICE_TAIL.sub('', t).rstrip(' ·-')
+             + f' ({m.group(1)}.{int(m.group(2)):02d}.{int(m.group(3)):02d})')
+    return t
+
+
+def normalize_notice(items):
+    """제목을 손보고, 등록일 내림차순으로 다시 세운다.
+
+    구 CMS 는 idx 순으로만 늘어놓아 349(2014-12-01)가 350(2014-11-10) 뒤에
+    오는 등 날짜가 뒤집힌 자리가 있었다.
+    """
+    out = []
+    for x in items:
+        y = dict(x)
+        if y.get('title'):
+            y['title'] = notice_title(y.get('idx'), y['title'])
+        if y.get('list_title'):
+            y['list_title'] = notice_title(y.get('idx'), y['list_title'])
+        out.append(y)
+        # 본문 첫 줄에 제목을 한 번 더 적어 둔 글이 많다. 상세 페이지에서
+        # 제목이 연달아 두 번 보이므로 같은 줄이면 지운다.
+        secs = y.get('sections')
+        t = (y.get('title') or y.get('list_title') or '').replace(' ', '')
+        if secs and t:
+            ps = secs[0].get('paragraphs') or []
+            if ps and ps[0].replace(' ', '') == t:
+                secs = [dict(secs[0], paragraphs=ps[1:])] + secs[1:]
+                y['sections'] = [sec for sec in secs if sec['paragraphs']]
+    out.sort(key=lambda z: (z.get('date') or '', str(z.get('idx') or '').zfill(8)),
+             reverse=True)
+    return out
+
+
 def normalize_media(items):
     """매체·제목·보도일을 갈라 내고, 같은 기사가 여러 번 등록된 것을 하나로 합친다."""
     parsed = []
@@ -414,7 +490,9 @@ def load(name):
     if not os.path.exists(p):
         return None
     data = json.load(open(p))
-    if name in ('board_steel', 'detail_steel'):
+    if name in ('board_news_notice', 'detail_news_notice'):
+        data = normalize_notice(data)
+    elif name in ('board_steel', 'detail_steel'):
         data = normalize_steel(data)
     elif name in ('board_meet', 'detail_meet'):
         data = normalize_meet(data)
@@ -736,6 +814,18 @@ def render_image_page(images, depth, note):
             f'가능해집니다.</p></div>')
 
 
+# 구 사이트는 페이지 제목을 글자 그림으로 넣어 두었다('공지사항 / 연구소의
+# 소식들을 전해드립니다', 'TJ미래전략 칼럼' 따위). 이것이 본문 사진으로
+# 딸려 들어와 347개 상세 페이지에 사진인 양 실려 있었다. 섹션 디렉터리의
+# img 폴더(/05_news/img/, /03_research/img/ …)는 전부 이런 배너다.
+BANNER_IMG = re.compile(r'/\d\d_[a-z]+/img/')
+
+
+def is_banner(url):
+    return bool(url) and bool(BANNER_IMG.search(url))
+
+
+ROW_TOKEN = re.compile(r'^\[\[ROW\|(.*)\]\]$', re.S)
 IMG_TOKEN = re.compile(r'^\[\[IMG\|(.*?)\|(.*)\]\]$', re.S)
 YEAR_RE = re.compile(r'^(\d{4})\s*년$')
 DATE_RE = re.compile(r'^(\d{1,2})\s*[.]\s*(\d{1,2})\s+(.*)$')
@@ -1539,11 +1629,16 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     # 수집 때 자리표시자로 남겨 둔 그 자리에 사진과 캡션을 되살린다.
     imgs = d.get('images') or []
     locmap = {}
+    banner_loc = set()
     for k, v in (d.get('images_local') or {}).items():
         try:
-            locmap[imgs[int(k)]] = v
+            u = imgs[int(k)]
         except (ValueError, IndexError):
-            pass
+            continue
+        if is_banner(u):
+            banner_loc.add(v)
+            continue
+        locmap[u] = v
 
     def one_para(p):
         m = IMG_TOKEN.match(p.strip())
@@ -1560,15 +1655,36 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
         cls = ' class="art-cap"' if p.lstrip().startswith('▶') else ''
         return f'<p{cls}>{rewrite_legacy_urls(E(p), depth)}</p>'
 
+    def flush_rows(rows):
+        """[[ROW|...]] 로 이어지는 줄을 표 한 개로 되살린다."""
+        if not rows:
+            return ''
+        head, body = rows[0], rows[1:]
+        # 칸 수가 들쭉날쭉하면 표로 짜지 말고 줄글로 남긴다.
+        w = max(len(r) for r in rows)
+        th = ''.join(f'<th>{E(c)}</th>' for c in head) + '<th></th>' * (w - len(head))
+        tr = ''.join('<tr>' + ''.join(f'<td>{E(c)}</td>' for c in r)
+                     + '<td></td>' * (w - len(r)) + '</tr>' for r in body)
+        return ('<div class="art-tbl-wrap"><table class="art-tbl">'
+                f'<thead><tr>{th}</tr></thead><tbody>{tr}</tbody></table></div>')
+
     inline_n = 0
     secs = []
     for s in d.get('sections', []):
         h = f'<h2>{E(s["heading"])}</h2>' if s.get('heading') else ''
-        parts = []
+        parts, rows = [], []
         for p in s.get('paragraphs', []):
+            m = ROW_TOKEN.match(p.strip())
+            if m:
+                rows.append([c.strip() for c in m.group(1).split('||')])
+                continue
+            if rows:
+                parts.append(flush_rows(rows)); rows = []
             if IMG_TOKEN.match(p.strip()):
                 inline_n += 1
             parts.append(one_para(p))
+        if rows:
+            parts.append(flush_rows(rows))
         secs.append(h + ''.join(parts))
 
     # 본문에 딸린 이미지 중 내려받기에 성공한 것만 싣는다.
@@ -1579,7 +1695,8 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     gal = ''
     locals_ = [] if inline_n else [
         v for _k, v in sorted((d.get('images_local') or {}).items(), key=lambda x: int(x[0]))]
-    locals_ = [v for v in locals_ if v != d.get('image_local')]
+    locals_ = [v for v in locals_
+               if v != d.get('image_local') and v not in banner_loc]
     if locals_ and len(locals_) <= 3:
         secs.append(''.join(
             f'<figure class="art-fig"><img src="{rel(depth)}{v}" alt="" loading="lazy"></figure>'
@@ -1592,9 +1709,19 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
 
     files = ''
     if d.get('files'):
-        li = ''.join(f'<li><a href="{E(f["href"])}" target="_blank" rel="noopener">{E(f["name"])}</a></li>'
-                     for f in d['files'])
-        files = f'<div class="art-files"><h2>첨부</h2><ul>{li}</ul></div>'
+        # 첨부는 구 CMS 의 fileDown.php 링크로만 남아 있었다. 구 사이트가
+        # 내려가면 함께 사라지므로 저장소로 옮긴 파일이 있으면 그쪽을 건다.
+        fl = d.get('files_local') or {}
+        li = []
+        for n, f in enumerate(d['files']):
+            loc = fl.get(str(n))
+            href = f'{rel(depth)}{loc}' if loc else f['href']
+            ext = os.path.splitext(loc or f['href'])[1].lstrip('.').upper()
+            tag = f' <span class="art-ft">{E(ext)}</span>' if loc and ext else ''
+            li.append(f'<li><a href="{E(href)}" target="_blank" '
+                      f'rel="noopener">{E(f["name"])}</a>{tag}</li>')
+        files = ('<div class="art-files"><h2>첨부</h2><ul>'
+                 + ''.join(li) + '</ul></div>')
 
     nav = []
     if prev_item:
