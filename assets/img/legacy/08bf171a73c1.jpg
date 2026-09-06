@@ -1,0 +1,539 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+	<head>
+		<!-- HeaderMenu 시작 -->
+				<title>POSTECH 박태준미래전략연구소</title>
+		<!-- <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=euc-kr" /> -->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Script-Type" content="text/javascript" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+		<meta name="Description" content="박태준 정신을 기반으로 차별화된 미래전략을 연구합니다." id="GbPageDescription"/>
+		<meta name="og:image" content="" id="GbPageImage"/>
+		<meta name="og:title" content="" id="GbPageTitle"/>
+		<link rel="canonical" href="http://tjpark.postech.ac.kr">
+        
+        
+
+		<link rel="stylesheet" type="text/css" href="../_Css/import.css" media="all" />
+		<script type="text/javascript" src="../_Js/jQuery/jquery-1.6.4.min.js"></script>
+		<script type="text/javascript" src="../_Js/jquery.easing.1.3.js"></script>
+		<script type="text/javascript" src="../_Js/gnb.js"></script>
+		<script type="text/javascript" src = "../_Js/common.js"></script>
+		<script type="text/javascript" src = "../_Js/jquery.path.js"></script>
+
+		<script type="text/javascript" src="../_Js/side_story/script.js"></script> <!-- Sidebar 청암스토리 -->
+		<link rel="stylesheet" type="text/css" href="../_Js/side_story/style.css"/> <!-- Sidebar 청암스토리 -->
+
+		<script type="text/javascript" src="../_Js/fontzoom.js"></script>
+		<script type="text/javascript" src="../script/script.js"></script>
+        <script type="text/javascript" src="../_Js/layout.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" src="../script/jquery.printElement.js"></script>
+        
+        
+
+<script type="text/javascript" >
+$(document).ready(function() {
+	$(".print").click(function() {
+		printElem({
+			printMode:"popup",
+			pageTitle:'', //인쇄 타이틀
+			leaveOpen:true
+		});
+	});
+});
+
+function printElem(options) {
+	$("#Contentbody").printElement(options);
+}
+</script> 
+
+
+
+<!-- 페북용/카스 메타-->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="POSTECH 박태준미래전략연구소" />
+<meta property="og:url" content="http://tjpark.postech.ac.kr/05_news/03.php?idx=683&pg_mode=View&bid=etc&page=3&sw=" />
+<meta property="og:image" content="http://tjpark.postech.ac.kr/images/sns/sns-img.jpg" />
+ <meta property="og:site_name" content="박태준미래전략연구소" />
+ <meta property="og:description" content="포스텍박태준미래전략연구소,박태준미래전략연구소,포스텍,박태준미래전략" />
+<!--페북용 메타-->
+<!--트위터 메타-->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title"          content="POSTECH 박태준미래전략연구소">
+<meta name="twitter:url" content="http://tjpark.postech.ac.kr/05_news/03.php?idx=683&pg_mode=View&bid=etc&page=3&sw=">
+<meta name="twitter:image"          content="http://tjpark.postech.ac.kr/images/sns/sns-img.jpg">
+<meta name="twitter:description"    content="박태준미래전략연구소">
+<!--트위터 메타-->
+
+<title>박태준미래전략연구소 홈페이지</title>
+<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" />
+<!--<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0, user-scalable=no">-->
+<!--  sns 공유 아이콘 -->
+<script type="text/javascript">var switchTo5x=true;</script>
+<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript">stLight.options({publisher: "c0b29a1c-076c-401f-a303-f5a12e94e328", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+
+		<!-- HeaderMenu 끝 -->
+	</head>
+
+	<body>
+
+				<a class="directBt disB" style="top:-100px;" href="#cBody">본문바로가기</a>
+		<div id="wrapper" >
+
+						<!-- HeaderMenu 시작 -->
+			<script type="text/javascript">
+	function serchTotalChk(){
+		var form = document.total_search_form;
+		if(!Val_Chk(form.searchVal,'검색어'))	return false;
+		form.submit();
+	}
+</script>
+			  
+			  <div id="header">
+						<div id="gnb_warp"> 
+                        	<h1 class="logo"><a href="../main/main.php"><img src="../images/common/logo_ko.jpg" alt="POSTECH 박태준미래전략연구소"/></a></h1>
+                            <div id="top_search">
+                                <form name="total_search_form" method="get" action="../10_etc/01.php">
+                                    <input type="text" name="searchVal" class="search_input1" onfocus="this.value='';" onkeypress="if(event.keyCode==13){subSearchFunction();return false;}" placeholder="검색어를 입력하세요" title="검색어를 입력하세요."  />
+                                    <a href="../10_etc/01.php"  onclick="javascript:serchTotalChk();return false;" ><input type="image" src="../images/common/search.png" alt="검색" /></a>
+                                </form>
+                            </div>
+                            <ul id="gnb">
+                                <li class="end">
+									<!--<a href="https://blog.naver.com/postechtjp" target="_blank"><img src="../images/common/Icon_Naver.jpg" alt="네이버"/></a>-->
+									<a href="https://www.facebook.com/profile.php?id=100011565543773" target="_blank"><img src="../images/common/Icon_Facebook.gif" alt="페이스북"/></a>
+									<a href="http://www.youtube.com/c/포스텍박태준미래전략연구소" target="_blank" class="ml1"><img src="../images/common/Icon_youtube.gif" alt="유투브"/></a>
+								</li>
+                                <li class="menu_ko"><a href="../main/main.php">한국어</a></li>
+                                <li class="menu_en"><a href="../eng_site/main/main.php">ENG</a></li>
+                            </ul>
+						</div>
+
+			<script type="text/javascript" language="javascript">
+			jQuery(function($){
+				
+			$('#lnb').find('li> a').mouseover(function(){
+					$(this).parent('li').find('.am-dep1').addClass('on');
+					$(this).parent('li').find('div').slideDown();
+					$(this).parent('li').siblings('li').find('.am-dep1').removeClass('on');
+					$(this).parent('li').siblings('li').find('div').hide();
+					
+					
+				}).focus(function(){
+					$(this).parent('li').find('.am-dep1').addClass('on');
+					$(this).parent('li').find('div').slideDown();
+					$(this).parent('li').siblings('li').find('.am-dep1').removeClass('on');
+					$(this).parent('li').siblings('li').find('div').hide();
+				});
+				
+				$('#M-container, #s-container, #footer').mouseenter(function(){
+					$('.am-dep1').removeClass('on');
+					$('div.tmenu_bg').hide();	
+					$('#lnb > li > div').slideUp();		
+			
+				});
+			});
+		</script>
+		 <script  type="text/javascript">
+						function ImageOver(imgEL){
+						imgEL.src = imgEL.src.replace("_off.jpg", "_on.jpg");
+						}
+						function ImageOut(imgEL){
+						imgEL.src = imgEL.src.replace("_on.jpg", "_off.jpg");
+						}
+		 </script>
+		
+		<ul id="lnb">
+			<li class="menu01 ">
+					<a href="../03_research/01.php" class="am-dep1">미래전략연구</a>
+					<div class="tmenu_ab abt">
+						<div class="favi">
+							<p class="title">미래전략연구</p>
+							<p class="text">미래전략연구 분야와 관련된<br /> 정보를 소개해 드립니다</p>
+						</div>
+						<ul class="menu01_sub">
+						   <li class=""><a href="../03_research/01.php">연구소개</a></li>
+						   <li class="">
+							  <a href="../03_research/02.php">연구분야</a>
+							  <ul class="dt3">
+								  <li class=""><a href="../03_research/02.php">중장기 연구주제</a></li>
+								  <li class=""><a href="../03_research/02_1_4.php">연도별 주제</a></li>
+							  </ul>
+						   </li>
+						   <li class="">
+							  <a href="../03_research/03.php">연구결과물</a>
+							  <ul class="dt3">
+								  <li class=""><a href="../03_research/03.php">연구총서</a></li>
+								  <li class=""><a href="../03_research/03_1.php">연구보고서</a></li>
+								  <li class=""><a href="../03_research/04.php">대학(원)생 공모전 수상작</a></li>
+							  </ul>
+						   </li>
+						</ul>
+					</div>
+			</li>
+			 <li class="menu02 ">
+					<a href="../04_research_park/01.php" class="am-dep1">박태준연구</a>
+					<div class="tmenu_ab abt">
+						<div class="favi">
+							<p class="title">박태준연구</p>
+							<p class="text">박태준연구 결과물과 어록, <br />진행사업에 대하여 소개해<br /> 드립니다</p>
+						</div>
+						 <ul class="menu02_sub">
+						   <li class=""><a href="../04_research_park/01.php">연구소개</a></li>
+						   <li class=""><a href="../04_research_park/04.php">연구분야</a>
+                           	   <ul class="dt3">
+								  <li class=""><a href="../04_research_park/04.php">연도별 주제</a></li>
+							  </ul>
+                           </li>
+						   <li class="">
+							  <a href="../04_research_park/02.php">연구결과물</a>
+							  <ul class="dt3">
+								  <li class=""><a href="../04_research_park/02.php">연구총서</a></li>
+								  <li class=""><a href="../04_research_park/02_1.php">연구보고서</a></li>
+							  </ul>
+						   </li>
+						</ul>
+					</div>
+			</li>
+			<li class="menu03 ">
+					<a href="../08_youth/01.php" class="am-dep1">청년사업</a>
+					<div class="tmenu_ab abt">
+						<div class="favi">
+							<p class="title">청년사업</p>
+							<p class="text">박태준미래전략연구소<br/>개최하는 청년사업에 대하여<br/> 소개해 드립니다</p>
+						</div>
+						<ul class="menu03_sub">
+						   <li class="">
+							  <a href="../08_youth/01.php">대학(원)생 공모전</a>
+							  <ul class="dt3">
+								  <li class=""><a href="../08_youth/01.php">공모전소개</a></li>
+								  <li class=""><a href="../08_youth/01_2.php">수상작 보기</a></li>
+								  <li class=""><a href="../08_youth/01_3.php">수상후기</a></li>
+							  </ul>
+						   </li>
+						   <li class="">
+							  <a href="../08_youth/02.php">포스텍 청년비전캠프</a>
+							  <ul class="dt3">
+								  <li class=""><a href="../08_youth/02.php">캠프소개</a></li>
+								  <li class=""><a href="../08_youth/02_2.php">캠프안내</a></li>
+								  <li class=""><a href="../08_youth/02_3.php">캠프후기</a></li>
+								  <li class=""><a href="../08_youth/02_4.php">갤러리</a></li>
+							  </ul>
+						   </li>
+                           <!--<li class=""><a href="../08_youth/05.php">포스텍 멘토십프로그램</a></li>-->
+                           <li class=""><a href="../08_youth/03.php">서식&amp;자료실</a></li>
+						   <li class=""><a href="../08_youth/04.php">FAQ</a></li>
+						</ul>
+					</div>
+			</li>
+			<li class="menu04 ">
+					<a href="../09_forum/01.php" class="am-dep1">포럼&amp;세미나</a>
+					<div class="tmenu_ab abt">
+						<div class="favi">
+							<p class="title">포럼&amp;세미나</p>
+							<p class="text">박태준미래전략연구소에서<br/>개최되는 다양한 행사에 대해<br/> 소개해 드립니다</p>
+						</div>
+						 <ul class="menu04_sub">
+						   <li class=""><a href="../09_forum/01.php">포럼</a></li>
+						   <li class=""><a href="../09_forum/02.php">세미나</a></li>
+						   <li class=""><a href="../09_forum/03.php">멀티미디어</a></li>
+						</ul>
+					</div>
+			</li>
+			<li class="menu05 on">
+					<a href="../05_news/01.php" class="am-dep1">연구소소식</a> 
+					<div class="tmenu_ab abt">
+						<div class="favi">
+							<p class="title">연구소소식</p>
+							<p class="text">연구소와 관련된 소식들을 <br />전해드립니다</p>
+						</div>
+						<ul class="menu05_sub">
+							<li class=""><a href="../05_news/01.php">공지사항</a></li>
+							<li class="on"><a href="../05_news/03.php">보도자료</a></li>
+							<li class=""><a href="../05_news/04.php">TJ미래전략 칼럼</a></li>
+                            <li class=""><a href="../05_news/02.php">메일링서비스</a></li>
+						</ul>
+					</div>
+			</li>
+			<li class="menu06 ">
+					<a href="../02_lab/01.php" class="am-dep1">연구소소개</a>
+					<div class="tmenu_ab abt">
+						<div class="favi">
+							<p class="title">연구소소개</p>
+							<p class="text">박태준미래전략연구소에 <br/>대하여 소개해 드립니다</p>
+						</div>
+						<ul class="menu06_sub">
+							<li class="h100 " ><a href="../02_lab/01.php">인사말</a></li>
+							<li class="h100 ">
+								<a href="../02_lab/02.php">설립목적</a>
+								<ul class="dt3">
+									<li class=""><a href="../02_lab/02.php">설립목적</a></li>
+									<li class=""><a href="../02_lab/02_1.php">미션</a></li>
+									<li class=""><a href="../02_lab/02_2.php">연혁</a></li>
+									<li class=""><a href="../02_lab/02_3.php">로고소개</a></li>
+								</ul>
+							</li>
+							<li class="h100 "><a href="../02_lab/03.php">주요사업</a></li>
+							<li class=""><a href="../02_lab/04.php">연구소사람들</a></li>
+                            <li class=""><a href="../02_lab/05.php">오시는길</a></li>
+							<li class=""><a href="../02_lab/06.php">참여마당</a></li>
+							<li class=""><a href="../02_lab/07.php">발전기금</a></li>
+							<!--<li class=""><a href="http://postech.dever-host.com/ebook/01/index.html">E-카다로그</a></li>-->
+							
+							<li class=""><a href="../02_lab/TJPI_brochure_20220322.pdf" target="_blank">E-카다로그</a></li>
+						</ul>
+                        <div class="tmenu-bg-wrap">
+                        	<div class="tmenu-bg">
+                                <p class="tmenu-tit">박태준의 삶</p>
+                                <p class="tmenu-txt">그가 걸어온 길을 들여다 보다</p>
+                                <p class="tmenu-link"><a href="../01_about/01.php">자세히보기</a></p>
+                            </div>
+                        </div>
+					</div>
+			</li>
+		   
+			<!--<li class="menu07">
+					<a href="../01_about/01.php">박태준의삶</a>
+					<div class="tmenu_ab abt">
+						<div class="favi">
+							<p class="title">연구소소개</p>
+							<p class="text">청암에 대하여 소개해<br /> 드립니다</p>
+						</div>
+						<ul class="menu06_sub">
+						   <li><a href="../01_about/01.php">걸어온길</a></li>
+						   <li><a href="../01_about/02.php">멀티미디어</a></li>
+						   <li><a href="../01_about/03.php">박태준을 말한다</a></li>
+						   <li><a href="../01_about/04.php">쇳물은 멈추지 않는다</a></li> 
+                           <li><a href="../01_about/06.php">위대한만남- 박정희와 박태준</a></li>
+						   <li><a href="http://museum.posco.co.kr/museum/docs/s91a0050001i.jsp" target="_blank">포스코 역사관</a></li>
+						</ul>
+                        <div class="tmenu-bg-wrap">
+                        	<div class="tmenu-bg">
+                                <p class="tmenu-tit">박태준의 삶</p>
+                                <p class="tmenu-txt">그가 걸어온 길을<br /> 들여다 보다</p>
+                                <p class="tmenu-link"><a href="../01_about/01.php">자세히보기</a></p>
+                            </div>
+                        </div>
+					</div>
+			</li>-->
+		</ul>
+       <!-- <div class="sitmap">
+        	<div class="site">
+          		<span class="sitemap-btn"><a href="#" onclick="sitemap_open('sitemapAll');return false;" id="sitemap-open">박태준의 삶</a></span>
+                <span class="sitemap-btn"><a href="../01_about/01.php" id="sitemap-open">박태준의 삶</a></span>
+            </div>
+        </div> -->
+                <!--<div class="sitemapAll-layer">
+                    <div class="bg"></div>
+                    <div class="sitemap-layer" id="sitemapAll">
+                        <div class="sitemap-container">
+                            <h3>청암 <span class="p-txt1">박태준의 삶</span><span class="p-txt2">Chungam’s Life</span></h3>
+                            <div class="box1">
+                                <dl>
+                                    <dt>"청암의 정신은 영원하다"</dt>
+                                    <dd>청암박태준, 그가 걸어온길과 남긴 정신을 들여다 봅니다</dd>
+                                </dl>
+                                <p class="btn03"><a href="../01_about/01.php">자세히보기</a></p>
+                            </div>
+                            <a href="#" id="sitemap-close">Close</a>
+                        </div>
+                    </div>
+                </div>-->
+                
+	</div>
+    <!--//#header-->			<!-- HeaderMenu 끝 -->
+
+
+			<div id="cBody" class="subBg">
+                <!--s-container-->
+           	    <div id="s-container">
+
+				<!-- Quick시작 -->
+				                <div id="R_Quick">
+					<div id="RightQuick">
+						<ul class="">
+							<li><a href="../01_about/01.php"><img src="../images/common/Quick1.jpg" alt="영상"/></a></li>
+							<li><a href="../03_research/03_1.php"><img src="../images/common/Quick2.jpg" alt="연구결과물"/></a></li>
+							<!--<li><a href="../06_community/01.php"><img src="../images/common/Quick3.jpg" alt="연구과제 제안"/></a></li>-->
+							
+							<li><a href="../02_lab/TJPI_brochure_20220322.pdf" target="_blank"><img src="../images/common/Quick4.jpg" alt="E-카다로그"/></a></li>
+                            <li><a href="../02_lab/07.php"><img src="../images/common/Quick5.jpg" alt="발전기금"/></a></li>
+						</ul>						
+					</div>
+				</div>				<!--// Quick끝 -->	
+
+
+				<!-- subCon시작 -->
+				<div class="subCon">
+
+					<!-- 좌측메뉴 -->
+					<div id="LeftMenu">
+    <h2>연구소 소식<br /><span>NEWS</span></h2>
+    <ul class="LeftMenu1">
+        <li class=""><a href="./01.php">공지사항</a></li>
+        <li class="on"><a href="./03.php">보도자료</a></li>
+        <li class=""><a href="./04.php">TJ미래전략 칼럼</a></li>
+        <li class=""><a href="./02.php">메일링서비스</a></li>
+    </ul>
+</div>					<!--// 좌측메뉴끝 -->
+
+					<!-- 본문시작 -->
+					<div id="Contentbody">
+						<div class="s_path_box">
+							<ul class="s_path">
+								<li class="Home"><a href="../main/main.php"><img src="../images/common/Path_Home.jpg" alt="HOME"/></a></li>
+								<li>연구소소식</li>
+								<li>최근동향</li>
+							</ul>
+						</div>
+
+						<!-- 페이지 프린트, 화면확대축소 시작 -->
+													<script type="text/javascript">
+							<!--
+								function goPrint(title, id){
+									var sw=screen.width;
+									var sh=screen.height;
+									var w=725;//팝업창 가로길이 
+									var h=600;//세로길이 
+									var xpos=(sw-w)/2; //화면에 띄울 위치 
+									var ypos=(sh-h)/2; //중앙에 띄웁니다.
+									 
+									var pHeader="<html xmlns='http://www.w3.org/1999/xhtml' lang='ko' xml:lang='ko'><head><link rel='stylesheet' type='text/css' href='../css1/import.css' media='all' /><link rel='stylesheet' type='text/css' href='../js/side_story/style.css'/></head><body>";
+									var pgetContent=document.getElementById(id).innerHTML + "<br>"; //innerHTML을 이용하여 Div로 묶어준 부분을 가져옵니다.
+									var pFooter="</body></html>";
+									pContent=pHeader + pgetContent + pFooter;
+								 
+									pWin=window.open("","print","width=" + w +",height="+ h +",top=" + ypos + ",left="+ xpos     +",status=yes,scrollbars=yes"); //동적인 새창을 띄웁니다.
+									pWin.document.open(); //팝업창 오픈
+									pWin.document.write(pContent); //새롭게 만든 html소스를 씁니다.
+									pWin.document.close(); //클로즈
+									pWin.print(); //윈도우 인쇄 창 띄우고
+									pWin.close(); //인쇄가 되던가 취소가 되면 팝업창을 닫습니다.
+								}
+							//-->
+							</script>
+							<ul class="PageOpt">
+								<!--<li ><a href="#" onclick="javascript:goPrint('print','Contentbody1');return false;"><img src="../images/common/Btn_Page_print.jpg" alt="인쇄"/></a></li>-->
+								<li class="print"><a href="#" ><img src="../images/common/Btn_Page_print.jpg" alt="인쇄"/></a></li>
+								<li class="sbtn1"><img src="../images/common/Btn_Page_txt.jpg" alt="글자크기"/></li>
+								<li class="sbtn2"><a href="#" onclick="javascript:zoomOut();" ><img src="../images/common/Btn_Page_txt1.jpg" alt="확대"/></a></li>
+								<li><a href="#" onclick="javascript:zoomReset();" ><img src="../images/common/Btn_Page_txt3.jpg" alt="초기화"/></a></li>
+								<li><a href="#" onclick="javascript:zoomIn();" ><img src="../images/common/Btn_Page_txt2.jpg" alt="축소"/></a></li>
+							</ul>						<!-- 페이지 프린트, 화면확대축소 끝 -->
+
+						<!-- 실제본문내용 시작 -->
+						<div class="s_cont"  id="Contentbody1"> 
+
+
+							<p><img src="./img/txt2.jpg" alt=""/></p>
+							<script type="text/javascript" src="../Seditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+							<!--  Board s -->
+							<div id="Board">
+
+
+							<table cellpadding="0" cellspacing="0" summary="게시판 List" class="BoardView">
+								<caption>게시판 List</caption>
+								<colgroup>
+									<col width="*" />
+									<col width="20%" />
+									<col width="15%" />
+								</colgroup>
+								<thead>
+									<tr>
+										<th colspan="3">[경북매일] 한국 시민사회와 `촛불`, 한계와 지향점은`_ 2018.2.2</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="bg colort1 left"><strong>등록일</strong> : 2018-02-23</td>
+										<td class="bg colort1"><strong>작성자</strong> : 관리자</td>
+										<td class="bg colort1"><strong>조회수</strong> : 1133</td>
+									</tr>
+									<tr>
+										<td class="contentbox" colspan="3">
+										<!-- 글내용시작 -------------------------------------------->
+											
+											<div></div>
+																				<div><br.><p><strong><span style="font-size: 14pt;">한국 시민사회와 `촛불`, 한계와 지향점은</span><!--/CM_TITLE--></strong><span><span style="font-size: 14pt;">`</span></span></p><p><span><span style="font-size: 14pt;">촛불 너머의 시민사회와 민주주의`윤평중·이진우·전상인·임지현·김석호 </span></span></p><p><span><br></span></p><p><br></p><p><br></p><table width="600" border="0" cellspacing="0" cellpadding="3"><tbody><tr><td class="view_r" id="articleBody" style="padding: 10px 0px;"><div class="view_r" id="_article"><table width="297" align="left" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td align="center"><img width="297" alt="" src="http://www.kbmaeil.com/news/photo/201802/436010_818441_2037.jpg" border="1"></td><td width="10">&nbsp;</td></tr><tr><td class="view_r_caption" colspan="3">&nbsp;</td></tr><tr><td height="5">&nbsp;</td></tr></tbody></table><p>한국 시민사회와 민주주의는 어디쯤에 와 있는가? 그 민낯과 속살의 실상은 어떠한가? 어떤 한계에 봉착해 있으며 어떻게 그것을 넘어설 수 있는가? `촛불 너머`의 성찰적 시민사회와 성숙한 민주공화정 국가에 도달하기 위해 지금 여기의 우리에게 없거나 모자라는 `시민`으로서의 자질은 무엇인가? <br><span name="inspace_pos">&nbsp;</span><br> `촛불 너머의 시민사회와 민주주의`(아시아)는 이러한 문제의식에서 출발한 연구와 사유의 결실이다. <br><span name="inspace_pos">&nbsp;</span><br>이 책에서 윤평중, 이진우, 전상인, 임지현, 김석호 등 다섯 명의 국내 지식인들은 저마다 다른 다섯 개의 시선으로 한국사회를 들여다보고 책의 제목이 가리키는 더 나은 미래로 나아갈 다섯 개의 길을 닦아두고 있다. <span name="inspace_pos">&nbsp;</span><br><span name="inspace_pos">&nbsp;</span><br>윤평중 교수(한신대)는 `삶의 정치와 성찰적 시민사회─진리정치 비판`에서 자유로운 상호비판과 자기성찰을 적대시하는 진리정치의 타성을 극복하고 생활세계에서 사람들이 삶을 구체적으로 살려내는 생명정치로서의 미시정치적 `삶의 정치`의 구현에 대한 통찰과 사유를 피력한다. <br><br>이진우 교수(포스텍 인문사회학부 석좌교수)는 `우리는 어떻게 시민이 되는가?─성숙한 시민사회의 실천철학`에서 압축성장의 국가중심주의가 야기한 한국사회의 문제점이 `시민 없는 국민국가`와 `시민 없는 시민사회`로 압축된다면 자신의 권리와 의무를 조화롭게 의식하고 공동체의 관심사에 적극 참여하는 `개인`의 양성이 중요하다는 것을 강조한다. <span name="inspace_pos">&nbsp;</span><br><br>전상인 교수(서울대 환경대학원)는 `마음의 습관과 한국의 민주주의`에서 민주주의 마음의 핵심인 개인주의와 자유주의의 기본단위로서 `개인`을 주목하고 한국 민주주의가 도입되고 성장하는 과정에서 생략되거나 배제되었던, 인간 존중과 자기 결정을 인격화한 `개인`의 탄생이 `시민`의 미생도 넘어설 수 있는 길이라고 밝혀낸다. <span name="inspace_pos">&nbsp;</span><br><br>임지현 교수(서강대)는 `기억: 21세기 한반도의 열려 있는 기억 문화를 위하여`를 통해 이념적 대립이 기억의 투쟁으로 전이되는 현상이 뚜렷해지는 21세기 지구적 상황에서 역사의 희생자의식이 국가적 프로젝트에 민중을 동원하는 민족주의적 권력논리를 정당화하는 `희생자의식 민족주의`의 세계사적인 위험사례들을 탐사하고 한국인의 고통스러운 기억들이 타자의 고통과 연대하면서 보편적 인권의 기억으로 진화해야만 이웃과 미래를 향해 열리게 되는 한국 시민사회의 길을 제시한다. <br><br>김석호 교수(서울대)는 `한국인의 습속(習俗)과 시민성, 그리고 민주주의`에서 통계자료를 통해 한국인의 `시민성` 수준을 알려주고 민주사회의 존속과 진보에서 가장 핵심적인 문화적 속성인 `시민성`에 한국 민주주의의 미래가 달려 있기 때문에 개인의 권리와 자율성에 대한 과도한 배타적 강조가 의무보다 권리에 치중해 있는 한국인의 왜곡된 `시민성`을 더 악화시킬 수 있는 소지를 경계하면서, 특히 시민사회 본연의 감시와 견제의 기능을 활성화하기 위해 `시민`이 권력의 주체로서 사회적 결정에 영향력을 행사하는 다양한 유형의 행위에 참여해야 한다는 것을 역설한다.<br><br>한편, `촛불 너머의 시민사회와 민주주의`는 포스텍 박태준미래전략연구소가 `미래전략연구` 시리즈로 기획한 아홉 번째 단행본이다. 지난 2013년 2월 포스텍 부설로 출범한 박태준미래전략연구소는 미래사회를 조망하고 대응전략을 탐색하는 연구에 주력하고 있으며, 그 연구 결실들로서 `박태준미래전략연구총서`를 지속적으로 출간해 나가고 있다. <span name="inspace_pos">&nbsp;</span><br><br> /윤희정기자<span name="inspace_pos">&nbsp;</span></p><!--/CM_BODY-->								 </div><p><!--//script src="http://js.keywordsconnect.com/.js" type="text/javascript"></script-->							 </p><p><br></p><p>[출처]</p><p><br><span name="inspace_pos">[경북매일] 윤희정기자, <a href="http://www.kbmaeil.com/news/articleView.html?idxno=436010" target="_self">한국 시민사회와 `촛불`, 한계와 지향점은</a>`_ 2018.2.2 </span><br><br>&lt; 저작권자 &copy; 경북매일 무단전재 및 재배포금지 &gt;							</p></td></tr><!--추천위젯시작//-->						 <tr><td height="15"></td></tr><tr><td align="center"><img style="display: none;" src="">															 </td></tr></tbody></table><span><p><br></p><p><br></p></span><br></div>
+										<!-- 글내용시작 -->
+										</td>
+									</tr>
+									<tr>
+										<td class="bg colort1 left" colspan="3">
+										<img src="../images/board/Icon_File.gif" alt="첨부파일" class="verM"/> 
+										<strong>첨부파일</strong> :<div style="padding-left:90px;margin-top:-23px;">No File!</div>
+										</td>
+									
+									</tr>
+									
+								</tbody>
+							</table>
+
+							<table  cellpadding="0" cellspacing="0" summary="게시판 List" class="BoardView">
+							<caption>게시판 List</caption>
+							<colgroup>
+								<col width="20%" />
+								<col width="*" />
+							</colgroup>
+							<tr>
+							  <td class="bg colort1 left">이전글</td>
+							  <td colspan="2" ><a href="#" class='' onclick="javascript:location.href='/05_news/03.php?bid=etc&idx=697&bid=etc&pg_mode=View&page=3&sw='">[동아일보]조선소 자리에 대학 유치… 스웨덴 말뫼시, 첨단산업 도시로 부활_ 2018-04-20</a></td>
+							</tr>
+
+							<tr>
+							  <td class="bg colort1 left">다음글</td>
+							  <td colspan="2"><a href="#" class='' onclick="javascript:location.href='/05_news/03.php?bid=etc&idx=680&bid=etc&pg_mode=View&page=3&sw='">[매일경제] 대학총장들, "도시의 운명, 대학에 달려 있다" 한 목소리</a></td>
+							</tr>
+							</table>
+
+							<p class="BoardBtn">
+																												<a href='/05_news/03.php?bid=etc&page=3&sw='><img src='../images/board/Btn_List.gif' border='0' style='vertical-align:middle;'></a>							</p>	
+							</div>
+							<!--  Board e -->
+							
+						 
+						</div>
+						<!--// 실제본문내용 끝 -->
+
+					</div>
+					<!--// 본문끝 -->
+
+
+				</div>
+				<!--// subCon끝 -->
+
+
+			  </div>
+              <!--//s-container끝-->
+
+
+			</div> <!--/cBody-->
+
+			<!-- Footer 시작 -->
+						<div id="footer" >
+                    <div class="foot">
+                        <ul class="family_site">
+                          <li>
+                                <select class="footer-select fl mr2" title="관련사이트 바로가기" name="site1" id="select" onchange="window.open(this.value)" onclick="SiteLink('site_1_url');return false;">
+                                  <option value="#">관련사이트</option>
+                                  <option value="http://www.postech.ac.kr/">포항공과대학교</option>
+                                  <option value="http://www.posco.co.kr/homepage/docs/kor5/jsp/s91a0000001i.jsp">포스코</option>
+                                  <option value="https://www.postf.org/ko/main.do">포스코청암재단</option>
+                                  <option value="http://museum.posco.co.kr/museum/docs/s91a0050001i.jsp">포스코박물관</option>
+                                </select>
+                          </li>
+                        </ul>
+                        <p><strong>포스텍 박태준미래전략연구소</strong>&nbsp;&nbsp;l&nbsp;&nbsp;경상북도 포항시 남구 효자동 산 31번지 (청암로 77) 포항공대 박태준학술정보관 6층 &nbsp;&nbsp;<a href="https://www.postech.ac.kr/kor/usage-guide/privacy_policy.do"><b>개인정보처리방침</b></a></p>
+                        <p class="tel"><span>TEL 054.279.0053~6</span> &nbsp;&nbsp;FAX 054.279.0059&nbsp;&nbsp;Email tj-park@postech.ac.kr</p>
+                        <p class="end">Copyright(c) 2017 By POSTEC ALL RIGHTS RESERVED. Designed By <strong>UXIS</strong></p>
+                    </div>
+			</div><!-- //foot -->			<!-- Footer 끝 -->
+
+
+		</div><!-- //wrapper -->
+
+ </body>
+</html>

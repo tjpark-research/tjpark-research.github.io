@@ -36,6 +36,39 @@ def split_paras(text):
     return [p for p in parts if len(p) > 1 and not NOISE.match(p)]
 
 
+def table_to_rows(box):
+    """상자 안의 표를 [[ROW|칸||칸]] 줄로 바꾼다.
+
+    표를 그냥 글로 풀면 '인원 / 담당업무 / 지원자격 / 0명 …' 처럼 칸이 한
+    줄씩 떨어져 무슨 표였는지 알 수 없게 된다. 줄 단위로 묶어 두면 빌더가
+    그 자리에 표를 되살린다. dl 을 품은 표는 건드리지 않는다 — 그쪽은
+    소제목이 있는 (a) 구조다.
+    """
+    for tbl in box.find_all('table'):
+        if tbl.find('table') or tbl.find('dl'):
+            continue
+        # 사진 자리표시자가 든 표는 건드리지 않는다. 칸 안의 '|' 를 '/' 로
+        # 바꾸는 통에 [[IMG|url|캡션]] 이 [[IMG/url/캡션]] 이 되어 사진이
+        # 되살아나지 못한다. 사진이 든 표는 대개 자료표가 아니라 판짜기다.
+        if '[[IMG|' in tbl.get_text(''):
+            continue
+        rows = []
+        for tr in tbl.find_all('tr'):
+            # 칸 안의 <br> 은 이미 개행으로 바뀌어 있다. 개행이 남으면
+            # 자리표시자가 여러 문단으로 쪼개져 표로 되살아나지 못한다.
+            cells = [clean(td.get_text('').replace('\n', ' '))
+                     for td in tr.find_all(['th', 'td'])]
+            if any(cells):
+                # 칸 구분은 '||'. clean() 이 공백을 하나로 줄이므로 탭이나
+                # 공백을 구분자로 쓰면 칸 경계가 사라진다.
+                rows.append('||'.join(c.replace('|', '/') for c in cells))
+        # 줄이 하나뿐이거나 칸이 하나뿐인 것은 자료표가 아니라 판짜기다.
+        if len(rows) < 2 or not any('||' in r for r in rows):
+            continue
+        tbl.replace_with('\n' + '\n'.join(f'[[ROW|{r}]]' for r in rows) + '\n')
+    return box
+
+
 def extract(url):
     sp = soup(url)
     scope = sp.select_one('.s_cont') or sp.select_one('#Board') or sp.body
@@ -45,26 +78,6 @@ def extract(url):
     for n in scope.select('script, style, .paging'):
         n.decompose()
 
-    # 본문이 표로 짜인 글(채용 공고의 모집분야·전형일정 따위)이 있다. 표를
-    # 그냥 글로 풀면 '인원 / 담당업무 / 지원자격 / 0명 …' 처럼 칸이 한 줄씩
-    # 떨어져 무슨 표였는지 알 수 없게 된다. 줄 단위로 묶어 자리표시자로
-    # 남기고, 빌더가 그 자리에 표를 되살린다.
-    box = scope.select_one('td.contentbox') or scope.select_one('.contentbox')
-    if box is not None:
-        for tbl in box.find_all('table'):
-            if tbl.find('table'):
-                continue                      # 안쪽 표부터 처리된다
-            rows = []
-            for tr in tbl.find_all('tr'):
-                # 칸 안의 <br> 은 이미 개행으로 바뀌어 있다. 개행이 남으면
-                # 자리표시자가 여러 문단으로 쪼개져 표로 되살아나지 못한다.
-                cells = [clean(td.get_text('').replace('\n', ' '))
-                         for td in tr.find_all(['th', 'td'])]
-                if any(cells):
-                    # 칸 구분은 '||'. clean() 이 공백을 하나로 줄이므로
-                    # 탭이나 공백을 구분자로 쓰면 칸 경계가 사라진다.
-                    rows.append('||'.join(c.replace('|', '/') for c in cells))
-            tbl.replace_with('\n' + '\n'.join(f'[[ROW|{r}]]' for r in rows) + '\n')
 
     # 본문이 <br><br> 로만 문단을 나눈 글이 많다(에디터로 붙여 넣은 글).
     # get_text 는 <br> 을 빈 문자열로 흘려보내므로 문단이 통째로 붙어 버린다.
@@ -106,7 +119,16 @@ def extract(url):
         if not src or any(k in src for k in SKIP_IMG):
             continue
         cap = clean(im.get('alt') or '')
-        holder = im.find_parent('dd') or im
+        # <dd><img></dd><dt>캡션</dt> 꼴이면 dd 째로 자리표시자로 바꾼다.
+        # 다만 dd 가 본문을 통째로 담고 있는 글도 있다(공모전 수상작은
+        # '내 용' dd 하나에 에세이 전문이 들어 있고 그 안에 사진이 섞여
+        # 있다). 그런 dd 를 바꿔 버리면 본문 2만 자가 사진 한 장으로
+        # 사라진다. 사진만 든 짧은 dd 일 때만 dd 를 쓴다.
+        holder = im
+        dd = im.find_parent('dd')
+        if dd is not None and len(dd.find_all('img')) == 1 \
+                and len(clean(dd.get_text(' '))) < 120:
+            holder = dd
         nxt = holder.find_next_sibling('dt')
         if nxt is not None:
             dt_text = clean(nxt.get_text(' '))
@@ -114,6 +136,8 @@ def extract(url):
                 cap = dt_text
             if dt_text and dt_text == cap:
                 nxt.decompose()
+        if holder.parent is None:
+            continue          # 이미 떨어져 나간 노드는 바꿀 수 없다
         inline.append(src)
         holder.replace_with(f'\n[[IMG|{src}|{cap.replace("|", " ")}]]\n')
 
@@ -142,7 +166,10 @@ def extract(url):
         dd = dl.find('dd')
         if dd is None:
             continue
-        paras = split_paras(dd.get_text(''))
+        # 소제목이 있는 구조에도 표가 들어간다(포럼 프로그램표 따위).
+        # 표를 그냥 풀면 '구분 / 시간 / 세부내용 / 1부 / 15:00~15:05 …'
+        # 처럼 칸이 한 줄씩 떨어져 시간표를 읽을 수 없다.
+        paras = split_paras(table_to_rows(dd).get_text(''))
         if paras:
             out['sections'].append({'heading': clean(dt.get_text(' ')) if dt else None,
                                     'paragraphs': paras})
@@ -153,9 +180,14 @@ def extract(url):
         # '표를 품지 않은 가장 큰 칸' 만 찾으면, 본문이 표로 짜인 글(채용
         # 공고·전형 일정 따위)에서 안쪽 칸 하나만 건져 올려 본문 대부분을
         # 잃는다. 실제로 993 채용공고가 여섯 줄로 줄어 있었다.
+        #
+        # 표를 자리표시자로 바꾸는 일은 반드시 여기서 — 쓸 상자를 정한
+        # 뒤에 — 한다. 위에서 미리 바꾸면 dl.semiSummary 구조((a) 분기)를
+        # 품은 표까지 헐어 버려 포럼·세미나 본문이 통째로 날아간다.
+        box = scope.select_one('td.contentbox') or scope.select_one('.contentbox')
         best, best_len = None, 0
-        if box is not None:
-            best = box.get_text('')
+        if box is not None and len(clean(box.get_text(''))) >= 40:
+            best = table_to_rows(box).get_text('')
             best_len = len(clean(best))
         if best_len < 40:
             for cell in scope.select('td, div'):
@@ -223,6 +255,11 @@ def run(board, resume=False):
             failed += 1
             out.append({'idx': idx, 'list_title': it.get('title'),
                         'url': it.get('href'), 'error': str(e)[:80]})
+        # 중간 저장. 오래 걸리는 게시판은 중간에 끊길 수 있는데, 끝에서만
+        # 저장하면 그때까지 받은 것이 통째로 날아가고 처음부터 다시 받아야
+        # 한다. --resume 이 이어받을 수 있도록 스무 건마다 적어 둔다.
+        if done and done % 20 == 0:
+            json.dump(out, open(dst, 'w'), ensure_ascii=False, indent=1)
     json.dump(out, open(dst, 'w'), ensure_ascii=False, indent=1)
     withbody = sum(1 for d in out if d.get('sections'))
     print(f'{board:18s} {len(out):4d}건 (신규 {done}, 실패 {failed}, 본문있음 {withbody})')
