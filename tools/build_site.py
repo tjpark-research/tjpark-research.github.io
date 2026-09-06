@@ -297,22 +297,11 @@ MOVED_TO_PRESS = {
 
 
 # ── 공지사항 -----------------------------------------------------------
-# 구 CMS 의 목록 제목이 제목 구실을 못 하는 글들이다. 본문 첫머리에 진짜
-# 제목이 적혀 있어(1550·875) 또는 본문 내용에 맞춰(643·464·899·674) 고쳤고,
-# 993 은 첨부 파일 이름이 제목 자리에 들어가 있었다.
-NOTICE_TITLE = {
-    '1550': '포스텍 박태준미래전략연구소와 경상북도, 경북 미래이슈 대응방안 '
-            '모색을 위한 업무협약(MOU) 체결',
-    '875':  '포항시 70인 시민위원회 리더십 역량 강화 교육 및 수료식 진행',
-    '643':  '「2017 포스텍 청년비전캠프」 개최 안내',
-    '464':  '「2016 포스텍 청년비전캠프」 개최 안내',
-    '993':  '박태준미래전략연구소 연구교수 채용 안내',
-    # 899 는 제목이 909(제출서류·준비물 안내)와 똑같이 붙어 있었는데
-    # 본문은 전국 대학(원)생 대상 참가자 모집 안내다.
-    '899':  '「2019 포항공과대학교 청년비전캠프」 참가자 모집 안내',
-    # 674 는 672(개최 안내)와 제목이 같았는데 본문은 확정된 일정이다.
-    '674':  '제5회 포스텍 박태준미래전략연구 포럼 일정 안내',
-}
+# 구 CMS 의 목록 제목이 제목 구실을 못 하던 글들(본문 첫 줄이나 첨부 파일
+# 이름이 제목 자리에 들어와 있었다)은 2026-09-06 목록 재수집으로 모두
+# 연구소가 붙인 본디 제목을 되찾았다. 손으로 지어 넣던 NOTICE_TITLE 은
+# 그래서 걷어냈다. 원인은 crawl_legacy.detail() 이 잘린 제목을 복원할 때
+# 페이지 아래 '이전글' 제목까지 후보로 삼은 것이었다.
 
 # 붙여 써서 읽기 어려운 제목들.
 NOTICE_SPACING = {
@@ -332,9 +321,6 @@ NOTICE_TAIL = re.compile(r'\s*_\s*(\d{4})[.\-](\d{1,2})[.\-](\d{1,2})\.?\s*$')
 
 
 def notice_title(idx, title):
-    t = NOTICE_TITLE.get(str(idx))
-    if t:
-        return t
     t = (title or '').strip()
     t = NOTICE_SPACING.get(t, t)
     m = NOTICE_TAIL.search(t)
@@ -874,6 +860,9 @@ def render_eras(specs, depth):
             f'<div class="prose">{"".join(panes)}</div></div>')
 
 
+COVER_WIDE = {'news_column', 'multimedia', 'forum', 'seminar'}
+
+
 def render_board(name, depth, style='cards', empty='등록된 자료가 없습니다.',
                  detail_base=None):
     """detail_base 가 주어지면 각 항목을 개별 글 페이지로 링크한다.
@@ -922,7 +911,12 @@ def render_board(name, depth, style='cards', empty='등록된 자료가 없습�
                      f'<span class="dt">{E(it.get("date") or "")}</span>')
             body_html = f'<a href="{href}">{inner}</a>' if href else inner
             cards.append(f'<li class="brow">{body_html}</li>')
+    # 카드 표지의 세로/가로 비는 게시판마다 다르다. 총서·보고서·수상작은
+    # 세로로 긴 표지(0.7)지만, 칼럼·영상·포럼·세미나 섬네일은 가로로 길다
+    # (1.4~1.8). 한 가지 비율로 찍으면 위아래에 흰 여백이 크게 남는다.
     cls = 'bgrid' if style == 'cards' else 'blist'
+    if style == 'cards' and name in COVER_WIDE:
+        cls += ' bgrid-wide'
     return f'''<div class="board" data-page-size="{12 if style=="cards" else 20}">
   <div class="board-top">
     <p class="cnt">전체 <b>{len(items)}</b>건</p>
