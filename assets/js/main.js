@@ -120,6 +120,42 @@
     apply();
   });
 
+
+  /* ---------- 영상: 눌렀을 때만 재생기를 붙인다 ----------
+     썸네일만 먼저 보여 주고, 재생 버튼을 눌러야 유튜브(또는 mp4)를 불러온다.
+     페이지를 열기만 해도 유튜브가 로드되면 느리고, 보는 사람의 접속 기록이
+     유튜브로 새어 나간다. */
+  document.querySelectorAll('.v-play').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var yt = btn.getAttribute('data-yt');
+      var file = btn.getAttribute('data-file');
+      var wrap = document.createElement('div');
+      wrap.className = 'v-frame';
+      if (yt) {
+        var f = document.createElement('iframe');
+        f.src = 'https://www.youtube-nocookie.com/embed/' + yt +
+                '?autoplay=1&rel=0&modestbranding=1';
+        f.title = btn.getAttribute('aria-label') || '';
+        f.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture';
+        f.allowFullscreen = true;
+        f.setAttribute('loading', 'lazy');
+        wrap.appendChild(f);
+      } else if (file) {
+        var v = document.createElement('video');
+        v.src = file;
+        v.poster = btn.getAttribute('data-poster') || '';
+        v.controls = true;
+        v.autoplay = true;
+        v.playsInline = true;
+        v.preload = 'metadata';
+        wrap.appendChild(v);
+      } else {
+        return;
+      }
+      btn.parentNode.replaceChild(wrap, btn);
+    });
+  });
+
   /* ---------- Reveal on scroll ---------- */
   if ('IntersectionObserver' in window) {
     var targets = document.querySelectorAll('.p-card,.book,.tl li,.y-card,.stats li');

@@ -659,6 +659,20 @@
     <changefreq>yearly</changefreq><priority>0.7</priority>
   </url>
   <url>
+    <loc>https://tjpark-research.github.io/life/video.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/video.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/video.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/video.html"/>
+    <changefreq>yearly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/life/video.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/video.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/video.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/video.html"/>
+    <changefreq>yearly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://tjpark-research.github.io/en/life/meet.html</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/meet.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/meet.html"/>
