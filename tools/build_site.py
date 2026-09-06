@@ -899,6 +899,9 @@ def PAGES(depth):
     # 메뉴의 '연보'는 구 홈페이지처럼 첫 시대(1927~1960)로 들어간다.
     P[('life', 'statue.html')] = ('청암 조각상', '우웨이산이 만든 전신상과 흉상, 그리고 받침돌의 건립문.',
         statue_page(d, 'ko'))
+    P[('life', 'video.html')] = ('영상',
+        '청암 박태준의 생전 목소리와 기록, 리더십 해설 영상.',
+        video_page(d, 'ko'))
     P[('life', 'media.html')] = ('언론자료',
         '신문·방송이 남긴 청암 박태준에 관한 기사 모음.',
         media_page(d, 'ko'))
@@ -1313,6 +1316,9 @@ def EN_PAGES(depth):
           'An English edition is being prepared.</p></div>')
     P[('life', 'statue.html')] = ('TJ Park Statue', 'The full-length statue and bust by Wu Weishan.',
         statue_page(d, 'en'))
+    P[('life', 'video.html')] = ('Video',
+        'TJ Park on film — his own voice, the record of his life, and short pieces on how he worked.',
+        video_page(d, 'en'))
     P[('life', 'media.html')] = ('Press Coverage',
         'Newspaper and broadcast articles about TJ Park.',
         media_page(d, 'en'))
@@ -2080,6 +2086,66 @@ def meet_page(depth, lang='ko'):
     board = render_board('meet', depth, 'rows', detail_base='life/meet')
     return lead + board + (note if lang == 'ko' else SRC_KO)
 
+
+
+
+def video_page(depth, lang='ko'):
+    """영상 — 청암 박태준의 삶을 담은 영상 모음.
+
+    유튜브는 페이지를 열자마자 불러오지 않는다. 썸네일과 재생 버튼만 두고,
+    누르는 순간 그 자리에 재생기를 끼워 넣는다(assets/js/main.js).
+    보는 사람의 접속 기록이 유튜브로 새지 않고 페이지도 가벼워진다.
+    """
+    p = os.path.join(CURATED, 'videos.json')
+    if not os.path.exists(p):
+        return '<div class="prose"><p>등록된 영상이 없습니다.</p></div>'
+    data = json.load(open(p, encoding='utf-8'))
+    r = rel(depth)
+    n = sum(len(g['items']) for g in data['groups'])
+
+    out = []
+    if lang == 'ko':
+        out.append('<div class="prose"><p class="lead">영상으로 보는 청암 박태준.</p>'
+                   f'<p>생전의 목소리와 기록, 그리고 그가 일하던 방식을 짚은 해설 영상 '
+                   f'{n}편입니다.</p></div>')
+    else:
+        out.append('<div class="prose"><p class="lead">TJ Park on film.</p>'
+                   f'<p>{n} videos — his own voice, the record of his life, and short '
+                   'pieces on how he worked.</p></div>')
+
+    for g in data['groups']:
+        cards = []
+        for it in g['items']:
+            key = it.get('yt') or it['file']
+            thumb = f'{r}assets/img/video/{key}.jpg'
+            # 재생시간은 썸네일 배지에 이미 있다. 여기서는 매체만 밝힌다.
+            meta = it.get('outlet') or ''
+            body = (f'<h3>{E(it["title"])}</h3>'
+                    + (f'<p class="v-m">{E(meta)}</p>' if meta else '')
+                    + (f'<p class="v-d">{E(it["desc"])}</p>' if it.get('desc') else ''))
+            if it.get('yt'):
+                attr = f'data-yt="{E(it["yt"])}"'
+            else:
+                attr = (f'data-file="{r}assets/video/{E(it["file"])}.mp4" '
+                        f'data-poster="{thumb}"')
+            cards.append(
+                f'<li class="v-card">'
+                f'<button type="button" class="v-play" {attr} '
+                f'aria-label="{E(it["title"])} 재생">'
+                f'<img src="{thumb}" alt="" loading="lazy">'
+                + (f'<span class="v-dur">{E(it["dur"])}</span>' if it.get('dur') else '')
+                + '</button>'
+                f'<div class="v-b">{body}</div></li>')
+        out.append(f'<section class="v-sec"><h2>{E(g["title"])}</h2>'
+                   f'<p class="v-blurb">{E(g["blurb"])}</p>'
+                   f'<ul class="v-grid">{"".join(cards)}</ul></section>')
+
+    if lang == 'ko':
+        out.append('<p class="src-note">※ 유튜브 영상은 재생 버튼을 눌러야 불러옵니다. '
+                   '방송사 영상의 저작권은 각 방송사에 있습니다. 「헌정시」·「산업실록」·'
+                   '「위대한 만남」 세 편은 유튜브에 없어 구 홈페이지의 원본을 옮겨 두었으며, '
+                   '연구소 유튜브에 올라가면 그쪽으로 바꾸는 편이 좋습니다.</p>')
+    return '\n'.join(out)
 
 
 def media_page(depth, lang='ko'):

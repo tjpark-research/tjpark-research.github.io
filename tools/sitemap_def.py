@@ -32,6 +32,7 @@ SECTIONS = [
         ('who.html',        '박태준을 말한다', 'life_who'),
         ('steel.html',      '쇳물은 멈추지 않는다', 'steel'),
         ('meet.html',       '위대한 만남 · 박정희와 박태준', 'meet'),
+        ('video.html',      '영상',         'tj_video'),
         ('media.html',      '언론자료',     'tj_media'),
     ]),
     ('youth', '청년사업', 'Youth Programs', 'youth', [
@@ -76,7 +77,7 @@ ALL_LABELS |= {
     '대학(원)생 공모전 수상작', '설립목적', '미션', '연혁', '로고소개', '주요사업',
     '연구소사람들', '오시는 길', '오시는길', '참여마당', '발전기금', 'E-카다로그',
     '인사말', '걸어온길', '생애', '연보', '청암조각상', '멀티미디어', '영상',
-    '언론자료', '박태준을 말한다', '쇳물은 멈추지않는다', '쇳물은 멈추지 않는다',
+    '언론자료', '영상', '박태준을 말한다', '쇳물은 멈추지않는다', '쇳물은 멈추지 않는다',
     '박태준 어록 DB',
     '위대한 만남 - 박정희와 박태준', '위대한 만남 · 박정희와 박태준', '공모전소개', '수상작 보기', '수상후기',
     '캠프소개', '캠프안내', '캠프후기', '갤러리', '서식&자료실', 'FAQ',
@@ -115,6 +116,7 @@ EN_SECTIONS = [
         ('who.html',        'Who is TJ Park', 'en_life_who'),
         ('steel.html',      'Steel Never Stops', 'steel'),
         ('meet.html',       'The Great Encounter', 'meet'),
+        ('video.html',      'Video',          'tj_video'),
         ('media.html',      'Press Coverage', 'tj_media'),
     ]),
     ('youth', 'Youth Programmes', 'For the Next Generation', 'youth', [

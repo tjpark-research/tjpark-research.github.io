@@ -864,3 +864,43 @@ table.cr-tbl{width:100%;min-width:680px;border-collapse:collapse;
 /* 생애 머리 이미지 */
 .bio-hero{margin:22px 0 26px}
 .bio-hero img{display:block;width:100%;height:auto}
+
+/* ── 영상 목록 ──────────────────────────────────────────── */
+.v-sec{margin-top:52px}
+.v-sec h2{font-family:var(--sans);font-size:22px;font-weight:700;color:var(--text);
+  margin:0;padding-top:22px;border-top:1px solid var(--line)}
+.v-sec:first-of-type h2{padding-top:0;border-top:0}
+.v-blurb{margin:8px 0 0;max-width:62ch;font-size:14.5px;line-height:1.85;
+  color:var(--text-3);font-weight:var(--w-body)}
+.v-grid{list-style:none;display:grid;gap:30px 24px;margin:24px 0 0;padding:0;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.v-card{min-width:0}
+.v-play{position:relative;display:block;width:100%;padding:0;border:0;
+  background:#0d0f12;cursor:pointer;overflow:hidden;border-radius:3px}
+.v-play img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;
+  transition:opacity .2s,transform .35s}
+.v-play:hover img{opacity:.82;transform:scale(1.02)}
+.v-play::after{content:"";position:absolute;left:50%;top:50%;
+  width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;
+  background:rgba(179,27,44,.92) url("data:image/svg+xml;charset=utf-8,\
+%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E\
+%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E") no-repeat 54% 50%/24px 24px;
+  transition:transform .2s}
+.v-play:hover::after{transform:scale(1.08)}
+.v-play:focus-visible{outline:3px solid var(--crimson);outline-offset:3px}
+.v-dur{position:absolute;right:8px;bottom:8px;padding:2px 7px;border-radius:2px;
+  background:rgba(0,0,0,.78);color:#fff;font-size:11.5px;font-weight:600;
+  letter-spacing:0;font-variant-numeric:tabular-nums}
+.v-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;
+  border-radius:3px;overflow:hidden}
+.v-frame iframe,.v-frame video{position:absolute;inset:0;width:100%;height:100%;border:0}
+.v-b{padding-top:12px}
+.v-b h3{margin:0;font-size:15.5px;line-height:1.5;font-weight:600;color:var(--text);
+  letter-spacing:0}
+.v-m{margin:6px 0 0;font-size:12.5px;font-weight:600;color:var(--bronze)}
+.v-d{margin:7px 0 0;font-size:13.5px;line-height:1.75;color:var(--text-3);
+  font-weight:var(--w-body)}
+@media (max-width:560px){
+  .v-grid{grid-template-columns:1fr;gap:26px}
+  .v-sec{margin-top:40px}
+}
