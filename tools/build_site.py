@@ -284,6 +284,11 @@ def _media_key(outlet, title):
 
 # 언론자료(박태준에 관한 기사)가 아니라 연구소·포스텍·포스코의 소식인 글.
 # '보도자료 및 신문기사'로 옮긴다.
+# 언론자료에서 빼기로 한 글 (연구소 판단).
+MEDIA_DROP = {
+    '967',   # [중앙일보] 年 2000만개 팔린다…박태준 왜 구두약에 '말표'를 붙였나
+}
+
 MOVED_TO_PRESS = {
     '382',   # 인구 줄고, 늙고 … 한국사회의 최대 고민 (연구소 활동)
     '36',    # 청암 뜻 이은 포스텍 출신 2명 '젊은 과학자상' (POSTECH 수상)
@@ -400,7 +405,9 @@ def load(name):
         data = normalize_meet(data)
     elif name in ('board_tj_media', 'detail_tj_media'):
         kind = 'board' if name.startswith('board') else 'detail'
-        data = [x for x in data if str(x.get('idx')) not in MOVED_TO_PRESS]
+        data = [x for x in data
+                if str(x.get('idx')) not in MOVED_TO_PRESS
+                and str(x.get('idx')) not in MEDIA_DROP]
         data = normalize_media(data + media_link_items(kind))
     elif name in ('board_news_press', 'detail_news_press'):
         # 보도자료도 제목 한 줄에 매체·날짜가 뒤섞여 있다. 같은 규칙으로 정리하고,
