@@ -25,16 +25,6 @@ SECTIONS = [
         ('books.html',   '연구총서',   'tj_books'),
         ('reports.html', '연구보고서', 'tj_reports'),
     ]),
-    ('life', '박태준의 삶', 'The Life of TJ Park', 'life', [
-        ('index.html',      '생애',        'life_bio'),
-        ('chronology.html', '연보',        'life_chronology'),
-        ('statue.html',     '청암 조각상',  'life_statue'),
-        ('who.html',        '박태준을 말한다', 'life_who'),
-        ('steel.html',      '쇳물은 멈추지 않는다', 'steel'),
-        ('meet.html',       '위대한 만남 · 박정희와 박태준', 'meet'),
-        ('video.html',      '영상',         'tj_video'),
-        ('media.html',      '언론자료',     'tj_media'),
-    ]),
     ('youth', '청년사업', 'Youth Programs', 'youth', [
         ('index.html',     '대학(원)생 공모전', 'youth_contest'),
         ('winners.html',   '수상작 보기',      'youth_winners'),
@@ -62,6 +52,16 @@ SECTIONS = [
         ('people.html',    '연구소사람들',  'lab_people'),
         ('location.html',  '오시는 길',    'lab_location'),
         ('brochure.html',  'E-카다로그',   'lab_brochure'),
+    ]),
+    ('life', '박태준의 삶', 'The Life of TJ Park', 'life', [
+        ('index.html',      '생애',        'life_bio'),
+        ('chronology.html', '연보',        'life_chronology'),
+        ('statue.html',     '청암 조각상',  'life_statue'),
+        ('who.html',        '박태준을 말한다', 'life_who'),
+        ('steel.html',      '쇳물은 멈추지 않는다', 'steel'),
+        ('meet.html',       '위대한 만남 · 박정희와 박태준', 'meet'),
+        ('video.html',      '영상',         'tj_video'),
+        ('media.html',      '언론자료',     'tj_media'),
     ]),
 ]
 
@@ -109,16 +109,6 @@ EN_SECTIONS = [
         ('books.html',   'Research Series',     'en_tj_books'),
         ('reports.html', 'Research Reports',    'en_tj_reports'),
     ]),
-    ('life', 'The Life of TJ Park', 'Life’s Chungam', 'life', [
-        ('index.html',      'Biography',      'en_life_bio'),
-        ('chronology.html', 'Chronology',     'en_life_chronology'),
-        ('statue.html',     'TJ Park Statue', 'en_life_statue'),
-        ('who.html',        'Who is TJ Park', 'en_life_who'),
-        ('steel.html',      'Steel Never Stops', 'steel'),
-        ('meet.html',       'The Great Encounter', 'meet'),
-        ('video.html',      'Video',          'tj_video'),
-        ('media.html',      'Press Coverage', 'tj_media'),
-    ]),
     ('youth', 'Youth Programmes', 'For the Next Generation', 'youth', [
         ('index.html',      'Student Essay Contest', 'en_youth_contest'),
         ('winners.html',    'Award-winning Essays',  'en_youth_winners'),
@@ -146,5 +136,15 @@ EN_SECTIONS = [
         ('people.html',   'People',           'en_lab_people'),
         ('location.html', 'Location',         'en_lab_location'),
         ('brochure.html', 'Brochure',         'en_lab_brochure'),
+    ]),
+    ('life', 'The Life of TJ Park', 'Life’s Chungam', 'life', [
+        ('index.html',      'Biography',      'en_life_bio'),
+        ('chronology.html', 'Chronology',     'en_life_chronology'),
+        ('statue.html',     'TJ Park Statue', 'en_life_statue'),
+        ('who.html',        'Who is TJ Park', 'en_life_who'),
+        ('steel.html',      'Steel Never Stops', 'steel'),
+        ('meet.html',       'The Great Encounter', 'meet'),
+        ('video.html',      'Video',          'tj_video'),
+        ('media.html',      'Press Coverage', 'tj_media'),
     ]),
 ]
