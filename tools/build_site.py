@@ -427,6 +427,38 @@ def normalize_media(items):
 CURATED = os.path.join(ROOT, 'data', 'curated')
 
 
+def curated_books(board, kind):
+    """구 사이트가 내려간 뒤 새로 나온 총서·도서를 손으로 채워 넣는다.
+
+    data/curated/books.json 이 원본이다. 각 항목의 "board" 가 어느 게시판에
+    붙을지 정한다(books_future = 미래전략연구총서).
+    """
+    p = os.path.join(CURATED, 'books.json')
+    if not os.path.exists(p):
+        return []
+    out = []
+    for b in json.load(open(p, encoding='utf-8')):
+        if b.get('board') != board:
+            continue
+        if kind == 'board':
+            out.append({'idx': b['idx'], 'title': b['title'],
+                        'date': b.get('date'), 'author': b.get('author'),
+                        'publisher': b.get('publisher'),
+                        'summary': b.get('summary'), 'truncated': False,
+                        'image': None, 'local': b.get('cover'), 'href': None})
+        else:
+            meta = {k: v for k, v in (('author', b.get('author')),
+                                      ('publisher', b.get('publisher')),
+                                      ('published', b.get('date'))) if v}
+            out.append({'idx': b['idx'], 'title': b['title'],
+                        'list_title': b['title'], 'meta': meta,
+                        'url': None, 'images': [], 'images_local': {},
+                        'files': [], 'image_local': b.get('cover'),
+                        'book_note': b.get('note'),
+                        'sections': [dict(x) for x in b['sections']]})
+    return out
+
+
 def media_links():
     p = os.path.join(CURATED, 'media_links.json')
     return json.load(open(p, encoding='utf-8')) if os.path.exists(p) else []
@@ -476,6 +508,12 @@ def load(name):
     if not os.path.exists(p):
         return None
     data = json.load(open(p))
+    kind = 'board' if name.startswith('board_') else 'detail'
+    board = name.split('_', 1)[1]
+    extra = curated_books(board, kind)
+    if extra:
+        # 새 책이 목록 맨 앞에 온다(구 게시판은 최신순이다).
+        data = extra + data
     if name in ('board_news_notice', 'detail_news_notice'):
         data = normalize_notice(data)
     elif name in ('board_steel', 'detail_steel'):
@@ -1624,13 +1662,18 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     title = d.get('title') or d.get('list_title') or ''
     meta = d.get('meta') or {}
     order = ['outlet', 'author', 'publisher', 'published', 'posted', 'date', 'source']
+    # 'published' 는 게시판에 따라 뜻이 다르다. 출판사가 적혀 있으면 책·보고서
+    # 이므로 '발간일', 매체가 적혀 있으면 기사이므로 '보도일'이다.
+    labels = dict(META_LABEL)
+    if meta.get('publisher'):
+        labels['published'] = '발간일'
     seen, bits = set(), []
     for k in order:
         v = meta.get(k)
         if not v or v in seen:
             continue
         seen.add(v)
-        bits.append(f'<span><b>{E(META_LABEL.get(k, k))}</b> {E(v)}</span>')
+        bits.append(f'<span><b>{E(labels.get(k, k))}</b> {E(v)}</span>')
 
     cover = ''
     if d.get('image_local'):
@@ -1756,6 +1799,8 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     # 다만 새로 넣은 언론 기사는 본문을 옮기지 않고 요약만 싣기 때문에
     # 원문으로 가는 길을 반드시 남긴다.
     src = ''
+    if d.get('book_note'):
+        src = f'<div class="art-src"><p>{E(d["book_note"])}</p></div>'
     if d.get('link'):
         note = (f'<p class="art-src-note">{E(d["link_note"])}</p>'
                 if d.get('link_note') else '')
