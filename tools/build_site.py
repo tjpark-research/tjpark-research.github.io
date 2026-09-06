@@ -2141,10 +2141,8 @@ def video_page(depth, lang='ko'):
                    f'<ul class="v-grid">{"".join(cards)}</ul></section>')
 
     if lang == 'ko':
-        out.append('<p class="src-note">※ 유튜브 영상은 재생 버튼을 눌러야 불러옵니다. '
-                   '방송사 영상의 저작권은 각 방송사에 있습니다. 「헌정시」·「산업실록」·'
-                   '「위대한 만남」 세 편은 유튜브에 없어 구 홈페이지의 원본을 옮겨 두었으며, '
-                   '연구소 유튜브에 올라가면 그쪽으로 바꾸는 편이 좋습니다.</p>')
+        out.append('<p class="src-note">※ 영상은 재생 버튼을 눌러야 불러옵니다. '
+                   '방송사 영상의 저작권은 각 방송사에 있습니다.</p>')
     return '\n'.join(out)
 
 
