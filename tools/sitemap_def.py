@@ -29,10 +29,10 @@ SECTIONS = [
         ('index.html',      '생애',        'life_bio'),
         ('chronology.html', '연보',        'life_chronology'),
         ('statue.html',     '청암 조각상',  'life_statue'),
-        ('media.html',      '언론자료',     'tj_media'),
         ('who.html',        '박태준을 말한다', 'life_who'),
         ('steel.html',      '쇳물은 멈추지 않는다', 'steel'),
         ('meet.html',       '위대한 만남 · 박정희와 박태준', 'meet'),
+        ('media.html',      '언론자료',     'tj_media'),
     ]),
     ('youth', '청년사업', 'Youth Programs', 'youth', [
         ('index.html',     '대학(원)생 공모전', 'youth_contest'),
@@ -111,10 +111,10 @@ EN_SECTIONS = [
         ('index.html',      'Biography',      'en_life_bio'),
         ('chronology.html', 'Chronology',     'en_life_chronology'),
         ('statue.html',     'TJ Park Statue', 'en_life_statue'),
-        ('media.html',      'Press Coverage', 'tj_media'),
         ('who.html',        'Who is TJ Park', 'en_life_who'),
         ('steel.html',      'Steel Never Stops', 'steel'),
         ('meet.html',       'The Great Encounter', 'meet'),
+        ('media.html',      'Press Coverage', 'tj_media'),
     ]),
     ('youth', 'Youth Programmes', 'For the Next Generation', 'youth', [
         ('index.html',      'Student Essay Contest', 'en_youth_contest'),

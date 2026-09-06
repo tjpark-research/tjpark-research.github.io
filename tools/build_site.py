@@ -173,6 +173,72 @@ def normalize_meet(items):
     return out
 
 
+# 언론자료는 구 홈페이지 등록일이 기사 보도일과 한참 다르다
+# (2011년 기사를 2014년에 한꺼번에 올려 두었다). 보도일은 제목 안에
+# '_2020.01.20', '_한국일보 2018.04.01', '(2011년 12월 14일)' 처럼
+# 여러 꼴로 적혀 있다 — 마지막에 나오는 날짜를 보도일로 본다.
+MEDIA_DATE = [
+    re.compile(r'(20\d{2})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})'),
+    re.compile(r'(20\d{2})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일?'),
+]
+# 기사 본문에 섞여 들어온 공유 버튼·아이콘. 사진이 아니다.
+MEDIA_UI_IMG = ('/common/button/', '/bil/', 'site_images/sub/')
+MEDIA_UI_CAP = {'페이스북', '트위터', '네이버 블로그', '카카오스토리', '텔레그램',
+                '프린트', 'E-mail', 'PDF', '닫기'}
+
+
+def _media_date(title):
+    for pat in MEDIA_DATE:
+        ms = list(pat.finditer(title or ''))
+        if not ms:
+            continue
+        y, m, d = (int(x) for x in ms[-1].groups())
+        if 1 <= m <= 12 and 1 <= d <= 31:
+            return f'{y:04d}-{m:02d}-{d:02d}'
+    return None
+
+
+def normalize_media(items):
+    out = []
+    for it in items:
+        it = dict(it)
+        day = _media_date(it.get('title') or it.get('list_title'))
+        meta = dict(it.get('meta') or {})
+        posted = meta.get('posted') or meta.get('date')
+        meta.pop('posted', None)
+        meta.pop('date', None)
+        meta.pop('source', None)
+        if day:
+            it['date'] = day
+            meta['published'] = day
+        elif posted:
+            # 제목에 보도일이 없는 두 건. 지어내지 않고 등록일을 그대로 둔다.
+            meta['posted'] = posted
+        it['meta'] = meta
+        secs = []
+        for sec in it.get('sections') or []:
+            ps = []
+            for x in sec.get('paragraphs', []):
+                x = x.strip()
+                if not x:
+                    continue
+                m = IMG_TOKEN.match(x)
+                if m and (any(k in m.group(1) for k in MEDIA_UI_IMG)
+                          or m.group(2).strip() in MEDIA_UI_CAP):
+                    continue
+                if x in MEDIA_UI_CAP:
+                    continue
+                ps.append(x)
+            secs.append(dict(sec, paragraphs=ps))
+        if secs:
+            it['sections'] = secs
+        it['files'] = [f for f in (it.get('files') or [])
+                       if not f.get('href', '').startswith('javascript:')]
+        out.append(it)
+    out.sort(key=lambda x: (x.get('date') or '', int(x.get('idx') or 0)), reverse=True)
+    return out
+
+
 def load(name):
     p = os.path.join(LEGACY, name + '.json')
     if not os.path.exists(p):
@@ -182,6 +248,8 @@ def load(name):
         data = normalize_steel(data)
     elif name in ('board_meet', 'detail_meet'):
         data = normalize_meet(data)
+    elif name in ('board_tj_media', 'detail_tj_media'):
+        data = normalize_media(data)
     return data
 
 
@@ -1201,7 +1269,7 @@ BOARD_MAP = {
     'tj_media':        ('life',     'media.html',   'life/media',                '언론자료'),
 }
 
-META_LABEL = {'author': '저자', 'publisher': '출판사', 'published': '연재일',
+META_LABEL = {'author': '저자', 'publisher': '출판사', 'published': '보도일',
               'posted': '등록일', 'date': '일자', 'source': '출처'}
 
 
@@ -1837,9 +1905,8 @@ def media_page(depth, lang='ko'):
                 f'<p>청암 박태준과 관련된 기사 {n}건입니다. 제목 앞의 대괄호는 '
                 '보도 매체를 가리킵니다.</p></div>')
         note = ('<p class="src-note">※ 기사와 사진은 각 언론사가 저작권을 가진 '
-                '자료입니다. 구 홈페이지에 실려 있던 그대로 옮겼으며, 본문 끝에 '
-                '원문 주소를 남겨 두었습니다. 언론사 서버에서 이미 사라진 사진은 '
-                '설명만 남아 있습니다.</p>')
+                '자료입니다. 본문 끝에 원문 주소를 남겨 두었습니다. '
+                '언론사 서버에서 이미 사라진 사진은 설명만 남아 있습니다.</p>')
     else:
         lead = ('<div class="prose">'
                 '<p class="lead">How the press and broadcasters have recorded '
