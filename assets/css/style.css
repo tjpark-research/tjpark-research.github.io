@@ -843,3 +843,12 @@ table.cr-tbl{width:100%;min-width:680px;border-collapse:collapse;
   height:auto;border:1px solid var(--line)}
 .art-body .art-fig figcaption{margin:10px auto 0;max-width:640px;font-size:13px;
   line-height:1.7;color:var(--text-3);font-weight:var(--w-body)}
+
+/* 요약 + 원문 링크만 싣는 기사 항목 */
+.art-src{margin:34px 0 0;padding:20px 22px;border:1px solid var(--line);
+  background:#fafafb}
+.art-src p{margin:0;font-size:13.5px;line-height:1.8;color:var(--text-3);
+  font-weight:var(--w-body)}
+.art-src .go{margin-top:14px}
+.art-src .art-src-note{margin-top:12px;padding-top:12px;
+  border-top:1px dashed var(--line);font-size:12.5px}

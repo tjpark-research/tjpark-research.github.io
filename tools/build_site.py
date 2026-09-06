@@ -239,6 +239,39 @@ def normalize_media(items):
     return out
 
 
+# 언론자료에 새로 넣는 기사. 구 홈페이지에 없던 것이라 본문을 그대로
+# 옮기지 않는다(기사 저작권은 각 언론사에 있다). 제목·매체·보도일·요약과
+# 원문 링크만 싣고, 요약은 원문을 읽고 쓴 것이다.
+CURATED = os.path.join(ROOT, 'data', 'curated')
+
+
+def media_links():
+    p = os.path.join(CURATED, 'media_links.json')
+    return json.load(open(p, encoding='utf-8')) if os.path.exists(p) else []
+
+
+def media_link_items(kind):
+    """kind: 'board' 이면 목록 항목, 'detail' 이면 상세 항목으로 만든다."""
+    out = []
+    for a in media_links():
+        title = f'[{a["outlet"]}] {a["headline"]}'
+        if kind == 'board':
+            out.append({'idx': a['idx'], 'title': title, 'date': a['date'],
+                        'summary': ' '.join(a.get('summary') or []),
+                        'href': a['url'], 'truncated': False,
+                        'image': None, 'author': None, 'publisher': None})
+        else:
+            meta = {'outlet': a['outlet'], 'published': a['date']}
+            if a.get('byline'):
+                meta['author'] = a['byline']
+            out.append({'idx': a['idx'], 'title': title, 'list_title': title,
+                        'url': a['url'], 'meta': meta, 'images': [],
+                        'files': [], 'link': a['url'], 'link_note': a.get('note'),
+                        'sections': [{'heading': None,
+                                      'paragraphs': list(a.get('summary') or [])}]})
+    return out
+
+
 def load(name):
     p = os.path.join(LEGACY, name + '.json')
     if not os.path.exists(p):
@@ -249,7 +282,8 @@ def load(name):
     elif name in ('board_meet', 'detail_meet'):
         data = normalize_meet(data)
     elif name in ('board_tj_media', 'detail_tj_media'):
-        data = normalize_media(data)
+        data = normalize_media(
+            data + media_link_items('board' if name.startswith('board') else 'detail'))
     return data
 
 
@@ -1270,7 +1304,7 @@ BOARD_MAP = {
 }
 
 META_LABEL = {'author': '저자', 'publisher': '출판사', 'published': '보도일',
-              'posted': '등록일', 'date': '일자', 'source': '출처'}
+              'posted': '등록일', 'date': '일자', 'source': '출처', 'outlet': '매체'}
 
 
 # 옛 공지 본문에는 구 홈페이지 주소가 그대로 적혀 있다("자세히 보기: http://...").
@@ -1311,7 +1345,7 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     """개별 글 본문. 원문 그대로 옮기되 출처를 밝힌다."""
     title = d.get('title') or d.get('list_title') or ''
     meta = d.get('meta') or {}
-    order = ['author', 'publisher', 'published', 'posted', 'date', 'source']
+    order = ['outlet', 'author', 'publisher', 'published', 'posted', 'date', 'source']
     seen, bits = set(), []
     for k in order:
         v = meta.get(k)
@@ -1394,9 +1428,21 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     navhtml = f'<nav class="art-nav">{"".join(nav)}</nav>' if nav else ''
 
     # 구 홈페이지 '원문 보기' 링크는 두지 않는다.
-    # 구 사이트가 곧 내려가므로 링크를 남기면 461개의 죽은 링크가 된다.
+    # 구 사이트가 곧 내려가므로 링크를 남기면 죽은 링크가 된다.
     # 원문 URL 은 data/legacy/detail_*.json 에 그대로 보관되어 있다.
+    #
+    # 다만 새로 넣은 언론 기사는 본문을 옮기지 않고 요약만 싣기 때문에
+    # 원문으로 가는 길을 반드시 남긴다.
     src = ''
+    if d.get('link'):
+        note = (f'<p class="art-src-note">{E(d["link_note"])}</p>'
+                if d.get('link_note') else '')
+        src = ('<div class="art-src">'
+               '<p>본 항목은 기사 전문을 옮기지 않고 요약과 원문 링크만 싣습니다. '
+               '기사 저작권은 해당 언론사에 있습니다.</p>'
+               f'<p class="go"><a class="btn btn-g" href="{E(d["link"])}" '
+               f'target="_blank" rel="noopener">원문 보기 ↗</a></p>'
+               f'{note}</div>')
 
     return f'''<article class="art">
   <header class="art-hd">
