@@ -1659,12 +1659,19 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
         """[[ROW|...]] 로 이어지는 줄을 표 한 개로 되살린다."""
         if not rows:
             return ''
-        head, body = rows[0], rows[1:]
-        # 칸 수가 들쭉날쭉하면 표로 짜지 말고 줄글로 남긴다.
         w = max(len(r) for r in rows)
-        th = ''.join(f'<th>{E(c)}</th>' for c in head) + '<th></th>' * (w - len(head))
-        tr = ''.join('<tr>' + ''.join(f'<td>{E(c)}</td>' for c in r)
-                     + '<td></td>' * (w - len(r)) + '</tr>' for r in body)
+        rows = [r + [''] * (w - len(r)) for r in rows]
+        # 원본 표에는 폭 맞추기용 빈 칸이 끝에 붙어 있는 경우가 많다.
+        # 통째로 빈 열은 버린다.
+        keep = [i for i in range(w) if any(r[i].strip() for r in rows)]
+        rows = [[r[i] for i in keep] for r in rows]
+        w = len(keep)
+        if w < 2:
+            return ''.join(f'<p>{E(" ".join(c for c in r if c))}</p>' for r in rows)
+        head, body = rows[0], rows[1:]
+        th = ''.join(f'<th>{E(c)}</th>' for c in head)
+        tr = ''.join('<tr>' + ''.join(f'<td>{E(c)}</td>' for c in r) + '</tr>'
+                     for r in body)
         return ('<div class="art-tbl-wrap"><table class="art-tbl">'
                 f'<thead><tr>{th}</tr></thead><tbody>{tr}</tbody></table></div>')
 
@@ -1766,8 +1773,9 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
 
 
 def build_details():
-    made = 0
+    made = stale = 0
     for board, (skey, lfile, ddir, llabel) in BOARD_MAP.items():
+        wrote = set()
         items = load('detail_' + board) or []
         items = [d for d in items if d.get('idx') and d.get('sections')]
         if not items:
@@ -1790,7 +1798,8 @@ def build_details():
             first = ''
             for s in d.get('sections', []):
                 for p0 in s.get('paragraphs', []):
-                    if p0.strip() and not IMG_TOKEN.match(p0.strip()):
+                    if (p0.strip() and not IMG_TOKEN.match(p0.strip())
+                            and not ROW_TOKEN.match(p0.strip())):
                         first = p0[:150]
                         break
                 if first:
@@ -1800,8 +1809,15 @@ def build_details():
                         canonical=f'{ddir}/{d["idx"]}.html', lang='ko',
                         article_title=title or llabel)
             open(os.path.join(outdir, f'{d["idx"]}.html'), 'w', encoding='utf-8').write(out)
+            wrote.add(f'{d["idx"]}.html')
             made += 1
-    print(f'개별 글 {made}개 페이지')
+        # 글이 다른 게시판으로 옮겨 가거나 목록에서 빠지면 예전 페이지가
+        # 남는다. 아무도 가리키지 않는 채 검색에만 잡히므로 지운다.
+        for f in os.listdir(outdir):
+            if re.fullmatch(r'\d+\.html', f) and f not in wrote:
+                os.remove(os.path.join(outdir, f))
+                stale += 1
+    print(f'개별 글 {made}개 페이지' + (f' (묵은 페이지 {stale}개 삭제)' if stale else ''))
 
 
 # ────────────────────────────────── 이미지로만 있던 페이지의 텍스트판
