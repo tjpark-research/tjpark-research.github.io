@@ -2248,7 +2248,13 @@ def bio_page(depth):
             f'<div class="bio-body">{"".join(html)}</div>'
             f'</section>')
     intro = ''.join(f'<p>{E(t)}</p>' for t in BIO_INTRO)
-    return (f'<div class="prose bio-intro"><p class="lead">청암 박태준, 그가 걸어온 길을 들여다 보다</p>'
+    # 소년기 → 군인 → 교관 → 제철소로 이어지는 한 장짜리 머리 이미지.
+    # 글로 옮길 내용이 없는 순수 그림이라 alt 로 장면만 설명한다.
+    hero = (f'<figure class="bio-hero"><img src="{rel(depth)}assets/img/life/bio-hero.jpg" '
+            f'alt="소년 시절부터 군인·교관을 거쳐 포항제철소에 이르기까지, 청암 박태준의 '
+            f'생애를 한 장에 담은 그림" loading="eager"></figure>')
+    return (f'<div class="prose"><p class="lead">청암 박태준, 그가 걸어온 길을 들여다 보다</p>'
+            f'</div>{hero}<div class="prose bio-intro">'
             f'{intro}</div>'
             f'<div class="eras"><div class="era-tabs">{"".join(tabs)}</div>'
             f'<div class="prose">{"".join(panes)}</div></div>')

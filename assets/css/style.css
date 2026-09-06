@@ -860,3 +860,7 @@ table.cr-tbl{width:100%;min-width:680px;border-collapse:collapse;
 @media (max-width:560px){
   .blist .src{width:auto}
 }
+
+/* 생애 머리 이미지 */
+.bio-hero{margin:22px 0 26px}
+.bio-hero img{display:block;width:100%;height:auto}
