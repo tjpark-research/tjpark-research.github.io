@@ -48,7 +48,7 @@ SECTIONS = [
     ]),
     ('news', '연구소소식', 'News', 'news', [
         ('index.html',   '공지사항',        'news_notice'),
-        ('press.html',   '보도자료',        'news_press'),
+        ('press.html',   '보도자료 및 신문기사', 'news_press'),
         ('column.html',  'TJ미래전략 칼럼',  'news_column'),
     ]),
     ('about', '연구소소개', 'About the Institute', 'about', [
@@ -80,7 +80,8 @@ ALL_LABELS |= {
     '박태준 어록 DB',
     '위대한 만남 - 박정희와 박태준', '위대한 만남 · 박정희와 박태준', '공모전소개', '수상작 보기', '수상후기',
     '캠프소개', '캠프안내', '캠프후기', '갤러리', '서식&자료실', 'FAQ',
-    '공지사항', '보도자료', 'TJ미래전략 칼럼', '메일링서비스', '포럼', '세미나',
+    '공지사항', '보도자료', '보도자료 및 신문기사', 'TJ미래전략 칼럼', '메일링서비스',
+    '포럼', '세미나',
     'HOME', '인쇄', '글자크기', '확대', '초기화', '축소', '게시판 List',
     '제목', '저자', '발행일', '내용', '미래전략연구', '박태준연구', '박태준의 삶',
     '박태준의삶', '박태준 연구', '청년사업', '포럼&세미나', '연구소소식', '연구소소개',
@@ -130,7 +131,7 @@ EN_SECTIONS = [
     ]),
     ('news', 'News', 'From the Institute', 'news', [
         ('index.html',  'Notices',      'en_news_notice'),
-        ('press.html',  'Press',        'en_news_press'),
+        ('press.html',  'Press & News Articles', 'en_news_press'),
         ('column.html', 'TJ Columns',   'en_news_column'),
     ]),
     ('about', 'About', 'About the Institute', 'about', [

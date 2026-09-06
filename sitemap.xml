@@ -316,10 +316,6 @@
     <changefreq>yearly</changefreq><priority>0.5</priority>
   </url>
   <url>
-    <loc>https://tjpark-research.github.io/life/media/36.html</loc>
-    <changefreq>yearly</changefreq><priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://tjpark-research.github.io/life/media/37.html</loc>
     <changefreq>yearly</changefreq><priority>0.5</priority>
   </url>
@@ -421,10 +417,6 @@
   </url>
   <url>
     <loc>https://tjpark-research.github.io/life/media/63.html</loc>
-    <changefreq>yearly</changefreq><priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://tjpark-research.github.io/life/media/64.html</loc>
     <changefreq>yearly</changefreq><priority>0.5</priority>
   </url>
   <url>
@@ -573,10 +565,6 @@
   </url>
   <url>
     <loc>https://tjpark-research.github.io/life/media/373.html</loc>
-    <changefreq>yearly</changefreq><priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://tjpark-research.github.io/life/media/382.html</loc>
     <changefreq>yearly</changefreq><priority>0.5</priority>
   </url>
   <url>
@@ -3141,10 +3129,6 @@
     <changefreq>monthly</changefreq><priority>0.4</priority>
   </url>
   <url>
-    <loc>https://tjpark-research.github.io/news/press-items/1608.html</loc>
-    <changefreq>monthly</changefreq><priority>0.4</priority>
-  </url>
-  <url>
     <loc>https://tjpark-research.github.io/news/press-items/1607.html</loc>
     <changefreq>monthly</changefreq><priority>0.4</priority>
   </url>
@@ -3369,10 +3353,6 @@
     <changefreq>monthly</changefreq><priority>0.4</priority>
   </url>
   <url>
-    <loc>https://tjpark-research.github.io/news/press-items/509.html</loc>
-    <changefreq>monthly</changefreq><priority>0.4</priority>
-  </url>
-  <url>
     <loc>https://tjpark-research.github.io/news/press-items/508.html</loc>
     <changefreq>monthly</changefreq><priority>0.4</priority>
   </url>
@@ -3390,10 +3370,6 @@
   </url>
   <url>
     <loc>https://tjpark-research.github.io/news/press-items/504.html</loc>
-    <changefreq>monthly</changefreq><priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://tjpark-research.github.io/news/press-items/503.html</loc>
     <changefreq>monthly</changefreq><priority>0.4</priority>
   </url>
   <url>
@@ -3798,6 +3774,14 @@
   </url>
   <url>
     <loc>https://tjpark-research.github.io/life/media/100004.html</loc>
+    <changefreq>yearly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/news/press-items/36.html</loc>
+    <changefreq>yearly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/news/press-items/64.html</loc>
     <changefreq>yearly</changefreq><priority>0.5</priority>
   </url>
 </urlset>

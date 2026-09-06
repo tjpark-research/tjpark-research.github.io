@@ -178,9 +178,18 @@ def normalize_meet(items):
 #   '제목_ 매일경제 2018.04.25'           '제목 _(서울신문 2015-03-05 18면)'
 # 셋을 갈라 내어 매체·제목·보도일을 각각의 자리에 놓는다.
 MEDIA_OUTLETS = [
-    'The Wall Street Journal', 'The Korea Herald', 'The Korea Times', 'The Bell',
-    '중앙시사매거진', '파이낸셜뉴스', '일경산업신문', '일본 경제신문', '포브스코리아',
-    '머니투데이', '코미디닷컴', '헤럴드 경제', '헤럴드경제', '중앙썬데이', '중앙선데이',
+    'The Wall Street Journal', 'The Korea Herald', 'The Korea Times',
+    'The POSTECH Times', 'POSTECH Newsletter', 'Weekly BIZ', 'NSP통신',
+    'ACROFAN', 'News1', 'The Bell', '포항공대신문', 'CNB',
+    '중앙시사매거진', '스틸앤메탈뉴스', '경상매일신문', '파이낸셜뉴스', '일경산업신문',
+    '일본 경제신문', '포브스코리아', '베리타스알파', '포스텍 신문사', '포스텍신문사',
+    '포스텍 타임즈', '포스텍타임즈', '캠퍼스 플러스', '캠퍼스플러스', '뉴데일리 경제',
+    '뉴데일리경제', '디지털타임즈', '디지털타임스', '머니투데이', '코미디닷컴',
+    '헤럴드 경제', '헤럴드경제', '중앙썬데이', '중앙선데이', '아시아 경제', '아시아경제',
+    '스틸앤메탈', '포스코신문', '오마이뉴스', '아주경제', '일요신문', '국제신문',
+    '매일신문', '매일일보', '영남일보', '광주일보', '신아일보', '독서신문', '폴리뉴스',
+    '미디어파인', '서울와이어', '헬로우디디', '약업닷컴', '전자신문', '경북매일',
+    '주간경향', '연합뉴스', '대경일보', '대덕넷', '뉴시스',
     '한국경제', '매일경제', '서울경제', '문화일보', '세계일보', '국민일보', '서울신문',
     '경향신문', '한국일보', '동아일보', '중앙일보', '조선일보', '경북일보', '백세시대',
     '뉴스웨이', '조일신문', '한겨례', '한겨레', '뉴스로', '머니S',
@@ -194,6 +203,13 @@ MEDIA_RENAME = {
     '중앙썬데이': '중앙선데이',
     '헤럴드 경제': '헤럴드경제',
     '코미디닷컴': '코메디닷컴',
+    '아시아 경제': '아시아경제',
+    '포스텍 타임즈': '포스텍타임즈',
+    '포스텍 신문사': '포스텍신문사',
+    '캠퍼스 플러스': '캠퍼스플러스',
+    '뉴데일리 경제': '뉴데일리경제',
+    '디지털타임즈': '디지털타임스',
+    'The POSTECH Times': '포항공대신문',
 }
 # 구 홈페이지 제목의 오탈자
 MEDIA_TYPO = {
@@ -244,6 +260,7 @@ def parse_media_title(raw):
 
     # 매체·날짜를 걷어낸 자리에 남은 구분기호와 빈 괄호를 정리한다
     t = re.sub(r'\d+\s*면', ' ', t)
+    t = re.sub(r'[(（\[]\s*외\s*[)）\]]', ' ', t)   # '[베리타스알파외]' 의 잔재
     t = re.sub(r'[(（\[]\s*[)）\]]', ' ', t)
     t = re.sub(r'[(（]\s*(?=[)）])', ' ', t)
     t = re.sub(r'\s*[(（]\s*[)）]\s*', ' ', t)
@@ -263,6 +280,15 @@ def parse_media_title(raw):
 def _media_key(outlet, title):
     k = re.sub(r'[^0-9A-Za-z가-힣]', '', (title or '')).lower()
     return (outlet or '', k)
+
+
+# 언론자료(박태준에 관한 기사)가 아니라 연구소·포스텍·포스코의 소식인 글.
+# '보도자료 및 신문기사'로 옮긴다.
+MOVED_TO_PRESS = {
+    '382',   # 인구 줄고, 늙고 … 한국사회의 최대 고민 (연구소 활동)
+    '36',    # 청암 뜻 이은 포스텍 출신 2명 '젊은 과학자상' (POSTECH 수상)
+    '64',    # 포스코 "일제 피해자지원 재단 설립땐 기금 출연" (포스코 현안)
+}
 
 
 def normalize_media(items):
@@ -373,9 +399,22 @@ def load(name):
     elif name in ('board_meet', 'detail_meet'):
         data = normalize_meet(data)
     elif name in ('board_tj_media', 'detail_tj_media'):
-        data = normalize_media(
-            data + media_link_items('board' if name.startswith('board') else 'detail'))
+        kind = 'board' if name.startswith('board') else 'detail'
+        data = [x for x in data if str(x.get('idx')) not in MOVED_TO_PRESS]
+        data = normalize_media(data + media_link_items(kind))
+    elif name in ('board_news_press', 'detail_news_press'):
+        # 보도자료도 제목 한 줄에 매체·날짜가 뒤섞여 있다. 같은 규칙으로 정리하고,
+        # 언론자료에서 옮겨 온 글을 합친다.
+        kind = 'board' if name.startswith('board') else 'detail'
+        src = load_raw('tj_media', kind)
+        moved = [x for x in src if str(x.get('idx')) in MOVED_TO_PRESS]
+        data = normalize_media(data + moved)
     return data
+
+
+def load_raw(board, kind):
+    p = os.path.join(LEGACY, f'{kind}_{board}.json')
+    return json.load(open(p)) if os.path.exists(p) else []
 
 
 TABSTRIP_RE = re.compile(
@@ -732,6 +771,7 @@ def render_board(name, depth, style='cards', empty='등록된 자료가 없습�
         return f'<div class="prose"><p>{E(empty)}</p></div>'
     have_detail = {d['idx'] for d in (load('detail_' + name) or [])
                    if d.get('idx') and d.get('sections')}
+    has_outlet = any('outlet' in it for it in items)
     cards = []
     for it in items:
         href = None
@@ -753,7 +793,7 @@ def render_board(name, depth, style='cards', empty='등록된 자료가 없습�
         else:
             # 연재물은 회차가, 언론 기사는 매체가 제목 앞에 온다.
             no = f'<span class="no">{it["episode"]}</span>' if it.get('episode') else ''
-            if 'outlet' in it:      # 매체를 아는 게시판이면 칸을 비워서라도 맞춘다
+            if has_outlet:          # 매체를 아는 게시판이면 칸을 비워서라도 맞춘다
                 no = f'<span class="src">{E(it.get("outlet") or "")}</span>'
             inner = (no + f'<span class="tt">{E(t)}</span>'
                      f'<span class="dt">{E(it.get("date") or "")}</span>')
@@ -891,7 +931,9 @@ def PAGES(depth):
         render_board('multimedia', d, 'cards', detail_base='forum/media'))
     # ── 연구소소식
     P[('news', 'index.html')] = ('공지사항', '연구소 공지사항.', render_board('news_notice', d, 'rows', detail_base='news/notices'))
-    P[('news', 'press.html')] = ('보도자료', '언론에 보도된 연구소 소식.', render_board('news_press', d, 'rows', detail_base='news/press-items'))
+    P[('news', 'press.html')] = ('보도자료 및 신문기사',
+        '연구소·포스텍·포스코에 관한 보도자료와 신문기사.',
+        render_board('news_press', d, 'rows', detail_base='news/press-items'))
     P[('news', 'column.html')] = ('TJ미래전략 칼럼', '연구소가 전하는 미래전략 칼럼.', render_board('news_column', d, 'cards', detail_base='news/columns'))
     # ── 연구소소개
     P[('about', 'index.html')] = ('인사말', '박태준미래전략연구소 소장 인사말.',
@@ -1304,7 +1346,9 @@ def EN_PAGES(depth):
         en_board('multimedia', d))
     # ── News
     P[('news', 'index.html')] = ('Notices', 'Announcements from the Institute.', en_board('news_notice', d, 'rows'))
-    P[('news', 'press.html')] = ('Press', 'The Institute in the press.', en_board('news_press', d, 'rows'))
+    P[('news', 'press.html')] = ('Press & News Articles',
+        'Press releases and newspaper articles on the Institute, POSTECH and POSCO.',
+        en_board('news_press', d, 'rows'))
     P[('news', 'column.html')] = ('TJ Columns', 'Future-strategy columns from the Institute.', en_board('news_column', d))
     # ── About
     # 구 영문 인사말은 전임 소장의 글에 현 소장 서명이 붙어 있어 그대로 쓸 수 없다.
@@ -1389,7 +1433,7 @@ BOARD_MAP = {
     'seminar':         ('forum',    'seminar.html', 'forum/seminars',            '세미나'),
     'multimedia':      ('forum',    'multimedia.html', 'forum/media',            '멀티미디어'),
     'news_notice':     ('news',     'index.html',   'news/notices',              '공지사항'),
-    'news_press':      ('news',     'press.html',   'news/press-items',          '보도자료'),
+    'news_press':      ('news',     'press.html',   'news/press-items',          '보도자료 및 신문기사'),
     'news_column':     ('news',     'column.html',  'news/columns',              'TJ미래전략 칼럼'),
     'steel':           ('life',     'steel.html',   'life/steel',                '쇳물은 멈추지 않는다'),
     'meet':            ('life',     'meet.html',    'life/meet',                 '위대한 만남'),
@@ -1413,7 +1457,7 @@ LEGACY_MAP = [
     ('/03_research/04', 'research/contest.html', '공모전 수상작'),
     ('/03_research', 'research/index.html', '미래전략연구'),
     ('/04_research_park', 'tjpark-research/index.html', '박태준연구'),
-    ('/05_news/03', 'news/press.html', '보도자료'),
+    ('/05_news/03', 'news/press.html', '보도자료 및 신문기사'),
     ('/05_news/04', 'news/column.html', 'TJ미래전략 칼럼'),
     ('/05_news', 'news/index.html', '공지사항'),
     ('/09_forum', 'forum/index.html', '포럼 & 세미나'),
