@@ -27,3 +27,6 @@ __pycache__/
 _site_snapshot.tgz
 _sheet.png
 _caps*.png
+
+# 유튜브에 올릴 원본 영상 (홈페이지에는 올리지 않는다)
+_upload-to-youtube/
