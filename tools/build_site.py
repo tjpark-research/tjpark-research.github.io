@@ -363,7 +363,9 @@ def normalize_media(items):
     parsed = []
     for it in items:
         it = dict(it)
-        if it.get('link'):                      # 새로 넣은 요약형 항목은 그대로
+        if it.get('link') or it.get('curated'):
+            # 새로 넣은 항목은 매체·제목·날짜가 이미 갈라져 있다. 제목에서
+            # 다시 뽑으려 들면 적어 둔 매체 이름이 지워진다.
             parsed.append(it)
             continue
         outlet, title, day = parse_media_title(
@@ -425,6 +427,64 @@ def normalize_media(items):
 # 옮기지 않는다(기사 저작권은 각 언론사에 있다). 제목·매체·보도일·요약과
 # 원문 링크만 싣고, 요약은 원문을 읽고 쓴 것이다.
 CURATED = os.path.join(ROOT, 'data', 'curated')
+
+
+POST_BOARDS = {'news_notice': '공지사항', 'news_press': '보도자료 및 신문기사'}
+
+
+def curated_posts(board, kind):
+    """구 사이트가 내려간 뒤 새로 올리는 공지사항·보도자료.
+
+    data/curated/posts.json 이 원본이다. 연구소가 GitHub 웹에서 이 파일에
+    항목 하나를 더하면 목록과 개별 글 페이지가 함께 만들어진다.
+    쓰는 법은 data/curated/README.md 에 적어 두었다.
+
+    글 번호는 날짜에서 만든다(2026-09-10 → 2026091001). 같은 날 두 편이면
+    뒤엣것이 …02 가 된다. 구 게시판 번호(네 자리 이하)와 겹치지 않고,
+    한 번 정해지면 주소가 바뀌지 않는다.
+    """
+    p = os.path.join(CURATED, 'posts.json')
+    if not os.path.exists(p):
+        return []
+    raw = [x for x in json.load(open(p, encoding='utf-8'))
+           if x.get('board', 'news_notice') == board]
+
+    seq = {}
+    out = []
+    for a in raw:
+        date = (a.get('date') or '').strip()
+        key = date.replace('-', '')
+        seq[key] = seq.get(key, 0) + 1
+        idx = a.get('id') or f'{key}{seq[key]:02d}'
+        title = (a.get('title') or '').strip()
+        paras = [x for x in (a.get('body') or []) if str(x).strip()]
+        files = [{'name': f.get('name') or os.path.basename(f['path']),
+                  'href': f['path']} for f in (a.get('files') or [])]
+        images = [i for i in (a.get('images') or []) if i]
+
+        if kind == 'board':
+            out.append({'idx': idx, 'title': title, 'date': date,
+                        'outlet': a.get('outlet'), 'curated': True,
+                        'summary': (a.get('summary') or (paras[0] if paras else ''))[:150],
+                        'truncated': False, 'image': None,
+                        'local': images[0] if images else None, 'href': None})
+        else:
+            meta = {'posted': date}
+            if a.get('outlet'):
+                meta['outlet'] = a['outlet']
+            if a.get('author'):
+                meta['author'] = a['author']
+            out.append({'idx': idx, 'title': title, 'list_title': title,
+                        'date': date, 'outlet': a.get('outlet'), 'curated': True,
+                        'url': None, 'meta': meta,
+                        'images': list(images),
+                        'images_local': {str(i): v for i, v in enumerate(images)},
+                        'files': files,
+                        'files_local': {str(i): f['href'] for i, f in enumerate(files)},
+                        'link': a.get('link'), 'link_note': a.get('link_note'),
+                        'link_full': bool(a.get('link')) and bool(paras),
+                        'sections': [{'heading': None, 'paragraphs': paras}]})
+    return out
 
 
 def curated_books(board, kind):
@@ -511,6 +571,8 @@ def load(name):
     kind = 'board' if name.startswith('board_') else 'detail'
     board = name.split('_', 1)[1]
     extra = curated_books(board, kind)
+    if board in POST_BOARDS:
+        extra = curated_posts(board, kind) + extra
     if extra:
         # 새 책이 목록 맨 앞에 온다(구 게시판은 최신순이다).
         data = extra + data
