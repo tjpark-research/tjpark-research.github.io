@@ -840,6 +840,15 @@ def shell(title, desc, depth, section, current_file, body, canonical,
 <meta property="og:title" content="{E(title)} — {E(site)}">
 <meta property="og:description" content="{E(desc)}">
 <meta property="og:url" content="https://tjpark-research.github.io/{canonical}">
+<meta property="og:image" content="https://tjpark-research.github.io/assets/img/og-{lang}.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{E(site)}">
+<meta property="og:locale" content="{'en_US' if lang == 'en' else 'ko_KR'}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{E(title)} — {E(site)}">
+<meta name="twitter:description" content="{E(desc)}">
+<meta name="twitter:image" content="https://tjpark-research.github.io/assets/img/og-{lang}.png">
 <link rel="stylesheet" href="{r}assets/fonts/pretendard-dynamic-subset.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{r}assets/css/style.css">
@@ -1125,16 +1134,31 @@ def render_timeline(blocks):
     return '\n'.join(out)
 
 
+# 연도별 연구주제의 '그해의 질문'. 구 홈페이지는 이 한 줄을 글자 그림으로
+# 만들어 블록 끝에 붙여 두었다. 그림 속 글자는 검색도 확대도 스크린리더도
+# 되지 않고, 자리도 블록 맨 끝이라 다음 해 제목 바로 위에 떨어져 있었다.
+# 글로 옮겨 그해 블록의 머리에 놓는다. 문구는 그림에 있던 그대로다.
+ERA_QUESTION = {
+    'research_theme_18_20': 'Ⅰ. 인공지능이 어떻게 진화하고 우리의 삶을 '
+                            '어떻게 바꿀 것인가?',
+    'research_theme_17_18': 'Ⅰ. 더 나은 한국사회를 위한 분절 문제와 '
+                            '해소 방안은 무엇인가?',
+}
+
+
 def render_eras(specs, depth):
-    """시대별 탭 (생애). JS 없이도 전부 읽히도록 섹션을 모두 출력하고,
-    JS 가 있으면 탭으로 접어 준다."""
+    """시대별 탭 (생애·연도별 연구주제). JS 없이도 전부 읽히도록 섹션을
+    모두 출력하고, JS 가 있으면 탭으로 접어 준다."""
     tabs, panes = [], []
     for i, (label, key) in enumerate(specs):
         on = ' class="on"' if i == 0 else ''
         tabs.append(f'<button type="button"{on} data-era="{i}">{E(label)}</button>')
         blocks = [b for b in blocks_of(key) if len(b) > 60]
-        imgs = imgs_of(key)[:1]
-        body = ''.join(f'<p>{E(b)}</p>' for b in blocks)
+        q = ERA_QUESTION.get(key)
+        # 질문을 글로 옮긴 해는 그 그림을 다시 싣지 않는다.
+        imgs = [] if q else imgs_of(key)[:1]
+        body = f'<p class="era-q">{E(q)}</p>' if q else ''
+        body += ''.join(f'<p>{E(b)}</p>' for b in blocks)
         body += ''.join(fig(im, depth) for im in imgs)
         panes.append(f'<section class="era-pane" data-era="{i}">'
                      f'<h2 class="era-h">{E(label)}</h2>{body}</section>')
