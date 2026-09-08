@@ -714,6 +714,9 @@ ol.cr{list-style:none;margin:22px 0 0;padding:0 0 0 4px;
   border:1px solid var(--line)}
 .cr-p figcaption{margin-top:8px;font-size:12.5px;line-height:1.65;
   color:var(--text-3);font-weight:var(--w-body)}
+/* 메인 '연구소 소식' 목록 칸과 그 아래 한 줄 안내 (영문판) */
+.n-col{min-width:0}
+.n-note{margin:16px 0 0;font-size:12px;line-height:1.7;color:var(--text-3)}
 .src-note{margin:52px 0 0;padding-top:16px;border-top:1px solid var(--line);
   font-size:12.5px;color:var(--text-3);font-weight:var(--w-body)}
 

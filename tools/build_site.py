@@ -1680,6 +1680,90 @@ def sync_main_nav():
             print(f'  nav 갱신: {path}')
 
 
+MAIN_NEWS = [
+    # (게시판, 한글 딱지, 영문 딱지)
+    ('news_notice', '공지', 'NOTICE'),
+    ('news_press',  '보도', 'PRESS'),
+]
+MAIN_NEWS_N = 5
+
+
+def sync_main_news():
+    """메인 페이지의 '연구소 소식' 다섯 줄을 실제 게시판에서 다시 만든다.
+
+    이 목록은 손으로 적혀 있어서 2023년 글에 멈춰 있었고, 링크도 글이 아니라
+    게시판 첫 화면으로만 갔다. 공지사항과 보도자료를 날짜순으로 합쳐 최신
+    다섯 건을 뽑고, 글 페이지로 바로 걸어 준다. 앞으로 새 글을 올리면
+    메인도 같이 따라온다.
+
+    칼럼은 원 게시판에 날짜가 없어 날짜순에 끼울 수 없다. 옆의 '칼럼 보러
+    가기' 칸이 그 자리를 대신한다.
+    """
+    rows = []
+    for board, ko, en in MAIN_NEWS:
+        _sec, _f, dbase, _lb = BOARD_MAP[board]
+        for it in load(f'board_{board}') or []:
+            date = (it.get('date') or '').strip()
+            title = (it.get('list_title') or it.get('title') or '').strip()
+            if not date or not title:
+                continue
+            idx = it.get('idx')
+            href = f'{dbase}/{idx}.html' if idx else None
+            rows.append((date, ko, en, title, href))
+    rows.sort(key=lambda r: r[0], reverse=True)
+    rows = rows[:MAIN_NEWS_N]
+
+    for path, lang in [('index.html', 'ko'), (os.path.join('en', 'index.html'), 'en')]:
+        fp = os.path.join(ROOT, path)
+        if not os.path.exists(fp):
+            continue
+        s = open(fp, encoding='utf-8').read()
+        # 글 페이지는 한국어판 하나뿐이라 영문 메인도 그리로 건다
+        # (영문 게시판도 같은 곳을 가리킨다). en/index.html 은 한 칸 안이다.
+        b = '' if lang == 'ko' else '../'
+        lis = []
+        for date, ko, en, title, href in rows:
+            cat = ko if lang == 'ko' else en
+            # 영문 메인에도 제목은 실린 그대로 낸다. 영문 게시판과 같은
+            # 방침이고, 없는 번역을 지어내지 않는다. lang 을 붙여 둔다.
+            tt = (f'<span class="tt">{E(title)}</span>' if lang == 'ko'
+                  else f'<span class="tt" lang="ko">{E(title)}</span>')
+            inner = (f'<span class="cat">{E(cat)}</span>{tt}'
+                     f'<span class="dt">{E(date.replace("-", "."))}</span>')
+            target = f'{b}{href}' if href else f'{b}news/index.html'
+            lis.append(f'<li><a href="{target}">{inner}</a></li>')
+        new = ('<ul class="n-list">\n        '
+               + '\n        '.join(lis) + '\n      </ul>')
+        if lang == 'en':
+            # 글은 한국어판만 있다. 영문 방문자가 한글 제목 다섯 줄을 보고
+            # 고장난 줄 알지 않도록 한 줄 덧붙인다(게시판 안내와 같은 말).
+            # 안내문은 목록과 한 칸(.n-col) 안에 둔다. 바깥에 두면 .n-grid
+            # 의 세 번째 칸이 되어 옆의 카드가 한 줄 밀려 내려간다.
+            new = ('<div class="n-col">' + new
+                   + '\n      <p class="n-note">Institute news is published in '
+                     'Korean; titles are shown as published.</p></div>')
+        # 이미 감싸 둔 것까지 통째로 갈아끼워야 겹쳐 쌓이지 않는다.
+        # 안내문 안은 [^<>]* 로 묶는다. .*? 로 두면 다음 <p> 의 </p> 까지
+        # 건너뛰어 옆 칸의 카드를 통째로 삼킨 적이 있다.
+        s2 = re.sub(r'<div class="n-col">\s*<ul class="n-list">.*?</ul>'
+                    r'\s*<p class="n-note">[^<>]*</p>\s*</div>'
+                    r'|<ul class="n-list">.*?</ul>'
+                    r'(?:\s*<p class="n-note">[^<>]*</p>)?',
+                    lambda _m: new, s, count=1, flags=re.S)
+        # 손으로 쓴 페이지를 정규식으로 고치는 자리다. 한 번은 안내문
+        # 뒤의 </div> 를 잘못 짚어 옆 칸 카드가 통째로 사라진 적이 있다.
+        # 소식 블록 바깥이 그대로인지 확인하고 아니면 멈춘다.
+        for tag in ('col-card', 'mailing', '</section>', '<section'):
+            if s2.count(tag) != s.count(tag):
+                raise SystemExit(
+                    f'{path}: 소식 목록을 바꾸다 {tag} 가 '
+                    f'{s.count(tag)}개에서 {s2.count(tag)}개가 되었다. '
+                    f'정규식이 블록 바깥을 건드렸다.')
+        if s2 != s:
+            open(fp, 'w', encoding='utf-8').write(s2)
+            print(f'  소식 갱신: {path}')
+
+
 def main():
     # ── 한국어: /<section>/<file>   (depth 1)
     ko_spec = PAGES(1)
@@ -1719,6 +1803,7 @@ def main():
 
     build_chrono_pages()
     sync_main_nav()
+    sync_main_news()
 
 
 # ─────────────────────────────────────────────────────── 영문 페이지
