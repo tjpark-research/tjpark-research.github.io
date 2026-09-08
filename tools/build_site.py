@@ -917,6 +917,188 @@ YEAR_RE = re.compile(r'^(\d{4})\s*년$')
 DATE_RE = re.compile(r'^(\d{1,2})\s*[.]\s*(\d{1,2})\s+(.*)$')
 
 
+# 영문 연혁.
+#
+# 구 영문 사이트의 연혁은 표 전체가 한 덩어리로 긁혀 와 빌더가 아무것도
+# 만들지 못했고(0자), 내용도 2022년 3월에서 멈춰 있었다. 그래서 사실은
+# 최신인 한글 연혁을 기준으로 삼고, 용어와 이름의 로마자 표기는 구 영문
+# 페이지에 연구소가 써 온 것을 그대로 따랐다
+# (Executive Director / Kwang-Woong Choi / Byeang Hyean Kim /
+#  Seunghwan Kim / Woo-Sung Jung). 나머지 명칭은 이 사이트의 영문 메뉴가
+# 쓰는 말(Student Essay Contest, POSTECH Vision Camp, Research Series)에
+# 맞췄다.
+EN_HISTORY = [
+    ('2013', [
+        ('1.17', 'POSTECH Board of Trustees resolves to found the '
+                 'Tae-Joon Park Institute for Future Strategy'),
+        ('2.15', 'The Institute opens'),
+        ('5.16', 'Prof. Kwang-Woong Choi appointed first Executive Director'),
+        ('8.22', 'Forum “The Road Ahead for the TJ Park Institute” held'),
+    ]),
+    ('2014', [
+        ('2.19', 'First Management Committee of 2014'),
+        ('3.28', 'First Future Strategy Research Committee of 2014'),
+        ('5.20', 'Institute research plan finalised'),
+        ('5.26', '2014 Student Research Paper Contest announced'),
+        ('6.8',  '2014 designated future-strategy projects commissioned'),
+        ('7.1',  'Textbook for secondary-school students, '
+                 '*The Life and Leadership of Park Tae-joon*, published'),
+        ('8.30', 'Textbook for university students, *The Founding Spirit of '
+                 'POSCO and the Leadership of Chungam*, published'),
+        ('9.17', 'The Institute’s website opens'),
+        ('12.9', 'Future Strategy Forum 2014 and the second Future Strategy '
+                 'Research Committee of 2014 held'),
+    ]),
+    ('2015', [
+        ('2.15', '*Toward a Top Research University*, on POSTECH’s founding '
+                 'philosophy, published with an accompanying film'),
+        ('2.27', 'First Management Committee and Future Strategy Research '
+                 'Committee of 2015'),
+        ('3.15', '2015 designated future-strategy projects commissioned'),
+        ('4.1',  '2015 Student Essay Contest opens'),
+        ('5.15', 'Future Strategy Research Series, Vol. 1 — *Leadership for '
+                 'the Future Society and How Advanced Nations Produce Their '
+                 'Elites* published'),
+        ('7.2',  '2015 Student Essay Contest awards ceremony'),
+        ('8.15', 'TJ Park research volume *The Great Encounter — Park '
+                 'Chung-hee and Park Tae-joon* published'),
+        ('10.19', 'Future Strategy Research Series, Vol. 2 — *Korean Society '
+                  'Ten Years From Now* published'),
+        ('10.22', 'TJ Park Research Series, Vol. 8 — *The Role of Park '
+                  'Tae-joon’s Leadership in Korea’s Economic Growth and Its '
+                  'Application to Developing Countries* published'),
+        ('12.3', 'Second Future Strategy Research Committee of 2015 held'),
+        ('12.3', 'Future Strategy Forum 2015 held'),
+    ]),
+    ('2016', [
+        ('2.25', 'Future Strategy Research Series, Vol. 3 — *Innovation in '
+                 'Korea’s Administrative Bureaucracy and Preparing for '
+                 'Unification* published'),
+        ('4.1',  '2016 Student Essay Contest opens'),
+        ('4.15', 'First Future Strategy Research Committee of 2016'),
+        ('4.20', '2016 designated future-strategy projects commissioned'),
+        ('5.16', 'Prof. Byeang Hyean Kim appointed second Executive Director'),
+        ('7.14', '–15  2016 contest awards ceremony and POSTECH Vision Camp held'),
+        ('10.31', 'Future Strategy Research Series, Vol. 4 — *A Map of '
+                  'Happiness in Korea* published'),
+        ('12.1', 'Future Strategy Research Series, Vol. 5 — *Homo Convergence: '
+                 'the Fourth Industrial Revolution and Future Society* published'),
+    ]),
+    ('2017', [
+        ('2.24', 'Fourth Future Strategy Forum and the first research '
+                 'committee of 2017 held'),
+        ('2.24', 'Future Strategy Research Series, Vol. 6 — *Korean Society, '
+                 'Where To?* published'),
+        ('5.1',  '2017 Student Essay Contest opens'),
+        ('6.5',  '2017 designated future-strategy projects commissioned'),
+        ('6.12', 'Future Strategy Research Series, Vol. 7 — *Toward a '
+                 'University of the Highest Value: POSTECH at Its Thirty-Year '
+                 'Turning Point* published'),
+        ('8.17', '–18  2017 contest awards ceremony and POSTECH Vision Camp held'),
+        ('10.20', 'Future Strategy Research Series, Vol. 8 — *Univer+City: '
+                  'Universities and Cities Thriving Together* published'),
+    ]),
+    ('2018', [
+        ('1.18', 'Future Strategy Research Series, Vol. 9 — *Civil Society and '
+                 'Democracy Beyond the Candlelight* published'),
+        ('1.26', 'Fifth Future Strategy Forum held'),
+        ('5.14', 'Fifth Student Essay Contest opens'),
+        ('5.16', 'Prof. Seunghwan Kim appointed third Executive Director'),
+        ('8.24', '–25  Fifth contest awards ceremony and 2018 POSTECH Vision '
+                 'Camp held'),
+        ('11.28', 'Future Strategy Research Series, Vol. 10 — *This Way to the '
+                  'Exit* published'),
+        ('12.20', 'Fourth Univer+City Forum held'),
+    ]),
+    ('2019', [
+        ('2.11', 'Future Strategy Research Series, Vol. 11 — *A Blocked Society '
+                 'and Its Ways Out* published'),
+        ('2.13', 'Sixth Future Strategy Forum held'),
+        ('4.15', 'Forum “The Awakening of Mount Paektu: What Should We Do?” held'),
+        ('6.5',  'Pohang Future Vision Forum, marking seventy years of city '
+                 'status, held'),
+        ('8.1',  'Sixth Student Essay Contest opens'),
+        ('9.24', 'Leadership programme for Pohang’s seventy-member Citizens’ '
+                 'Committee held'),
+        ('11.28', 'Future Strategy Research Series, Vol. 12 — *Another '
+                  'Intelligence, Happiness for the Next Fifty Years* published'),
+        ('11.29', 'Seventh Future Strategy Forum held'),
+        ('11.29', '–12.1  Sixth contest awards ceremony and 2019 POSTECH Vision '
+                  'Camp held'),
+    ]),
+    ('2020', [
+        ('3.1',  'Prof. Seunghwan Kim reappointed as Executive Director'),
+        ('11.27', 'First future-strategy roundtable held'),
+        ('12.1', 'TJ Park Research Series *The Leadership of Park Tae-joon for '
+                 'Global Talent, with workbook* published'),
+        ('12.4', 'Second future-strategy roundtable held'),
+    ]),
+    ('2021', [
+        ('5.20', '–6.24  POSTECH graduate-student leadership programme '
+                 '(first and second cohorts)'),
+        ('6.30', 'Future Strategy Research Series, Vol. 13 — *The Pandemic and '
+                 'Korea’s Great Transition* published'),
+        ('11.19', 'The Institute relocates'),
+        ('12.3', 'Symposium marking the tenth anniversary of Park Tae-joon’s '
+                 'death held'),
+    ]),
+    ('2022', [
+        ('1.18', '–27  POSTECH graduate-student leadership programme '
+                 '(third cohort)'),
+        ('3.21', 'Prof. Woo-Sung Jung appointed fourth Executive Director'),
+    ]),
+    ('2023', [
+        ('9.25', 'POSTECH–CMU City Future Forum held'),
+        ('11.28', 'Nobel Week guide *Everything About the Nobel Prize* published'),
+        ('12.27', 'CES guide *The Future Society Seen Through CES* published'),
+    ]),
+    ('2024', [
+        ('1.24', '–25  POSTECH graduate-student leadership programme held'),
+        ('7.4',  '*POSTECH on the Move*, essays from Nobel Week and CES, '
+                 'published'),
+        ('11.5', 'Prof. Hee-Kap Ahn appointed fifth Executive Director'),
+    ]),
+]
+
+
+EM_MARK = re.compile(r'\*([^*]+)\*')
+
+
+def render_en_timeline(years):
+    """EN_HISTORY 를 한글 연혁과 같은 마크업으로 낸다.
+
+    책 제목은 한글판처럼 겹낫표(『』)를 쓰지 않고 이탤릭으로 낸다. 겹낫표는
+    영문 글자 사이에서 폭이 어긋나 보이고, 영문 조판 관례도 아니다.
+    본문에 *제목* 으로 적으면 <em> 으로 바꾼다.
+    """
+    def line(d, t):
+        # f-string 안에 역슬래시를 못 쓰므로(3.10) 밖에서 만든다.
+        body = EM_MARK.sub('<em>\\1</em>', E(t))
+        return f'<li><span class="d">{E(d)}</span><span class="t">{body}</span></li>'
+
+    out = ['<ol class="chrono">']
+    for year, items in years:
+        rows = ''.join(line(d, t) for d, t in items)
+        out.append(f'<li class="chrono-y"><h3>{E(year)}</h3><ul>{rows}</ul></li>')
+    out.append('</ol>')
+    return '\n'.join(out)
+
+
+# 구 홈페이지 연혁의 오타. 원문을 함부로 고치지 않되, 명백한 오탈자는 바로잡는다.
+HISTORY_TYPO = {
+    '꺠어나는': '깨어나는',
+}
+
+
+def fix_history(blocks):
+    out = []
+    for b in blocks:
+        for a, c in HISTORY_TYPO.items():
+            b = b.replace(a, c)
+        out.append(b)
+    return out
+
+
 def render_timeline(blocks):
     """'2013년' / '2. 15 연구소 개소' 형태의 블록을 연도별 타임라인으로 묶는다."""
     groups, cur = [], None
@@ -1162,7 +1344,7 @@ def PAGES(depth):
         render_prose(blocks_of('lab_purpose'), [], d))
     P[('about', 'mission.html')] = ('미션', '박태준미래전략연구소의 미션.', mission_page(d, 'ko'))
     P[('about', 'history.html')] = ('연혁', '2013년 개소 이후의 연혁.',
-        render_timeline(blocks_of('lab_history')))
+        render_timeline(fix_history(blocks_of('lab_history'))))
     P[('about', 'logo.html')] = ('로고 소개', '연구소 로고의 의미.',
         render_prose([b for b in blocks_of('lab_logo') if len(b) > 15], imgs_of('lab_logo'), d))
     P[('about', 'projects.html')] = ('주요사업', '연구소의 중점사업과 사업원칙.', projects_page(d, 'ko'))
@@ -1616,8 +1798,14 @@ def EN_PAGES(depth):
     P[('about', 'purpose.html')] = ('Founding Purpose', 'Why the Institute was founded.',
         render_prose([b for b in blocks_of('en_lab_purpose') if len(b) > 80], [], d))
     P[('about', 'mission.html')] = ('Mission', 'The mission of the TJ Park Institute.', mission_page(d, 'en'))
-    P[('about', 'history.html')] = ('History', 'The Institute since its founding in 2013.',
-        render_timeline(blocks_of('en_lab_history')))
+    P[('about', 'history.html')] = (
+        'History', 'The Institute since its founding in 2013.',
+        '<div class="prose"><p class="lead">The Tae-Joon Park Institute for '
+        'Future Strategy opened in February 2013. What follows is its record '
+        'since then.</p></div>'
+        + render_en_timeline(EN_HISTORY)
+        + '<p class="src-note">※ Translated from the Korean record, which is '
+        'the authoritative version.</p>')
     P[('about', 'logo.html')] = ('Our Logo', 'The meaning of the Institute’s logo.',
         render_prose([], imgs_of('lab_logo'), d)
         + '<div class="prose"><p class="todo-note">※ The explanation of the logo is on the Korean page. '
