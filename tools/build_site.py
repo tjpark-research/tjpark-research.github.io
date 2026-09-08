@@ -1731,6 +1731,7 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
                 f'<thead><tr>{th}</tr></thead><tbody>{tr}</tbody></table></div>')
 
     inline_n = 0
+    inline_srcs = set()
     secs = []
     for s in d.get('sections', []):
         h = f'<h2>{E(s["heading"])}</h2>' if s.get('heading') else ''
@@ -1742,8 +1743,10 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
                 continue
             if rows:
                 parts.append(flush_rows(rows)); rows = []
-            if IMG_TOKEN.match(p.strip()):
+            mi = IMG_TOKEN.match(p.strip())
+            if mi:
                 inline_n += 1
+                inline_srcs.add(mi.group(1))
             parts.append(one_para(p))
         if rows:
             parts.append(flush_rows(rows))
@@ -1755,10 +1758,16 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     # 자리를 찾지 못한 사진이 두어 장뿐이면(대개 기사 스캔 한 장이 곧 본문인
     # 경우다) 격자로 묶지 말고 본문 흐름에 그대로 이어 붙인다.
     gal = ''
-    locals_ = [] if inline_n else [
-        v for _k, v in sorted((d.get('images_local') or {}).items(), key=lambda x: int(x[0]))]
+    # 본문 자리에 놓인 사진은 위에서 이미 나왔다. 나머지만 아래에 모은다.
+    # 예전에는 자리표시자가 하나라도 있으면 갤러리를 통째로 막았는데,
+    # 카드뉴스처럼 사진이 열 몇 장인 글에서 첫 장만 남고 나머지가 통째로
+    # 사라졌다(161쪽에서 199장). 내려받아 둔 사진을 버릴 이유가 없다.
+    placed = {v for u, v in locmap.items() if u in inline_srcs}
+    locals_ = [v for _k, v in sorted((d.get('images_local') or {}).items(),
+                                     key=lambda x: int(x[0]))]
     locals_ = [v for v in locals_
-               if v != d.get('image_local') and v not in banner_loc]
+               if v != d.get('image_local') and v not in banner_loc
+               and v not in placed]
     if locals_ and len(locals_) <= 3:
         secs.append(''.join(
             f'<figure class="art-fig"><img src="{rel(depth)}{v}" alt="" loading="lazy"></figure>'
