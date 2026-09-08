@@ -10,24 +10,49 @@
   })();
 
   /* ---------- Featured slider (hero) ---------- */
-  var slides = [
+  /* 영문 메인에도 같은 스크립트가 실린다. 배열이 하나뿐이면 영문 페이지의
+     슬라이드가 한국어로 바뀌어 버리므로 문서 언어로 갈라 쓴다. */
+  var EN = (document.documentElement.lang || '').slice(0, 2) === 'en';
+  var slides = EN ? [
     {
-      tag: '미래전략연구총서 14',
-      img: ''+BASE+'assets/img/books/fs14-jiseong-jeguk.jpg',
-      title: '지성의 제국 — 현대 연구중심대학의 세계사',
-      desc: '2026년 박태준미래전략연구소는 ‘현대 연구중심대학의 세계사’를 엮은 미래전략연구 총서 14권 『지성의 제국』을 발간했다.',
-      meta: '발간 2026.02.25 · 빨간소금'
+      tag: 'FUTURE STRATEGY SERIES 15',
+      img: '' + BASE + 'assets/img/books/9791191383690.jpg',
+      title: 'Becoming MIT — Moments of Decision',
+      desc: 'Volume 15 of the Future Strategy Research Series: how MIT was shaped by the choices it made at each turning point.',
+      meta: 'Published 23 Apr 2026'
+    },
+    {
+      tag: 'FUTURE STRATEGY FORUM',
+      img: '' + BASE + 'assets/img/main/forum-city-future.jpg',
+      title: 'Forum — The Future of Cities, Space and Industry',
+      desc: 'Scholars, industry leaders and policymakers meet to debate the country\u2019s future development.',
+      meta: 'POSCO International Center'
+    },
+    {
+      tag: 'VIDEO',
+      img: '' + BASE + 'assets/img/main/pohang-pittsburgh.jpg',
+      title: 'Pohang and Pittsburgh — Two Steel Cities',
+      desc: 'A short film on the futures of two steel cities and the ways they might work together.',
+      meta: 'YouTube \u00b7 TJPI channel'
+    }
+  ] : [
+    {
+      tag: '미래전략연구총서 15',
+      img: '' + BASE + 'assets/img/books/9791191383690.jpg',
+      title: 'MIT가 MIT가 되기까지 — 비전, 위기, 선택의 순간들',
+      desc: '2026년 박태준미래전략연구소는 MIT의 운명을 가른 결정의 순간들을 담은 미래전략연구 총서 15권 『MIT가 MIT가 되기까지』를 발간했다.',
+      meta: '발간 2026.04.23 · 빨간소금'
     },
     {
       tag: '미래전략포럼',
-      img: ''+BASE+'assets/img/main/forum-city-future.jpg',
+      img: '' + BASE + 'assets/img/main/forum-city-future.jpg',
       title: '『도시의 미래, 공간과 산업을 생각한다』 포럼',
       desc: '국가의 미래 발전을 모색하기 위해 산학연관 전문가, 석학 및 오피니언 리더들이 한자리에 모여 토론의 장을 마련합니다.',
       meta: '포스코 국제관 1층 국제회의장'
     },
     {
       tag: '미래전략 영상',
-      img: ''+BASE+'assets/img/main/pohang-pittsburgh.jpg',
+      img: '' + BASE + 'assets/img/main/pohang-pittsburgh.jpg',
       title: '포항–피츠버그, 두 철강도시의 평행이론',
       desc: '두 도시의 미래 비전을 제시하여 향후 도시 간 협력의 방향을 모색한 영상 콘텐츠입니다.',
       meta: 'YouTube · TJPI 채널'
