@@ -482,6 +482,8 @@ def curated_posts(board, kind):
                         'files': files,
                         'files_local': {str(i): f['href'] for i, f in enumerate(files)},
                         'link': a.get('link'), 'link_note': a.get('link_note'),
+                        'more': a.get('more'),
+                        'fig_class': a.get('fig_class'),
                         'link_full': bool(a.get('link')) and bool(paras),
                         'sections': [{'heading': None, 'paragraphs': paras}]})
     return out
@@ -1185,7 +1187,7 @@ def render_board(name, depth, style='cards', empty='등록된 자료가 없습�
     by_title = {}
     for d in details:
         by_title.setdefault((d.get('title') or '').strip(), d['idx'])
-    has_outlet = any('outlet' in it for it in items)
+    has_outlet = any(it.get('outlet') for it in items)
     cards = []
     for it in items:
         href = None
@@ -2042,9 +2044,12 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     locals_ = [v for v in locals_
                if v != d.get('image_local') and v not in banner_loc
                and v not in placed]
+    # 책 표지처럼 세로로 긴 그림은 본문 폭(640px)을 다 채우면 화면 한 장을
+    # 통째로 차지한다. fig_class 로 좁게 실을 수 있게 한다.
+    fcls = ('art-fig ' + d['fig_class']) if d.get('fig_class') else 'art-fig'
     if locals_ and len(locals_) <= 3:
         secs.append(''.join(
-            f'<figure class="art-fig"><img src="{rel(depth)}{v}" alt="" loading="lazy"></figure>'
+            f'<figure class="{fcls}"><img src="{rel(depth)}{v}" alt="" loading="lazy"></figure>'
             for v in locals_))
         locals_ = []
     if locals_:
@@ -2081,6 +2086,14 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     #
     # 다만 새로 넣은 언론 기사는 본문을 옮기지 않고 요약만 싣기 때문에
     # 원문으로 가는 길을 반드시 남긴다.
+    # 공지에서 사이트 안의 다른 쪽을 가리키는 링크(예: 총서 발간 공지 →
+    # 그 책의 연구총서 페이지). href 는 사이트 루트 기준으로 적는다.
+    more = ''
+    if d.get('more'):
+        m = d['more']
+        more = (f'\n  <p class="art-more"><a class="btn btn-g" '
+                f'href="{rel(depth)}{E(m["href"])}">{E(m.get("text") or "자세히 보기")} →</a></p>')
+
     src = ''
     if d.get('book_note'):
         src = f'<div class="art-src"><p>{E(d["book_note"])}</p></div>'
@@ -2104,7 +2117,7 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
   </header>
   {cover}
   <div class="prose art-body">{''.join(secs)}</div>
-  {gal}
+  {gal}{more}
   {files}
   {src}
   {navhtml}
