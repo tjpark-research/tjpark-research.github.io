@@ -86,8 +86,40 @@ def check_books(data):
             bad(w, f'표지 그림이 없습니다: {c}')
 
 
+def check_history(data):
+    seen = set()
+    for i, y in enumerate(data, 1):
+        w = f'history.json {i}번째 연도'
+        year = str(y.get('year') or '')
+        if not re.fullmatch(r'(19|20)\d{2}', year):
+            bad(w, f'year 가 네 자리 연도가 아닙니다: {year!r}',
+                '"year": "2025" 처럼 적습니다')
+            continue
+        if year in seen:
+            bad(w, f'{year}년이 두 번 나옵니다',
+                '한 연도의 항목은 한 덩어리에 모아 적습니다')
+        seen.add(year)
+        items = y.get('items')
+        if not isinstance(items, list) or not items:
+            bad(w, f'{year}년에 items 가 없습니다')
+            continue
+        for j, it in enumerate(items, 1):
+            v = f'history.json {year}년 {j}번째 항목'
+            d = str(it.get('date') or '')
+            if d and not re.fullmatch(r'\d{2}\.\d{2}', d):
+                bad(v, f'날짜 모양이 다릅니다: {d!r}',
+                    '"date": "09.01" 처럼 월.일 두 자리씩 적습니다')
+            if not it.get('ko'):
+                bad(v, 'ko (한글 문구) 가 비어 있습니다')
+            if not it.get('en'):
+                bad(v, 'en (영문 문구) 가 비어 있습니다',
+                    '영문 연혁 페이지에도 같이 실립니다. 책 제목은 '
+                    '『』 대신 *제목* 으로 적으면 이탤릭이 됩니다')
+
+
 def main():
-    for name, fn in (('posts.json', check_posts), ('books.json', check_books)):
+    for name, fn in (('posts.json', check_posts), ('books.json', check_books),
+                     ('history.json', check_history)):
         data = load(name)
         if data is False:
             continue

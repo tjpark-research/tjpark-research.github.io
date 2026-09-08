@@ -1110,6 +1110,41 @@ def fix_history(blocks):
     return out
 
 
+def curated_history():
+    """구 사이트가 내려간 뒤의 연혁을 손으로 이어 붙인다.
+
+    data/curated/history.json 이 원본이다. 연도별로 묶여 있고 항목마다
+    한글(ko)과 영문(en)을 같이 적는다. 두 언어를 한 파일에 두어야
+    한쪽만 갱신되는 일이 없다.
+
+    돌려주는 값은 (한글 블록 목록, 영문 EN_HISTORY 꼬리) 두 개다.
+    한글은 크롤링 블록과 같은 모양('2025년', '09.01 …')으로 만들어
+    render_timeline 이 원래 연혁과 구분 없이 처리하게 한다.
+    """
+    fp = os.path.join(CURATED, 'history.json')
+    if not os.path.exists(fp):
+        return [], []
+    ko, en = [], []
+    for y in json.load(open(fp, encoding='utf-8')):
+        year = str(y.get('year') or '').strip()
+        if not year:
+            continue
+        ko.append(f'{year}년')
+        rows = []
+        for it in y.get('items') or []:
+            date = str(it.get('date') or '').strip()
+            if it.get('ko'):
+                ko.append(f'{date} {it["ko"]}'.strip())
+            if it.get('en'):
+                # 영문 표기는 '9.1' 처럼 앞의 0 을 뗀다(EN_HISTORY 관례).
+                m = re.match(r'(\d{1,2})\.(\d{1,2})$', date)
+                d = f'{int(m.group(1))}.{int(m.group(2))}' if m else date
+                rows.append((d, it['en']))
+        if rows:
+            en.append((year, rows))
+    return ko, en
+
+
 def render_timeline(blocks):
     """'2013년' / '2. 15 연구소 개소' 형태의 블록을 연도별 타임라인으로 묶는다."""
     groups, cur = [], None
@@ -1370,7 +1405,7 @@ def PAGES(depth):
         render_prose(blocks_of('lab_purpose'), [], d))
     P[('about', 'mission.html')] = ('미션', '박태준미래전략연구소의 미션.', mission_page(d, 'ko'))
     P[('about', 'history.html')] = ('연혁', '2013년 개소 이후의 연혁.',
-        render_timeline(fix_history(blocks_of('lab_history'))))
+        render_timeline(fix_history(blocks_of('lab_history')) + curated_history()[0]))
     P[('about', 'logo.html')] = ('로고 소개', '연구소 로고의 의미.',
         render_prose([b for b in blocks_of('lab_logo') if len(b) > 15], imgs_of('lab_logo'), d))
     P[('about', 'projects.html')] = ('주요사업', '연구소의 중점사업과 사업원칙.', projects_page(d, 'ko'))
@@ -1829,7 +1864,7 @@ def EN_PAGES(depth):
         '<div class="prose"><p class="lead">The Tae-Joon Park Institute for '
         'Future Strategy opened in February 2013. What follows is its record '
         'since then.</p></div>'
-        + render_en_timeline(EN_HISTORY)
+        + render_en_timeline(EN_HISTORY + curated_history()[1])
         + '<p class="src-note">※ Translated from the Korean record, which is '
         'the authoritative version.</p>')
     P[('about', 'logo.html')] = ('Our Logo', 'The meaning of the Institute’s logo.',
