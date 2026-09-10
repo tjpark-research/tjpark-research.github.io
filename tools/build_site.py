@@ -1267,6 +1267,13 @@ def render_board(name, depth, style='cards', empty='등록된 자료가 없습�
 </div>'''
 
 
+# 연구기획실. 운영위원회와 마찬가지로 한글·영문이 이 한 곳을 같이 본다.
+# (이름, 직급, 영문 이름, 영문 직급, 전화, 주요 업무)
+STAFF = [
+    ('송민석', '소장', 'Minseok Song', 'Director', '054-279-2376', ''),
+]
+
+
 # 연구소 운영위원회. 한글·영문 페이지가 이 한 곳을 같이 보므로 한쪽만
 # 고쳐져 어긋나는 일이 없다. 로마자와 영문 직위는 본인이 쓰는 표기를 따랐다.
 STEERING = [
@@ -1284,15 +1291,16 @@ STEERING = [
 def people_page(depth):
     """연구소사람들 — 구 사이트의 표 구조가 본문 추출에서 뭉개져서
     수집 데이터 대신 확인된 명단을 직접 구성한다."""
-    staff = [
-        ('송민석', '소장', '054-279-2387', ''),
-        ('정기준', '연구부교수', '054-279-5631', ''),
-        ('백태헌', '책임연구원', '054-279-0057', '연구 총괄, 연구과제 수행'),
-        ('박보미', '연구원', '054-279-0054', '기획·홍보·인사·예산 관리, 연구 지원'),
-    ]
+    # '주요 업무'는 적힌 사람이 있을 때만 칸을 만든다. 빈 칸만 남은 열은
+    # 표를 넓히기만 하고 읽는 데 보태는 것이 없다.
+    has_work = any(w for _n, _r, _en, _ep, _t, w in STAFF)
+    head = ('<th scope="col">성명</th><th scope="col">직급</th>'
+            '<th scope="col">연락처</th>'
+            + ('<th scope="col">주요 업무</th>' if has_work else ''))
     rows = ''.join(
-        f'<tr><th scope="row">{E(n)}</th><td>{E(r)}</td><td>{E(t)}</td><td>{E(w)}</td></tr>'
-        for n, r, t, w in staff)
+        f'<tr><th scope="row">{E(n)}</th><td>{E(r)}</td><td>{E(t)}</td>'
+        + (f'<td>{E(w)}</td>' if has_work else '') + '</tr>'
+        for n, r, _en, _ep, t, w in STAFF)
     steer_rows = ''.join(
         f'<tr><th scope="row">{E(n)}</th><td>{E(af)}</td></tr>'
         for n, af, _en, _ea in STEERING)
@@ -1304,7 +1312,7 @@ def people_page(depth):
   <p class="lead">연구소는 소수의 상근 인력이 기획·관리·평가를 맡고, 연구는 외부 전문가 네트워크와의 협업으로 수행합니다.</p>
   <h2>연구기획실</h2>
   <table class="tbl">
-    <thead><tr><th scope="col">성명</th><th scope="col">직급</th><th scope="col">연락처</th><th scope="col">주요 업무</th></tr></thead>
+    <thead><tr>{head}</tr></thead>
     <tbody>{rows}</tbody>
   </table>
   <h2>연구소 운영위원회</h2>
@@ -2039,11 +2047,10 @@ def EN_PAGES(depth):
         '<h2>Research Office</h2>'
         '<table class="tbl"><thead><tr><th scope="col">Name</th><th scope="col">Position</th>'
         '<th scope="col">Tel</th></tr></thead><tbody>'
-        '<tr><th scope="row">Minseok Song</th><td>Director</td><td>+82-54-279-2387</td></tr>'
-        '<tr><th scope="row">Ki-Jun Jeong</th><td>Research Associate Professor</td><td>+82-54-279-5631</td></tr>'
-        '<tr><th scope="row">Tae-Heon Baek</th><td>Senior Researcher</td><td>+82-54-279-0057</td></tr>'
-        '<tr><th scope="row">Bo-Mi Park</th><td>Researcher</td><td>+82-54-279-0054</td></tr>'
-        '</tbody></table>'
+        + ''.join(f'<tr><th scope="row">{E(en)}</th><td>{E(ep)}</td>'
+                  f'<td>+82-{t.lstrip("0")}</td></tr>'
+                  for _n, _r, en, ep, t, _w in STAFF)
+        + '</tbody></table>'
         '<h2>Steering Committee</h2>'
         '<p>The committee deliberates and decides on the running of the Institute.</p>'
         '<table class="tbl"><thead><tr><th scope="col">Name</th>'
