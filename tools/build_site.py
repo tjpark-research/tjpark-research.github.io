@@ -1267,6 +1267,19 @@ def render_board(name, depth, style='cards', empty='등록된 자료가 없습�
 </div>'''
 
 
+# 연구소 운영위원회. 한글·영문 페이지가 이 한 곳을 같이 보므로 한쪽만
+# 고쳐져 어긋나는 일이 없다. 로마자와 영문 직위는 본인이 쓰는 표기를 따랐다.
+STEERING = [
+    ('송민석', '포스텍 기획처장',
+     'Minseok Song', 'Vice President of Planning, POSTECH'),
+    ('고영명', '포스텍 산업경영공학과 학과장',
+     'Young Myoung Ko',
+     'Head, Department of Industrial and Management Engineering, POSTECH'),
+    ('정광민', '포스텍 경영과학프로그램 책임교수',
+     'Kwangmin Jung', 'Director, Management Science Program, POSTECH'),
+]
+
+
 # ─────────────────────────────────────────────────────── 페이지 정의
 def people_page(depth):
     """연구소사람들 — 구 사이트의 표 구조가 본문 추출에서 뭉개져서
@@ -1280,6 +1293,9 @@ def people_page(depth):
     rows = ''.join(
         f'<tr><th scope="row">{E(n)}</th><td>{E(r)}</td><td>{E(t)}</td><td>{E(w)}</td></tr>'
         for n, r, t, w in staff)
+    steer_rows = ''.join(
+        f'<tr><th scope="row">{E(n)}</th><td>{E(af)}</td></tr>'
+        for n, af, _en, _ea in STEERING)
     committee = (
         '위원장 이진우(포스텍 석좌교수). 위원 최광웅, 김병현·김승환·류성호·정성모(포스텍), '
         '김병연·방민호·전상인(서울대), 김왕배(연세대), 박길성(고려대), 백기복(국민대), '
@@ -1290,6 +1306,12 @@ def people_page(depth):
   <table class="tbl">
     <thead><tr><th scope="col">성명</th><th scope="col">직급</th><th scope="col">연락처</th><th scope="col">주요 업무</th></tr></thead>
     <tbody>{rows}</tbody>
+  </table>
+  <h2>연구소 운영위원회</h2>
+  <p>연구소 운영에 관한 주요 사항을 심의하고 의결합니다.</p>
+  <table class="tbl">
+    <thead><tr><th scope="col">성명</th><th scope="col">소속·직위</th></tr></thead>
+    <tbody>{steer_rows}</tbody>
   </table>
   <h2>미래전략연구위원회</h2>
   <p>미래전략연구 관련 기본정책을 설정하고, 연구소의 연구과제를 선정·기획합니다. 학자 중심으로 구성됩니다.</p>
@@ -2022,6 +2044,13 @@ def EN_PAGES(depth):
         '<tr><th scope="row">Tae-Heon Baek</th><td>Senior Researcher</td><td>+82-54-279-0057</td></tr>'
         '<tr><th scope="row">Bo-Mi Park</th><td>Researcher</td><td>+82-54-279-0054</td></tr>'
         '</tbody></table>'
+        '<h2>Steering Committee</h2>'
+        '<p>The committee deliberates and decides on the running of the Institute.</p>'
+        '<table class="tbl"><thead><tr><th scope="col">Name</th>'
+        '<th scope="col">Affiliation</th></tr></thead><tbody>'
+        + ''.join(f'<tr><th scope="row">{E(en)}</th><td>{E(ea)}</td></tr>'
+                  for _n, _af, en, ea in STEERING)
+        + '</tbody></table>'
         '<h2>Future Strategy Research Committee</h2>'
         '<p>The committee sets research policy and selects and plans the Institute’s projects. '
         'It is chaired by Professor Jin-Woo Lee (POSTECH) and draws its members from POSTECH, '
