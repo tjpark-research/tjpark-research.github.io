@@ -906,9 +906,7 @@ def render_image_page(images, depth, note):
     """
     body = '\n'.join(fig(im, depth) for im in images)
     return (f'<div class="prose"><p class="lead">{E(note)}</p>{body}'
-            f'<p class="todo-note">※ 이 페이지는 구 홈페이지에서 이미지 한 장으로 제작되어 '
-            f'있었습니다. 내용을 텍스트로 다시 옮기면 검색·확대·스크린리더 이용이 '
-            f'가능해집니다.</p></div>')
+            '</div>')
 
 
 # 구 사이트는 페이지 제목을 글자 그림으로 넣어 두었다('공지사항 / 연구소의
@@ -1298,7 +1296,6 @@ def people_page(depth):
   <p class="sub">{E(committee)}</p>
   <h2>박태준미래전략아카데미</h2>
   <p>미래전략 연구에 참여하거나 그 취지에 공감하는 교수·지식인의 모임으로, 교수·전문가 네트워크를 통해 연구 활동에 참여하고 연대합니다. 국내 주요 대학과 연구기관의 연구자 100여 분이 회원으로 참여하고 있습니다.</p>
-  <p class="todo-note">※ 위원·회원 명단은 구 홈페이지 기준입니다. 최신 명단으로 갱신이 필요합니다.</p>
 </div>'''
 
 
@@ -1384,7 +1381,7 @@ def PAGES(depth):
     P[('youth', 'faq.html')] = ('FAQ', '자주 묻는 질문.',
         '<div class="prose"><p class="lead">공모전과 캠프에 관해 자주 묻는 질문입니다.</p>'
         '<p>문의: <a href="mailto:tj-park@postech.ac.kr">tj-park@postech.ac.kr</a> · 054-279-0053~6</p>'
-        '<p class="todo-note">※ 구 홈페이지의 FAQ 항목이 비어 있어 옮길 내용이 없습니다. 문항을 정리해 주시면 채우겠습니다.</p></div>')
+        '<p class="todo-note">※ 자주 묻는 질문은 준비 중입니다. 궁금한 점은 위 연락처로 문의해 주십시오.</p></div>')
     # ── 포럼 & 세미나
     P[('forum', 'index.html')] = ('포럼', '산학연관 전문가와 석학이 모여 국가의 미래를 논의하는 자리.',
         render_board('forum', d, 'cards', detail_base='forum/forums'))
@@ -1617,8 +1614,7 @@ def chrono_era_page(i, depth):
     body.append(f'<nav class="cr-pager" aria-label="시대 이동">{prev_l}{nxt_l}</nav>')
     body.append(
         f'<p class="src-note">※ 전 시기를 한 번에 보려면 '
-        f'<a href="{rel(depth)}life/{CHRONO_ALL}">전체연보</a>를 이용하십시오. '
-        f'이 시대의 사진 {n}장은 구 홈페이지 시대별 연보 페이지의 원본 이미지입니다.</p>')
+        f'<a href="{rel(depth)}life/{CHRONO_ALL}">전체연보</a>를 이용하십시오.</p>')
     return '\n'.join(body)
 
 
@@ -1764,6 +1760,62 @@ def sync_main_news():
             print(f'  소식 갱신: {path}')
 
 
+def sync_main_cardnews():
+    """메인 오른쪽의 '카드뉴스' 칸을 data/curated/cardnews.json 으로 다시 만든다.
+
+    이 칸도 손으로 적혀 있어서 총서 13 에 멈춰 있었다. 다만 소식 목록과
+    달리 문안(머리글·소개 한 줄)은 데이터에서 뽑아낼 수 없다. 그래서
+    게시판에서 자동으로 끌어오지 않고, 문안까지 통째로 담은 파일 하나를
+    보게 한다 — 새 총서가 나오면 그 파일만 고치면 되고, 문안과 책이
+    어긋나 있는 채로 남지 않는다.
+    """
+    fp = os.path.join(CURATED, 'cardnews.json')
+    if not os.path.exists(fp):
+        return
+    c = json.load(open(fp, encoding='utf-8'))
+    for path, lang in [('index.html', 'ko'), (os.path.join('en', 'index.html'), 'en')]:
+        f = os.path.join(ROOT, path)
+        if not os.path.exists(f):
+            continue
+        s = open(f, encoding='utf-8').read()
+        b = '' if lang == 'ko' else '../'
+        items = []
+        for bk in c.get('books') or []:
+            t = (bk.get('title') or {}).get(lang) or (bk.get('title') or {}).get('ko') or ''
+            lb = (bk.get('label') or {}).get(lang) or (bk.get('label') or {}).get('ko') or ''
+            # 영문판에 한글 제목이 그대로 실릴 때만 lang 을 붙인다.
+            attr = ' lang="ko"' if lang == 'en' and t == (bk.get('title') or {}).get('ko') \
+                and (bk.get('title') or {}).get('en') is None else ''
+            items.append(
+                f'<li><a href="{b}{E(bk["href"])}">'
+                f'<img src="{b}{E(bk["cover"])}" alt="" loading="lazy">'
+                f'<span class="v">{E(lb)}</span>'
+                f'<span class="t"{attr}>{E(t)}</span></a></li>')
+        more = ''
+        if c.get('more'):
+            m = c['more']
+            more = (f'<p class="cc-more"><a href="{b}{E(m["href"])}">'
+                    f'{E(m.get(lang) or m.get("ko"))} →</a></p>')
+        new = ('<div class="col-card">\n'
+               f'          <span class="tag">{E(c["tag"][lang])}</span>\n'
+               f'          <h3>{E(c["title"][lang])}</h3>\n'
+               f'          <p>{E(c["lead"][lang])}</p>\n'
+               f'          <ul class="cc-books">{"".join(items)}</ul>\n'
+               f'          {more}\n'
+               '        </div>')
+        # 카드 안에는 <div> 를 두지 않는다. 그래야 첫 </div> 가 카드 자신의
+        # 닫는 태그이고, 정규식이 옆의 메일링 칸까지 삼키지 않는다.
+        s2 = re.sub(r'<div class="col-card">.*?</div>',
+                    lambda _m: new, s, count=1, flags=re.S)
+        # 그래도 한 번 더 확인한다. 손으로 쓴 페이지를 고치는 자리다.
+        for tag in ('mailing', 'n-list', '<section'):
+            if s2.count(tag) != s.count(tag):
+                raise SystemExit(f'{path}: 카드뉴스를 바꾸다 {tag} 가 달라졌다.')
+        if s2 != s:
+            open(f, 'w', encoding='utf-8').write(s2)
+            print(f'  카드뉴스 갱신: {path}')
+
+
 def main():
     # ── 한국어: /<section>/<file>   (depth 1)
     ko_spec = PAGES(1)
@@ -1804,12 +1856,12 @@ def main():
     build_chrono_pages()
     sync_main_nav()
     sync_main_news()
+    sync_main_cardnews()
 
 
 # ─────────────────────────────────────────────────────── 영문 페이지
-REVIEW = ('<p class="todo-note">※ This page was translated from the Korean edition '
-          'for this renewal and has not yet been reviewed by the Institute. '
-          'The Korean page is authoritative.</p>')
+REVIEW = ('<p class="todo-note">※ Translated from the Korean edition; '
+          'the Korean page is authoritative.</p>')
 
 SRC_KO = ('<p class="todo-note">※ The publications and records listed here are in Korean. '
           'Titles are shown as published.</p>')
@@ -1906,7 +1958,7 @@ def EN_PAGES(depth):
     P[('youth', 'faq.html')] = ('FAQ', 'Frequently asked questions.',
         '<div class="prose"><p class="lead">Questions about the contest and the camp.</p>'
         '<p>Enquiries: <a href="mailto:tj-park@postech.ac.kr">tj-park@postech.ac.kr</a> · +82-54-279-0053~6</p>'
-        '<p class="todo-note">※ No FAQ entries have been carried over yet.</p></div>')
+        '<p class="todo-note">※ Frequently asked questions are being prepared.</p></div>')
     # ── Forums & Seminars
     P[('forum', 'index.html')] = ('Forums', 'Where experts and scholars debate the nation’s future.',
         en_board('forum', d))
@@ -1978,7 +2030,7 @@ def EN_PAGES(depth):
         '<p>An association of professors and public intellectuals who take part in, or share the aims of, '
         'the Institute’s research. Around one hundred researchers from major Korean universities and '
         'research institutes are members.</p>'
-        '<p class="todo-note">※ Names follow the previous website and need updating.</p></div>')
+        '</div>')
     P[('about', 'location.html')] = ('Location', 'How to find us.',
         '<div class="prose"><p class="lead">The Institute is on the 6th floor of the Tae-Joon Park Digital '
         'Library at POSTECH.</p>'
@@ -2318,18 +2370,14 @@ def mission_page(depth, lang='ko'):
   <p class="who">박태준미래전략연구소는</p>
   <p>인류와 국가의 더 나은 내일을 위하여<br>미래사회를 조망하고 대응전략을 연구하며,</p>
   <p class="hi">박태준 정신과 리더십을<br>체계적으로 탐구하고 사회에 전파한다.</p>
-</div>
-<div class="prose"><p class="todo-note">※ 이 문안은 구 홈페이지에서 이미지로 제작되어 있던 것을
-텍스트로 옮긴 것입니다. 문구는 원본 그대로이며, 이제 검색·확대·스크린리더 이용이 가능합니다.</p></div>'''
+</div>'''
     return f'''<div class="mission">
   <p class="who">The TJ Park Institute aims to</p>
   <p>provide new insights into the future society,<br>and to develop future strategies.</p>
   <p class="hi">It explores Tae-Joon Park’s spirit and his leadership systematically,<br>
   and shares those findings with society for the betterment of humanity<br>
   as well as the advancement of Korea.</p>
-</div>
-<div class="prose"><p class="todo-note">※ Transcribed from the image used on the previous website,
-wording unchanged, so that it can now be searched, zoomed and read by screen readers.</p></div>'''
+</div>'''
 
 
 def projects_page(depth, lang='ko'):
@@ -2344,8 +2392,7 @@ def projects_page(depth, lang='ko'):
                     '지식네트워크를 통한 미래조망과 대응전략 연구',
                     '박태준 창의 · 도전 · 사회공헌정신의 체계화 및 사회전파',
                     '사회적 수용성과 영향력이 큰 사업의 우선 수행']))]
-        note = ('※ 구 홈페이지에서 이미지로 제작되어 있던 표를 텍스트로 옮긴 것입니다. '
-                '문구는 원본 그대로입니다.')
+        note = ''
         lead = '연구소가 힘을 싣는 사업과, 사업을 고를 때의 원칙입니다.'
     else:
         grid = ('<div class="mgrid">'
@@ -2361,11 +2408,12 @@ def projects_page(depth, lang='ko'):
                     'Systematisation and spreading of TJ Park’s spirit — creativity, '
                     'challenge and social contribution',
                     'Priority on work with larger social influence and acceptance']))]
-        note = ('※ Transcribed from the image used on the previous website, wording unchanged.')
+        note = ''
         lead = 'Where the Institute concentrates its work, and how it chooses that work.'
+    tail = (f'<div class="prose"><p class="todo-note">{E(note)}</p></div>'
+            if note else '')
     return (f'<div class="prose"><p class="lead">{E(lead)}</p></div>'
-            + _matrix(rows)
-            + f'<div class="prose"><p class="todo-note">{E(note)}</p></div>')
+            + _matrix(rows) + tail)
 
 
 def longterm_page(depth, lang='ko'):
@@ -2393,8 +2441,7 @@ def longterm_page(depth, lang='ko'):
                 '한 · 중 · 일의 공존공영 방안'])),
         ]
         lead = '연구소가 중장기적으로 붙들고 있는 세 갈래 질문입니다.'
-        note = ('※ 구 홈페이지에서 이미지로 제작되어 있던 표를 텍스트로 옮긴 것입니다. '
-                '문구는 원본 그대로입니다.')
+        note = ''
     else:
         rows = [
             ('t1', 'Desirable<br>future society', _ul([
@@ -2420,10 +2467,11 @@ def longterm_page(depth, lang='ko'):
                 'Ways Korea, China and Japan can coexist and prosper'])),
         ]
         lead = 'Three lines of enquiry the Institute pursues over the long term.'
-        note = '※ Transcribed from the image used on the previous website, wording unchanged.'
+        note = ''
+    tail = (f'<div class="prose"><p class="todo-note">{E(note)}</p></div>'
+            if note else '')
     return (f'<div class="prose"><p class="lead">{E(lead)}</p></div>'
-            + _matrix(rows)
-            + f'<div class="prose"><p class="todo-note">{E(note)}</p></div>')
+            + _matrix(rows) + tail)
 
 
 def research_intro_page(depth):
@@ -2468,13 +2516,12 @@ def brochure_page(depth, lang='ko'):
     ]
     if lang == 'ko':
         lead = '연구소 소개 책자입니다. 눌러서 바로 보거나 내려받을 수 있습니다.'
-        note = ('※ 구 홈페이지에 있던 원본(각각 71MB, 50MB)을 그대로 옮기면 열기 어려워, '
-                '쪽수와 내용을 유지한 채 웹에서 볼 수 있는 크기로 다시 압축했습니다.')
+        note = ('※ 웹에서 바로 열어 볼 수 있도록, 쪽수와 내용을 그대로 둔 채 '
+                '파일 크기를 줄였습니다.')
         verb = '보기 · 내려받기'
     else:
         lead = 'Introductory booklets. Open them in the browser or download.'
-        note = ('※ The originals on the previous website were 71 MB and 50 MB. '
-                'They have been recompressed for the web with all pages and content intact.')
+        note = ('※ Recompressed for the web, with all pages and content intact.')
         verb = 'View · download'
     cards = []
     for fn, ko_t, en_t, year, ko_m, en_m in items:
@@ -2658,14 +2705,11 @@ def who_page(depth, lang='ko'):
                 'Each is shown with the speaker and the title held at the time.</p>')
     note = ''
     if lang == 'en':
-        note = ('<p class="todo-note">※ This page follows the order of the Korean '
-                'edition. Two recollections missing from the previous English '
-                'edition (' + ', '.join(EN_WHO_TRANSLATED) + ') and the note '
-                'introducing Deng Xiaoping\u2019s remark were translated for this '
-                'renewal and have not yet been reviewed by the Institute.</p>')
+        note = ('<p class="todo-note">※ This page follows the order of the '
+                'Korean edition.</p>')
     return (f'<div class="prose">{lead}</div>'
             f'<ul class="quotes">{"".join(cards)}</ul>'
-            f'<div class="prose">{note}</div>')
+            + (f'<div class="prose">{note}</div>' if note else ''))
 
 
 
@@ -2683,9 +2727,9 @@ def steel_page(depth, lang='ko'):
                 '<p>이 글에서 우리는 여러 가지 일화들을 통해 박태준의 삶, 신념, 정신, '
                 f'애환 등을 확인하면서 잔잔한 감동의 파문을 느낄 수 있습니다. '
                 f'모두 {n}편이며, 연재 순서대로 실었습니다.</p></div>')
-        note = ('<p class="src-note">※ 연재에 실렸던 사진은 구 홈페이지의 원본 서버에서 '
-                '이미 사라져 옮기지 못했습니다. 사진 설명(▶ 로 시작하는 줄)은 '
-                '본문에 그대로 두었습니다.</p>')
+        note = ('<p class="src-note">※ 연재에 실렸던 사진은 원본 서버에 남아 있지 '
+                '않아 싣지 못했습니다. 사진 설명(▶ 로 시작하는 줄)은 본문에 '
+                '그대로 두었습니다.</p>')
     else:
         lead = ('<div class="prose">'
                 '<p class="lead">These autobiographical essays, close in spirit to a memoir, '
@@ -2716,9 +2760,8 @@ def meet_page(depth, lang='ko'):
                 '남겨둔, 흥미롭고 아름다운 ‘박정희와 박태준의 완전한 신뢰의 인간관계’를 '
                 f'사실 그대로 담아내고 있습니다. 모두 {n}편이며, 연재 순서대로 실었습니다.'
                 '</p></div>')
-        note = ('<p class="src-note">※ 연재에 실린 사진은 조선일보가 저작권을 가진 '
-                '자료입니다. 구 홈페이지가 조선일보 서버를 직접 링크해 두어, 구 사이트를 '
-                '내리면 함께 사라지므로 이곳으로 옮겨 두었습니다.</p>')
+        note = ('<p class="src-note">※ 연재에 실린 사진은 조선일보가 저작권을 '
+                '가진 자료입니다.</p>')
     else:
         lead = ('<div class="prose">'
                 '<p class="lead">“The Great Encounter: Park Chung-hee and Park Tae-joon” '

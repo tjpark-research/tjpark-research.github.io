@@ -117,7 +117,46 @@ def check_history(data):
                     '『』 대신 *제목* 으로 적으면 이탤릭이 됩니다')
 
 
+def check_cardnews(data):
+    w = 'cardnews.json'
+    for k in ('tag', 'title', 'lead'):
+        v = data.get(k)
+        if not isinstance(v, dict) or not v.get('ko') or not v.get('en'):
+            bad(w, f'{k} 에 ko 와 en 이 모두 있어야 합니다',
+                '{"ko": "한글 문안", "en": "English"} 꼴로 적습니다')
+    books = data.get('books')
+    if not isinstance(books, list) or not books:
+        bad(w, 'books 가 비어 있습니다')
+        return
+    if len(books) > 3:
+        bad(w, f'책이 {len(books)}권입니다. 칸이 좁아 두 권까지가 알맞습니다')
+    for i, b in enumerate(books, 1):
+        v = f'cardnews.json {i}번째 책'
+        cov = b.get('cover')
+        if not cov:
+            bad(v, 'cover 가 없습니다')
+        elif not os.path.exists(os.path.join(ROOT, cov)):
+            bad(v, f'표지 그림이 없습니다: {cov}')
+        href = b.get('href')
+        if not href:
+            bad(v, 'href 가 없습니다')
+        elif not os.path.exists(os.path.join(ROOT, href)):
+            bad(v, f'연결할 페이지가 없습니다: {href}',
+                '연구총서 목록에서 책을 눌러 주소창의 뒷부분을 그대로 적습니다')
+        for k in ('label', 'title'):
+            if not (b.get(k) or {}).get('ko'):
+                bad(v, f'{k} 의 ko 가 비어 있습니다')
+    m = data.get('more')
+    if m and m.get('href') and not os.path.exists(os.path.join(ROOT, m['href'])):
+        bad(w, f'more 가 가리키는 페이지가 없습니다: {m["href"]}')
+
+
 def main():
+    data = load('cardnews.json')
+    if isinstance(data, dict):
+        check_cardnews(data)
+    elif data not in (None, False):
+        bad('cardnews.json', '맨 바깥이 { } 여야 합니다')
     for name, fn in (('posts.json', check_posts), ('books.json', check_books),
                      ('history.json', check_history)):
         data = load(name)

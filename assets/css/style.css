@@ -308,6 +308,21 @@ ul,ol{margin:0;padding:0;list-style:none}
 .col-card .tag{font-size:10px;letter-spacing:.18em;font-weight:700;color:#fff;background:var(--bronze);padding:5px 10px;display:inline-block}
 .col-card h3{font-family:var(--sans);font-size:19px;line-height:1.55;margin:18px 0 12px}
 .col-card p{font-size:13.5px;color:var(--text-2);line-height:1.85}
+/* 카드뉴스 칸의 책 두 권 */
+.cc-books{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.cc-books a{display:block}
+.cc-books img{width:100%;height:auto;display:block;border:1px solid var(--line);
+  transition:.2s}
+.cc-books a:hover img{transform:translateY(-3px)}
+.cc-books .v{display:block;margin-top:10px;font-size:10.5px;letter-spacing:.08em;
+  color:var(--bronze);font-weight:700}
+.cc-books .t{display:block;margin-top:3px;font-size:13px;line-height:1.5;
+  font-weight:600;color:var(--text-1)}
+.cc-books a:hover .t{color:var(--crimson)}
+.cc-more{margin-top:18px;font-size:12.5px}
+.cc-more a{color:var(--text-2);border-bottom:1px solid var(--line);padding-bottom:3px}
+.cc-more a:hover{color:var(--crimson);border-color:var(--crimson)}
+
 .mailing{margin-top:24px;background:var(--ink);color:var(--on-dark);padding:26px}
 .mailing h4{font-size:16px;color:#fff}
 .mailing p{font-size:13px;color:var(--on-dark-2);margin-top:8px;line-height:1.7}

@@ -1,0 +1,23 @@
+{
+ "tag":   {"ko": "TJPI 카드뉴스", "en": "TJPI CARD NEWS"},
+ "title": {"ko": "대학은 어떻게 지금의 모습이 되었는가",
+           "en": "How the research university came to be"},
+ "lead":  {"ko": "연구중심대학이 걸어온 길을 나란히 읽는 미래전략연구총서 두 권.",
+           "en": "Two new volumes in the Future Strategy Series, to be read side by side."},
+ "books": [
+  {
+   "href":  "research/books/100015.html",
+   "cover": "assets/img/books/9791191383690.jpg",
+   "label": {"ko": "미래전략연구총서 15", "en": "Vol. 15"},
+   "title": {"ko": "MIT가 MIT가 되기까지", "en": "Becoming MIT"}
+  },
+  {
+   "href":  "research/books/64.html",
+   "cover": "assets/img/books/fs14-jiseong-jeguk.jpg",
+   "label": {"ko": "미래전략연구총서 14", "en": "Vol. 14"},
+   "title": {"ko": "지성의 제국", "en": "Empires of Ideas"}
+  }
+ ],
+ "more": {"href": "research/books.html",
+          "ko": "연구총서 전체 보기", "en": "All volumes"}
+}

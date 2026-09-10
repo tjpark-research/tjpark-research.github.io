@@ -98,6 +98,39 @@
 
 ---
 
+## 첫 화면 카드뉴스 바꾸기
+
+첫 화면 오른쪽의 **TJPI 카드뉴스** 칸은 `data/curated/cardnews.json` 하나로
+만들어집니다. 한글·영문 첫 화면이 같은 파일을 봅니다.
+
+```json
+{
+ "tag":   {"ko": "TJPI 카드뉴스", "en": "TJPI CARD NEWS"},
+ "title": {"ko": "머리글 한 줄", "en": "Headline"},
+ "lead":  {"ko": "소개 한 문장.", "en": "One sentence."},
+ "books": [
+  {
+   "href":  "research/books/100015.html",
+   "cover": "assets/img/books/9791191383690.jpg",
+   "label": {"ko": "미래전략연구총서 15", "en": "Vol. 15"},
+   "title": {"ko": "MIT가 MIT가 되기까지", "en": "Becoming MIT"}
+  }
+ ],
+ "more": {"href": "research/books.html",
+          "ko": "연구총서 전체 보기", "en": "All volumes"}
+}
+```
+
+- `href` 는 연구총서 목록에서 그 책을 눌렀을 때 주소창 뒤에 붙는 부분을
+  그대로 적습니다. `cover` 는 그 책 페이지에 쓰인 표지 파일 경로입니다.
+- 책은 **두 권**이 알맞습니다. 칸이 좁아 세 권을 넘기면 표지가 작아집니다.
+- 영문 `title` 을 비우면 한글 제목이 그대로 실립니다. 번역서라면 원서 제목을
+  적어 두는 편이 읽기 좋습니다.
+- 머리글(`title`)과 실린 책이 따로 놀지 않게, 책을 바꿀 때 문안도 같이
+  손봅니다. 이 칸은 게시판에서 자동으로 끌어오지 않는 유일한 자리입니다.
+
+---
+
 ## 사진과 첨부파일
 
 먼저 파일을 저장소에 올려야 합니다. GitHub에서 아래 폴더로 들어가
