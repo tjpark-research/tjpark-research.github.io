@@ -1589,11 +1589,6 @@ def chrono_era_block(i, depth, heading=True):
             f'{chrono_rows(lo, hi, depth)}</section>')
 
 
-def chrono_note(depth, n):
-    return ('<p class="src-note">※ 연보의 글은 구 홈페이지 「전체연보」를, 사진 '
-            f'{n}장은 시대별 연보 페이지의 원본 이미지를 그대로 옮긴 것입니다.</p>')
-
-
 def chronology_page(depth):
     """전체연보 — 구 홈페이지와 같이 '년도 / 당시 나이 / 내용' 표로 보여 준다.
     사진은 시대별 페이지 쪽에 둔다(표는 훑어보기 위한 것이다)."""
@@ -2763,9 +2758,8 @@ def steel_page(depth, lang='ko'):
                 '<p>이 글에서 우리는 여러 가지 일화들을 통해 박태준의 삶, 신념, 정신, '
                 f'애환 등을 확인하면서 잔잔한 감동의 파문을 느낄 수 있습니다. '
                 f'모두 {n}편이며, 연재 순서대로 실었습니다.</p></div>')
-        note = ('<p class="src-note">※ 연재에 실렸던 사진은 원본 서버에 남아 있지 '
-                '않아 싣지 못했습니다. 사진 설명(▶ 로 시작하는 줄)은 본문에 '
-                '그대로 두었습니다.</p>')
+        note = ('<p class="src-note">※ 연재 사진은 싣지 못했습니다. 사진 '
+                '설명(▶ 로 시작하는 줄)은 본문에 그대로 두었습니다.</p>')
     else:
         lead = ('<div class="prose">'
                 '<p class="lead">These autobiographical essays, close in spirit to a memoir, '
@@ -2885,7 +2879,7 @@ def media_page(depth, lang='ko'):
                 '실었고, 보도일은 기사가 실제로 나온 날짜입니다.</p></div>')
         note = ('<p class="src-note">※ 기사와 사진은 각 언론사가 저작권을 가진 '
                 '자료입니다. 본문 끝에 원문 주소를 남겨 두었습니다. '
-                '언론사 서버에서 이미 사라진 사진은 설명만 남아 있습니다.</p>')
+                '사진 없이 설명만 있는 기사도 있습니다.</p>')
     else:
         lead = ('<div class="prose">'
                 '<p class="lead">How the press and broadcasters have recorded '
