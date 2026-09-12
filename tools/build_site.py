@@ -686,12 +686,25 @@ def base(depth, lang='ko'):
     return rel(depth) + ('en/' if lang == 'en' else '')
 
 
+def menu_href(f, b, d):
+    """메뉴 항목의 주소. 'http' 로 시작하는 항목은 사이트 밖으로 나가는
+    링크다(발전기금 → 포스텍 발전기금 사이트). 페이지는 만들지 않는다."""
+    return f if f.startswith('http') else f'{b}{d}/{f}'
+
+
+def menu_attr(f):
+    """바깥으로 나가는 링크는 새 창으로 열고, 나간다는 표시를 남긴다."""
+    return (' target="_blank" rel="noopener" class="ext"'
+            if f.startswith('http') else '')
+
+
 def gnb(depth, active=None, lang='ko'):
     secs = SECTIONS if lang == 'ko' else EN_SECTIONS
     b = base(depth, lang)
     li = []
     for key, label, _en, d, kids in secs:
-        sub = ''.join(f'<a href="{b}{d}/{f}">{E(cl)}</a>' for f, cl, _s in kids)
+        sub = ''.join(f'<a href="{menu_href(f, b, d)}"{menu_attr(f)}>{E(cl)}</a>'
+                      for f, cl, _s in kids)
         cls = ' class="on"' if key == active else ''
         li.append(
             f'<li{cls}><a href="{b}{d}/index.html">{E(label)}</a>'
@@ -795,7 +808,8 @@ def lnb(section, current_file, depth, lang='ko'):
     parts = []
     for f, cl, _s in kids:
         on = ' class="on"' if f == current_file else ''
-        parts.append(f'<li{on}><a href="{b}{d}/{f}">{E(cl)}</a></li>')
+        parts.append(f'<li{on}><a href="{menu_href(f, b, d)}"{menu_attr(f)}>'
+                     f'{E(cl)}</a></li>')
     items = ''.join(parts)
     return f'<nav class="lnb" aria-label="{E(label)} 하위 메뉴"><p class="lnb-t">{E(label)}<span>{E(en)}</span></p><ul>{items}</ul></nav>'
 
@@ -1764,6 +1778,64 @@ def build_chrono_pages():
     print(f'연보 {len(CHRONO_ERAS)}개 시대 + 전체연보 1개 페이지')
 
 
+SITE = 'https://tjpark-research.github.io/'
+
+
+def build_sitemap_xml():
+    """sitemap.xml 을 실제 만들어진 페이지에서 다시 쓴다.
+
+    손으로 만들어 둔 탓에 청년사업 페이지가 늘어난 뒤로 실제와 어긋나 있었다
+    (889개 ↔ 947개). 빌드할 때마다 다시 쓰면 어긋날 일이 없다.
+
+    한글 쪽과 영문 쪽은 서로를 hreflang 으로 가리킨다. 짝이 없는 쪽(개별 글은
+    한국어판만 있다)은 alternate 를 달지 않는다 — 없는 주소를 가리키면
+    검색엔진이 오히려 손해다.
+    """
+    pages = []
+    for dirpath, dirnames, files in os.walk(ROOT):
+        dirnames[:] = [x for x in dirnames
+                       if x not in ('.git', '.github', 'assets', 'data', 'tools')]
+        for f in sorted(files):
+            if not f.endswith('.html') or f == '404.html':
+                continue
+            rel_p = os.path.relpath(os.path.join(dirpath, f), ROOT)
+            pages.append(rel_p.replace(os.sep, '/'))
+    have = set(pages)
+
+    def loc_of(rel_p):
+        # 디렉터리 대표 페이지는 슬래시로 끝나는 주소가 정본이다.
+        return SITE + ('' if rel_p == 'index.html'
+                       else rel_p[:-len('index.html')] if rel_p.endswith('/index.html')
+                       else rel_p)
+
+    def pri(rel_p):
+        if rel_p in ('index.html', 'en/index.html'):
+            return '1.0' if rel_p == 'index.html' else '0.8'
+        depth = rel_p.count('/')
+        if rel_p.startswith('en/'):
+            depth -= 1
+        return '0.7' if depth <= 1 else '0.5'
+
+    out = ['<?xml version="1.0" encoding="UTF-8"?>',
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+           'xmlns:xhtml="http://www.w3.org/1999/xhtml">']
+    for rel_p in sorted(pages, key=lambda x: (x.startswith('en/'), x)):
+        ko = rel_p[3:] if rel_p.startswith('en/') else rel_p
+        en = 'en/' + ko
+        alt = ''
+        if ko in have and en in have:
+            alt = (f'\n    <xhtml:link rel="alternate" hreflang="ko" href="{loc_of(ko)}"/>'
+                   f'\n    <xhtml:link rel="alternate" hreflang="en" href="{loc_of(en)}"/>'
+                   f'\n    <xhtml:link rel="alternate" hreflang="x-default" href="{loc_of(ko)}"/>')
+        out.append(f'  <url>\n    <loc>{loc_of(rel_p)}</loc>{alt}'
+                   f'\n    <changefreq>monthly</changefreq>'
+                   f'<priority>{pri(rel_p)}</priority>\n  </url>')
+    out.append('</urlset>')
+    open(os.path.join(ROOT, 'sitemap.xml'), 'w', encoding='utf-8').write(
+        '\n'.join(out) + '\n')
+    print(f'  sitemap.xml {len(pages)}개 주소')
+
+
 def sync_main_nav():
     """메인 페이지(index.html, en/index.html)의 GNB 를 생성된 것으로 교체.
 
@@ -1979,6 +2051,7 @@ def main():
     sync_main_nav()
     sync_main_news()
     sync_main_cardnews()
+    build_sitemap_xml()
 
 
 # ─────────────────────────────────────────────────────── 영문 페이지

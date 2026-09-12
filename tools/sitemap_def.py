@@ -56,6 +56,9 @@ SECTIONS = [
         ('people.html',    '연구소사람들',  'lab_people'),
         ('location.html',  '오시는 길',    'lab_location'),
         ('brochure.html',  'E-카다로그',   'lab_brochure'),
+        # 발전기금은 포스텍 발전기금 사이트로 바로 보낸다. 주소로 시작하는
+        # 항목은 페이지를 만들지 않고, 메뉴에서 바깥으로 나가는 링크가 된다.
+        ('https://vision.postech.ac.kr/', '발전기금', 'lab_fund'),
     ]),
     ('life', '박태준의 삶', 'The Life of TJ Park', 'life', [
         ('index.html',      '생애',        'life_bio'),
@@ -144,6 +147,7 @@ EN_SECTIONS = [
         ('people.html',   'People',           'en_lab_people'),
         ('location.html', 'Location',         'en_lab_location'),
         ('brochure.html', 'Brochure',         'en_lab_brochure'),
+        ('https://vision.postech.ac.kr/', 'Giving to POSTECH', 'en_lab_fund'),
     ]),
     ('life', 'The Life of TJ Park', 'Life’s Chungam', 'life', [
         ('index.html',      'Biography',      'en_life_bio'),
