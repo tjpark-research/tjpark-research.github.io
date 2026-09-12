@@ -729,6 +729,58 @@ ol.cr{list-style:none;margin:22px 0 0;padding:0 0 0 4px;
   border:1px solid var(--line)}
 .cr-p figcaption{margin-top:8px;font-size:12.5px;line-height:1.65;
   color:var(--text-3);font-weight:var(--w-body)}
+/* =========================================================
+   청년사업 — FAQ 접이식 문답, 서식·자료실
+   ========================================================= */
+.faq{margin-top:36px;border-top:1px solid var(--line)}
+.faq-q{border-bottom:1px solid var(--line)}
+.faq-q summary{
+  list-style:none; cursor:pointer; padding:20px 44px 20px 26px; position:relative;
+  font-size:15.5px; font-weight:500; line-height:1.6; transition:color .15s;
+}
+.faq-q summary::-webkit-details-marker{display:none}
+/* 물음표 자리에 Q 를 두면 문답이라는 것이 한눈에 보인다. */
+.faq-q summary::before{
+  content:'Q'; position:absolute; left:0; top:20px;
+  font-size:13px; font-weight:700; color:var(--bronze); letter-spacing:.04em;
+}
+/* 여닫이 표시: 가로선 하나에 세로선을 겹쳤다가, 열리면 세로선을 지운다. */
+.faq-q summary::after{
+  content:''; position:absolute; right:8px; top:50%; width:13px; height:13px;
+  margin-top:-6px;
+  background:
+    linear-gradient(var(--text-3),var(--text-3)) center/13px 1px no-repeat,
+    linear-gradient(var(--text-3),var(--text-3)) center/1px 13px no-repeat;
+  transition:transform .2s, background-size .2s;
+}
+.faq-q[open] summary::after{
+  background:linear-gradient(var(--crimson),var(--crimson)) center/13px 1px no-repeat;
+}
+.faq-q summary:hover{color:var(--crimson)}
+.faq-q summary:focus-visible{outline:2px solid var(--crimson); outline-offset:2px}
+.faq-a{padding:0 44px 24px 26px}
+.faq-a p{margin:0 0 12px; font-size:14.5px; line-height:1.95; color:var(--text-2)}
+.faq-a p:last-child{margin-bottom:0}
+
+.fmlist{margin-top:36px;border-top:1px solid var(--line)}
+.fm{padding:26px 2px; border-bottom:1px solid var(--line)}
+.fm h3{margin:0; font-size:16px; font-weight:700; line-height:1.55}
+.fm-d{
+  margin:8px 0 0; font-size:12px; color:var(--text-3); letter-spacing:.04em;
+  font-variant-numeric:tabular-nums;
+}
+.fm-b{margin-top:14px}
+.fm-b p{margin:0 0 8px; font-size:14.5px; line-height:1.9; color:var(--text-2)}
+.fm-b p:last-child{margin-bottom:0}
+
+@media (max-width:560px){
+  .faq-q summary{padding:18px 36px 18px 22px}
+  .faq-a{padding:0 8px 20px 22px}
+}
+@media (prefers-reduced-motion:reduce){
+  .faq-q summary,.faq-q summary::after{transition:none}
+}
+
 /* 메인 '연구소 소식' 목록 칸과 그 아래 한 줄 안내 (영문판) */
 .n-col{min-width:0}
 .n-note{margin:16px 0 0;font-size:12px;line-height:1.7;color:var(--text-3)}

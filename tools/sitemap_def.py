@@ -26,11 +26,15 @@ SECTIONS = [
         ('reports.html', '연구보고서', 'tj_reports'),
     ]),
     ('youth', '청년사업', 'Youth Programs', 'youth', [
-        ('index.html',     '대학(원)생 공모전', 'youth_contest'),
-        ('winners.html',   '수상작 보기',      'youth_winners'),
-        ('camp.html',      '포스텍 청년비전캠프', 'youth_camp'),
-        ('camp-guide.html','캠프 안내',        'youth_camp_guide'),
-        ('faq.html',       'FAQ',            'youth_faq'),
+        ('index.html',      '대학(원)생 공모전', 'youth_contest'),
+        ('winners.html',    '수상작 보기',      'youth_winners'),
+        ('reviews.html',    '수상 후기',       'youth_reviews'),
+        ('camp.html',       '포스텍 청년비전캠프', 'youth_camp'),
+        ('camp-guide.html', '캠프 안내',        'youth_camp_guide'),
+        ('camp-reviews.html','캠프 후기',       'youth_camp_reviews'),
+        ('gallery.html',    '갤러리',          'youth_gallery'),
+        ('forms.html',      '서식 · 자료실',    'youth_forms'),
+        ('faq.html',        'FAQ',            'youth_faq'),
     ]),
     ('forum', '포럼 & 세미나', 'Forums & Seminars', 'forum', [
         ('index.html',      '포럼',      'forum_forum'),
@@ -112,8 +116,12 @@ EN_SECTIONS = [
     ('youth', 'Youth Programmes', 'For the Next Generation', 'youth', [
         ('index.html',      'Student Essay Contest', 'en_youth_contest'),
         ('winners.html',    'Award-winning Essays',  'en_youth_winners'),
+        ('reviews.html',    'In Their Words',        'en_youth_reviews'),
         ('camp.html',       'POSTECH Vision Camp',   'en_youth_camp'),
         ('camp-guide.html', 'Camp Guide',            'en_youth_camp_guide'),
+        ('camp-reviews.html','Camp Reflections',     'en_youth_camp_reviews'),
+        ('gallery.html',    'Gallery',               'en_youth_gallery'),
+        ('forms.html',      'Forms & Downloads',     'en_youth_forms'),
         ('faq.html',        'FAQ',                   'en_youth_faq'),
     ]),
     ('forum', 'Forums', 'Forums &amp; Seminars', 'forum', [

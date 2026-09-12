@@ -189,6 +189,14 @@ def board(path, bid=None, max_pages=40, details=False):
             td_left = row.select_one('td.left') if hasattr(row, 'select_one') else None
             title = pick('tit') or (clean(td_left.get_text(' ')) if td_left else None) \
                     or clean(a.get_text(' '))
+            # 갤러리(ul.gall_list)는 <a> 안이 사진뿐이고 제목은 형제 li.txt 에
+            # 있다. 이걸 못 보면 목록 전체가 0건으로 나온다(실제로 그랬다).
+            if title in ('', '자세히보기'):
+                par = getattr(row, 'parent', None)
+                t2 = par.select_one('li.txt') if par is not None \
+                    and hasattr(par, 'select_one') else None
+                if t2 is not None:
+                    title = clean(t2.get_text(' '))
             if title in ('', '자세히보기'):
                 continue
             if idx:
@@ -307,6 +315,13 @@ BOARDS = {
     # 박태준의 삶 › 언론자료 — 박태준에 관한 언론 보도 모음. 게시판(bid=bodo).
     # (연구소소식의 '보도자료'는 연구소 자체 보도라 별개다.)
     'tj_media':          ('01_about/02_1.php',        'bodo'),
+    # 청년사업의 게시판 다섯. 2026-09-10 대조에서 통째로 빠져 있던 것을 찾았다.
+    # 옛 사이트 메뉴에는 있는데 여기 목록에 없어서 존재 자체를 놓쳤다.
+    'youth_qna':         ('08_youth/04.php',          'y_qna'),
+    'youth_forms':       ('08_youth/03.php',          'y_fnd'),
+    'youth_contest_ep':  ('08_youth/01_3.php',        'y_contestep'),
+    'youth_camp_ep':     ('08_youth/02_3.php',        'y_campep'),
+    'youth_gallery':     ('08_youth/02_4.php',        'y_campgal'),
 }
 
 

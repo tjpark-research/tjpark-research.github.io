@@ -1201,7 +1201,36 @@ def render_eras(specs, depth):
             f'<div class="prose">{"".join(panes)}</div></div>')
 
 
-COVER_WIDE = {'news_column', 'multimedia', 'forum', 'seminar'}
+# 구 CMS 는 사진을 안 올린 글에 '이미지를 등록해 주세요' 회색 그림을 대신
+# 넣어 두었다. 수집기는 그것도 사진으로 보고 내려받아, 목록 카드 여덟 장이
+# 같은 회색 그림으로 나왔다. 내용으로 가려내면 파일 이름이 달라져도 걸린다.
+# (수집 파일 이름은 내용 해시라 같은 그림은 한 파일로 모이지만, 구 사이트가
+#  자리그림을 바꾸면 새 해시가 생긴다. 그때는 여기에 한 줄 더한다.)
+PLACEHOLDER_MD5 = {
+    '902011ba851fb357bfba4d3d8dd1f94e',   # 이미지를 등록해 주세요 (1,830B)
+}
+_ph_cache = {}
+
+
+def is_placeholder(rel_path):
+    """자리그림이면 True. 사진이 아예 없는 것으로 쳐야 한다."""
+    if not rel_path:
+        return False
+    if rel_path in _ph_cache:
+        return _ph_cache[rel_path]
+    fp = os.path.join(ROOT, rel_path)
+    ok = False
+    try:
+        if os.path.getsize(fp) < 20000:       # 자리그림은 늘 아주 작다
+            import hashlib
+            ok = hashlib.md5(open(fp, 'rb').read()).hexdigest() in PLACEHOLDER_MD5
+    except OSError:
+        ok = False
+    _ph_cache[rel_path] = ok
+    return ok
+
+
+COVER_WIDE = {'youth_gallery', 'news_column', 'multimedia', 'forum', 'seminar'}
 
 
 def render_board(name, depth, style='cards', empty='등록된 자료가 없습니다.',
@@ -1234,8 +1263,10 @@ def render_board(name, depth, style='cards', empty='등록된 자료가 없습�
         meta = ' · '.join(x for x in [it.get('author'), it.get('publisher'), it.get('date')] if x)
         summ = (it.get('summary') or '')[:150]
         if style == 'cards':
-            img = (f'<img src="{rel(depth)}{it["local"]}" alt="" loading="lazy">'
-                   if it.get('local') else '<span class="noimg">TJPI</span>')
+            loc = it.get('local')
+            img = (f'<img src="{rel(depth)}{loc}" alt="" loading="lazy">'
+                   if loc and not is_placeholder(loc)
+                   else '<span class="noimg">TJPI</span>')
             inner = (f'<div class="bcard-cov">{img}</div>'
                      f'<div class="bcard-b"><h3>{E(t)}</h3>'
                      + (f'<p class="m">{E(meta)}</p>' if meta else '')
@@ -1285,6 +1316,67 @@ STEERING = [
     ('정광민', '포스텍 경영과학프로그램 책임교수',
      'Kwangmin Jung', 'Director, Management Science Program, POSTECH'),
 ]
+
+
+def faq_page(lang='ko'):
+    """청년사업 FAQ. 27문항을 한 쪽에 접어서 낸다.
+
+    구 사이트는 문항마다 상세 페이지가 따로 있었지만, 한 줄짜리 답을 보려고
+    페이지를 옮겨 다니는 것은 FAQ 로서 손해다. <details> 로 접어 두면 JS 없이
+    펼쳐지고, 찾기(Ctrl+F)도 한 쪽에서 된다.
+    """
+    rows = load('detail_youth_qna') or []
+    items = []
+    for r in rows:
+        q = (r.get('list_title') or r.get('title') or '').strip()
+        ps = [x for sec in (r.get('sections') or []) for x in (sec.get('paragraphs') or [])]
+        if not q or not ps:
+            continue
+        body = ''.join(f'<p>{E(x)}</p>' for x in ps)
+        items.append(f'<details class="faq-q"><summary>{E(q)}</summary>'
+                     f'<div class="faq-a">{body}</div></details>')
+    if lang == 'ko':
+        lead = ('<div class="prose"><p class="lead">공모전과 캠프에 관해 자주 묻는 '
+                '질문입니다.</p><p>여기에 없는 것은 '
+                '<a href="mailto:tj-park@postech.ac.kr">tj-park@postech.ac.kr</a> · '
+                '054-279-0053~6 으로 문의해 주십시오.</p></div>')
+        note = ''
+    else:
+        lead = ('<div class="prose"><p class="lead">Questions about the contest and '
+                'the camp.</p><p>For anything not answered here: '
+                '<a href="mailto:tj-park@postech.ac.kr">tj-park@postech.ac.kr</a> · '
+                '+82-54-279-0053~6</p></div>')
+        note = ('<div class="prose"><p class="todo-note">※ Questions and answers are '
+                'in Korean, as published.</p></div>')
+    return lead + f'<div class="faq">{"".join(items)}</div>' + note
+
+
+def forms_page(lang='ko'):
+    """서식 · 자료실. 열한 건 모두 본문이 짧아 한 쪽에 펼쳐 싣는다.
+
+    구 사이트의 첨부파일은 남아 있지 않다('No File!'). 안내문만 옮긴다.
+    """
+    rows = load('detail_youth_forms') or []
+    arts = []
+    for r in rows:
+        t = (r.get('list_title') or r.get('title') or '').strip()
+        ps = [x for sec in (r.get('sections') or []) for x in (sec.get('paragraphs') or [])]
+        dt = (r.get('meta') or {}).get('posted') or ''
+        body = ''.join(f'<p>{E(x)}</p>' for x in ps)
+        arts.append(f'<article class="fm"><h3>{E(t)}</h3>'
+                    + (f'<p class="fm-d">{E(dt)}</p>' if dt else '')
+                    + f'<div class="fm-b">{body}</div></article>')
+    if lang == 'ko':
+        lead = ('<div class="prose"><p class="lead">공모전과 캠프에 쓰인 서식과 안내입니다. '
+                '지난 회차의 기록으로 남겨 둡니다.</p></div>')
+        note = ('<div class="prose"><p class="todo-note">※ 서식 파일은 남아 있지 않아 '
+                '안내문만 실었습니다. 필요한 서식은 위 연락처로 문의해 주십시오.</p></div>')
+    else:
+        lead = ('<div class="prose"><p class="lead">Forms and notices used in past '
+                'contests and camps, kept for the record.</p></div>')
+        note = ('<div class="prose"><p class="todo-note">※ The form files themselves are '
+                'no longer available; the notices are shown as published, in Korean.</p></div>')
+    return lead + f'<div class="fmlist">{"".join(arts)}</div>' + note
 
 
 # ─────────────────────────────────────────────────────── 페이지 정의
@@ -1404,14 +1496,19 @@ def PAGES(depth):
           '지난 수상작은 <a href="winners.html">수상작 보기</a>에서 볼 수 있습니다.</p></div>')
     P[('youth', 'winners.html')] = ('수상작 보기', '역대 공모전 수상작.',
         render_board('contest_winners', d, 'cards', detail_base='research/contest'))
+    P[('youth', 'reviews.html')] = ('수상 후기', '공모전 수상자들이 남긴 후기.',
+        render_board('youth_contest_ep', d, 'rows', detail_base='youth/reviews'))
     P[('youth', 'camp.html')] = ('포스텍 청년비전캠프', '스스로의 비전을 설계하는 캠프.',
         render_prose(blocks_of('youth_camp'), imgs_of('youth_camp'), d))
     P[('youth', 'camp-guide.html')] = ('캠프 안내', '청년비전캠프 참가 안내.',
         render_prose(blocks_of('youth_camp_guide'), imgs_of('youth_camp_guide'), d))
-    P[('youth', 'faq.html')] = ('FAQ', '자주 묻는 질문.',
-        '<div class="prose"><p class="lead">공모전과 캠프에 관해 자주 묻는 질문입니다.</p>'
-        '<p>문의: <a href="mailto:tj-park@postech.ac.kr">tj-park@postech.ac.kr</a> · 054-279-0053~6</p>'
-        '<p class="todo-note">※ 자주 묻는 질문은 준비 중입니다. 궁금한 점은 위 연락처로 문의해 주십시오.</p></div>')
+    P[('youth', 'camp-reviews.html')] = ('캠프 후기', '청년비전캠프 참가자들의 후기.',
+        render_board('youth_camp_ep', d, 'rows', detail_base='youth/camp-reviews'))
+    P[('youth', 'gallery.html')] = ('갤러리', '공모전 시상식과 청년비전캠프의 기록.',
+        render_board('youth_gallery', d, 'cards', detail_base='youth/gallery'))
+    P[('youth', 'forms.html')] = ('서식 · 자료실', '공모전과 캠프에 쓰인 서식과 안내.',
+        forms_page('ko'))
+    P[('youth', 'faq.html')] = ('FAQ', '자주 묻는 질문.', faq_page('ko'))
     # ── 포럼 & 세미나
     P[('forum', 'index.html')] = ('포럼', '산학연관 전문가와 석학이 모여 국가의 미래를 논의하는 자리.',
         render_board('forum', d, 'cards', detail_base='forum/forums'))
@@ -1897,7 +1994,10 @@ EN_DETAIL = {'steel': 'life/steel', 'meet': 'life/meet', 'tj_media': 'life/media
              'reports_tj': 'tjpark-research/reports', 'forum': 'forum/forums',
              'seminar': 'forum/seminars', 'multimedia': 'forum/media',
              'news_notice': 'news/notices', 'news_press': 'news/press-items',
-             'news_column': 'news/columns'}
+             'news_column': 'news/columns',
+             'youth_contest_ep': 'youth/reviews',
+             'youth_camp_ep': 'youth/camp-reviews',
+             'youth_gallery': 'youth/gallery'}
 
 
 def en_board(name, depth, style='cards'):
@@ -1973,6 +2073,8 @@ def EN_PAGES(depth):
         + REVIEW + '</div>')
     P[('youth', 'winners.html')] = ('Award-winning Essays', 'Essays awarded in past contests.',
         en_board('contest_winners', d))
+    P[('youth', 'reviews.html')] = ('In Their Words', 'Reflections from past award winners.',
+        en_board('youth_contest_ep', d))
     P[('youth', 'camp.html')] = ('POSTECH Vision Camp', 'A camp where students design their own vision.',
         '<div class="prose"><p class="lead">The POSTECH Vision Camp gives students a few summer days to '
         'work out what they want their own future to look like.</p>' + REVIEW + '</div>')
@@ -1980,10 +2082,13 @@ def EN_PAGES(depth):
         '<div class="prose"><p class="lead">Programme details, eligibility and how to apply.</p>'
         '<p>Enquiries: <a href="mailto:tj-park@postech.ac.kr">tj-park@postech.ac.kr</a> · +82-54-279-0053~6</p>'
         '<p class="todo-note">※ Full details are on the Korean page. An English guide is being prepared.</p></div>')
-    P[('youth', 'faq.html')] = ('FAQ', 'Frequently asked questions.',
-        '<div class="prose"><p class="lead">Questions about the contest and the camp.</p>'
-        '<p>Enquiries: <a href="mailto:tj-park@postech.ac.kr">tj-park@postech.ac.kr</a> · +82-54-279-0053~6</p>'
-        '<p class="todo-note">※ Frequently asked questions are being prepared.</p></div>')
+    P[('youth', 'camp-reviews.html')] = ('Camp Reflections', 'What participants said about the camp.',
+        en_board('youth_camp_ep', d))
+    P[('youth', 'gallery.html')] = ('Gallery', 'Award ceremonies and the Vision Camp in pictures.',
+        en_board('youth_gallery', d))
+    P[('youth', 'forms.html')] = ('Forms & Downloads', 'Forms and notices from past contests and camps.',
+        forms_page('en'))
+    P[('youth', 'faq.html')] = ('FAQ', 'Frequently asked questions.', faq_page('en'))
     # ── Forums & Seminars
     P[('forum', 'index.html')] = ('Forums', 'Where experts and scholars debate the nation’s future.',
         en_board('forum', d))
@@ -2090,6 +2195,9 @@ BOARD_MAP = {
     'forum':           ('forum',    'index.html',   'forum/forums',              '포럼'),
     'seminar':         ('forum',    'seminar.html', 'forum/seminars',            '세미나'),
     'multimedia':      ('forum',    'multimedia.html', 'forum/media',            '멀티미디어'),
+    'youth_contest_ep':('youth',    'reviews.html', 'youth/reviews',             '수상 후기'),
+    'youth_camp_ep':   ('youth',    'camp-reviews.html', 'youth/camp-reviews',   '캠프 후기'),
+    'youth_gallery':   ('youth',    'gallery.html', 'youth/gallery',             '갤러리'),
     'news_notice':     ('news',     'index.html',   'news/notices',              '공지사항'),
     'news_press':      ('news',     'press.html',   'news/press-items',          '보도자료 및 신문기사'),
     'news_column':     ('news',     'column.html',  'news/columns',              'TJ미래전략 칼럼'),
@@ -2155,7 +2263,7 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
         bits.append(f'<span><b>{E(labels.get(k, k))}</b> {E(v)}</span>')
 
     cover = ''
-    if d.get('image_local'):
+    if d.get('image_local') and not is_placeholder(d['image_local']):
         cover = (f'<figure class="art-cover"><img src="{rel(depth)}{d["image_local"]}" '
                  f'alt="" loading="lazy"></figure>')
 
@@ -2291,6 +2399,15 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     # 원문으로 가는 길을 반드시 남긴다.
     # 공지에서 사이트 안의 다른 쪽을 가리키는 링크(예: 총서 발간 공지 →
     # 그 책의 연구총서 페이지). href 는 사이트 루트 기준으로 적는다.
+    # 갤러리 앨범 몇 개에는 스케치 영상이 딸려 있다. 유튜브를 페이지 안에
+    # 심으면 열자마자 유튜브가 방문자를 추적하므로, 눌러서 나가는 단추로 둔다.
+    vid = ''
+    if d.get('youtube'):
+        m = re.search(r'embed/([\w-]+)', d['youtube'])
+        if m:
+            vid = (f'\n  <p class="art-more"><a class="btn btn-g" '
+                   f'href="https://youtu.be/{m.group(1)}" target="_blank" '
+                   f'rel="noopener">영상 보기 →</a></p>')
     more = ''
     if d.get('more'):
         m = d['more']
@@ -2320,7 +2437,7 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
   </header>
   {cover}
   <div class="prose art-body">{''.join(secs)}</div>
-  {gal}{more}
+  {gal}{vid}{more}
   {files}
   {src}
   {navhtml}
