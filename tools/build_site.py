@@ -712,6 +712,25 @@ def gnb(depth, active=None, lang='ko'):
     return '<ul class="gnb">' + ''.join(li) + '</ul>'
 
 
+def search_form(depth, lang='ko'):
+    """머리말의 검색창.
+
+    자바스크립트가 없어도 동작한다 — 그냥 눌러 보내면 search.html 로 간다.
+    자바스크립트가 있으면 그 자리에서 후보를 떨군다(assets/js/main.js).
+    data-root 는 색인 파일과 결과 페이지를 찾아가는 기준 경로다.
+    """
+    ph = '검색어를 입력하세요' if lang == 'ko' else 'Search'
+    al = '사이트 검색' if lang == 'ko' else 'Search this site'
+    return (f'<form class="hd-search" role="search" '
+            f'action="{base(depth, lang)}search.html" '
+            f'data-root="{rel(depth)}" data-lang="{lang}">\n'
+            '      <svg viewBox="0 0 24 24" aria-hidden="true">'
+            '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>\n'
+            f'      <input type="search" name="q" placeholder="{E(ph)}" '
+            f'aria-label="{E(al)}" autocomplete="off">\n'
+            '    </form>')
+
+
 def header(depth, active=None, lang='ko', alt_href=None):
     """lang='en' 이면 라벨과 언어 토글이 영문 기준이 된다.
     alt_href 는 '같은 내용의 반대 언어 페이지' 경로 — 언어 토글이 홈이 아니라
@@ -749,6 +768,7 @@ def header(depth, active=None, lang='ko', alt_href=None):
       <span class="txt"><b>POSTECH</b><span>{E(brand_sub)}</span></span>
     </a>
     <nav aria-label="main">{gnb(depth, active, lang)}</nav>
+    {search_form(depth, lang)}
     <button class="burger" aria-label="menu"><span></span></button>
   </div>
 </header>'''
@@ -2044,7 +2064,7 @@ def build_sitemap_xml():
         dirnames[:] = [x for x in dirnames
                        if x not in ('.git', '.github', 'assets', 'data', 'tools')]
         for f in sorted(files):
-            if not f.endswith('.html') or f == '404.html':
+            if not f.endswith('.html') or f in SEARCH_SKIP_FILES:
                 continue
             rel_p = os.path.relpath(os.path.join(dirpath, f), ROOT)
             pages.append(rel_p.replace(os.sep, '/'))
@@ -2258,6 +2278,181 @@ def sync_main_cardnews():
             print(f'  카드뉴스 갱신: {path}')
 
 
+# ────────────────────────────────── 사이트 검색
+#
+# 정적 사이트라 서버에 물어볼 곳이 없다. 빌드할 때 만들어 둔 색인 파일
+# 하나(assets/search/index.json)를 브라우저가 처음 검색할 때 한 번 받고,
+# 그 뒤로는 캐시에서 꺼내 쓴다.
+#
+# 색인에는 제목·위치·본문 앞 300자만 담는다. 본문을 통째로 담으면 6.6MB 가
+# 되어 첫 검색이 눈에 띄게 느려진다. 앞 300자면 표제어·인명·행사명이 대부분
+# 걸리고, 받는 양은 오십분의 일이다.
+#
+# 한글은 형태소 분석 없이 부분 문자열로 찾는다. '포스코'가 '포스코와'에
+# 걸리므로 영어처럼 어간을 떼어낼 일이 없다. 띄어쓰기를 지운 판을 따로 두어
+# '박태준 리더십'과 '박태준리더십'이 같이 걸리게 한다.
+
+SEARCH_SNIPPET = 300
+SEARCH_SKIP_FILES = {'404.html', 'search.html'}
+TAG_RE = re.compile(r'<[^>]+>')
+MAIN_RE = re.compile(r'<main id="main"[^>]*>(.*?)</main>', re.S)
+H1_RE = re.compile(r'<h1[^>]*>(.*?)</h1>', re.S)
+CRUMB_RE = re.compile(r'<p class="crumb">(.*?)</p>', re.S)
+CRUMB_BIT_RE = re.compile(r'<(?:a|em)[^>]*>(.*?)</(?:a|em)>', re.S)
+DROP_RE = re.compile(r'<(script|style|nav|figcaption)\b.*?</\1>', re.S)
+
+
+def plain_text(h):
+    h = DROP_RE.sub(' ', h)
+    h = TAG_RE.sub(' ', h)
+    h = html.unescape(h)
+    return re.sub(r'\s+', ' ', h).strip()
+
+
+def build_search_index():
+    docs = []
+    for dirpath, dirnames, files in os.walk(ROOT):
+        dirnames[:] = [x for x in dirnames
+                       if x not in ('.git', '.github', 'assets', 'data', 'tools')]
+        for f in sorted(files):
+            if not f.endswith('.html') or f in SEARCH_SKIP_FILES:
+                continue
+            rel_p = os.path.relpath(os.path.join(dirpath, f), ROOT).replace(os.sep, '/')
+            h = open(os.path.join(dirpath, f), encoding='utf-8').read()
+            lang_en = 1 if rel_p.startswith('en/') else 0
+
+            m = H1_RE.search(h)
+            title = plain_text(m.group(1)) if m else ''
+
+            where = ''
+            m = CRUMB_RE.search(h)
+            if m:
+                bits = [plain_text(x) for x in CRUMB_BIT_RE.findall(m.group(1))]
+                bits = [b for b in bits[1:-1] if b]       # HOME 과 현재 쪽은 뺀다
+                where = ' · '.join(bits)
+
+            m = MAIN_RE.search(h)
+            body = m.group(1) if m else h
+            text = plain_text(body)[:SEARCH_SNIPPET]
+
+            if rel_p in ('index.html', 'en/index.html'):
+                title = ('POSTECH 박태준미래전략연구소' if not lang_en
+                         else 'POSTECH Tae-Joon Park Institute for Future Strategy')
+                where = ''
+            if not title:
+                continue
+            art = 1 if re.fullmatch(r'\d+\.html', f) else 0
+            docs.append([rel_p, title, where, text, lang_en, art])
+
+    docs.sort(key=lambda d: d[0])
+    out = os.path.join(ROOT, 'assets', 'search')
+    os.makedirs(out, exist_ok=True)
+    payload = {'v': 1, 'n': len(docs), 'd': docs}
+    txt = json.dumps(payload, ensure_ascii=False, separators=(',', ':'))
+    open(os.path.join(out, 'index.json'), 'w', encoding='utf-8').write(txt)
+    print(f'검색 색인 {len(docs)}개 쪽 ({len(txt.encode()) / 1024:.0f} KB)')
+
+
+SEARCH_COPY = {
+    'ko': {
+        'title': '검색',
+        'desc': '연구소 홈페이지 안의 글과 쪽을 찾습니다.',
+        'lead': '연구소 홈페이지 안의 글과 쪽을 찾습니다.',
+        'hint': '제목과 본문 앞부분에서 찾습니다. 두 낱말을 띄어 쓰면 둘 다 든 쪽만 나옵니다.',
+        'more': '더 보기',
+    },
+    'en': {
+        'title': 'Search',
+        'desc': 'Find pages and articles on this site.',
+        'lead': 'Find pages and articles on this site.',
+        'hint': 'Searches titles and the opening of each page. With two words, '
+                'separated by a space, both must appear.',
+        'more': 'Show more',
+    },
+}
+
+
+def search_page(lang):
+    """검색 결과 쪽. 목록은 자바스크립트가 채운다.
+
+    LNB 가 붙지 않는 유일한 하위 쪽이라 shell() 을 쓰지 않는다.
+    """
+    depth = 0 if lang == 'ko' else 1
+    r = rel(depth)
+    c = SEARCH_COPY[lang]
+    site = ('POSTECH 박태준미래전략연구소' if lang == 'ko'
+            else 'POSTECH Tae-Joon Park Institute')
+    skip = '본문 바로가기' if lang == 'ko' else 'Skip to content'
+    canonical = 'search.html' if lang == 'ko' else 'en/search.html'
+    alt_href = (r + 'en/search.html') if lang == 'ko' else '../search.html'
+    head = (f'<title>{E(c["title"])} — {E(site)}</title>\n'
+            f'<meta name="description" content="{E(c["desc"])}">\n'
+            '<meta name="robots" content="noindex">\n'
+            f'<link rel="canonical" href="https://tjpark-research.github.io/{canonical}">')
+    return (
+        '<!DOCTYPE html>\n'
+        f'<html lang="{lang}">\n'
+        '<head>\n'
+        '<meta charset="utf-8">\n'
+        '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
+        f'{head}\n'
+        f'<link rel="stylesheet" href="{r}assets/fonts/pretendard-dynamic-subset.css">\n'
+        '<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600&display=swap" rel="stylesheet">\n'
+        f'<link rel="stylesheet" href="{r}assets/css/style.css">\n'
+        '</head>\n'
+        '<body>\n'
+        f'<a class="skip" href="#main">{E(skip)}</a>\n'
+        f'{header(depth, None, lang, alt_href)}\n'
+        '<div class="sub-hero">\n'
+        '  <div class="wrap">\n'
+        '    <p class="eyebrow">SEARCH</p>\n'
+        f'    <h1>{E(c["title"])}</h1>\n'
+        '  </div>\n'
+        '</div>\n'
+        '<div class="sub-wrap wrap sr-wrap">\n'
+        '  <main id="main" class="sub-main sr-main">\n'
+        f'    <div class="prose"><p class="lead">{E(c["lead"])}</p>\n'
+        f'    <p class="sr-hint">{E(c["hint"])}</p></div>\n'
+        f'    <form class="sr-form" role="search" action="{base(depth, lang)}search.html"\n'
+        f'          data-root="{r}" data-lang="{lang}">\n'
+        '      <input type="search" name="q" id="sr-q" autocomplete="off"\n'
+        f'             aria-label="{E(c["title"])}" placeholder="{E(c["title"])}">\n'
+        f'      <button type="submit" class="btn btn-p">{E(c["title"])}</button>\n'
+        '    </form>\n'
+        '    <p class="sr-count" id="sr-count" aria-live="polite"></p>\n'
+        '    <ul class="sr-list" id="sr-results"></ul>\n'
+        '    <p class="sr-morewrap"><button type="button" class="btn btn-g" id="sr-more"\n'
+        f'       hidden>{E(c["more"])}</button></p>\n'
+        '  </main>\n'
+        '</div>\n'
+        f'{footer(depth, lang)}\n'
+        f'<script src="{r}assets/js/main.js"></script>\n'
+        '</body>\n'
+        '</html>\n')
+
+
+def build_search_pages():
+    open(os.path.join(ROOT, 'search.html'), 'w',
+         encoding='utf-8').write(search_page('ko'))
+    os.makedirs(os.path.join(ROOT, 'en'), exist_ok=True)
+    open(os.path.join(ROOT, 'en', 'search.html'), 'w',
+         encoding='utf-8').write(search_page('en'))
+
+
+def sync_main_search():
+    """메인 페이지의 검색창도 다른 쪽들과 같은 것으로 맞춘다."""
+    for path, depth, lang in [('index.html', 0, 'ko'),
+                              (os.path.join('en', 'index.html'), 1, 'en')]:
+        p = os.path.join(ROOT, path)
+        s = open(p, encoding='utf-8').read()
+        new = search_form(depth, lang)
+        s2, n = re.subn(r'<form class="hd-search".*?</form>', new, s, flags=re.S)
+        if n != 1:
+            raise SystemExit(f'{path}: 검색창 블록을 하나만 찾지 못했습니다 ({n}개)')
+        if s2 != s:
+            open(p, 'w', encoding='utf-8').write(s2)
+
+
 def main():
     # ── 한국어: /<section>/<file>   (depth 1)
     ko_spec = PAGES(1)
@@ -2299,6 +2494,8 @@ def main():
     sync_main_nav()
     sync_main_news()
     sync_main_cardnews()
+    sync_main_search()
+    build_search_pages()
     build_sitemap_xml()
 
 
@@ -3857,3 +4054,4 @@ def bio_page(depth):
 if __name__ == '__main__':
     main()
     build_details()
+    build_search_index()

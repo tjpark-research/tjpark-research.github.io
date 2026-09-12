@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Search — POSTECH Tae-Joon Park Institute</title>
+<meta name="description" content="Find pages and articles on this site.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://tjpark-research.github.io/en/search.html">
+<link rel="stylesheet" href="../assets/fonts/pretendard-dynamic-subset.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="util">
+  <div class="wrap">
+    <select aria-label="Related Sites" onchange="if(this.value)window.open(this.value)">
+      <option value="">Related Sites</option><option value="https://www.postech.ac.kr/eng/">POSTECH</option><option value="https://www.posco.co.kr/">POSCO</option><option value="https://www.postf.org/">POSCO TJ Park Foundation</option><option value="http://museum.posco.co.kr/">POSCO Museum</option>
+    </select>
+    <span class="lang"><a href="../search.html">KOR</a><span>|</span><a href="../en/index.html" class="on">ENG</a></span>
+  </div>
+</div>
+<header class="hd">
+  <div class="wrap">
+    <a class="brand" href="../en/index.html">
+      <span class="mark">tjpi</span>
+      <span class="txt"><b>POSTECH</b><span>Tae-Joon Park Institute</span></span>
+    </a>
+    <nav aria-label="main"><ul class="gnb"><li><a href="../en/research/index.html">Future Strategy</a><div class="mega"><a href="../en/research/index.html">Background</a><a href="../en/research/longterm.html">Long-term Agenda</a><a href="../en/research/themes.html">Annual Research Themes</a><a href="../en/research/books.html">Research Series</a><a href="../en/research/reports.html">Research Reports</a><a href="../en/research/contest.html">Student Essay Contest</a></div></li><li><a href="../en/tjpark-research/index.html">TJ Park Research</a><div class="mega"><a href="../en/tjpark-research/index.html">Background</a><a href="../en/tjpark-research/themes.html">Fields of Research</a><a href="../en/tjpark-research/books.html">Research Series</a><a href="../en/tjpark-research/reports.html">Research Reports</a></div></li><li><a href="../en/youth/index.html">Youth Programmes</a><div class="mega"><a href="../en/youth/index.html">Student Essay Contest</a><a href="../en/youth/winners.html">Award-winning Essays</a><a href="../en/youth/reviews.html">In Their Words</a><a href="../en/youth/camp.html">POSTECH Vision Camp</a><a href="../en/youth/camp-guide.html">Camp Guide</a><a href="../en/youth/camp-reviews.html">Camp Reflections</a><a href="../en/youth/gallery.html">Gallery</a><a href="../en/youth/forms.html">Forms &amp; Downloads</a><a href="../en/youth/faq.html">FAQ</a></div></li><li><a href="../en/forum/index.html">Forums</a><div class="mega"><a href="../en/forum/index.html">Forums</a><a href="../en/forum/seminar.html">Seminars</a><a href="../en/forum/multimedia.html">Multimedia</a></div></li><li><a href="../en/news/index.html">News</a><div class="mega"><a href="../en/news/index.html">Notices</a><a href="../en/news/press.html">Press &amp; News Articles</a><a href="../en/news/column.html">TJ Columns</a></div></li><li><a href="../en/about/index.html">About</a><div class="mega"><a href="../en/about/index.html">Greetings</a><a href="../en/about/purpose.html">Founding Purpose</a><a href="../en/about/mission.html">Mission</a><a href="../en/about/history.html">History</a><a href="../en/about/logo.html">Our Logo</a><a href="../en/about/projects.html">Major Programmes</a><a href="../en/about/people.html">People</a><a href="../en/about/location.html">Location</a><a href="../en/about/brochure.html">Brochure</a><a href="https://vision.postech.ac.kr/" target="_blank" rel="noopener" class="ext">Giving to POSTECH</a></div></li><li><a href="../en/life/index.html">The Life of TJ Park</a><div class="mega"><a href="../en/life/index.html">Biography</a><a href="../en/life/chronology.html">Chronology</a><a href="../en/life/statue.html">TJ Park Statue</a><a href="../en/life/who.html">Who is TJ Park</a><a href="../en/life/steel.html">Steel Never Stops</a><a href="../en/life/meet.html">The Great Encounter</a><a href="../en/life/video.html">Video</a><a href="../en/life/media.html">Press Coverage</a></div></li></ul></nav>
+    <form class="hd-search" role="search" action="../en/search.html" data-root="../" data-lang="en">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <input type="search" name="q" placeholder="Search" aria-label="Search this site" autocomplete="off">
+    </form>
+    <button class="burger" aria-label="menu"><span></span></button>
+  </div>
+</header>
+<div class="sub-hero">
+  <div class="wrap">
+    <p class="eyebrow">SEARCH</p>
+    <h1>Search</h1>
+  </div>
+</div>
+<div class="sub-wrap wrap sr-wrap">
+  <main id="main" class="sub-main sr-main">
+    <div class="prose"><p class="lead">Find pages and articles on this site.</p>
+    <p class="sr-hint">Searches titles and the opening of each page. With two words, separated by a space, both must appear.</p></div>
+    <form class="sr-form" role="search" action="../en/search.html"
+          data-root="../" data-lang="en">
+      <input type="search" name="q" id="sr-q" autocomplete="off"
+             aria-label="Search" placeholder="Search">
+      <button type="submit" class="btn btn-p">Search</button>
+    </form>
+    <p class="sr-count" id="sr-count" aria-live="polite"></p>
+    <ul class="sr-list" id="sr-results"></ul>
+    <p class="sr-morewrap"><button type="button" class="btn btn-g" id="sr-more"
+       hidden>Show more</button></p>
+  </main>
+</div>
+<footer class="ft">
+  <div class="wrap">
+    <div class="ft-top">
+      <div class="brand"><span class="mark">tjpi</span>
+        <span class="txt"><b>POSTECH</b><span>Tae-Joon Park Institute</span></span></div>
+      <ul class="ft-links"><li><a href="../en/research/index.html">Future Strategy</a></li><li><a href="../en/tjpark-research/index.html">TJ Park Research</a></li><li><a href="../en/youth/index.html">Youth Programmes</a></li><li><a href="../en/forum/index.html">Forums</a></li><li><a href="../en/news/index.html">News</a></li><li><a href="../en/about/index.html">About</a></li><li><a href="../en/life/index.html">The Life of TJ Park</a></li>
+        <li><a href="https://www.postech.ac.kr/kor/usage-guide/privacy_policy.do" target="_blank" rel="noopener">Privacy Policy</a></li>
+      </ul>
+    </div>
+    <div class="ft-bot">
+      <address>
+        6F, Tae-Joon Park Digital Library, POSTECH, 77 Cheongam-ro, Nam-gu, Pohang, Gyeongbuk, Republic of Korea<br>Tel +82-54-279-0053~6 &nbsp;·&nbsp; Fax +82-54-279-0059 &nbsp;·&nbsp; E-mail tj-park@postech.ac.kr
+        <span class="cr" style="display:block;margin-top:14px">© POSTECH Tae-Joon Park Institute for Future Strategy. All rights reserved.</span>
+      </address>
+      <ul class="ft-rel"><li><a href="https://www.postech.ac.kr/eng/" target="_blank" rel="noopener">POSTECH</a></li><li><a href="https://www.posco.co.kr/" target="_blank" rel="noopener">POSCO</a></li><li><a href="https://www.postf.org/" target="_blank" rel="noopener">POSCO TJ Park Foundation</a></li><li><a href="http://museum.posco.co.kr/" target="_blank" rel="noopener">POSCO Museum</a></li></ul>
+    </div>
+  </div>
+</footer>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

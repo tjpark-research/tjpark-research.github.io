@@ -90,9 +90,27 @@
   var burger = document.querySelector('.burger');
   var gnb = document.querySelector('.gnb');
   if (burger && gnb) {
+    // 좁은 화면에서는 머리말의 검색창이 숨는다. 메뉴를 열 때 그 검색창을
+    // 통째로 메뉴 안으로 옮겨 넣고, 닫을 때 제자리로 돌려놓는다.
+    var hs = document.querySelector('.hd-search');
+    var hsHome = hs && hs.parentNode, hsNext = hs && hs.nextSibling, hsLi = null;
+    function stow() {
+      if (!hs || hsLi) return;
+      hsLi = document.createElement('li');
+      hsLi.className = 'gnb-search';
+      hsLi.appendChild(hs);
+      gnb.insertBefore(hsLi, gnb.firstChild);
+    }
+    function unstow() {
+      if (!hsLi) return;
+      hsHome.insertBefore(hs, hsNext);
+      hsLi.parentNode.removeChild(hsLi);
+      hsLi = null;
+    }
     burger.addEventListener('click', function () {
       var open = gnb.style.display === 'flex';
       if (open) {
+        unstow();
         gnb.style.display = '';
       } else {
         gnb.style.cssText =
@@ -102,6 +120,7 @@
           li.style.padding = '12px 0';
           li.style.borderBottom = '1px solid var(--line)';
         });
+        stow();
       }
     });
   }
@@ -200,5 +219,199 @@
       });
     }, { threshold: 0.12 });
     targets.forEach(function (el) { io.observe(el); });
+  }
+})();
+
+/* ── 사이트 검색 ──────────────────────────────────────────────
+   서버가 없으므로 빌드 때 만들어 둔 색인 하나를 받아 브라우저에서 찾는다.
+   색인은 처음 검색할 때 한 번만 받고(assets/search/index.json), 그 뒤로는
+   브라우저 캐시에서 나온다. 한글은 부분 문자열로 찾는다 — '포스코'가
+   '포스코와'에 걸리므로 어간을 떼어낼 일이 없다. */
+(function () {
+  var hd = document.querySelector('.hd-search');
+  var page = document.getElementById('sr-results');
+  var conf = hd || document.querySelector('.sr-form');
+  if (!conf) return;
+  var root = conf.getAttribute('data-root') || '';
+  var lang = conf.getAttribute('data-lang') || 'ko';
+  var ko = lang !== 'en';
+  var idx = null, pending = null;
+
+  function load() {
+    if (idx) return Promise.resolve(idx);
+    if (!pending) {
+      pending = fetch(root + 'assets/search/index.json')
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          // 영문 쪽에서는 영문 페이지와, 두 언어가 함께 쓰는 개별 글을 찾는다.
+          idx = j.d.filter(function (d) {
+            return ko ? d[4] === 0 : (d[4] === 1 || d[5] === 1);
+          }).map(function (d) {
+            var hay = (d[1] + ' ' + d[2] + ' ' + d[3]).toLowerCase();
+            return {
+              u: d[0], t: d[1], w: d[2], x: d[3],
+              h: hay, hs: hay.replace(/\s+/g, ''),
+              ht: d[1].toLowerCase()
+            };
+          });
+          return idx;
+        })
+        .catch(function () { idx = []; return idx; });
+    }
+    return pending;
+  }
+
+  function words(q) {
+    return q.toLowerCase().split(/\s+/).filter(Boolean);
+  }
+
+  function search(q) {
+    var terms = words(q);
+    if (!terms.length) return [];
+    var out = [];
+    for (var i = 0; i < idx.length; i++) {
+      var d = idx[i], sc = 0, ok = true;
+      for (var j = 0; j < terms.length; j++) {
+        var t = terms[j], s = 0;
+        if (d.ht.indexOf(t) === 0) s = 120;
+        else if (d.ht.indexOf(t) >= 0) s = 100;
+        else if (d.h.indexOf(t) >= 0) s = 30;
+        else if (d.hs.indexOf(t.replace(/\s+/g, '')) >= 0) s = 20;
+        if (!s) { ok = false; break; }
+        sc += s;
+      }
+      if (ok) out.push([sc, d]);
+    }
+    out.sort(function (a, b) {
+      return b[0] - a[0] || a[1].t.length - b[1].t.length;
+    });
+    return out.map(function (o) { return o[1]; });
+  }
+
+  var ENT = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ENT[c]; }); }
+
+  function hi(s, terms) {
+    var out = esc(s);
+    terms.forEach(function (t) {
+      var re = new RegExp(t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      out = out.replace(re, function (m) { return '\u0001' + m + '\u0002'; });
+    });
+    return out.split('\u0001').join('<mark>').split('\u0002').join('</mark>');
+  }
+
+  function snippet(d, terms) {
+    var low = d.x.toLowerCase(), at = -1;
+    for (var i = 0; i < terms.length && at < 0; i++) at = low.indexOf(terms[i]);
+    if (at < 0) return hi(d.x.slice(0, 150), terms) + (d.x.length > 150 ? '…' : '');
+    var from = Math.max(0, at - 50);
+    var cut = d.x.slice(from, from + 160);
+    return (from ? '…' : '') + hi(cut, terms) + (from + 160 < d.x.length ? '…' : '');
+  }
+
+  function row(d, terms, withText) {
+    return '<a href="' + root + d.u + '">'
+      + '<span class="sr-t">' + hi(d.t, terms) + '</span>'
+      + (d.w ? '<span class="sr-w">' + esc(d.w) + '</span>' : '')
+      + (withText && d.x ? '<span class="sr-x">' + snippet(d, terms) + '</span>' : '')
+      + '</a>';
+  }
+
+  /* 머리말 검색창 — 치는 대로 후보를 떨군다 */
+  if (hd) {
+    var inp = hd.querySelector('input');
+    var drop = document.createElement('div');
+    drop.className = 'sr-drop';
+    drop.hidden = true;
+    hd.appendChild(drop);
+    var timer;
+    function suggest() {
+      var q = inp.value.trim();
+      if (!q) { drop.hidden = true; return; }
+      load().then(function () {
+        if (inp.value.trim() !== q) return;
+        var r = search(q), terms = words(q);
+        if (!r.length) {
+          drop.innerHTML = '<p class="sr-no">' + (ko ? '결과가 없습니다' : 'No results') + '</p>';
+        } else {
+          var all = '';
+          if (r.length > 8) {
+            all = '<a class="sr-all" href="' + root + (ko ? '' : 'en/') + 'search.html?q='
+              + encodeURIComponent(q) + '">'
+              + (ko ? r.length + '건 모두 보기' : 'All ' + r.length + ' results') + '</a>';
+          }
+          drop.innerHTML = r.slice(0, 8).map(function (d) {
+            return row(d, terms, false);
+          }).join('') + all;
+        }
+        drop.hidden = false;
+      });
+    }
+    // 좁은 화면에서는 입력칸이 돋보기 뒤로 접힌다. 아무 데나 눌러도 펼치게.
+    hd.addEventListener('click', function () { inp.focus(); });
+    inp.addEventListener('focus', load);
+    inp.addEventListener('input', function () {
+      clearTimeout(timer);
+      timer = setTimeout(suggest, 120);
+    });
+    inp.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { drop.hidden = true; inp.blur(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (!hd.contains(e.target)) drop.hidden = true;
+    });
+  }
+
+  /* 검색 결과 쪽 */
+  if (page) {
+    var form = document.querySelector('.sr-form');
+    var box = document.getElementById('sr-q');
+    var cnt = document.getElementById('sr-count');
+    var more = document.getElementById('sr-more');
+    var res = [], shown = 0, terms = [], SIZE = 20;
+
+    function render() {
+      page.innerHTML = res.slice(0, shown).map(function (d) {
+        return '<li>' + row(d, terms, true) + '</li>';
+      }).join('');
+      more.hidden = shown >= res.length;
+    }
+
+    function run(q) {
+      q = (q || '').trim();
+      if (!q) {
+        cnt.textContent = ko ? '찾을 말을 넣어 주세요.' : 'Type something to search for.';
+        page.innerHTML = ''; more.hidden = true;
+        return;
+      }
+      load().then(function () {
+        terms = words(q);
+        res = search(q);
+        shown = Math.min(SIZE, res.length);
+        cnt.textContent = res.length
+          ? (ko ? '‘' + q + '’ — ' + res.length + '건' : '“' + q + '” — ' + res.length + ' results')
+          : (ko ? '‘' + q + '’ 이 든 쪽이 없습니다.' : 'Nothing matched “' + q + '”.');
+        render();
+      });
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var q = box.value.trim();
+      if (history.replaceState) {
+        history.replaceState(null, '', location.pathname + (q ? '?q=' + encodeURIComponent(q) : ''));
+      }
+      run(q);
+    });
+    more.addEventListener('click', function () {
+      shown = Math.min(shown + SIZE, res.length);
+      render();
+    });
+
+    var q0 = '';
+    var m = location.search.match(/[?&]q=([^&]*)/);
+    if (m) { try { q0 = decodeURIComponent(m[1].replace(/\+/g, ' ')); } catch (err) { q0 = ''; } }
+    box.value = q0;
+    run(q0);
   }
 })();

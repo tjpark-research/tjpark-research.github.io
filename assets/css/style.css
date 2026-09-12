@@ -137,7 +137,8 @@ ul,ol{margin:0;padding:0;list-style:none}
 .mega a:hover{color:var(--crimson);background:var(--paper-2)}
 
 .hd-search{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);padding-bottom:5px;flex:none}
-.hd-search input{border:0;outline:0;font-family:var(--sans);font-size:13px;width:120px;background:transparent}
+.hd-search input{border:0;outline:0;font-family:var(--sans);font-size:13px;width:120px;
+  background:transparent;transition:width .2s ease}
 .hd-search svg{width:14px;height:14px;stroke:var(--text-3);fill:none;stroke-width:2}
 
 .burger{display:none;width:40px;height:40px;place-items:center}
@@ -361,15 +362,63 @@ ul,ol{margin:0;padding:0;list-style:none}
 .ft-rel a:hover{color:var(--gold)}
 
 /* =========================================================
+   Search
+   ========================================================= */
+.hd-search{position:relative}
+.sr-drop{position:absolute;top:calc(100% + 9px);right:0;width:420px;max-width:78vw;
+  background:var(--paper);border:1px solid var(--line);
+  box-shadow:0 12px 34px rgba(0,0,0,.10);z-index:120;max-height:62vh;overflow:auto}
+.sr-drop a{display:block;padding:11px 16px;border-bottom:1px solid var(--line);
+  font-size:13.5px;line-height:1.5}
+.sr-drop a:last-child{border-bottom:0}
+.sr-drop a:hover{background:var(--paper-2)}
+.sr-drop .sr-t{display:block;color:var(--text-2)}
+.sr-drop .sr-w{display:block;margin-top:3px;font-size:11.5px;color:var(--muted)}
+.sr-drop .sr-all{text-align:center;color:var(--crimson);font-size:12.5px;background:var(--paper-2)}
+.sr-no{padding:14px 16px;font-size:13px;color:var(--muted)}
+mark{background:rgba(158,27,50,.13);color:inherit;padding:0 1px;border-radius:2px}
+
+.sr-wrap{display:block}
+.sr-main{max-width:840px;margin:0 auto}
+.sr-hint{font-size:13px;color:var(--text-3)}
+.sr-form{display:flex;gap:10px;margin:24px 0 6px}
+.sr-form input{flex:1;min-width:0;border:1px solid var(--line);padding:12px 14px;
+  font-family:var(--sans);font-size:15px;outline:0;background:var(--paper)}
+.sr-form input:focus{border-color:var(--crimson)}
+.sr-count{font-size:13px;color:var(--text-3);margin:16px 0 2px}
+.sr-list li{border-bottom:1px solid var(--line)}
+.sr-list a{display:block;padding:17px 0}
+.sr-list .sr-t{display:block;font-size:16px;color:var(--text-2);line-height:1.55}
+.sr-list a:hover .sr-t{color:var(--crimson)}
+.sr-list .sr-w{display:block;margin-top:5px;font-size:11.5px;letter-spacing:.03em;
+  color:var(--bronze)}
+.sr-list .sr-x{display:block;margin-top:7px;font-size:13px;color:var(--text-3);line-height:1.75}
+.sr-morewrap{margin-top:26px;text-align:center}
+
+/* 좁은 화면에서는 머리말 검색창이 모바일 메뉴 안으로 들어간다(main.js) */
+.gnb-search{padding:2px 0 14px !important;border-bottom:1px solid var(--line)}
+.gnb-search .hd-search{display:flex;flex-wrap:wrap;width:100%}
+.gnb-search .hd-search input{flex:1 1 auto;width:auto;text-align:left;padding:2px 0}
+.gnb-search .sr-drop{position:static;flex:0 0 100%;width:100%;max-width:none;
+  box-shadow:none;margin-top:12px;max-height:46vh}
+
+/* =========================================================
    Responsive
    ========================================================= */
 @media (max-width:1400px){
   .gnb{gap:22px}
-  .hd-search{display:none}
+  .hd-search input{width:96px}
 }
 @media (max-width:1240px){
   .gnb{gap:16px}
   .gnb>li>a{font-size:14px}
+  /* 자리가 좁아지면 돋보기만 남기고, 누르면 펼친다(main.js 가 초점을 준다).
+     펼친 칸은 메뉴 위로 겹쳐 놓는다 — 흐름에 끼워 넣으면 머리말이 넘친다. */
+  .hd-search{border-bottom-color:transparent;cursor:text}
+  .hd-search input{width:0;padding:0}
+  .hd-search:focus-within input{position:absolute;right:0;top:-6px;width:210px;
+    z-index:130;background:var(--paper);padding:6px 8px;
+    border-bottom:1px solid var(--line);transition:none}
 }
 @media (max-width:1080px){
   .hero-grid{grid-template-columns:1fr}
