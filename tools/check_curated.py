@@ -151,6 +151,36 @@ def check_cardnews(data):
         bad(w, f'more 가 가리키는 페이지가 없습니다: {m["href"]}')
 
 
+VID_RE = re.compile(r'^[\w-]{11}$')
+
+
+def check_article_videos(data):
+    """article_videos.json — 게시판 → 글 번호 → 영상 목록."""
+    for board, arts in data.items():
+        if board.startswith('_'):
+            continue
+        if not isinstance(arts, dict):
+            bad(f'article_videos.json / {board}', '글 번호 → 영상 목록 꼴이어야 합니다')
+            continue
+        for idx, vids in arts.items():
+            where = f'article_videos.json / {board} / {idx}'
+            if not idx.isdigit():
+                bad(where, '글 번호는 숫자여야 합니다')
+            if not isinstance(vids, list) or not vids:
+                bad(where, '영상 목록이 비어 있습니다')
+                continue
+            for v in vids:
+                if not isinstance(v, dict):
+                    bad(where, '영상 하나는 { } 여야 합니다')
+                    continue
+                yt = (v.get('yt') or '').strip()
+                if not VID_RE.match(yt):
+                    bad(where, f'유튜브 영상 번호가 이상합니다: {yt!r}',
+                        '주소 youtu.be/XXXXXXXXXXX 의 11자리만 적습니다')
+                if not (v.get('title') or '').strip():
+                    bad(where, '영상 제목이 비어 있습니다')
+
+
 def main():
     data = load('cardnews.json')
     if isinstance(data, dict):
@@ -168,6 +198,11 @@ def main():
             bad(name, '맨 바깥이 [ ] 목록이어야 합니다')
             continue
         fn(data)
+    data = load('article_videos.json')
+    if isinstance(data, dict):
+        check_article_videos(data)
+    elif data not in (None, False):
+        bad('article_videos.json', '맨 바깥이 { } 여야 합니다')
     for name in ('media_links.json', 'videos.json'):
         load(name)
 

@@ -2886,6 +2886,34 @@ def rewrite_legacy_urls(text, depth):
     return LEGACY_URL.sub(sub, text)
 
 
+# ────────────────────────────────── 글에 딸린 유튜브 영상
+#
+# 연구소 유튜브 채널(@포스텍박태준미래전략)에는 구 홈페이지에 실려 있던
+# 포럼·좌담회 영상과, 카드뉴스로만 남아 있던 칼럼의 영상판이 그대로 있다.
+# 구 CMS 는 재생기를 본문 밖 별도 칸에 넣어 두어 본문을 긁어 올 때 함께
+# 딸려 오지 않았다. data/curated/article_videos.json 에 게시판·글 번호로
+# 적어 두면 그 글 아래에 영상 목록이 붙는다.
+#
+# 유튜브를 페이지 안에 심지 않는다. 열자마자 유튜브가 방문자를 추적하기
+# 때문이다. 눌러서 나가는 링크로만 둔다(영상 페이지와 같은 원칙).
+
+VIDEO_NOTES = {
+    'news_column': '이 칼럼과 같은 내용을 영상으로도 만들었습니다.',
+}
+VIDEO_NOTE_DEFAULT = '연구소 유튜브 채널에 올라 있는 영상입니다.'
+
+
+def article_videos():
+    p = os.path.join(CURATED, 'article_videos.json')
+    if not os.path.exists(p):
+        return {}
+    raw = json.load(open(p, encoding='utf-8'))
+    return {k: v for k, v in raw.items() if not k.startswith('_')}
+
+
+ARTICLE_VIDEOS = article_videos()
+
+
 def detail_body(d, depth, list_href, list_label, prev_item, next_item):
     """개별 글 본문. 원문 그대로 옮기되 출처를 밝힌다."""
     title = d.get('title') or d.get('list_title') or ''
@@ -3056,6 +3084,19 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
         more = (f'\n  <p class="art-more"><a class="btn btn-g" '
                 f'href="{rel(depth)}{E(m["href"])}">{E(m.get("text") or "자세히 보기")} →</a></p>')
 
+    vlist = ''
+    if d.get('videos'):
+        li = []
+        for v in d['videos']:
+            dur = f'<span class="vl-d">{E(v["dur"])}</span>' if v.get('dur') else ''
+            li.append(f'<li><a href="https://youtu.be/{E(v["yt"])}" target="_blank" '
+                      f'rel="noopener"><span class="vl-t">{E(v["title"])}</span>'
+                      f'{dur}</a></li>')
+        note = (f'<p class="vl-note">{E(d["videos_note"])}</p>'
+                if d.get('videos_note') else '')
+        vlist = ('\n  <div class="art-vids"><h2>영상</h2><ul class="vl">'
+                 + ''.join(li) + '</ul>' + note + '</div>')
+
     src = ''
     if d.get('book_note'):
         src = f'<div class="art-src"><p>{E(d["book_note"])}</p></div>'
@@ -3079,7 +3120,7 @@ def detail_body(d, depth, list_href, list_label, prev_item, next_item):
   </header>
   {cover}
   <div class="prose art-body">{''.join(secs)}</div>
-  {gal}{vid}{more}
+  {gal}{vid}{more}{vlist}
   {files}
   {src}
   {navhtml}
@@ -3100,7 +3141,11 @@ def build_details():
         os.makedirs(outdir, exist_ok=True)
         depth = len(ddir.split('/'))            # 예: research/books → 2
         list_href = f'{rel(depth)}{section[3]}/{lfile}'
+        vids = ARTICLE_VIDEOS.get(board, {})
         for i, d in enumerate(items):
+            if vids.get(str(d.get('idx'))):
+                d['videos'] = vids[str(d['idx'])]
+                d['videos_note'] = VIDEO_NOTES.get(board, VIDEO_NOTE_DEFAULT)
             title = d.get('title') or d.get('list_title') or ''
             prev_item = next_item = None
             if i > 0:
