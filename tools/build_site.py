@@ -330,6 +330,19 @@ def notice_title(idx, title):
     return t
 
 
+def item_date(x):
+    """정렬에 쓸 날짜.
+
+    같은 글이라도 목록 쪽 기록에는 date 에, 개별 글 쪽 기록에는 meta.posted
+    에 날짜가 들어 있다. 한쪽만 보고 정렬하면 목록 차례와 개별 글의
+    '이전 글 / 다음 글' 차례가 어긋난다(2013년 공지의 다음 글이 2023년
+    공지가 되는 식이다).
+    """
+    m = x.get('meta') or {}
+    return (x.get('date') or m.get('published') or m.get('posted')
+            or m.get('date') or '')
+
+
 def normalize_notice(items):
     """제목을 손보고, 등록일 내림차순으로 다시 세운다.
 
@@ -353,7 +366,7 @@ def normalize_notice(items):
             if ps and ps[0].replace(' ', '') == t:
                 secs = [dict(secs[0], paragraphs=ps[1:])] + secs[1:]
                 y['sections'] = [sec for sec in secs if sec['paragraphs']]
-    out.sort(key=lambda z: (z.get('date') or '', str(z.get('idx') or '').zfill(8)),
+    out.sort(key=lambda z: (item_date(z), str(z.get('idx') or '').zfill(8)),
              reverse=True)
     return out
 
@@ -419,7 +432,7 @@ def normalize_media(items):
         if cur is None or size > cur[0]:
             best[key] = (size, it)
     out = [v[1] for v in best.values()]
-    out.sort(key=lambda x: (x.get('date') or '', int(x.get('idx') or 0)), reverse=True)
+    out.sort(key=lambda x: (item_date(x), int(x.get('idx') or 0)), reverse=True)
     return out
 
 
@@ -597,6 +610,27 @@ def load(name):
         src = load_raw('tj_media', kind)
         moved = [x for x in src if str(x.get('idx')) in MOVED_TO_PRESS]
         data = normalize_media(data + moved + media_link_items(kind, 'press'))
+    if name.startswith('detail_'):
+        # 개별 글의 '이전 글 / 다음 글' 은 목록에 보이는 차례를 그대로 따라야
+        # 한다. 목록 쪽 기록과 개별 글 쪽 기록에 적힌 날짜가 서로 다른 글이
+        # 몇 건 있어(등록일과 행사일이 뒤섞여 있다) 따로 정렬하면 어긋난다.
+        # 차례는 목록 한 곳에서만 정한다.
+        if os.path.exists(os.path.join(LEGACY, 'board_' + board + '.json')):
+            # 목록의 링크 idx 와 개별 글의 idx 가 다른 글이 몇 건 있어
+            # (render_board 가 제목으로 이어 붙인다) 같은 규칙으로 맞춘다.
+            have = {str(d.get('idx')) for d in data}
+            by_title = {}
+            for d in data:
+                by_title.setdefault((d.get('title') or '').strip(),
+                                    str(d.get('idx')))
+            order = {}
+            for i, x in enumerate(load('board_' + board) or []):
+                k = str(x.get('idx'))
+                if k not in have:
+                    k = by_title.get((x.get('title') or '').strip())
+                if k is not None and k not in order:
+                    order[k] = i
+            data.sort(key=lambda x: order.get(str(x.get('idx')), len(order)))
     return data
 
 
