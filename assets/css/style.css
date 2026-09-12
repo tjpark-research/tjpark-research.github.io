@@ -725,6 +725,19 @@ ol.cr{list-style:none;margin:22px 0 0;padding:0 0 0 4px;
   border:1px solid var(--line)}
 .cr-p figcaption{margin-top:8px;font-size:12.5px;line-height:1.65;
   color:var(--text-3);font-weight:var(--w-body)}
+/* 영문 연도별 연구주제: 묶음 제목(h3) 아래 '주제 + 설명'이 줄줄이 이어진다.
+   주제와 설명이 붙어 있으면 어디서 끊기는지 보이지 않는다. */
+.era-pane h3{
+  margin:38px 0 4px; font-size:13px; font-weight:700; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--bronze);
+}
+.era-pane h3:first-of-type{margin-top:24px}
+.era-pane h3 + p{border-top:1px solid var(--line); padding-top:18px}
+.era-pane p b{display:block; margin-bottom:6px; font-size:15.5px; color:var(--text)}
+.era-pane > p{margin:0 0 22px}
+.era-pane ul{margin:18px 0 8px; padding-left:18px}
+.era-pane ul li{margin-bottom:8px; font-size:14.5px; line-height:1.85}
+
 /* 사이트 밖으로 나가는 메뉴 항목(발전기금 → 포스텍 발전기금).
    누르면 창이 바뀌므로 화살표로 미리 알린다. */
 .lnb a.ext::after,.mega a.ext::after{

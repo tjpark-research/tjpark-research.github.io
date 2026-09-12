@@ -1202,7 +1202,11 @@ def render_eras(specs, depth):
     for i, (label, key) in enumerate(specs):
         on = ' class="on"' if i == 0 else ''
         tabs.append(f'<button type="button"{on} data-era="{i}">{E(label)}</button>')
-        blocks = [b for b in blocks_of(key) if len(b) > 60]
+        # 길이만으로 거르면 'ㆍ전국 대학(원)생 대상 에세이 공모' 같은 짧은
+        # 목록 줄이 통째로 빠진다(영문 쪽을 만들며 11줄이 사라진 것을 찾았다).
+        # 가운뎃점으로 시작하는 줄은 길이와 무관하게 내용이다.
+        blocks = [b for b in blocks_of(key)
+                  if len(b) > 60 or b.startswith('ㆍ')]
         q = ERA_QUESTION.get(key)
         # 질문을 글로 옮긴 해는 그 그림을 다시 싣지 않는다.
         imgs = [] if q else imgs_of(key)[:1]
@@ -2298,6 +2302,334 @@ def main():
     build_sitemap_xml()
 
 
+# ── 영문 '연도별 연구주제' ────────────────────────────────
+# 한글 쪽은 구 사이트에서 긁어 온 블록을 그대로 싣는다. 영문은 옮길 글이
+# 없어 빈 껍데기였다. 아래는 한글 쪽을 옮긴 것이고, 짜임도 같게 했다
+# (그해의 질문 → 연구주제와 설명 → 그 밖의 일).
+EN_ERAS = [
+ ('2018–2020',
+  'Ⅰ. How will artificial intelligence evolve, and how will it change '
+  'our lives?',
+  [('Research themes, 2018–2019', [
+     ('The changes the age of artificial intelligence will bring',
+      'Defines the core ideas of artificial intelligence in plain terms — its '
+      'concepts, principles, technical foundations and uses — and surveys '
+      'where the field is heading, so that global change can be anticipated. '
+      'Takes Korea’s particular circumstances into account and proposes ways '
+      'in which artificial intelligence could make individual lives happier '
+      'and society richer.'),
+     ('The brain and cognition in the age of artificial intelligence',
+      'Anticipates which domains of human brain cognition are likely to be '
+      'taken over by artificial intelligence and which will remain distinctly '
+      'human for some time, and proposes what cognitive science suggests we '
+      'should do to prepare for that age and live well in it.'),
+     ('Biotechnology in the age of artificial intelligence',
+      'Analyses the biotechnologies driving innovative change, chiefly in '
+      'bio-health; looks for new demand in that field and for ways to use the '
+      'simulated results that come of combining it with AI; and proposes '
+      'lines of development that could work synergistically for Korean '
+      'society.'),
+     ('The economy and society in the age of artificial intelligence',
+      'Sets out the issues now emerging, or likely to emerge, in the '
+      'structural change that advancing artificial intelligence will bring to '
+      'the economy and society, and proposes policy alternatives for the '
+      'competitiveness of the economy and the progress of society.'),
+   ]),
+   ('Research themes, 2019–2020', [
+     ('The philosophical challenge of COVID-19: is your freedom safe?',
+      'The crisis is a philosophical challenge that redefines the relation '
+      'between safety and freedom, and our attitude to it settles that '
+      'relation. Do we yield freedom for safety, or accept a threat to safety '
+      'for freedom? How we answer decides what our society will look like. '
+      'The study asks how we should respond.'),
+     ('Structural change in the market economy and the crisis of democracy',
+      'COVID-19 is likely to worsen income inequality. Stimulus alone cannot '
+      'resolve it, and lower-income households are likely to suffer further '
+      'economic shocks through the recovery, so the fissures between '
+      'democracy and capitalism may deepen. The study asks what alternatives '
+      'Korea has as the balance between democracy and the market, and between '
+      'freedom and state intervention, becomes a serious question.'),
+     ('Pandemic, infodemic and the post-truth',
+      'COVID-19 has bred an infodemic — a mass infection of false '
+      'information. When the false claim spread that toilet paper would run '
+      'out because it shares materials with mask filters, supermarkets around '
+      'the world turned into scenes of panic buying. The study examines this '
+      'mass infection of information and belief in Korean society, and the '
+      'problem of the post-truth.'),
+     ('Crises in history',
+      'The COVID-19 crisis is one variant in a long history of successive '
+      'catastrophes. The study looks at what each society suffered when such '
+      'events struck, how it responded and what changed afterwards, and asks '
+      'what reflection the present crisis offers us.'),
+     ('Polarisation accelerated by the pandemic',
+      'Beyond health and quarantine, COVID-19 is accelerating the '
+      'polarisation and inequality that have grown severe since the turn of '
+      'the century: infection concentrated among vulnerable groups; '
+      'inequality in schooling and housing for lower-income households as '
+      'classes move online and private tutoring grows; adjustment and '
+      'dismissal of non-regular workers in a slack market. The study asks '
+      'what these inequalities will mean for Korean society.'),
+   ]),
+   ('Other work', [
+     ('', 'A national essay contest for undergraduate and graduate students'),
+     ('', 'Continued growth and development for Pohang’s next seventy years'),
+     ('', 'Development as a sustainable hub city of the East Sea rim'),
+     ('', 'Strengthening Pohang’s competitiveness'),
+     ('', 'Development into a university city for the 21st century'),
+     ('', 'Research commissioned by the Future Consensus Institute (Yeosijae)'),
+     ('', 'Running the first Urban Regeneration School in Songnim village, '
+          'Pohang'),
+     ('', 'An advanced course on founding social-economy enterprises, Urban '
+          'Regeneration School, Songdo-dong, Pohang'),
+     ('', 'A survey of expert opinion for planning a programme to nurture '
+          'advanced research talent for innovative growth'),
+   ])]),
+
+ ('2017–2018',
+  'Ⅰ. What are the fractures in Korean society, and how can they be healed?',
+  [('Research themes', [
+     ('Class conflict: polarisation in Korean society',
+      'Analyses Korean conditions from several angles in order to reduce '
+      'inequality and polarisation, and looks for policy responses.'),
+     ('Labour conflict: conflict in Korean working life — welfare policy for '
+      'insiders and outsiders',
+      'Analyses the conflict between regular workers (insiders) and '
+      'non-regular workers, the self-employed and the economically inactive '
+      '(outsiders), and assesses and strengthens the Korean welfare system '
+      'with a focus on including outsiders.'),
+     ('Generational conflict: generational conflict and the struggle for '
+      'recognition',
+      'Rather than treating conflict itself as the problem, considers how '
+      'conflict may be institutionalised, and looks for responses through '
+      'close analysis of conflict between generations.'),
+     ('Gender conflict: gender and gender conflict in Korean society',
+      'Studies gender conflict among the younger generation from the '
+      'standpoint of digital democracy and the agency of digital subjects.'),
+     ('Ideological conflict: between citizens, elites and politics',
+      'Analyses the causes and character of ideological conflict in Korean '
+      'society and looks for workable resolutions.'),
+     ('Conflict of values: humanistic and economic value — on materialism in '
+      'Korea',
+      'Asks how Korean society can move beyond economistic thinking, '
+      'examining its causes, its structure and possible remedies.'),
+   ]),
+   ('Other work', [
+     ('', 'A national essay contest for undergraduate and graduate students'),
+     ('', 'Local government that creates jobs: city, industry and university '
+          'at the centre'),
+     ('', 'POSTECH’s cooperation programme between Pohang and business'),
+     ('', 'The University of Ulsan’s efforts toward university–local '
+          'government development'),
+     ('', 'Contributing to the Ulsan community and its industrial '
+          'competitiveness'),
+     ('', 'Sustainable urban development through revitalising regional '
+          'universities'),
+     ('', 'The role the community wants its university to play'),
+   ])]),
+
+ ('2016–2017', None,
+  [('Research themes', [
+     ('The micro-foundations of civic democracy — citizenship, the common '
+      'citizen, and welfare',
+      'How is the micro-level citizenship of democracy to be cultivated if '
+      'Korea is to develop into a first-rank society?'),
+     ('A change of mind for Koreans: two tasks',
+      'A study of the sense of inferiority Koreans must overcome if Korea is '
+      'to become a first-rank society.'),
+     ('Reflective consciousness: reason and being — toward a better future '
+      'society',
+      'What is the purpose of the industrial development that governs Korean '
+      'society, and what should it aim at? Through fundamental reflection on '
+      'these questions, looks for institutional ways to practise cultural '
+      'reflection and development.'),
+     ('Changing values among Koreans, seen through data: quantitative '
+      'variations on Kim Uchang, Song Bok and Song Ho-keun',
+      'What characterises Korean values today? An analysis of their character '
+      'and relative position using empirical data.'),
+   ]),
+   ('Other work', [
+     ('', 'A national essay contest for undergraduate and graduate students; '
+          'essays by foreign residents in Korea'),
+     ('', 'A national essay contest; essays by experts from many fields'),
+     ('', 'Proposing how universities should change to meet the future '
+          'society'),
+     ('', 'Essays on the future society, and what should be done about it, by '
+          'mid-career scholars who studied abroad on POSCO scholarships '
+          '(PWAC)'),
+   ])]),
+
+ ('2015–2016', None,
+  [('Research themes', [
+     ('Expertise and innovation among Korean administrative officials',
+      'How is the expertise of Korean administrative officials to be raised? '
+      'How is their education and training to be reformed?'),
+     ('Reforming the recruitment and employment of officials as society '
+      'changes',
+      'How are the recruitment and employment of Korean administrative '
+      'officials to be improved?'),
+     ('Unification and the role of Korean administrative officials',
+      'What should Korean administrative officials prepare for unification?'),
+   ]),
+   ('Method', [
+     ('', 'Essays by experts in various fields'),
+     ('', 'A national essay contest for undergraduate and graduate students'),
+     ('', 'Surveys of the general public and of POSTECH students'),
+   ])]),
+
+ ('2014–2015', None,
+  [('Research themes', [
+     ('How national elites (leaders) are made',
+      'A comparative study of how leaders are trained and produced — the '
+      'selection process — in advanced countries such as the United States, '
+      'Britain, Germany, France and Japan: what characterises each country’s '
+      'leaders, and how good leaders might be raised.'),
+     ('Leadership for the future society',
+      'What should the first-rank future society we aim at look like, and '
+      'what leaders and leadership will draw it forward?'),
+     ('Leadership for coexistence and shared prosperity in 21st-century '
+      'Northeast Asia',
+      'A study of the roles of each country’s leaders in the Northeast Asia '
+      'of this century, and of the dynamics among the leaderships of Korea, '
+      'China and Japan.'),
+   ])]),
+]
+
+
+def en_eras_page():
+    """영문 연도별 연구주제. 한글 쪽(render_eras)과 같은 마크업을 쓴다."""
+    tabs, panes = [], []
+    for i, (label, q, groups) in enumerate(EN_ERAS):
+        on = ' class="on"' if i == 0 else ''
+        tabs.append(f'<button type="button"{on} data-era="{i}">{E(label)}</button>')
+        body = f'<p class="era-q">{E(q)}</p>' if q else ''
+        for gname, items in groups:
+            body += f'<h3>{E(gname)}</h3>'
+            # 제목이 없는 항목은 한 줄 목록이다(그 밖의 일·연구방법).
+            if all(not t for t, _ in items):
+                body += ('<ul>' + ''.join(f'<li>{E(d)}</li>' for _t, d in items)
+                         + '</ul>')
+            else:
+                for t, d in items:
+                    # b 를 블록으로 두므로 <br> 은 넣지 않는다. 넣으면 제목과
+                    # 설명 사이에 빈 줄이 하나 더 생긴다.
+                    body += f'<p><b>{E(t)}</b>{E(d)}</p>'
+        panes.append(f'<section class="era-pane" data-era="{i}">'
+                     f'<h2 class="era-h">{E(label)}</h2>{body}</section>')
+    return (f'<div class="eras"><div class="era-tabs">{"".join(tabs)}</div>'
+            f'<div class="prose">{"".join(panes)}</div></div>')
+
+
+# ── 영문 청년비전캠프·로고 ────────────────────────────────
+EN_CAMP_INTRO = [
+ 'The camp gives the young people of Korea a place to gather — to name the '
+ 'problems of our society and to look together for ways to solve them, for '
+ 'the sake of a better tomorrow for the country and for the society ahead. '
+ 'Through it the Institute draws together their thinking and their voices on '
+ 'how the country and society should develop; and over two days spent with '
+ 'others, participants build their capacity to understand and consider people '
+ 'unlike themselves.',
+ 'Each year the Institute holds a national essay contest for undergraduate '
+ 'and graduate students.',
+ 'The contest gives young people who will lead the future an opportunity to '
+ 'think about the many problems facing the country and society, to look for '
+ 'ways to solve them, and to share what they find. Around fifty students who '
+ 'submitted outstanding essays are selected to take part in the camp.',
+]
+
+EN_CAMP_PROGRAMS = [
+ ('Programme 1 · Breaking the ice',
+  'Two days is a short time, but this is where undergraduates and graduate '
+  'students from across the country introduce themselves and come to '
+  'understand one another — the hours in which “you and I” become “we”.'),
+ ('Programme 2 · A special lecture by an invited speaker',
+  'In keeping with the camp’s name, the lecture takes up a subject that helps '
+  'young people think hard about setting the right goals and vision for their '
+  'lives. It runs as a talk concert: hearing from someone who has made their '
+  'way, participants get a chance to think about their own dreams and vision, '
+  'and to put their own questions and get advice.'),
+ ('Programme 3 · Essay presentations',
+  'Participants present the essays they entered in the Institute’s national '
+  'contest, and discuss them. This is the highlight of the camp — a debate in '
+  'which young voices move freely, and in which they light a lamp for the '
+  'country’s future.'),
+ ('Programme 4 · A visit to POSTECH and POSCO',
+  'As the camp is held at POSTECH, students from elsewhere are shown around '
+  'Korea’s leading research university, with a campus tour and visits to the '
+  'POSCO museum and the steelworks — a chance to learn the spirit of the '
+  'founder Park Tae-joon, a future strategist of rare gifts with a strong '
+  'sense of national calling and outstanding leadership.'),
+ ('Programme 5 · Leadership training',
+  'Over the short span of the camp, teams and individuals compete through a '
+  'range of activities. Participants form close relationships, build a sense '
+  'of unity in their teams, and feel the synergy that comes of working '
+  'together. The training is meant to bring home the importance of commitment '
+  'and service, and — through experience — the importance of the team over '
+  'the individual.'),
+ ('Programme 6 · The award ceremony',
+  'The grand prize and the excellence prizes of the Institute’s contest are '
+  'presented. Individual and team awards also go to those who did outstanding '
+  'work over the two days of the camp.'),
+]
+
+EN_LOGO = [
+ 'TJPI — Tae-Joon Park Institute — is formed of blocks that combine into one '
+ 'finished image. It is set in lower case, tjpi, for an institute that works '
+ 'with many knowledge networks, on the foundation of Park Tae-joon’s spirit, '
+ 'to look for answers for a better future society, and that means to lead '
+ 'that society through flexible research and an active response to change.',
+ 'POSTECH Gray stands for the Institute’s firm resolve, founded on the spirit '
+ 'and leadership of Park Tae-joon; POSTECH Red for the passion behind its '
+ 'future-strategy research.',
+]
+
+# 색상값은 구 사이트의 가이드라인 그대로다.
+EN_LOGO_COLORS = [
+ ('POSTECH Red', 'C10 M100 Y30 K10', 'R204 G0 B102'),
+ ('Dark Gray', 'C60 M51 Y51 K20', 'R102 G102 B102'),
+ ('POSTECH Gray', 'C5 K60', 'R102 G102 B92'),
+]
+
+EN_LOGO_SIGN = (
+ 'Park Tae-joon’s signature, and his own hand: 玉不琢不成器 — “jade uncut '
+ 'makes no vessel”. However fine a person’s nature, without learning and '
+ 'self-cultivation he cannot become a person of worth. The founding chairman '
+ 'wrote it himself, and it holds his philosophy of education.')
+
+
+def en_logo_page(depth):
+    rows = ''.join(
+        f'<tr><th scope="row">{E(n)}</th><td>{E(c)}</td><td>{E(r)}</td></tr>'
+        for n, c, r in EN_LOGO_COLORS)
+    return (render_prose([], imgs_of('lab_logo'), depth)
+            + '<div class="prose">'
+            + ''.join(f'<p>{E(t)}</p>' for t in EN_LOGO)
+            + '<h2>Colour guideline</h2>'
+            + '<table class="tbl"><thead><tr><th scope="col">Colour</th>'
+              '<th scope="col">Process</th><th scope="col">RGB</th></tr></thead>'
+              f'<tbody>{rows}</tbody></table>'
+            + f'<h2>The founder’s signature</h2><p>{E(EN_LOGO_SIGN)}</p>'
+            + '</div>')
+
+
+def en_camp_page():
+    return ('<div class="prose">'
+            '<p class="lead">POSTECH Vision Camp brings students from across '
+            'the country together for two days on campus.</p>'
+            + ''.join(f'<p>{E(t)}</p>' for t in EN_CAMP_INTRO)
+            + '</div>')
+
+
+def en_camp_guide_page(depth):
+    body = ''.join(f'<h2>{E(t)}</h2><p>{E(d)}</p>'
+                   for t, d in EN_CAMP_PROGRAMS)
+    return ('<div class="prose">'
+            '<p class="lead">Over two days at POSTECH the camp runs a series '
+            'of programmes meant to help young people set a vision and a '
+            'dream of their own, alongside the discussion of Korea’s future.'
+            '</p>' + body + '</div>'
+            + render_prose([], imgs_of('youth_camp_guide'), depth))
+
+
 # ─────────────────────────────────────────────────────── 영문 페이지
 REVIEW = ('<p class="todo-note">※ Translated from the Korean edition; '
           'the Korean page is authoritative.</p>')
@@ -2334,14 +2666,9 @@ def EN_PAGES(depth):
         render_prose([b for b in blocks_of('en_research_bg') if len(b) > 30], [], d))
     P[('research', 'longterm.html')] = ('Long-term Agenda', 'Three lines of enquiry pursued over the long term.',
         longterm_page(d, 'en'))
-    P[('research', 'themes.html')] = ('Annual Research Themes', 'Research themes selected each year.',
-        '<div class="prose"><p class="lead">Each year the Institute selects a set of themes and '
-        'commissions studies on them.</p><p>Recent cycles have addressed the arrival of artificial '
-        'intelligence and its consequences for the brain and cognition, for biotechnology, and for the '
-        'economy and society (2018–2020); and the philosophical, economic and social challenges posed by '
-        'the COVID-19 pandemic (2019–2020).</p>'
-        '<p class="todo-note">※ Detailed theme descriptions are available on the Korean page. '
-        'An English edition is being prepared.</p></div>')
+    P[('research', 'themes.html')] = ('Annual Research Themes',
+        'The research themes the Institute selected each year, and the studies '
+        'commissioned on them.', en_eras_page())
     P[('research', 'books.html')] = ('Research Series', 'The Future Strategy Research Series.',
         en_board('books_future', d))
     P[('research', 'reports.html')] = ('Research Reports', 'Papers, expert essays and survey reports.',
@@ -2390,13 +2717,15 @@ def EN_PAGES(depth):
         en_board('contest_winners', d))
     P[('youth', 'reviews.html')] = ('In Their Words', 'Reflections from past award winners.',
         en_board('youth_contest_ep', d))
-    P[('youth', 'camp.html')] = ('POSTECH Vision Camp', 'A camp where students design their own vision.',
-        '<div class="prose"><p class="lead">The POSTECH Vision Camp gives students a few summer days to '
-        'work out what they want their own future to look like.</p>' + REVIEW + '</div>')
-    P[('youth', 'camp-guide.html')] = ('Camp Guide', 'How to take part in the Vision Camp.',
-        '<div class="prose"><p class="lead">Programme details, eligibility and how to apply.</p>'
-        '<p>Enquiries: <a href="mailto:tj-park@postech.ac.kr">tj-park@postech.ac.kr</a> · +82-54-279-0053~6</p>'
-        '<p class="todo-note">※ Full details are on the Korean page. An English guide is being prepared.</p></div>')
+    P[('youth', 'camp.html')] = ('POSTECH Vision Camp',
+        'Two days at POSTECH for students from across the country.',
+        en_camp_page() + render_prose([], imgs_of('youth_camp'), d))
+    P[('youth', 'camp-guide.html')] = ('Camp Guide',
+        'The six programmes that make up the two days.',
+        en_camp_guide_page(d)
+        + '<div class="prose"><p>Enquiries: '
+          '<a href="mailto:tj-park@postech.ac.kr">tj-park@postech.ac.kr</a> '
+          '· +82-54-279-0053~6</p></div>')
     P[('youth', 'camp-reviews.html')] = ('Camp Reflections', 'What participants said about the camp.',
         en_board('youth_camp_ep', d))
     P[('youth', 'gallery.html')] = ('Gallery', 'Award ceremonies and the Vision Camp in pictures.',
@@ -2449,10 +2778,8 @@ def EN_PAGES(depth):
         + render_en_timeline(EN_HISTORY + curated_history()[1])
         + '<p class="src-note">※ Translated from the Korean record, which is '
         'the authoritative version.</p>')
-    P[('about', 'logo.html')] = ('Our Logo', 'The meaning of the Institute’s logo.',
-        render_prose([], imgs_of('lab_logo'), d)
-        + '<div class="prose"><p class="todo-note">※ The explanation of the logo is on the Korean page. '
-          'An English version is being prepared.</p></div>')
+    P[('about', 'logo.html')] = ('Our Logo', 'The meaning of the Institute’s logo, '
+        'and its colour guideline.', en_logo_page(d))
     P[('about', 'projects.html')] = ('Major Programmes', 'Key projects and the principles behind them.',
         projects_page(d, 'en'))
     P[('about', 'people.html')] = ('People', 'The research office and the research committee.',
