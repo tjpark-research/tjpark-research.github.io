@@ -281,26 +281,44 @@
   </url>
   <url>
     <loc>https://tjpark-research.github.io/life/chronology-1961.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/chronology-1961.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/chronology-1961.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/chronology-1961.html"/>
     <changefreq>monthly</changefreq><priority>0.7</priority>
   </url>
   <url>
     <loc>https://tjpark-research.github.io/life/chronology-1971.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/chronology-1971.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/chronology-1971.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/chronology-1971.html"/>
     <changefreq>monthly</changefreq><priority>0.7</priority>
   </url>
   <url>
     <loc>https://tjpark-research.github.io/life/chronology-1981.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/chronology-1981.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/chronology-1981.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/chronology-1981.html"/>
     <changefreq>monthly</changefreq><priority>0.7</priority>
   </url>
   <url>
     <loc>https://tjpark-research.github.io/life/chronology-1991.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/chronology-1991.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/chronology-1991.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/chronology-1991.html"/>
     <changefreq>monthly</changefreq><priority>0.7</priority>
   </url>
   <url>
     <loc>https://tjpark-research.github.io/life/chronology-2001.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/chronology-2001.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/chronology-2001.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/chronology-2001.html"/>
     <changefreq>monthly</changefreq><priority>0.7</priority>
   </url>
   <url>
     <loc>https://tjpark-research.github.io/life/chronology-all.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/chronology-all.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/chronology-all.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/chronology-all.html"/>
     <changefreq>monthly</changefreq><priority>0.7</priority>
   </url>
   <url>
@@ -3831,6 +3849,48 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/"/>
     <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/life/chronology-1961.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/chronology-1961.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/chronology-1961.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/chronology-1961.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/life/chronology-1971.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/chronology-1971.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/chronology-1971.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/chronology-1971.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/life/chronology-1981.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/chronology-1981.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/chronology-1981.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/chronology-1981.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/life/chronology-1991.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/chronology-1991.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/chronology-1991.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/chronology-1991.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/life/chronology-2001.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/chronology-2001.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/chronology-2001.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/chronology-2001.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tjpark-research.github.io/en/life/chronology-all.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/life/chronology-all.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/en/life/chronology-all.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/life/chronology-all.html"/>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
   </url>
   <url>
     <loc>https://tjpark-research.github.io/en/life/chronology.html</loc>

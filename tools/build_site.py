@@ -1617,6 +1617,182 @@ CHRONO_FIX = {
 }
 
 
+# ── 영문 연보 ─────────────────────────────────────────────
+# 구 영문 사이트의 연보는 한글판과 같은 '통짜 이미지'여서 옮길 글이 없었다.
+# 아래는 한글 연보를 옮긴 것이다. 기관·직위 이름은 그 기관이 스스로 쓰는
+# 영문 표기를 따랐다(POSCO, POSTECH, RIST, Korea Military Academy 등).
+EN_CHRONO_ERAS = [
+    ('1927–1960', 'From birth to the soldier’s road',
+     'Born in Imnang-ri, raised in Japan, and — after liberation — shaped by '
+     'the Korea Military Academy, the Korean War and a succession of posts '
+     'in the army.'),
+    ('1961–1970', 'Preparing for a steelworks',
+     'From the Supreme Council for National Reconstruction and Korea Tungsten '
+     'to the chairmanship of the committee for an integrated steelworks, and '
+     'the founding of POSCO on Yeongil Bay.'),
+    ('1971–1980', 'The Yeongil Bay undertaking',
+     'From the first tapping of No. 1 blast furnace and the completion of the '
+     'Pohang Works to the choice of Gwangyang Bay for the second steelworks — '
+     'the years that set the frame of Korean steel.'),
+    ('1981–1990', 'Gwangyang, and POSTECH',
+     'Ground broken at Gwangyang, and a second axis built alongside steel: '
+     'POSTECH and RIST — education and research.'),
+    ('1991–2000', 'The great undertaking completed, and after',
+     'The quarter-century undertaking finished; then departure from POSCO, '
+     'years abroad, a return to politics, and the office of Prime Minister.'),
+    ('2001–2011', 'A calling kept to the last',
+     'Through the POSCO TJ Park Foundation and his lectures, he went on '
+     'pressing the case for the next generation and the country’s future.'),
+]
+
+EN_CHRONO_PHOTOS = {
+    1933: 'As a middle-school student in Japan',
+    1945: 'Around his entry to Waseda University',
+    1953: 'Receiving a distinguished service medal',
+    1954: 'The newly married couple',
+    1956: 'As a professor at the National Defense College (front row, centre)',
+    1959: 'The study mission he led arriving at a U.S. airport (front row, centre)',
+    1961: 'Leading a trade mission to Europe, at the Berlin Wall (1961)',
+    1967: 'Pohang citizens celebrating the decision to build the steelworks '
+          '(October 1967)',
+    1968: 'Leaving “Rommel House” to inspect the site, with President Park '
+          'Chung-hee (front row, far right), 12 November 1968',
+    1970: 'President Park Chung-hee’s handwritten authorisation — the “paper '
+          'mapae” (2 February 1970)',
+    1973: 'Cheering the first tapping with his workers (centre)',
+    1978: 'Explaining No. 3 blast furnace, then under construction, to the '
+          'writer Sunwoo Hwi (centre), 1978',
+    1983: 'Dredging and reclamation for the POSCO Gwangyang Works',
+    1986: 'Inspecting the university construction site (August 1986)',
+    1987: 'Receiving the Bessemer Gold Medal from Atherton, president of the '
+          'Metals Society (13 May 1987)',
+    1992: 'The Gwangyang Works',
+    1997: 'Greeting Pohang citizens after winning the by-election for the '
+          'Buk-gu seat (July 1997)',
+    1999: 'In conversation with President Kim Dae-jung',
+    2008: 'The first POSCO TJ Park Prize ceremony',
+    2011: 'His grave at the Seoul National Cemetery',
+}
+
+EN_CHRONO = {
+    1927: 'Born in Imnang-ri, Jangan-myeon, Dongnae (today Jangan-eup, '
+          'Gijang-gun, Busan), the eldest of six children of Park Bong-gwan '
+          'and Kim So-sun (29 September by the lunar calendar).',
+    1932: 'His father, Park Bong-gwan, leaves for Japan.',
+    1933: 'He follows with his mother. He spends his childhood and school '
+          'years in Japan.',
+    1945: 'Enters the mechanical engineering department of Waseda University.',
+    1946: 'Leaves Waseda in his second year.',
+    1948: 'While in training with the Busan constabulary, selected as a cadet '
+          'in the 6th class of the Korea Military Academy. There he first '
+          'meets Park Chung-hee, then a company commander teaching '
+          'ballistics. Commissioned a second lieutenant on 28 July after the '
+          'six-month course.',
+    1950: 'The Korean War breaks out. Ordered to withdraw from Miari south of '
+          'the Han River, he retreats, and in August fights in the battle of '
+          'the Hyeongsan River at Pohang. He advances north as far as '
+          'Chongjin before joining the January 4th Retreat.',
+    1953: 'Awarded the Chungmu, Hwarang with Silver Star and Hwarang with '
+          'Gold Star distinguished service medals during the war. Enters the '
+          'Army College after the armistice.',
+    1954: 'Graduates first in his class and is appointed dean of academic '
+          'affairs at the Korea Military Academy. Marries Jang Ok-ja on '
+          '20 December.',
+    1955: 'Promoted to colonel.',
+    1956: 'Enters the National Defense College; on completing the course, '
+          'appointed professor in charge of its second programme, on national '
+          'policy. Moves to the Ministry of National Defense in November as '
+          'head of the personnel section.',
+    1957: 'Meets Park Chung-hee again in October, then chief of staff of '
+          'I Corps.',
+    1958: 'As commander of the 71st Regiment, 25th Division, leads his unit in '
+          'the Armed Forces Day parade. Appointed head of personnel '
+          'administration at Army Headquarters.',
+    1959: 'Visits the United States as head of a study mission.',
+    1960: 'Serves as personnel officer to Park Chung-hee, commander of the '
+          'Busan Logistics Base Command. After Park is demoted he travels to '
+          'the United States a second time, for three months at the U.S. Army '
+          'Adjutant General School.',
+    1961: 'Serving on the career management body at Army Headquarters when '
+          'the May 16 coup takes place; works at the martial law command from '
+          'the morning of 16 May. Appointed chief of staff to the chairman of '
+          'the Supreme Council for National Reconstruction, and standing '
+          'member for commerce and industry on its Finance and Economy '
+          'Committee. Leads a trade mission to Europe and surveys its '
+          'industry.',
+    1962: 'Takes part in drawing up the First Five-Year Economic Development '
+          'Plan, and presses hard for reforestation financed by anthracite '
+          'development.',
+    1964: 'At Park Chung-hee’s insistence he gives up study in the United '
+          'States and spends ten months travelling Japan as a special envoy, '
+          'from Hokkaido to Kyushu. First meets Yasuoka Masahiro. Named '
+          'president of Korea Tungsten Mining on 8 December.',
+    1965: 'Hwang Kyung-no, Noh Joong-yeol and Hong Keon-yoo join him at Korea '
+          'Tungsten, which returns to profit within a year. The president of '
+          'Kawasaki Steel is invited to the presidential office; Park '
+          'Chung-hee visits Pittsburgh and discusses an integrated steelworks '
+          'with Foy, chairman of Koppers (26 May).',
+    1967: 'Appointed chairman of the committee to promote construction of an '
+          'integrated steelworks.',
+    1968: 'The name Pohang Iron and Steel Co., Ltd. — POSCO — is settled, and '
+          'the company is founded at the UNESCO building in Seoul on 1 April, '
+          'with him as its first president. A site office (“Rommel House”) '
+          'opens on Yeongil Bay; ground is prepared for the plant, and land '
+          'bought and building begun for employee housing.',
+    1970: 'The “Hawaii Idea” of 1969 — diverting the Korea–Japan claims '
+          'settlement funds — is realised, and Park Chung-hee grants him '
+          'discretion over the purchase of equipment (the “paper mapae”).',
+    1971: 'Establishes the Steel Scholarship Foundation.',
+    1973: 'First tapping from No. 1 blast furnace on 9 June; the Pohang Works '
+          'is completed on 3 July. Korea’s first integrated steelworks begins '
+          'operating, at 1.03 million tonnes of crude steel a year.',
+    1975: 'Founds the Korea Iron & Steel Association and becomes its first '
+          'chairman.',
+    1978: 'POSCO is chosen over Hyundai as the operator of the second '
+          'integrated steelworks. Named Person of the Year by the Dong-A Ilbo.',
+    1980: 'Chairman of the First Economic Committee of the Legislative Council '
+          'for National Security; elected Korean chairman of the Korea–Japan '
+          'Parliamentarians’ Union. Gwangyang Bay is fixed as the site of the '
+          'second steelworks.',
+    1983: 'Dredging and reclamation begin for the Gwangyang Works.',
+    1986: 'POSTECH opens.',
+    1987: 'POSTECH holds its first entrance ceremony. The Research Institute '
+          'of Industrial Science and Technology (RIST) is founded. The first '
+          'phase at Gwangyang is completed, and he receives the 114th Bessemer '
+          'Gold Medal of the Metals Society in Britain (13 May).',
+    1988: 'Elected to the 13th National Assembly as a proportional-'
+          'representation member for the Democratic Justice Party.',
+    1990: 'Becomes chairman of the Democratic Justice Party. On the founding '
+          'of the Democratic Liberal Party, joins its supreme council.',
+    1991: 'POSTECH holds its first commencement.',
+    1992: 'The fourth phase at Gwangyang is completed and with it the '
+          'quarter-century undertaking at POSCO, reaching 21 million tonnes of '
+          'crude steel a year. He resigns as chairman, is named honorary '
+          'chairman, and retires from politics.',
+    1993: 'Begins his years abroad.',
+    1997: 'Wins the by-election for the Buk-gu seat in Pohang. Joins the “DJT” '
+          'alliance and becomes president of the United Liberal Democrats.',
+    1999: 'Meets President Kim Dae-jung weekly, working on economic recovery '
+          'and political reform.',
+    2000: 'Steps down as president of the United Liberal Democrats and takes '
+          'office as Prime Minister. Resigns on 19 May.',
+    2001: 'Undergoes surgery in New York, at a Cornell University hospital, to '
+          'remove a cyst beneath the lung.',
+    2002: 'Returns to Korea after the surgery. Pohang Iron and Steel Co., Ltd. '
+          'changes its name to POSCO.',
+    2003: 'Invited as an adviser to the China Development Research Foundation, '
+          'he speaks on the Chinese economy at the China Development Forum '
+          '2003 at Diaoyutai in Beijing.',
+    2004: 'The biography “Park Tae-joon, the World’s Greatest Steelman” is '
+          'published.',
+    2008: 'Becomes chairman of the POSCO TJ Park Foundation.',
+    2010: 'Gives a special lecture at Vietnam National University, Hanoi.',
+    2011: 'Dies at 5:20 p.m. on 13 December, and is buried at the Seoul '
+          'National Cemetery in the section for those who rendered '
+          'distinguished service to the state.',
+}
+
+
 CHRONO_YEAR = re.compile(r'^(\d{4})\s*년$')
 CHRONO_AGE = re.compile(r'^(\d{1,3})\s*세$')
 
@@ -1650,34 +1826,59 @@ CHRONO_FILES = ['chronology.html', 'chronology-1961.html',
 CHRONO_ALL = 'chronology-all.html'
 
 
-def chrono_tabs(current, depth):
+def chrono_eras(lang):
+    return CHRONO_ERAS if lang == 'ko' else EN_CHRONO_ERAS
+
+
+def chrono_text(e, lang):
+    """한 해의 본문. 영문은 EN_CHRONO 에서 가져온다(한 해에 한 문단)."""
+    if lang == 'ko':
+        return e['text']
+    t = EN_CHRONO.get(e['year'])
+    return [t] if t else []
+
+
+def chrono_caption(year, lang):
+    if lang == 'ko':
+        return CHRONO_PHOTOS[year][1]
+    return EN_CHRONO_PHOTOS.get(year) or CHRONO_PHOTOS[year][1]
+
+
+def chrono_tabs(current, depth, lang='ko'):
     """구 홈페이지의 시대 탭(ul.tab_s2)을 그대로 옮긴 것.
     current 는 파일명이며 'chronology.html' 이면 전체연보 탭이 켜진다."""
     out = []
-    for i, (label, _sub, _b) in enumerate(CHRONO_ERAS):
+    b = base(depth, lang)
+    for i, (label, _sub, _b) in enumerate(chrono_eras(lang)):
         f = CHRONO_FILES[i]
         on = ' class="on"' if f == current else ''
-        out.append(f'<a{on} href="{rel(depth)}life/{f}">{E(label)}</a>')
+        out.append(f'<a{on} href="{b}life/{f}">{E(label)}</a>')
     on = ' class="on"' if current == CHRONO_ALL else ''
-    out.append(f'<a{on} href="{rel(depth)}life/{CHRONO_ALL}">전체연보</a>')
-    return (f'<nav class="cr-nav" aria-label="시대별 연보">{"".join(out)}</nav>')
+    all_l = '전체연보' if lang == 'ko' else 'Full chronology'
+    aria = '시대별 연보' if lang == 'ko' else 'Chronology by period'
+    out.append(f'<a{on} href="{b}life/{CHRONO_ALL}">{E(all_l)}</a>')
+    return (f'<nav class="cr-nav" aria-label="{E(aria)}">{"".join(out)}</nav>')
 
 
-def chrono_rows(lo, hi, depth):
+def chrono_rows(lo, hi, depth, lang='ko'):
     P = 'assets/img/legacy/chrono/'
     rows = []
     for e in chrono_entries():
         if not (lo <= e['year'] <= hi):
             continue
+        paras = chrono_text(e, lang)
+        if not paras:
+            continue
         # blocks_of() 가 '5세' 같은 아주 짧은 블록을 걸러 내므로
         # 나이는 출생연도(1927)로부터 직접 계산한다. 원본 표기와 일치한다.
         n = e['age'] or (str(e['year'] - 1927) if e['year'] > 1927 else '')
-        age = f'<i>{E(n)}세</i>' if n else ''
-        text = ''.join(f'<p>{E(t)}</p>' for t in e['text'])
+        age = (f'<i>{E(n)}세</i>' if lang == 'ko' else f'<i>age {E(n)}</i>') if n else ''
+        text = ''.join(f'<p>{E(t)}</p>' for t in paras)
         ph = CHRONO_PHOTOS.get(e['year'])
         figure = ''
         if ph:
-            f, cap = ph
+            f = ph[0]
+            cap = chrono_caption(e['year'], lang)
             figure = (f'<figure class="cr-p"><img src="{rel(depth)}{P}{f}" '
                       f'alt="{E(cap)}" loading="lazy">'
                       f'<figcaption>{E(cap)}</figcaption></figure>')
@@ -1689,68 +1890,88 @@ def chrono_rows(lo, hi, depth):
     return f'<ol class="cr">{"".join(rows)}</ol>'
 
 
-def chrono_era_block(i, depth, heading=True):
-    label, sub, blurb = CHRONO_ERAS[i]
+def chrono_era_block(i, depth, heading=True, lang='ko'):
+    label, sub, blurb = chrono_eras(lang)[i]
     lo, hi = CHRONO_BOUNDS[i]
     head = ''
     if heading:
         head = (f'<header class="cr-h"><p class="cr-range">{E(label)}</p>'
                 f'<h2>{E(sub)}</h2><p class="cr-blurb">{E(blurb)}</p></header>')
     return (f'<section class="cr-era" id="era{i}">{head}'
-            f'{chrono_rows(lo, hi, depth)}</section>')
+            f'{chrono_rows(lo, hi, depth, lang)}</section>')
 
 
-def chronology_page(depth):
+def chronology_page(depth, lang='ko'):
     """전체연보 — 구 홈페이지와 같이 '년도 / 당시 나이 / 내용' 표로 보여 준다.
     사진은 시대별 페이지 쪽에 둔다(표는 훑어보기 위한 것이다)."""
     rows = []
     for e in chrono_entries():
+        paras = chrono_text(e, lang)
+        if not paras:
+            continue
         n = e['age'] or (str(e['year'] - 1927) if e['year'] > 1927 else '')
-        age = f'{E(n)}세' if n else '&ndash;'
-        txt = ' '.join(E(t) for t in e['text'])
-        rows.append(f'<tr><th scope="row">{e["year"]}년</th>'
+        if n:
+            age = f'{E(n)}세' if lang == 'ko' else E(n)
+        else:
+            age = '&ndash;'
+        yr = f'{e["year"]}년' if lang == 'ko' else str(e['year'])
+        txt = ' '.join(E(t) for t in paras)
+        rows.append(f'<tr><th scope="row">{yr}</th>'
                     f'<td class="cr-age">{age}</td><td>{txt}</td></tr>')
+    if lang == 'ko':
+        cap = '청암 박태준 전체연보 (1927~2011)'
+        cols = ('년도', '당시 나이', '내용')
+        lead = ('1927년 경남 임랑리에서 태어나 2011년 12월 영면하기까지, '
+                '청암 박태준이 걸어온 85년을 한 표로 정리했습니다. '
+                '사진과 함께 시대별로 보려면 위의 시대 탭을 누르십시오.')
+    else:
+        cap = 'Chronology of Park Tae-joon (1927–2011)'
+        cols = ('Year', 'Age', 'Events')
+        lead = ('Eighty-five years in one table — from his birth at Imnang-ri '
+                'in 1927 to his death in December 2011. Use the tabs above to '
+                'read a period at a time, with photographs.')
+    head = ''.join(f'<th scope="col">{E(c)}</th>' for c in cols)
     table = (
         '<div class="tbl-wrap"><table class="cr-tbl">'
-        '<caption>청암 박태준 전체연보 (1927~2011)</caption>'
+        f'<caption>{E(cap)}</caption>'
         '<colgroup><col class="c-y"><col class="c-a"><col></colgroup>'
-        '<thead><tr><th scope="col">년도</th><th scope="col">당시 나이</th>'
-        '<th scope="col">내용</th></tr></thead>'
+        f'<thead><tr>{head}</tr></thead>'
         f'<tbody>{"".join(rows)}</tbody></table></div>')
     return '\n'.join([
-        chrono_tabs(CHRONO_ALL, depth),
-        '<div class="prose"><p class="lead">1927년 경남 임랑리에서 태어나 '
-        '2011년 12월 영면하기까지, 청암 박태준이 걸어온 85년을 한 표로 정리했습니다. '
-        '사진과 함께 시대별로 보려면 위의 시대 탭을 누르십시오.</p></div>',
+        chrono_tabs(CHRONO_ALL, depth, lang),
+        f'<div class="prose"><p class="lead">{E(lead)}</p></div>',
         table,
     ])
 
 
-def chrono_era_page(i, depth):
+def chrono_era_page(i, depth, lang='ko'):
     """시대별 연보 한 편. 구 홈페이지처럼 시대마다 독립된 주소를 갖는다."""
-    label, sub, blurb = CHRONO_ERAS[i]
+    label, sub, blurb = chrono_eras(lang)[i]
     lo, hi = CHRONO_BOUNDS[i]
-    n = sum(1 for e in chrono_entries()
-            if lo <= e['year'] <= hi and e['year'] in CHRONO_PHOTOS)
     body = [
-        chrono_tabs(CHRONO_FILES[i], depth),
+        chrono_tabs(CHRONO_FILES[i], depth, lang),
         f'<div class="prose"><p class="lead">{E(blurb)}</p></div>',
-        chrono_era_block(i, depth, heading=False),
+        chrono_era_block(i, depth, heading=False, lang=lang),
     ]
     # 이전/다음 시대 (구 홈페이지의 '이전으로 / 다음으로' 원형 버튼 자리)
+    b = base(depth, lang)
+    eras = chrono_eras(lang)
+    pv, nx = ('이전 시대', '다음 시대') if lang == 'ko' else ('Previous', 'Next')
+    aria = '시대 이동' if lang == 'ko' else 'Move between periods'
     prev_l = nxt_l = ''
     if i > 0:
-        pl = CHRONO_ERAS[i - 1][0]
-        prev_l = (f'<a class="cr-prev" href="{rel(depth)}life/{CHRONO_FILES[i-1]}">'
-                  f'<span>이전 시대</span><b>{E(pl)}</b></a>')
-    if i < len(CHRONO_ERAS) - 1:
-        nl = CHRONO_ERAS[i + 1][0]
-        nxt_l = (f'<a class="cr-next" href="{rel(depth)}life/{CHRONO_FILES[i+1]}">'
-                 f'<span>다음 시대</span><b>{E(nl)}</b></a>')
-    body.append(f'<nav class="cr-pager" aria-label="시대 이동">{prev_l}{nxt_l}</nav>')
-    body.append(
-        f'<p class="src-note">※ 전 시기를 한 번에 보려면 '
-        f'<a href="{rel(depth)}life/{CHRONO_ALL}">전체연보</a>를 이용하십시오.</p>')
+        prev_l = (f'<a class="cr-prev" href="{b}life/{CHRONO_FILES[i-1]}">'
+                  f'<span>{E(pv)}</span><b>{E(eras[i-1][0])}</b></a>')
+    if i < len(eras) - 1:
+        nxt_l = (f'<a class="cr-next" href="{b}life/{CHRONO_FILES[i+1]}">'
+                 f'<span>{E(nx)}</span><b>{E(eras[i+1][0])}</b></a>')
+    body.append(f'<nav class="cr-pager" aria-label="{E(aria)}">{prev_l}{nxt_l}</nav>')
+    if lang == 'ko':
+        body.append(f'<p class="src-note">※ 전 시기를 한 번에 보려면 '
+                    f'<a href="{b}life/{CHRONO_ALL}">전체연보</a>를 이용하십시오.</p>')
+    else:
+        body.append(f'<p class="src-note">※ For every period in one table, see the '
+                    f'<a href="{b}life/{CHRONO_ALL}">full chronology</a>.</p>')
     return '\n'.join(body)
 
 
@@ -1764,18 +1985,41 @@ def build_chrono_pages():
                     f'청암 박태준 연보 {label} — {sub}.',
                     1, section, CHRONO_FILES[0], chrono_era_page(i, 1),
                     canonical=f'life/{f}', lang='ko',
-                    alt_href=f'../en/life/{CHRONO_FILES[0]}',
-                    alt_canonical=f'en/life/{CHRONO_FILES[0]}',
+                    alt_href=f'../en/life/{f}',
+                    alt_canonical=f'en/life/{f}',
                     article_title=f'{label} · {sub}')
         open(os.path.join(ROOT, 'life', f), 'w', encoding='utf-8').write(out)
     out = shell('전체연보', '청암 박태준의 1927~2011년 전체연보를 년도·나이·내용 표로.',
                 1, section, CHRONO_FILES[0], chronology_page(1),
                 canonical=f'life/{CHRONO_ALL}', lang='ko',
-                alt_href=f'../en/life/{CHRONO_FILES[0]}',
-                alt_canonical=f'en/life/{CHRONO_FILES[0]}',
+                alt_href=f'../en/life/{CHRONO_ALL}',
+                alt_canonical=f'en/life/{CHRONO_ALL}',
                 article_title='전체연보')
     open(os.path.join(ROOT, 'life', CHRONO_ALL), 'w', encoding='utf-8').write(out)
-    print(f'연보 {len(CHRONO_ERAS)}개 시대 + 전체연보 1개 페이지')
+
+    # ── 영문. 한글과 같은 짜임(시대 6쪽 + 전체연보 1쪽)이라 언어 토글이
+    #    같은 시대끼리 오간다.
+    en_section = next(s for s in EN_SECTIONS if s[0] == 'life')
+    en_dir = os.path.join(ROOT, 'en', 'life')
+    os.makedirs(en_dir, exist_ok=True)
+    for i, (label, sub, _b) in enumerate(EN_CHRONO_ERAS):
+        f = CHRONO_FILES[i]
+        out = shell(f'Chronology {label}',
+                    f'Park Tae-joon, {label} — {sub}.',
+                    2, en_section, CHRONO_FILES[0], chrono_era_page(i, 2, 'en'),
+                    canonical=f'en/life/{f}', lang='en',
+                    alt_href=f'../../life/{f}', alt_canonical=f'life/{f}',
+                    article_title=f'{label} · {sub}')
+        open(os.path.join(en_dir, f), 'w', encoding='utf-8').write(out)
+    out = shell('Full chronology',
+                'Park Tae-joon, 1927–2011, by year, age and events.',
+                2, en_section, CHRONO_FILES[0], chronology_page(2, 'en'),
+                canonical=f'en/life/{CHRONO_ALL}', lang='en',
+                alt_href=f'../../life/{CHRONO_ALL}',
+                alt_canonical=f'life/{CHRONO_ALL}',
+                article_title='Full chronology')
+    open(os.path.join(en_dir, CHRONO_ALL), 'w', encoding='utf-8').write(out)
+    print(f'연보 {len(CHRONO_ERAS)}개 시대 + 전체연보 1개 페이지 (한·영)')
 
 
 SITE = 'https://tjpark-research.github.io/'
@@ -2116,10 +2360,8 @@ def EN_PAGES(depth):
     # ── The Life of TJ Park
     P[('life', 'index.html')] = ('Biography', 'The life of Chungam Park Tae-Joon, period by period.',
         render_prose([b for b in blocks_of('en_life_bio') if len(b) > 120], [], d))
-    P[('life', 'chronology.html')] = ('Chronology', 'A year-by-year chronology, 1927–2011.',
-        render_prose([b for b in blocks_of('en_life_chron') if len(b) > 40], [], d)
-        + '<div class="prose"><p class="todo-note">※ The full chronology is available on the Korean page. '
-          'An English edition is being prepared.</p></div>')
+    # 연보는 build_chrono_pages() 가 시대 6쪽 + 전체연보로 따로 만든다.
+    # 여기 두면 그 결과를 덮어써 버린다.
     P[('life', 'statue.html')] = ('TJ Park Statue', 'The full-length statue and bust by Wu Weishan.',
         statue_page(d, 'en'))
     P[('life', 'video.html')] = ('Video',
