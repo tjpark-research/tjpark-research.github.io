@@ -1530,8 +1530,8 @@ def PAGES(depth):
     # ── 박태준연구
     P[('tjpark', 'index.html')] = ('연구소개', '박태준의 정신과 리더십을 체계적으로 연구하고 사회적 자산으로 전파합니다.',
         tj_intro_page(d, 'ko'))
-    P[('tjpark', 'themes.html')] = ('연구분야', '박태준연구의 연도별 주제입니다.',
-        render_prose(blocks_of('tj_research_theme'), imgs_of('tj_research_theme'), d))
+    P[('tjpark', 'themes.html')] = ('연구분야', '박태준연구가 다루는 다섯 갈래와 그 결과물.',
+        tj_fields_page(d, 'ko'))
     P[('tjpark', 'books.html')] = ('연구총서', '박태준 연구총서와 관련 단행본.',
         render_board('books_tj', d, 'cards', detail_base='tjpark-research/books'))
     P[('tjpark', 'reports.html')] = ('연구보고서', '박태준연구 보고서.',
@@ -2909,8 +2909,8 @@ def EN_PAGES(depth):
     # ── TJ Park Research
     P[('tjpark', 'index.html')] = ('Background', 'Studying the spirit and leadership of Tae-Joon Park.',
         tj_intro_page(d, 'en'))
-    P[('tjpark', 'themes.html')] = ('Fields of Research', 'Programmes carried out under TJ Park Research.',
-        render_prose([b for b in blocks_of('en_tj_fields') if 40 < len(b) < 1200], [], d))
+    P[('tjpark', 'themes.html')] = ('Fields of Research', 'The five strands of TJ Park Research and what came of each.',
+        tj_fields_page(d, 'en'))
     P[('tjpark', 'books.html')] = ('Research Series', 'The TJ Park Research Series and related books.',
         en_board('books_tj', d))
     P[('tjpark', 'reports.html')] = ('Research Reports', 'Reports from TJ Park Research.',
@@ -3566,35 +3566,121 @@ def research_intro_page(depth):
     return ''.join(out)
 
 
-# ────────────────────────────────── 박태준연구 > 연구소개
+# ────────────────────────────────── 박태준연구 > 연구소개 · 연구분야
 #
-# 구 사이트의 이 쪽은 문단 하나가 전부였다. 연구가 어디까지 와 있는지,
-# 그 결과물이 이 사이트 어디에 있는지 알 길이 없었다. 배경 문단은 그대로
-# 두고, 그 뒤에 연구가 걸어온 길과 실제로 나온 책·보고서를 잇는다.
+# 구 사이트에서 이 두 쪽은 각각 문단 하나, 그리고 2013~2015년 사업계획
+# 네 줄이 전부였다. 연구가 무엇을 다루는지, 그 결과물이 이 사이트 어디에
+# 있는지 알 길이 없었다.
 #
-# 총서 목록은 손으로 적지 않고 게시판에서 뽑는다. 새 권이 올라오면 이 쪽도
-# 따라 늘어난다.
-
-# 총서 말고, 연구소가 펴냈거나 연구소 일과 맞물린 책들. 게시판 번호로
-# 가리키고, 번호가 없어지면 빌드가 멈춘다(조용히 빠지지 않도록).
-TJ_OTHER_BOOKS = [
-    ('33', '청소년용 리더십 교과서'),
-    ('32', '대학생용 교재'),
-    ('35', '포스텍 설립의 기록'),
-    ('39', '박정희와 박태준, 두 사람의 기록'),
-    ('48', '이대환이 쓴 평전'),
-    ('62', '리더십 교육 교재와 워크북'),
-]
-TJ_OTHER_BOOKS_EN = {
-    '33': 'Leadership reader for secondary schools',
-    '32': 'Textbook for university courses',
-    '35': 'On the founding of POSTECH',
-    '39': 'Park Chung-hee and TJ Park',
-    '48': 'The biography, by Lee Dae-hwan',
-    '62': 'Teaching material and workbook',
-}
+# 소개는 짧게 둔다 — 왜 하는 연구이고 어떻게 여기까지 왔는지.
+# 갈래와 결과물은 '연구분야' 한 쪽에 모은다. 총서와 보고서를 갈래마다
+# 이어 붙이되, 목록은 게시판에서 뽑는다(새 권이 올라오면 따라 늘어난다).
+# 어느 갈래에도 넣지 않은 총서·보고서가 있으면 빌드가 멈춘다.
 
 TJ_FOUNDATION = 'https://www.postf.org/'
+
+# 갈래별로 (총서 게시판 번호, 연구보고서 게시판 번호)
+TJ_FIELDS = [
+    ('spirit', '정신과 사상', 'Spirit and thought',
+     ['14', '28', '16'], ['20', '24']),
+    ('leader', '리더십', 'Leadership',
+     ['29', '34'], ['21', '26', '30']),
+    ('mgmt', '경영철학과 기업가정신', 'Management philosophy and entrepreneurship',
+     ['30', '31'], ['27']),
+    ('edu', '교육보국과 대학경영', 'Education for the nation, and running a university',
+     ['35'], ['29']),
+    ('econ', '산업화의 정치경제, 그리고 개발도상국',
+     'The political economy of industrialisation, and the developing world',
+     ['41'], ['22', '23', '31']),
+]
+
+TJ_FIELD_KO = {
+    'spirit':
+        '<p>‘태준이즘’이라 이름 붙인 것의 실체를 밝히는 갈래입니다. '
+        '‘나’가 아닌 국가를 위한 성취라는 태도가 어디서 왔고 어떻게 '
+        '작동했는지를 철학·사회학·종교학의 언어로 따져 봅니다. 순교자적 사명감, 양명학의 '
+        '유상정신, 무사(無私)의 사생관, 선비사상 같은 서로 다른 틀이 한 사람을 '
+        '두고 겹쳐 놓입니다.</p>',
+    'leader':
+        '<p>경영학 쪽에서 가장 오래 붙들어 온 갈래입니다. 완벽주의와 원칙주의, '
+        '고집과 용기, 저항의식으로 이루어진 리더십을 근거이론과 결정적 사건법 '
+        '같은 방법으로 모형화했습니다. 연설문을 언어분석으로 읽어 그의 심리와 '
+        '조직 맥락의 관계를 살핀 연구, 작업장 혁신과 청렴 리더십을 다룬 연구가 '
+        '함께 있습니다.</p>',
+    'mgmt':
+        '<p>제철소를 세우고 스물다섯 해를 경영하며 만들어진 원칙들을 다룹니다. '
+        '군인정신과 기업가정신의 상관성, 현실을 직시하면서도 끝내 이긴다는 '
+        '스톡데일 패러독스, 신뢰가 쌓여 시너지가 되는 과정, 그리고 지속 가능한 '
+        '가치를 만드는 기업가정신 — 포스코의 인적자원 관리와 기술경영, 포항제철소 '
+        '건설 프로젝트의 성공 요인까지 사례로 내려옵니다.</p>',
+    'edu':
+        '<p>제철보국에서 교육보국으로. 포스코교육재단의 학교들과 포스텍을 세우고 '
+        '운영한 과정을 대학경영의 사례로 읽는 갈래입니다. 설립 당시의 판단과 '
+        '어려움을 기록으로 남기는 일이 함께 갑니다.</p>',
+    'econ':
+        '<p>포항제철의 성공을 한 기업의 일이 아니라 한국 경제성장사 안에 놓고 '
+        '보는 갈래입니다. 개발연대 정치경제의 양면을 짚고, 그 성장모형이 다른 '
+        '나라에도 옮겨질 수 있는지를 묻습니다. 총서 8권은 이 물음에 답하려고 '
+        '국문과 영문을 한 권에 함께 실었습니다.</p>',
+}
+
+TJ_FIELD_EN = {
+    'spirit':
+        '<p>What exactly is the thing called “Tae-Joonism”. This strand traces '
+        'where his habit of achieving for the country rather than for himself '
+        'came from, and how it worked in practice — read in turn through '
+        'philosophy, sociology and religious studies, so that a sense of '
+        'martyr-like duty, Wang Yangming’s moral learning, a soldier’s '
+        'indifference to his own life, and the Confucian scholar ideal are laid '
+        'over one another on the same man.</p>',
+    'leader':
+        '<p>The strand management scholars have worked longest. His leadership — '
+        'perfectionism, insistence on principle, stubbornness, courage, a '
+        'refusal to yield — is modelled using grounded theory and the critical '
+        'incident technique. Other papers read his speeches by linguistic '
+        'analysis to relate his own state of mind to the state of the '
+        'organisation, and take up workplace innovation and integrity in '
+        'leadership.</p>',
+    'mgmt':
+        '<p>The principles formed over twenty-five years of building and running '
+        'a steelworks: the relation between a soldier’s discipline and an '
+        'entrepreneur’s, the Stockdale paradox of facing facts and still '
+        'prevailing, the accumulation of trust into synergy, and an '
+        'entrepreneurship that creates durable value — down to cases in human '
+        'resource management, technology management and the construction of the '
+        'Pohang works itself.</p>',
+    'edu':
+        '<p>From serving the nation through steel to serving it through '
+        'education. This strand reads the founding and running of the POSCO '
+        'schools and of POSTECH as a case in university management, and keeps '
+        'the record of the judgements and difficulties of the founding years.</p>',
+    'econ':
+        '<p>Placing POSCO’s success inside the history of Korean economic growth '
+        'rather than inside one company. It examines both faces of the political '
+        'economy of the development decades and asks whether the growth model '
+        'can be carried to other countries. Volume 8 was published in Korean and '
+        'English together for that reason.</p>',
+}
+
+# 교재·기록 갈래에 싣는 단행본 (총서가 아닌 것)
+# 제목만으로는 가려지지 않는 항목에 한 줄 덧붙인다. 백기복의 '박태준
+# 리더십' 보고서는 제목이 같은 두 편이라(2013년판·2014년판) 첫머리를 따서
+# 구분하고, 8권은 같은 연구가 논문과 책 두 모습으로 남아 있다.
+TJ_BOOK_NOTE = {'35': ('단행본', 'Book')}
+TJ_REPORT_NOTE = {
+    '26': ('연구보고서 · 리더십 스탠더드의 다섯 계단',
+           'Research report · the five steps of the leadership standard'),
+    '21': ('연구보고서 · 용혼사상 실천을 위한 리더십 표준',
+           'Research report · a leadership standard for the yonghon idea'),
+    '31': ('연구보고서 · 총서 8권의 바탕이 된 논문',
+           'Research report · the paper behind volume 8'),
+}
+
+TJ_TEACHING = [('33', '청소년용', 'For secondary schools'),
+               ('32', '대학생용', 'For university courses'),
+               ('62', '리더십 교육 교재와 워크북', 'Course material and workbook')]
+TJ_RECORD = [('48', '이대환이 쓴 평전', 'The biography, by Lee Dae-hwan'),
+             ('39', '박정희와 박태준', 'Park Chung-hee and TJ Park')]
 
 
 def _year(s):
@@ -3602,108 +3688,202 @@ def _year(s):
     return m.group(1) if m else ''
 
 
-def tj_series_rows():
-    """박태준 연구총서를 게시판에서 뽑아 권 차례대로 돌려준다."""
-    rows = []
-    for it in load('board_books_tj') or []:
-        t = it.get('title') or ''
-        m = re.search(r'연구\s*총서\s*(\d+)\s*권', t)
-        if not m:
-            continue
-        name = re.sub(r'\s*-\s*(청암\s*)?박태준\s*연구\s*총서\s*\d+\s*권\s*$', '', t).strip()
-        rows.append((int(m.group(1)), name, _year(it.get('date')), str(it.get('idx'))))
-    rows.sort()
-    return rows
+def _tj_index(board):
+    return {str(it.get('idx')): it for it in (load('board_' + board) or [])}
 
 
-def tj_other_rows():
-    by_idx = {str(it.get('idx')): it for it in (load('board_books_tj') or [])}
-    out = []
-    for idx, note in TJ_OTHER_BOOKS:
-        it = by_idx.get(idx)
-        if it is None:
-            raise SystemExit(f'박태준연구 소개: 단행본 {idx}번이 게시판에 없습니다')
-        out.append((str(it.get('title') or ''), _year(it.get('date')), idx, note))
-    return out
-
-
-def klist(rows, depth, base):
-    """제목과 연도를 한 줄씩 세우고 개별 글로 잇는다."""
+def klist(rows):
+    """제목 + 한 줄 설명 + 연도를 한 줄씩 세우고 개별 글로 잇는다.
+    rows: (제목, 연도, 링크, 설명)"""
     li = []
-    for title, year, idx, note in rows:
+    for title, year, href, note in rows:
         meta = f'<span class="ky">{E(year)}</span>' if year else ''
         sub = f'<span class="kn">{E(note)}</span>' if note else ''
-        li.append(f'<li><a href="{rel(depth)}{base}/{E(idx)}.html">'
+        li.append(f'<li><a href="{E(href)}">'
                   f'<span class="kt">{E(title)}{sub}</span>{meta}</a></li>')
     return f'<ul class="klist">{"".join(li)}</ul>'
 
 
+def tj_series_no(title):
+    m = re.search(r'연구\s*총서\s*(\d+)\s*권', title or '')
+    return int(m.group(1)) if m else None
+
+
+def tj_clean_title(title):
+    return re.sub(r'\s*-\s*(청암\s*)?박태준\s*연구\s*총서\s*\d+\s*권\s*$', '',
+                  title or '').strip()
+
+
+def tj_fields_page(depth, lang='ko'):
+    ko = lang == 'ko'
+    r = rel(depth)
+    books = _tj_index('books_tj')
+    reports = _tj_index('reports_tj')
+    used_b, used_r = set(), set()
+
+    def brow(idx, extra=None):
+        it = books.get(idx)
+        if it is None:
+            raise SystemExit(f'연구분야: 총서/단행본 {idx}번이 게시판에 없습니다')
+        used_b.add(idx)
+        t = it.get('title') or ''
+        n = tj_series_no(t)
+        note = (f'총서 {n}권' if ko else f'Vol. {n}') if n else ''
+        over = TJ_BOOK_NOTE.get(idx)
+        if over:
+            note = over[0] if ko else over[1]
+        if extra:
+            note = extra
+        return (tj_clean_title(t), _year(it.get('date')),
+                f'{r}tjpark-research/books/{idx}.html', note)
+
+    def rrow(idx):
+        it = reports.get(idx)
+        if it is None:
+            raise SystemExit(f'연구분야: 연구보고서 {idx}번이 게시판에 없습니다')
+        used_r.add(idx)
+        t = re.sub(r'^\[[^\]]*\]\s*', '', it.get('title') or '')
+        over = TJ_REPORT_NOTE.get(idx)
+        note = ((over[0] if ko else over[1]) if over
+                else ('연구보고서' if ko else 'Research report'))
+        return (t, _year(it.get('date')),
+                f'{r}tjpark-research/reports/{idx}.html', note)
+
+    out = ['<div class="prose">']
+    if ko:
+        out.append('<p class="lead">박태준연구는 한 사람의 일대기가 아니라, '
+                   '그가 남긴 정신과 방법을 갈래로 나누어 읽는 일입니다.</p>')
+        out.append('<p>바탕이 된 자료는 포스코의 사사와 사보, 포스텍과 '
+                   '포스코교육재단 학교들의 교사(校史), 포항산업과학연구원의 사사, '
+                   '전기문학과 기존 연구논문, 신문과 잡지, 그리고 국판 일만 쪽에 '
+                   '이르는 ‘박태준 어록’입니다. 2010년과 2011년에 걸쳐 여러 분야 '
+                   '학자 38명이 32편의 논문을 썼고, 그 뒤로도 연구가 이어졌습니다. '
+                   '지금까지 다섯 갈래입니다.</p>')
+    else:
+        out.append('<p class="lead">TJ Park Research is not a life story. It is '
+                   'his spirit and his methods, read one strand at a time.</p>')
+        out.append('<p>The source material is POSCO’s corporate history and '
+                   'house journals, the institutional histories of POSTECH and '
+                   'the POSCO Education Foundation schools and of RIST, the '
+                   'existing biographical literature and research papers, '
+                   'newspapers and magazines, and some ten thousand pages of his '
+                   'recorded words. Over 2010 and 2011, thirty-eight scholars '
+                   'across several disciplines wrote thirty-two papers, and the '
+                   'work has continued since. There are five strands.</p>')
+    out.append('</div>')
+
+    for i, (key, ko_name, en_name, bids, rids) in enumerate(TJ_FIELDS, 1):
+        name = ko_name if ko else en_name
+        body = (TJ_FIELD_KO if ko else TJ_FIELD_EN)[key]
+        out.append(f'<div class="prose"><h2>{i}. {E(name)}</h2>{body}</div>')
+        out.append(klist([brow(x) for x in bids] + [rrow(x) for x in rids]))
+
+    if ko:
+        out.append('<div class="prose"><h2>교육으로 옮긴 자리</h2>'
+                   '<p>연구는 책으로 끝나지 않았습니다. 청소년과 대학생이 교실에서 '
+                   '바로 읽을 수 있도록 교재로 다시 썼고, 리더십 교육에는 워크북을 '
+                   '붙였습니다.</p></div>')
+    else:
+        out.append('<div class="prose"><h2>Carried into the classroom</h2>'
+                   '<p>The research did not stop at books. It was rewritten as '
+                   'teaching material for secondary and university students, with '
+                   'a workbook for leadership courses.</p></div>')
+    out.append(klist([brow(i, k if ko else e) for i, k, e in TJ_TEACHING]))
+
+    if ko:
+        out.append('<div class="prose"><h2>기록으로 남기는 일</h2>'
+                   '<p>연구가 서려면 먼저 기록이 있어야 합니다. 평전과 증언, 연보가 '
+                   '그 바탕입니다. 연구소는 이 기록을 모으고 잇는 일도 함께 '
+                   '맡습니다.</p></div>')
+    else:
+        out.append('<div class="prose"><h2>Keeping the record</h2>'
+                   '<p>Research needs a record to stand on: the biography, the '
+                   'recollections, the chronology. The Institute gathers and '
+                   'maintains that record as well.</p></div>')
+    out.append(klist([brow(i, k if ko else e) for i, k, e in TJ_RECORD]))
+    rb = base(depth, lang)
+    if ko:
+        links = [('life/chronology.html', '연보'), ('life/who.html', '박태준을 말한다'),
+                 ('life/steel.html', '쇳물은 멈추지 않는다'),
+                 ('life/meet.html', '위대한 만남'), ('life/video.html', '영상')]
+    else:
+        links = [('life/chronology.html', 'Chronology'), ('life/who.html', 'In Their Words'),
+                 ('life/steel.html', 'The Iron Never Stops'),
+                 ('life/meet.html', 'A Great Meeting'), ('life/video.html', 'Video')]
+    btns = ' '.join(f'<a class="btn btn-g" href="{rb}{h}">{E(t)}</a>' for h, t in links)
+    out.append(f'<div class="prose"><p class="art-more btnrow">{btns}</p></div>')
+
+    # 구 사이트의 '연구분야'는 2013~2015년 사업계획 네 줄이었다. 버리지 않고
+    # 그 시절의 기록으로 남긴다.
+    blocks = [b for b in blocks_of('tj_research_theme')
+              if b.strip() and not re.match(r'^\d{4}년', b.strip())]
+    if blocks:
+        if ko:
+            out.append('<div class="prose"><h2>연구에서 사업으로 (2013~2015)</h2>'
+                       '<p>연구소가 문을 연 뒤 처음 세운 사업 계획입니다. 이 가운데 '
+                       '교재 두 종과 포스텍 건학이념 기록은 실제로 책이 되었습니다.</p>')
+        else:
+            out.append('<div class="prose"><h2>From research to programmes '
+                       '(2013–2015)</h2>'
+                       '<p>The Institute’s first programme plan after it opened. '
+                       'Two of the textbooks and the record of POSTECH’s founding '
+                       'were in fact published.</p>')
+        for b in blocks:
+            b = b.strip()
+            if re.match(r'^\d+\s', b):
+                head = re.sub(r'^\d+\s+', '', b)
+                out.append(f'<h3>{E(head)}</h3>')
+            else:
+                out.append(f'<p>{E(b)}</p>')
+        out.append('</div>')
+        if not ko:
+            out.append(f'<div class="prose">{SRC_KO}</div>')
+
+    all_series = {i for i, it in books.items() if tj_series_no(it.get('title'))}
+    if all_series - used_b:
+        raise SystemExit(f'연구분야: 갈래에 넣지 않은 총서가 있습니다 {sorted(all_series - used_b)}')
+    all_reports = set(reports)
+    if all_reports - used_r:
+        raise SystemExit(f'연구분야: 갈래에 넣지 않은 연구보고서가 있습니다 {sorted(all_reports - used_r)}')
+    return ''.join(out)
+
+
 def tj_intro_page(depth, lang='ko'):
     bg = [b for b in blocks_of('tj_research_intro') if len(b) > 40]
-    series = tj_series_rows()
-    others = tj_other_rows()
-    reports = len([x for x in (load('board_reports_tj') or []) if x.get('idx')])
     r = rel(depth)
+    rb = base(depth, lang)
     ko = lang == 'ko'
-
-    srows = [(name, year, idx, f'총서 {n}권' if ko else f'Vol. {n}')
-             for n, name, year, idx in series]
-    orows = [(t, y, i, (note if ko else TJ_OTHER_BOOKS_EN.get(i, '')))
-             for t, y, i, note in others]
-
     out = ['<div class="prose">']
     if ko:
         out.append('<p class="lead">박태준의 정신과 리더십을 학문의 언어로 '
                    '정리해, 교육과 사회가 쓸 수 있는 자산으로 남기는 일입니다.</p>')
         out += [f'<p>{E(x)}</p>' for x in bg]
-
-        out.append('<h2>연구가 걸어온 길</h2>')
-        out.append('<p>위에서 말한 다섯 권이 『청암박태준연구총서』입니다. '
-                   '2010년과 2011년에 걸쳐 여섯 분야의 연구자 서른 명이 각자 '
-                   '한 대목씩을 맡아 분석했고, 그 결과가 2012년 4월에 다섯 권으로 '
-                   '한꺼번에 나왔습니다.</p>')
-        out.append('<p>총서를 펴내며 연구진은, 박태준 연구란 후세가 그의 정신을 '
-                   '기억하고 무형의 사회적 자산으로 쓸 수 있게 하려는 일이라고 '
-                   '적었습니다. 영웅이라는 헌사만 남기고 정신은 잊히는 자리에, '
-                   '인물 연구와 전기문학이 버팀목을 세운다는 뜻이었습니다.</p>')
-        out.append('<p>2013년 2월 박태준미래전략연구소가 문을 열면서 이 연구는 '
-                   '상시 사업이 되었습니다. 총서는 여덟 권까지 이어졌고, 연구 '
-                   '결과를 교실에서 바로 쓸 수 있도록 청소년용과 대학생용 교재로 '
-                   '다시 썼습니다. 지금은 박태준의 삶을 기록으로 모으는 일 '
-                   '— 연보와 증언, 신문 연재와 영상 — 까지 함께 맡고 있습니다.</p>')
+        out.append('<p>2010년과 2011년에 걸쳐 여러 분야 학자 38명이 32편의 논문을 '
+                   '썼고, 그 결과가 2012년 4월 『청암박태준연구총서』 다섯 권으로 '
+                   '한꺼번에 나왔습니다. 총서를 펴내며 연구진은, 박태준 연구란 '
+                   '후세가 그의 정신을 기억하고 무형의 사회적 자산으로 쓸 수 있게 '
+                   '하려는 일이라고 적었습니다. 영웅이라는 헌사만 남고 정신은 잊히는 '
+                   '자리에 버팀목을 세운다는 뜻이었습니다.</p>')
+        out.append('<p>2013년 2월 박태준미래전략연구소가 문을 열면서 이 연구는 상시 '
+                   '사업이 되었습니다. 총서는 여덟 권까지 이어졌고, 연구 결과는 '
+                   '청소년용과 대학생용 교재로 다시 쓰였습니다. 어떤 갈래로 무엇을 '
+                   '다루었는지는 연구분야에 정리해 두었습니다.</p>')
+        out.append(f'<p class="art-more"><a class="btn btn-g" '
+                   f'href="{rb}tjpark-research/themes.html">연구분야 보기</a></p>')
         out.append('</div>')
-
-        out.append(f'<div class="prose"><h2>박태준 연구총서</h2>'
-                   f'<p>2012년부터 여덟 권이 나왔습니다. 1권부터 5권까지는 '
-                   f'2010~2011년의 공동연구를 묶은 것이고, 6권은 타계 1주기에, '
-                   f'7권은 3주기에 맞춰 나왔습니다. 8권은 국문과 영문을 함께 '
-                   f'실었습니다.</p></div>')
-        out.append(klist(srows, depth, 'tjpark-research/books'))
-
-        out.append('<div class="prose"><h2>교재와 단행본</h2>'
-                   '<p>연구를 교실과 독자에게 옮긴 책들입니다.</p></div>')
-        out.append(klist(orows, depth, 'tjpark-research/books'))
-
-        out.append(f'<div class="prose"><h2>연구보고서</h2>'
-                   f'<p>총서에 실리기까지의 개별 연구논문 {reports}편을 따로 '
-                   f'모아 두었습니다. 리더십·경영철학·대학경영을 각각 다룹니다.</p>'
-                   f'<p class="art-more"><a class="btn btn-g" '
-                   f'href="{r}tjpark-research/reports.html">연구보고서 보기</a>'
-                   f'</p></div>')
-
         out.append('<div class="prose"><h2>청암의 뜻을 잇는 곳 — 포스코청암재단</h2>'
                    '<p>청암(靑巖)은 박태준의 호입니다. 그가 세운 재단이 그 이름으로 '
                    '오늘도 일하고 있습니다. 뿌리는 1971년 1월의 제철장학회입니다. '
-                   '포항제철소에서 첫 쇳물이 나오기 두 해 전, 회사가 아직 '
-                   '허허벌판이던 때에 장학회부터 세웠습니다. 2005년 지금의 이름으로 '
-                   '확대 개편되었습니다.</p>'
+                   '포항제철소에서 첫 쇳물이 나오기 두 해 전, 아직 허허벌판이던 때에 '
+                   '장학회부터 세웠습니다. 2005년 지금의 이름으로 확대 '
+                   '개편되었습니다.</p>'
                    '<p>재단은 네 갈래로 일합니다. <b>포스코청암상</b>(2006년 제정)은 '
-                   '과학·기술·교육·봉사 네 부문에서 해마다 수상자를 뽑습니다. '
+                   '과학·기술·교육·봉사 네 부문에서 해마다 수상자를 뽑고, '
                    '<b>포스코사이언스펠로십</b>(2009년 시작)은 기초과학과 응용과학 '
                    '분야의 신진 연구자에게 연구비를 지원합니다. '
                    '<b>포스코아시아펠로십</b>은 아시아 각국의 유학생과 현지 대학생, '
-                   '오피니언 리더를 지원하고, <b>포스코유스펠로십</b>은 포항·광양 '
-                   '지역의 청소년을 지원합니다.</p>'
+                   '오피니언 리더를, <b>포스코유스펠로십</b>은 포항·광양 지역의 '
+                   '청소년을 지원합니다.</p>'
                    '<p>연구소가 박태준의 정신을 글로 정리한다면, 재단은 그 정신을 '
                    '사람에게 들이는 방식으로 잇고 있습니다. 포스코청암재단은 포스코가 '
                    '세운 별도의 재단으로, 연구소와는 다른 기관입니다.</p>'
@@ -3720,63 +3900,35 @@ def tj_intro_page(depth, lang='ko'):
                'twenty-five years and never let go of it thereafter. Yet while '
                'management scholars had studied POSCO at length, his own spirit '
                'and leadership had gone almost unexamined.</p>')
-    out.append('</div>')
-
-    out.append('<div class="prose"><h2>How the research began</h2>'
-               '<p>The 2004 biography <i>The World’s Greatest Steelman</i> gave '
-               'the field its first common text. Over 2010 and 2011 some thirty '
-               'researchers — in philosophy, sociology, psychology, political '
-               'science, management and economics — each took up part of his '
-               'life and thought, and their work appeared together in April 2012 '
-               'as the five-volume Chungam Park Tae-Joon Research Series.</p>'
-               '<p>Their stated aim was that later generations should be able to '
-               'remember his spirit and put it to use as an intangible social '
-               'asset — that the word “hero” should not be allowed to stand in '
-               'for the substance of what he did.</p>'
-               '<p>When the Institute opened in February 2013 the work became '
+    out.append('<p>Over 2010 and 2011 thirty-eight scholars wrote thirty-two '
+               'papers, and their work appeared together in April 2012 as the '
+               'five-volume Chungam Park Tae-Joon Research Series. Their stated '
+               'aim was that later generations should be able to remember his '
+               'spirit and put it to use as an intangible social asset — that the '
+               'word “hero” should not be allowed to stand in for the substance '
+               'of what he did.</p>')
+    out.append('<p>When the Institute opened in February 2013 the work became '
                'continuous. The series has since run to eight volumes, and the '
-               'findings were rewritten as classroom material for secondary and '
-               'university students. The Institute also keeps the record of his '
-               'life — the chronology, the recollections, the newspaper series '
-               'and the films.</p></div>')
-
-    out.append('<div class="prose"><h2>The Research Series</h2>'
-               '<p>Eight volumes since 2012. Volumes 1–5 collect the joint '
-               'research of 2010–2011; volume 6 marked the first anniversary of '
-               'his death and volume 7 the third. Volume 8 is bilingual, Korean '
-               'and English.</p></div>')
-    out.append(klist(srows, depth, 'tjpark-research/books'))
-
-    out.append('<div class="prose"><h2>Teaching material and books</h2>'
-               '<p>The research carried into classrooms and to general '
-               'readers.</p></div>')
-    out.append(klist(orows, depth, 'tjpark-research/books'))
-    out.append(f'<div class="prose">{SRC_KO}</div>')
-
-    out.append(f'<div class="prose"><h2>Research reports</h2>'
-               f'<p>The {reports} individual papers behind the series are kept '
-               f'separately — on leadership, on management philosophy, and on '
-               f'his running of a university.</p>'
-               f'<p class="art-more"><a class="btn btn-g" '
-               f'href="{r}en/tjpark-research/reports.html">Research reports</a>'
-               f'</p></div>')
-
+               'findings were rewritten as classroom material. What each strand '
+               'covers is set out under Fields of Research.</p>')
+    out.append(f'<p class="art-more"><a class="btn btn-g" '
+               f'href="{rb}tjpark-research/themes.html">Fields of research</a></p>')
+    out.append('</div>')
     out.append('<div class="prose"><h2>Carrying it on — the POSCO TJ Park '
                'Foundation</h2>'
                '<p>Chungam (靑巖) was his pen name, and the foundation he '
                'established still works under it. It began in January 1971 as the '
                'Steel Scholarship Society — set up two years before the first '
-               'iron was tapped at Pohang, while the works was still open ground '
-               '— and was reorganised under its present name in 2005.</p>'
+               'iron was tapped at Pohang, while the site was still open ground — '
+               'and was reorganised under its present name in 2005.</p>'
                '<p>It runs four programmes. The <b>POSCO TJ Park Prize</b> '
                '(established 2006) is awarded annually in science, technology, '
-               'education and community service. The <b>POSCO Science '
+               'education and community service; the <b>POSCO Science '
                'Fellowship</b> (from 2009) funds early-career researchers in the '
                'basic and applied sciences. The <b>POSCO Asia Fellowship</b> '
-               'supports students from across Asia, both in Korea and at home '
-               'universities, along with a programme for opinion leaders; the '
-               '<b>POSCO Youth Fellowship</b> supports young people in Pohang '
-               'and Gwangyang.</p>'
+               'supports students from across Asia and a programme for opinion '
+               'leaders, and the <b>POSCO Youth Fellowship</b> supports young '
+               'people in Pohang and Gwangyang.</p>'
                '<p>Where the Institute sets his spirit down in writing, the '
                'foundation invests it in people. The POSCO TJ Park Foundation is '
                'a separate body, established by POSCO, and is not part of the '
