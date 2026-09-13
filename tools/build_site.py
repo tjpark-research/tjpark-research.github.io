@@ -952,6 +952,31 @@ def fig(src, depth, cap=None):
     return f'<figure class="fig"><img src="{rel(depth)}{src}" alt="{E(cap or "")}" loading="lazy">{c}</figure>'
 
 
+# 구 CMS 는 빵부스러기(연구소소개 › 설립목적 › 취지)와 쪽 제목을 본문 안에
+# 글자로 한 번 더 적어 두었다. 새 사이트는 머리말에 제목이 이미 있어서,
+# 그대로 실으면 같은 말이 두세 번 거듭 나온다. 지울 줄을 글자 그대로 적어
+# 둔다 — 규칙으로 거르면 멀쩡한 짧은 문장까지 함께 사라진다.
+LEGACY_LEAD_DROP = {
+    'lab_purpose': ['연구소소개 설립목적 취지'],
+    'youth_contest': ['청년사업 대학(원)생 공모전 공모전소개', '공모전 소개',
+                      '진행중 공모전', '지난 공모전'],
+    'youth_camp': ['청년사업 포스텍청년비전캠프 캠프소개', '포스텍청년비전캠프',
+                   '캠프 소개'],
+    'youth_camp_guide': ['청년사업 포스텍청년비전캠프 프로그램', '포스텍청년비전캠프',
+                         '프로그램', '캠프 소개', '포스텍 청년비전캠프를 소개해드립니다'],
+}
+
+
+def clean_blocks(key):
+    """구 사이트 본문에서 빵부스러기와 되풀이된 쪽 제목을 뺀다."""
+    drop = set(LEGACY_LEAD_DROP.get(key, ()))
+    out = [b for b in blocks_of(key) if b.strip() not in drop]
+    left = drop - {b.strip() for b in blocks_of(key)}
+    if left:
+        raise SystemExit(f'{key}: 지우려던 줄이 원문에 없습니다 {sorted(left)}')
+    return out
+
+
 def render_prose(blocks, images, depth, lead=True):
     out = []
     for i, b in enumerate(blocks):
@@ -1561,7 +1586,7 @@ def PAGES(depth):
     # 구 사이트는 '현재 진행중인 공모전이 없습니다'라는 안내마저 이미지였다.
     # 상태 안내는 자주 바뀌는 문구이므로 텍스트여야 고치기도 쉽다.
     P[('youth', 'index.html')] = ('대학(원)생 공모전', '전국 대학생·대학원생을 대상으로 한 에세이 공모전.',
-        render_prose(blocks_of('youth_contest'), [], d)
+        render_prose(clean_blocks('youth_contest'), [], d)
         + '<div class="prose"><h2>진행중 공모전</h2>'
           '<p class="empty-state">현재 진행중인 공모전이 없습니다.</p>'
           '<p>공모전이 열리면 이 자리와 <a href="../news/index.html">공지사항</a>에 안내합니다. '
@@ -1571,9 +1596,9 @@ def PAGES(depth):
     P[('youth', 'reviews.html')] = ('수상 후기', '공모전 수상자들이 남긴 후기.',
         render_board('youth_contest_ep', d, 'rows', detail_base='youth/reviews'))
     P[('youth', 'camp.html')] = ('포스텍 청년비전캠프', '스스로의 비전을 설계하는 캠프.',
-        render_prose(blocks_of('youth_camp'), imgs_of('youth_camp'), d))
+        render_prose(clean_blocks('youth_camp'), imgs_of('youth_camp'), d))
     P[('youth', 'camp-guide.html')] = ('캠프 안내', '청년비전캠프 참가 안내.',
-        render_prose(blocks_of('youth_camp_guide'), imgs_of('youth_camp_guide'), d))
+        render_prose(clean_blocks('youth_camp_guide'), imgs_of('youth_camp_guide'), d))
     P[('youth', 'camp-reviews.html')] = ('캠프 후기', '청년비전캠프 참가자들의 후기.',
         render_board('youth_camp_ep', d, 'rows', detail_base='youth/camp-reviews'))
     P[('youth', 'gallery.html')] = ('갤러리', '공모전 시상식과 청년비전캠프의 기록.',
@@ -1598,7 +1623,7 @@ def PAGES(depth):
     P[('about', 'index.html')] = ('인사말', '박태준미래전략연구소 소장 인사말.',
         render_prose(blocks_of('lab_greeting'), [], d) + greeting_photos(d, 'ko'))
     P[('about', 'purpose.html')] = ('설립목적', '연구소 설립의 취지.',
-        render_prose(blocks_of('lab_purpose'), [], d))
+        render_prose(clean_blocks('lab_purpose'), [], d))
     P[('about', 'mission.html')] = ('미션', '박태준미래전략연구소의 미션.', mission_page(d, 'ko'))
     P[('about', 'history.html')] = ('연혁', '2013년 개소 이후의 연혁.',
         render_timeline(fix_history(blocks_of('lab_history')) + curated_history()[0]))
@@ -3775,28 +3800,28 @@ def tj_fields_page(depth, lang='ko'):
     for i, (key, ko_name, en_name, bids, rids) in enumerate(TJ_FIELDS, 1):
         name = ko_name if ko else en_name
         body = (TJ_FIELD_KO if ko else TJ_FIELD_EN)[key]
-        out.append(f'<div class="prose"><h2>{i}. {E(name)}</h2>{body}</div>')
+        out.append(f'<div class="prose sec"><h2>{i}. {E(name)}</h2>{body}</div>')
         out.append(klist([brow(x) for x in bids] + [rrow(x) for x in rids]))
 
     if ko:
-        out.append('<div class="prose"><h2>교육으로 옮긴 자리</h2>'
+        out.append('<div class="prose sec"><h2>교육으로 옮긴 자리</h2>'
                    '<p>연구는 책으로 끝나지 않았습니다. 청소년과 대학생이 교실에서 '
                    '바로 읽을 수 있도록 교재로 다시 썼고, 리더십 교육에는 워크북을 '
                    '붙였습니다.</p></div>')
     else:
-        out.append('<div class="prose"><h2>Carried into the classroom</h2>'
+        out.append('<div class="prose sec"><h2>Carried into the classroom</h2>'
                    '<p>The research did not stop at books. It was rewritten as '
                    'teaching material for secondary and university students, with '
                    'a workbook for leadership courses.</p></div>')
     out.append(klist([brow(i, k if ko else e) for i, k, e in TJ_TEACHING]))
 
     if ko:
-        out.append('<div class="prose"><h2>기록으로 남기는 일</h2>'
+        out.append('<div class="prose sec"><h2>기록으로 남기는 일</h2>'
                    '<p>연구가 서려면 먼저 기록이 있어야 합니다. 평전과 증언, 연보가 '
                    '그 바탕입니다. 연구소는 이 기록을 모으고 잇는 일도 함께 '
                    '맡습니다.</p></div>')
     else:
-        out.append('<div class="prose"><h2>Keeping the record</h2>'
+        out.append('<div class="prose sec"><h2>Keeping the record</h2>'
                    '<p>Research needs a record to stand on: the biography, the '
                    'recollections, the chronology. The Institute gathers and '
                    'maintains that record as well.</p></div>')
@@ -3819,11 +3844,11 @@ def tj_fields_page(depth, lang='ko'):
               if b.strip() and not re.match(r'^\d{4}년', b.strip())]
     if blocks:
         if ko:
-            out.append('<div class="prose"><h2>연구에서 사업으로 (2013~2015)</h2>'
+            out.append('<div class="prose sec"><h2>연구에서 사업으로 (2013~2015)</h2>'
                        '<p>연구소가 문을 연 뒤 처음 세운 사업 계획입니다. 이 가운데 '
                        '교재 두 종과 포스텍 건학이념 기록은 실제로 책이 되었습니다.</p>')
         else:
-            out.append('<div class="prose"><h2>From research to programmes '
+            out.append('<div class="prose sec"><h2>From research to programmes '
                        '(2013–2015)</h2>'
                        '<p>The Institute’s first programme plan after it opened. '
                        'Two of the textbooks and the record of POSTECH’s founding '
@@ -3871,7 +3896,7 @@ def tj_intro_page(depth, lang='ko'):
         out.append(f'<p class="art-more"><a class="btn btn-g" '
                    f'href="{rb}tjpark-research/themes.html">연구분야 보기</a></p>')
         out.append('</div>')
-        out.append('<div class="prose"><h2>청암의 뜻을 잇는 곳 — 포스코청암재단</h2>'
+        out.append('<div class="prose sec"><h2>청암의 뜻을 잇는 곳 — 포스코청암재단</h2>'
                    '<p>청암(靑巖)은 박태준의 호입니다. 그가 세운 재단이 그 이름으로 '
                    '오늘도 일하고 있습니다. 뿌리는 1971년 1월의 제철장학회입니다. '
                    '포항제철소에서 첫 쇳물이 나오기 두 해 전, 아직 허허벌판이던 때에 '
@@ -3914,7 +3939,7 @@ def tj_intro_page(depth, lang='ko'):
     out.append(f'<p class="art-more"><a class="btn btn-g" '
                f'href="{rb}tjpark-research/themes.html">Fields of research</a></p>')
     out.append('</div>')
-    out.append('<div class="prose"><h2>Carrying it on — the POSCO TJ Park '
+    out.append('<div class="prose sec"><h2>Carrying it on — the POSCO TJ Park '
                'Foundation</h2>'
                '<p>Chungam (靑巖) was his pen name, and the foundation he '
                'established still works under it. It began in January 1971 as the '
