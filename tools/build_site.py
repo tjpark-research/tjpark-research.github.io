@@ -1529,7 +1529,7 @@ def PAGES(depth):
         render_board('contest_winners', d, 'cards', detail_base='research/contest'))
     # ── 박태준연구
     P[('tjpark', 'index.html')] = ('연구소개', '박태준의 정신과 리더십을 체계적으로 연구하고 사회적 자산으로 전파합니다.',
-        render_prose(blocks_of('tj_research_intro'), imgs_of('tj_research_intro'), d))
+        tj_intro_page(d, 'ko'))
     P[('tjpark', 'themes.html')] = ('연구분야', '박태준연구의 연도별 주제입니다.',
         render_prose(blocks_of('tj_research_theme'), imgs_of('tj_research_theme'), d))
     P[('tjpark', 'books.html')] = ('연구총서', '박태준 연구총서와 관련 단행본.',
@@ -2908,7 +2908,7 @@ def EN_PAGES(depth):
         en_board('contest_winners', d))
     # ── TJ Park Research
     P[('tjpark', 'index.html')] = ('Background', 'Studying the spirit and leadership of Tae-Joon Park.',
-        render_prose([b for b in blocks_of('en_tj_bg') if len(b) > 40], [], d))
+        tj_intro_page(d, 'en'))
     P[('tjpark', 'themes.html')] = ('Fields of Research', 'Programmes carried out under TJ Park Research.',
         render_prose([b for b in blocks_of('en_tj_fields') if 40 < len(b) < 1200], [], d))
     P[('tjpark', 'books.html')] = ('Research Series', 'The TJ Park Research Series and related books.',
@@ -3563,6 +3563,227 @@ def research_intro_page(depth):
         out.append('<h2>네트워킹</h2>')
         out += [f'<p>{E(x)}</p>' for x in network]
     out.append('</div>')
+    return ''.join(out)
+
+
+# ────────────────────────────────── 박태준연구 > 연구소개
+#
+# 구 사이트의 이 쪽은 문단 하나가 전부였다. 연구가 어디까지 와 있는지,
+# 그 결과물이 이 사이트 어디에 있는지 알 길이 없었다. 배경 문단은 그대로
+# 두고, 그 뒤에 연구가 걸어온 길과 실제로 나온 책·보고서를 잇는다.
+#
+# 총서 목록은 손으로 적지 않고 게시판에서 뽑는다. 새 권이 올라오면 이 쪽도
+# 따라 늘어난다.
+
+# 총서 말고, 연구소가 펴냈거나 연구소 일과 맞물린 책들. 게시판 번호로
+# 가리키고, 번호가 없어지면 빌드가 멈춘다(조용히 빠지지 않도록).
+TJ_OTHER_BOOKS = [
+    ('33', '청소년용 리더십 교과서'),
+    ('32', '대학생용 교재'),
+    ('35', '포스텍 설립의 기록'),
+    ('39', '박정희와 박태준, 두 사람의 기록'),
+    ('48', '이대환이 쓴 평전'),
+    ('62', '리더십 교육 교재와 워크북'),
+]
+TJ_OTHER_BOOKS_EN = {
+    '33': 'Leadership reader for secondary schools',
+    '32': 'Textbook for university courses',
+    '35': 'On the founding of POSTECH',
+    '39': 'Park Chung-hee and TJ Park',
+    '48': 'The biography, by Lee Dae-hwan',
+    '62': 'Teaching material and workbook',
+}
+
+TJ_FOUNDATION = 'https://www.postf.org/'
+
+
+def _year(s):
+    m = re.search(r'(\d{4})', s or '')
+    return m.group(1) if m else ''
+
+
+def tj_series_rows():
+    """박태준 연구총서를 게시판에서 뽑아 권 차례대로 돌려준다."""
+    rows = []
+    for it in load('board_books_tj') or []:
+        t = it.get('title') or ''
+        m = re.search(r'연구\s*총서\s*(\d+)\s*권', t)
+        if not m:
+            continue
+        name = re.sub(r'\s*-\s*(청암\s*)?박태준\s*연구\s*총서\s*\d+\s*권\s*$', '', t).strip()
+        rows.append((int(m.group(1)), name, _year(it.get('date')), str(it.get('idx'))))
+    rows.sort()
+    return rows
+
+
+def tj_other_rows():
+    by_idx = {str(it.get('idx')): it for it in (load('board_books_tj') or [])}
+    out = []
+    for idx, note in TJ_OTHER_BOOKS:
+        it = by_idx.get(idx)
+        if it is None:
+            raise SystemExit(f'박태준연구 소개: 단행본 {idx}번이 게시판에 없습니다')
+        out.append((str(it.get('title') or ''), _year(it.get('date')), idx, note))
+    return out
+
+
+def klist(rows, depth, base):
+    """제목과 연도를 한 줄씩 세우고 개별 글로 잇는다."""
+    li = []
+    for title, year, idx, note in rows:
+        meta = f'<span class="ky">{E(year)}</span>' if year else ''
+        sub = f'<span class="kn">{E(note)}</span>' if note else ''
+        li.append(f'<li><a href="{rel(depth)}{base}/{E(idx)}.html">'
+                  f'<span class="kt">{E(title)}{sub}</span>{meta}</a></li>')
+    return f'<ul class="klist">{"".join(li)}</ul>'
+
+
+def tj_intro_page(depth, lang='ko'):
+    bg = [b for b in blocks_of('tj_research_intro') if len(b) > 40]
+    series = tj_series_rows()
+    others = tj_other_rows()
+    reports = len([x for x in (load('board_reports_tj') or []) if x.get('idx')])
+    r = rel(depth)
+    ko = lang == 'ko'
+
+    srows = [(name, year, idx, f'총서 {n}권' if ko else f'Vol. {n}')
+             for n, name, year, idx in series]
+    orows = [(t, y, i, (note if ko else TJ_OTHER_BOOKS_EN.get(i, '')))
+             for t, y, i, note in others]
+
+    out = ['<div class="prose">']
+    if ko:
+        out.append('<p class="lead">박태준의 정신과 리더십을 학문의 언어로 '
+                   '정리해, 교육과 사회가 쓸 수 있는 자산으로 남기는 일입니다.</p>')
+        out += [f'<p>{E(x)}</p>' for x in bg]
+
+        out.append('<h2>연구가 걸어온 길</h2>')
+        out.append('<p>위에서 말한 다섯 권이 『청암박태준연구총서』입니다. '
+                   '2010년과 2011년에 걸쳐 여섯 분야의 연구자 서른 명이 각자 '
+                   '한 대목씩을 맡아 분석했고, 그 결과가 2012년 4월에 다섯 권으로 '
+                   '한꺼번에 나왔습니다.</p>')
+        out.append('<p>총서를 펴내며 연구진은, 박태준 연구란 후세가 그의 정신을 '
+                   '기억하고 무형의 사회적 자산으로 쓸 수 있게 하려는 일이라고 '
+                   '적었습니다. 영웅이라는 헌사만 남기고 정신은 잊히는 자리에, '
+                   '인물 연구와 전기문학이 버팀목을 세운다는 뜻이었습니다.</p>')
+        out.append('<p>2013년 2월 박태준미래전략연구소가 문을 열면서 이 연구는 '
+                   '상시 사업이 되었습니다. 총서는 여덟 권까지 이어졌고, 연구 '
+                   '결과를 교실에서 바로 쓸 수 있도록 청소년용과 대학생용 교재로 '
+                   '다시 썼습니다. 지금은 박태준의 삶을 기록으로 모으는 일 '
+                   '— 연보와 증언, 신문 연재와 영상 — 까지 함께 맡고 있습니다.</p>')
+        out.append('</div>')
+
+        out.append(f'<div class="prose"><h2>박태준 연구총서</h2>'
+                   f'<p>2012년부터 여덟 권이 나왔습니다. 1권부터 5권까지는 '
+                   f'2010~2011년의 공동연구를 묶은 것이고, 6권은 타계 1주기에, '
+                   f'7권은 3주기에 맞춰 나왔습니다. 8권은 국문과 영문을 함께 '
+                   f'실었습니다.</p></div>')
+        out.append(klist(srows, depth, 'tjpark-research/books'))
+
+        out.append('<div class="prose"><h2>교재와 단행본</h2>'
+                   '<p>연구를 교실과 독자에게 옮긴 책들입니다.</p></div>')
+        out.append(klist(orows, depth, 'tjpark-research/books'))
+
+        out.append(f'<div class="prose"><h2>연구보고서</h2>'
+                   f'<p>총서에 실리기까지의 개별 연구논문 {reports}편을 따로 '
+                   f'모아 두었습니다. 리더십·경영철학·대학경영을 각각 다룹니다.</p>'
+                   f'<p class="art-more"><a class="btn btn-g" '
+                   f'href="{r}tjpark-research/reports.html">연구보고서 보기</a>'
+                   f'</p></div>')
+
+        out.append('<div class="prose"><h2>청암의 뜻을 잇는 곳 — 포스코청암재단</h2>'
+                   '<p>청암(靑巖)은 박태준의 호입니다. 그가 세운 재단이 그 이름으로 '
+                   '오늘도 일하고 있습니다. 뿌리는 1971년 1월의 제철장학회입니다. '
+                   '포항제철소에서 첫 쇳물이 나오기 두 해 전, 회사가 아직 '
+                   '허허벌판이던 때에 장학회부터 세웠습니다. 2005년 지금의 이름으로 '
+                   '확대 개편되었습니다.</p>'
+                   '<p>재단은 네 갈래로 일합니다. <b>포스코청암상</b>(2006년 제정)은 '
+                   '과학·기술·교육·봉사 네 부문에서 해마다 수상자를 뽑습니다. '
+                   '<b>포스코사이언스펠로십</b>(2009년 시작)은 기초과학과 응용과학 '
+                   '분야의 신진 연구자에게 연구비를 지원합니다. '
+                   '<b>포스코아시아펠로십</b>은 아시아 각국의 유학생과 현지 대학생, '
+                   '오피니언 리더를 지원하고, <b>포스코유스펠로십</b>은 포항·광양 '
+                   '지역의 청소년을 지원합니다.</p>'
+                   '<p>연구소가 박태준의 정신을 글로 정리한다면, 재단은 그 정신을 '
+                   '사람에게 들이는 방식으로 잇고 있습니다. 포스코청암재단은 포스코가 '
+                   '세운 별도의 재단으로, 연구소와는 다른 기관입니다.</p>'
+                   f'<p class="art-more"><a class="btn btn-g" href="{TJ_FOUNDATION}" '
+                   f'target="_blank" rel="noopener">포스코청암재단</a></p></div>')
+        return ''.join(out)
+
+    out.append('<p class="lead">Setting down the spirit and leadership of '
+               'Tae-Joon Park in scholarly form, so that it remains usable by '
+               'teachers and by society at large.</p>')
+    out.append('<p>POSCO led South Korea’s industrialisation in the second half '
+               'of the twentieth century and became one of the world’s foremost '
+               'steelmakers. Tae-Joon Park ran the company for its first '
+               'twenty-five years and never let go of it thereafter. Yet while '
+               'management scholars had studied POSCO at length, his own spirit '
+               'and leadership had gone almost unexamined.</p>')
+    out.append('</div>')
+
+    out.append('<div class="prose"><h2>How the research began</h2>'
+               '<p>The 2004 biography <i>The World’s Greatest Steelman</i> gave '
+               'the field its first common text. Over 2010 and 2011 some thirty '
+               'researchers — in philosophy, sociology, psychology, political '
+               'science, management and economics — each took up part of his '
+               'life and thought, and their work appeared together in April 2012 '
+               'as the five-volume Chungam Park Tae-Joon Research Series.</p>'
+               '<p>Their stated aim was that later generations should be able to '
+               'remember his spirit and put it to use as an intangible social '
+               'asset — that the word “hero” should not be allowed to stand in '
+               'for the substance of what he did.</p>'
+               '<p>When the Institute opened in February 2013 the work became '
+               'continuous. The series has since run to eight volumes, and the '
+               'findings were rewritten as classroom material for secondary and '
+               'university students. The Institute also keeps the record of his '
+               'life — the chronology, the recollections, the newspaper series '
+               'and the films.</p></div>')
+
+    out.append('<div class="prose"><h2>The Research Series</h2>'
+               '<p>Eight volumes since 2012. Volumes 1–5 collect the joint '
+               'research of 2010–2011; volume 6 marked the first anniversary of '
+               'his death and volume 7 the third. Volume 8 is bilingual, Korean '
+               'and English.</p></div>')
+    out.append(klist(srows, depth, 'tjpark-research/books'))
+
+    out.append('<div class="prose"><h2>Teaching material and books</h2>'
+               '<p>The research carried into classrooms and to general '
+               'readers.</p></div>')
+    out.append(klist(orows, depth, 'tjpark-research/books'))
+    out.append(f'<div class="prose">{SRC_KO}</div>')
+
+    out.append(f'<div class="prose"><h2>Research reports</h2>'
+               f'<p>The {reports} individual papers behind the series are kept '
+               f'separately — on leadership, on management philosophy, and on '
+               f'his running of a university.</p>'
+               f'<p class="art-more"><a class="btn btn-g" '
+               f'href="{r}en/tjpark-research/reports.html">Research reports</a>'
+               f'</p></div>')
+
+    out.append('<div class="prose"><h2>Carrying it on — the POSCO TJ Park '
+               'Foundation</h2>'
+               '<p>Chungam (靑巖) was his pen name, and the foundation he '
+               'established still works under it. It began in January 1971 as the '
+               'Steel Scholarship Society — set up two years before the first '
+               'iron was tapped at Pohang, while the works was still open ground '
+               '— and was reorganised under its present name in 2005.</p>'
+               '<p>It runs four programmes. The <b>POSCO TJ Park Prize</b> '
+               '(established 2006) is awarded annually in science, technology, '
+               'education and community service. The <b>POSCO Science '
+               'Fellowship</b> (from 2009) funds early-career researchers in the '
+               'basic and applied sciences. The <b>POSCO Asia Fellowship</b> '
+               'supports students from across Asia, both in Korea and at home '
+               'universities, along with a programme for opinion leaders; the '
+               '<b>POSCO Youth Fellowship</b> supports young people in Pohang '
+               'and Gwangyang.</p>'
+               '<p>Where the Institute sets his spirit down in writing, the '
+               'foundation invests it in people. The POSCO TJ Park Foundation is '
+               'a separate body, established by POSCO, and is not part of the '
+               'Institute.</p>'
+               f'<p class="art-more"><a class="btn btn-g" href="{TJ_FOUNDATION}" '
+               f'target="_blank" rel="noopener">POSCO TJ Park Foundation</a>'
+               f'</p></div>')
     return ''.join(out)
 
 

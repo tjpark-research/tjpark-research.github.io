@@ -361,6 +361,17 @@ ul,ol{margin:0;padding:0;list-style:none}
 .ft-rel{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:#82827c}
 .ft-rel a:hover{color:var(--gold)}
 
+/* 제목 + 연도 한 줄 목록 (박태준연구 소개의 총서·단행본) */
+.klist{max-width:840px;margin:6px 0 34px}
+.klist li{border-bottom:1px solid var(--line)}
+.klist a{display:flex;align-items:baseline;gap:16px;padding:14px 0;
+  font-size:15px;color:var(--text-2);transition:.2s}
+.klist a:hover{color:var(--crimson)}
+.klist .kt{flex:1 1 auto;line-height:1.5}
+.klist .kn{display:block;margin-top:4px;font-size:12px;color:var(--muted)}
+.klist .ky{flex:none;font-size:12.5px;color:var(--muted);
+  font-variant-numeric:tabular-nums}
+
 /* =========================================================
    Search
    ========================================================= */
