@@ -428,6 +428,47 @@ mark{background:rgba(158,27,50,.13);color:inherit;padding:0 1px;border-radius:2p
   box-shadow:none;margin-top:12px;max-height:46vh}
 
 /* =========================================================
+   Quick links (구 홈페이지 첫 화면 아래 세 칸)
+   ========================================================= */
+/* 바탕색은 구 사이트의 띠 색이자 아이콘 원본의 배경색이다. 인물 사진은
+   배경이 이 색이라 잘라 내지 않아도 띠에 그대로 녹아든다. */
+.quick{background:#f2f1ed}
+.quick .wrap{padding-left:0;padding-right:0}
+.q-grid{display:grid;grid-template-columns:380px 1fr;align-items:center}
+.q-photo{margin:0}
+.q-photo img{display:block;width:380px;height:auto}
+.q-list{display:grid;grid-template-columns:repeat(3,1fr);padding:40px 0 44px}
+.q-list li{border-right:1px solid #ddcfbd}
+.q-list li:last-child{border-right:0}
+.q-list a{display:flex;flex-direction:column;align-items:center;
+  color:#a9814a;text-align:center;line-height:1.5}
+/* 그림 세 장은 크기가 제각각이다. 아래를 맞춰 글자 줄이 나란히 서게 한다. */
+.q-list .ic{display:flex;align-items:flex-end;justify-content:center;
+  height:132px;margin-bottom:18px}
+.q-list img{display:block;max-width:100%;height:auto;
+  transition:transform .25s ease}
+.q-list a:hover img{transform:translateY(-5px)}
+.q-list .k{font-size:17px;font-weight:600;letter-spacing:-.01em}
+.q-list a:hover .k{color:#8c6636}
+.q-list .e{font-size:13px;color:#b79a72;margin-top:3px}
+
+@media (max-width:1080px){
+  .q-grid{grid-template-columns:300px 1fr}
+  .q-photo img{width:300px}
+}
+@media (max-width:860px){
+  .q-grid{grid-template-columns:1fr}
+  .q-photo{display:none}
+  .q-list{padding:34px 24px 38px}
+}
+@media (max-width:560px){
+  .q-list .ic{height:78px;margin-bottom:12px}
+  .q-list img{max-height:78px;width:auto}
+  .q-list .k{font-size:14px}
+  .q-list .e{font-size:11.5px}
+}
+
+/* =========================================================
    Responsive
    ========================================================= */
 @media (max-width:1400px){
