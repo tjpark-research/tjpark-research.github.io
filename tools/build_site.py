@@ -2557,7 +2557,6 @@ def main():
     sync_main_cardnews()
     sync_main_search()
     build_search_pages()
-    build_sitemap_xml()
 
 
 # ── 영문 '연도별 연구주제' ────────────────────────────────
@@ -4573,4 +4572,6 @@ def bio_page(depth):
 if __name__ == '__main__':
     main()
     build_details()
+    # 개별 글이 다 만들어진 뒤라야 sitemap 과 검색 색인이 새 글을 본다.
+    build_sitemap_xml()
     build_search_index()
