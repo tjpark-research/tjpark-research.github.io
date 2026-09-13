@@ -591,6 +591,8 @@ def load(name):
     if extra:
         # 새 책이 목록 맨 앞에 온다(구 게시판은 최신순이다).
         data = extra + data
+    if name in ('board_youth_contest_ep', 'detail_youth_contest_ep'):
+        data = normalize_contest_ep(data)
     if name in ('board_news_notice', 'detail_news_notice'):
         data = normalize_notice(data)
     elif name in ('board_steel', 'detail_steel'):
@@ -1594,7 +1596,7 @@ def PAGES(depth):
     P[('youth', 'winners.html')] = ('수상작 보기', '역대 공모전 수상작.',
         render_board('contest_winners', d, 'cards', detail_base='research/contest'))
     P[('youth', 'reviews.html')] = ('수상 후기', '공모전 수상자들이 남긴 후기.',
-        render_board('youth_contest_ep', d, 'rows', detail_base='youth/reviews'))
+        reviews_page(d, 'ko'))
     P[('youth', 'camp.html')] = ('포스텍 청년비전캠프', '스스로의 비전을 설계하는 캠프.',
         render_prose(clean_blocks('youth_camp'), imgs_of('youth_camp'), d))
     P[('youth', 'camp-guide.html')] = ('캠프 안내', '청년비전캠프 참가 안내.',
@@ -2972,7 +2974,7 @@ def EN_PAGES(depth):
     P[('youth', 'winners.html')] = ('Award-winning Essays', 'Essays awarded in past contests.',
         en_board('contest_winners', d))
     P[('youth', 'reviews.html')] = ('In Their Words', 'Reflections from past award winners.',
-        en_board('youth_contest_ep', d))
+        reviews_page(d, 'en') + SRC_KO)
     P[('youth', 'camp.html')] = ('POSTECH Vision Camp',
         'Two days at POSTECH for students from across the country.',
         en_camp_page() + render_prose([], imgs_of('youth_camp'), d))
@@ -3588,6 +3590,91 @@ def research_intro_page(depth):
         out.append('<h2>네트워킹</h2>')
         out += [f'<p>{E(x)}</p>' for x in network]
     out.append('</div>')
+    return ''.join(out)
+
+
+# ────────────────────────────────── 청년사업 > 수상 후기
+#
+# 구 게시판은 글 번호 차례로만 늘어놓아 2016·2018·2018·2018·2017…처럼
+# 해가 뒤엉켜 있었다. 제목에 해와 상격이 이미 적혀 있으므로 그것을 읽어
+# 해마다 묶는다. 목록과 개별 글의 차례가 어긋나지 않도록 게시판 자료
+# 자체를 다시 세운다(load 에서 부른다).
+
+CONTEST_EP_RE = re.compile(r'^\s*(\d{4})\s+(.+?)\s*[-–—]\s*(.+?)\s*$')
+AWARD_RANK = [('대상', 0), ('최우수', 1), ('우수', 2), ('장려', 3)]
+
+
+def contest_ep_parts(title):
+    """'2018 에세이 대상 - 이수현, 백승연(서울여대)' → (2018, '에세이 대상', 이름)"""
+    m = CONTEST_EP_RE.match(title or '')
+    if not m:
+        return None, '', (title or '').strip()
+    return int(m.group(1)), m.group(2).strip(), m.group(3).strip()
+
+
+def award_rank(award):
+    for word, n in AWARD_RANK:
+        if word in award:
+            return n
+    return 9
+
+
+def normalize_contest_ep(items):
+    """수상 후기를 해 내림차순, 같은 해 안에서는 상격 차례로 세운다."""
+    def key(x):
+        t = x.get('title') or x.get('list_title') or ''
+        year, award, _who = contest_ep_parts(t)
+        return (-(year or 0), award_rank(award), -int(x.get('idx') or 0))
+    return sorted(items, key=key)
+
+
+def reviews_page(depth, lang='ko'):
+    """해마다 묶어 보여 준다. 게시판 자료는 이미 차례대로 서 있다."""
+    items = [x for x in (load('board_youth_contest_ep') or []) if x.get('idx')]
+    details = {str(d['idx']) for d in (load('detail_youth_contest_ep') or [])
+               if d.get('idx') and d.get('sections')}
+    ko = lang == 'ko'
+    r = rel(depth)
+    if not items:
+        return ('<div class="prose"><p>등록된 후기가 없습니다.</p></div>' if ko
+                else '<div class="prose"><p>No reflections yet.</p></div>')
+
+    years = []
+    for it in items:
+        y, award, who = contest_ep_parts(it.get('title') or '')
+        if not years or years[-1][0] != y:
+            years.append((y, []))
+        years[-1][1].append((it, award, who))
+
+    n = len(items)
+    if ko:
+        out = ['<div class="prose">'
+               '<p class="lead">공모전에서 상을 받은 학생들이 남긴 글입니다.</p>'
+               f'<p>무엇을 쓰려 했고 쓰면서 무엇이 바뀌었는지, 시상식과 '
+               f'청년비전캠프에서 무엇을 보고 왔는지를 본인의 말로 적었습니다. '
+               f'모두 {n}편입니다.</p></div>']
+    else:
+        out = ['<div class="prose">'
+               '<p class="lead">In the words of the students who won.</p>'
+               f'<p>What they set out to write, what changed as they wrote it, '
+               f'and what they took away from the ceremony and the vision camp. '
+               f'{n} pieces in all.</p></div>']
+
+    for y, rows in years:
+        label = (f'{y}년' if ko else str(y)) if y else ('연도 미상' if ko else 'Undated')
+        cnt = (f'{len(rows)}편' if ko else
+               ('1 piece' if len(rows) == 1 else f'{len(rows)} pieces'))
+        out.append(f'<div class="prose sec"><h2>{E(label)} '
+                   f'<span class="yr-n">{E(cnt)}</span></h2></div>')
+        li = []
+        for it, award, who in rows:
+            idx = str(it.get('idx'))
+            inner = (f'<span class="src">{E(award)}</span>'
+                     f'<span class="tt">{E(who)}</span>')
+            if idx in details:
+                inner = f'<a href="{r}youth/reviews/{idx}.html">{inner}</a>'
+            li.append(f'<li class="brow">{inner}</li>')
+        out.append(f'<ul class="blist">{"".join(li)}</ul>')
     return ''.join(out)
 
 

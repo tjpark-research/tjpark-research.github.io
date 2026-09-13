@@ -368,6 +368,10 @@ ul,ol{margin:0;padding:0;list-style:none}
    토막은 제목 간격을 되살린다. */
 .prose.sec h2:first-child{margin-top:44px;padding-top:22px;
   border-top:1px solid var(--line)}
+/* 소제목 옆에 붙는 건수. 제목만큼 커 보이지 않게 한다. */
+.yr-n{font-size:12.5px;font-weight:400;color:var(--muted);letter-spacing:.02em;margin-left:4px}
+/* 목록 바로 뒤에 오는 소제목은 줄이 겹친다. 목록의 마지막 줄로 갈음한다. */
+.blist + .prose.sec h2:first-child{border-top:0;padding-top:0;margin-top:38px}
 .prose h3{font-family:var(--sans);font-size:16px;color:var(--text);
   margin:26px 0 8px;font-weight:700}
 
