@@ -1623,7 +1623,7 @@ def PAGES(depth):
     P[('news', 'column.html')] = ('TJ미래전략 칼럼', '연구소가 전하는 미래전략 칼럼.', render_board('news_column', d, 'cards', detail_base='news/columns'))
     # ── 연구소소개
     P[('about', 'index.html')] = ('인사말', '박태준미래전략연구소 소장 인사말.',
-        render_prose(blocks_of('lab_greeting'), [], d) + greeting_photos(d, 'ko'))
+        greeting_page(d, 'ko'))
     P[('about', 'purpose.html')] = ('설립목적', '연구소 설립의 취지.',
         render_prose(clean_blocks('lab_purpose'), [], d))
     P[('about', 'mission.html')] = ('미션', '박태준미래전략연구소의 미션.', mission_page(d, 'ko'))
@@ -3006,24 +3006,7 @@ def EN_PAGES(depth):
     # 구 영문 인사말은 전임 소장의 글에 현 소장 서명이 붙어 있어 그대로 쓸 수 없다.
     # 한국어 현행 인사말을 옮기고 검토 필요를 명시한다.
     P[('about', 'index.html')] = ('Greetings', 'A message from the Director.',
-        '<div class="prose">'
-        '<p class="lead">I am Minseok Song, Director of the POSTECH Tae-Joon Park Institute.</p>'
-        '<p>The Institute was founded to carry forward the spirit of the late Chairman Tae-Joon Park and '
-        'to realise the vision of POSTECH. Chairman Park held that industry and education are the core of '
-        'national development. He founded POSCO and POSTECH, and led a renaissance in both the Korean '
-        'economy and Korean scholarship.</p>'
-        '<p>Believing that “education is the most important investment a nation can make in its future”, he '
-        'insisted that practical scholarship and creative research must go together, and that the task of a '
-        'university is to let students build the capacity to solve real problems rather than merely acquire '
-        'knowledge.</p>'
-        '<p>Inheriting that conviction, the Institute analyses the challenges that universities and society '
-        'will face, and pursues two central goals: to formulate POSTECH’s medium- and long-term development '
-        'strategy, and to study the spirit and leadership of Tae-Joon Park so that they may be taught to the '
-        'next generation.</p>'
-        '<p>Amid rapid change in science, technology and social structure, the Institute will set a strategic '
-        'direction for POSTECH’s growth as a world-class university and open a path toward a sustainable future.</p>'
-        '<p class="sign">Director, POSTECH Tae-Joon Park Institute <b>Minseok Song</b></p>' + REVIEW + '</div>'
-        + greeting_photos(d, 'en'))
+        greeting_page(d, 'en'))
     P[('about', 'purpose.html')] = ('Founding Purpose', 'Why the Institute was founded.',
         render_prose([b for b in blocks_of('en_lab_purpose') if len(b) > 80], [], d))
     P[('about', 'mission.html')] = ('Mission', 'The mission of the TJ Park Institute.', mission_page(d, 'en'))
@@ -4455,6 +4438,99 @@ def greeting_photos(depth, lang='ko'):
             + _photo(P + 'greeting-award-2010.jpg', depth, caps[0])
             + _photo(P + 'greeting-group.jpg', depth, caps[1])
             + '</div>')
+
+
+# ────────────────────────────────── 연구소소개 > 인사말
+#
+# 구 사이트의 인사말은 긴 문단 하나였다. 소장이 새로 쓴 글로 갈음한다.
+# 한글이 원본이고 영문은 그 번역이다(영문 쪽에 그렇게 밝혀 둔다).
+
+GREETING_KO = [
+    '박태준 회장은 대한민국 산업화의 기반을 세운 기업가이자, 인재 양성과 '
+    '과학기술 발전을 통해 국가의 미래를 준비한 교육자였습니다. 불가능해 보이는 '
+    '목표에 도전하고, 공동체와 국가에 대한 책임을 행동으로 실천했던 그의 삶은 '
+    '오늘날에도 깊은 의미를 지니고 있습니다.',
+
+    '저는 박태준 회장이 세운 POSTECH에서 연구자이자 교육자로 성장했습니다. '
+    'POSTECH에서 배우고 연구하며 학생들을 가르치는 과정에서, 한 사람의 확고한 '
+    '신념과 헌신이 어떻게 기업과 대학을 세우고 국가의 미래를 변화시킬 수 있는지를 '
+    '가까이에서 느낄 수 있었습니다. 오늘의 제가 있기까지 POSTECH이 제공한 배움과 '
+    '성장의 기회가 큰 밑거름이 되었다고 생각합니다.',
+
+    '이러한 개인적인 인연과 감사의 마음을 바탕으로 박태준미래전략연구소 소장이라는 '
+    '책임을 맡게 된 것을 매우 뜻깊게 생각합니다. 앞으로 박태준 회장의 생애와 '
+    '업적을 충실히 기록하는 데 그치지 않고, 그의 철학과 정신이 오늘날 우리 사회에 '
+    '어떤 의미를 갖는지를 새롭게 조명하고자 합니다.',
+
+    '특히 국가와 공동체를 먼저 생각했던 책임의식, 불가능에 맞서 성과를 만들어 낸 '
+    '도전정신, 인재와 교육에 대한 확고한 믿음, 그리고 말보다 실천을 중시했던 '
+    '리더십을 미래 세대가 이해하고 이어갈 수 있도록 노력하겠습니다. 연구와 교육, '
+    '기록과 확산을 유기적으로 연결하고 국내외 연구자 및 기관과의 협력도 '
+    '확대하겠습니다.',
+
+    '박태준 회장이 만들어 준 학교에서 성장한 사람으로서, 이제는 그분의 정신을 '
+    '올바르게 연구하고 널리 알리는 일로 그 뜻에 보답하고자 합니다. '
+    '박태준미래전략연구소가 과거를 기념하는 공간을 넘어, 대한민국의 미래를 위한 '
+    '책임 있는 리더십과 실천적 지혜를 배우고 나누는 연구 플랫폼으로 발전할 수 '
+    '있도록 최선을 다하겠습니다.',
+
+    '감사합니다.',
+]
+
+GREETING_EN = [
+    'Chairman Tae-Joon Park was an industrialist who laid the foundations of '
+    'Korea’s industrialisation, and an educator who prepared the country’s '
+    'future by cultivating talent and advancing science and technology. He set '
+    'himself goals that looked impossible, and he carried out his sense of duty '
+    'to his community and his country in deeds. His life still carries deep '
+    'meaning today.',
+
+    'I grew up as a researcher and a teacher at POSTECH, the university he '
+    'founded. Studying, doing research and teaching here, I saw at close range '
+    'how one person’s firm conviction and devotion can build a company and a '
+    'university, and change the future of a nation. What POSTECH gave me — the '
+    'chance to learn and to grow — is the ground everything else in my career '
+    'stands on.',
+
+    'It is out of that personal debt and gratitude that I take up the '
+    'responsibility of directing the Institute. Our work will not stop at '
+    'recording his life and achievements faithfully. We mean to ask afresh what '
+    'his philosophy and his spirit mean for our society today.',
+
+    'Four things in particular we want the next generation to understand and '
+    'carry on: the sense of responsibility that put nation and community first, '
+    'the willingness to take on the impossible and deliver, the unshakeable '
+    'belief in people and in education, and a way of leading that valued action '
+    'over words. We will bind research, teaching, record-keeping and outreach '
+    'into one body of work, and widen our collaboration with researchers and '
+    'institutions at home and abroad.',
+
+    'As someone who grew up in the school he built, I hope to repay that debt '
+    'by studying his spirit rightly and making it widely known. We will do our '
+    'utmost so that the Institute becomes more than a place that commemorates '
+    'the past — a research platform where responsible leadership and practical '
+    'wisdom for Korea’s future are learned and shared.',
+
+    'Thank you.',
+]
+
+
+def greeting_page(depth, lang='ko'):
+    ko = lang == 'ko'
+    lead = ('박태준의 정신을 오늘의 시대와 미래 세대에 전하겠습니다.' if ko else
+            'Carrying the spirit of Tae-Joon Park to our own time and to the '
+            'next generation.')
+    blocks = GREETING_KO if ko else GREETING_EN
+    sign = ('박태준미래전략연구소 소장 <b>송민석</b>' if ko else
+            'Director, POSTECH Tae-Joon Park Institute for Future Strategy '
+            '<b>Minseok Song</b>')
+    out = [f'<div class="prose"><p class="lead">{E(lead)}</p>']
+    out += [f'<p>{E(b)}</p>' for b in blocks]
+    out.append(f'<p class="sign">{sign}</p>')
+    if not ko:
+        out.append(REVIEW)
+    out.append('</div>')
+    return ''.join(out) + greeting_photos(depth, lang)
 
 
 # ─────────────────────────── 생애 (시대별) ───────────────────────────
