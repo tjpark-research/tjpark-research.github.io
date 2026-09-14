@@ -200,7 +200,10 @@ ul,ol{margin:0;padding:0;list-style:none}
   display:inline-block;font-size:10px;letter-spacing:.18em;font-weight:700;
   color:var(--ink);background:var(--gold);padding:5px 10px;margin-bottom:18px;
 }
-.feat-body{display:flex;gap:20px;align-items:flex-start}
+.feat-body{display:flex;gap:20px;align-items:flex-start;color:inherit}
+.feat-body:hover h3{color:var(--gold)}
+.feat-body img{transition:transform .3s ease}
+.feat-body:hover img{transform:translateY(-3px)}
 .feat-body img{width:112px;flex:none;box-shadow:0 14px 30px rgba(0,0,0,.45)}
 .feat h3{font-family:var(--sans);font-size:19px;line-height:1.5;color:#fff}
 .feat p{font-size:13px;color:var(--on-dark-2);margin-top:10px;line-height:1.75}
