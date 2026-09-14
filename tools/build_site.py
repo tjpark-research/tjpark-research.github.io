@@ -895,9 +895,9 @@ def shell(title, desc, depth, section, current_file, body, canonical,
     en_url = alt_canonical if lang == 'ko' else canonical
     alts = ''
     if ko_url and en_url:
-        alts = (f'<link rel="alternate" hreflang="ko" href="https://tjpark-research.github.io/{ko_url}">\n'
-                f'<link rel="alternate" hreflang="en" href="https://tjpark-research.github.io/{en_url}">\n'
-                f'<link rel="alternate" hreflang="x-default" href="https://tjpark-research.github.io/{ko_url}">')
+        alts = (f'<link rel="alternate" hreflang="ko" href="{SITE}{ko_url}">\n'
+                f'<link rel="alternate" hreflang="en" href="{SITE}{en_url}">\n'
+                f'<link rel="alternate" hreflang="x-default" href="{SITE}{ko_url}">')
     return f'''<!DOCTYPE html>
 <html lang="{lang}">
 <head>
@@ -905,14 +905,14 @@ def shell(title, desc, depth, section, current_file, body, canonical,
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)} — {E(site)}</title>
 <meta name="description" content="{E(desc)}">
-<link rel="canonical" href="https://tjpark-research.github.io/{canonical}">
+<link rel="canonical" href="{SITE}{canonical}">
 {alts}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{E(site)}">
 <meta property="og:title" content="{E(title)} — {E(site)}">
 <meta property="og:description" content="{E(desc)}">
-<meta property="og:url" content="https://tjpark-research.github.io/{canonical}">
-<meta property="og:image" content="https://tjpark-research.github.io/assets/img/og-{lang}.png">
+<meta property="og:url" content="{SITE}{canonical}">
+<meta property="og:image" content="{SITE}assets/img/og-{lang}.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="{E(site)}">
@@ -920,7 +920,7 @@ def shell(title, desc, depth, section, current_file, body, canonical,
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{E(title)} — {E(site)}">
 <meta name="twitter:description" content="{E(desc)}">
-<meta name="twitter:image" content="https://tjpark-research.github.io/assets/img/og-{lang}.png">
+<meta name="twitter:image" content="{SITE}assets/img/og-{lang}.png">
 <link rel="stylesheet" href="{r}assets/fonts/pretendard-dynamic-subset.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{r}assets/css/style.css">
@@ -2107,7 +2107,7 @@ def build_chrono_pages():
     print(f'연보 {len(CHRONO_ERAS)}개 시대 + 전체연보 1개 페이지 (한·영)')
 
 
-SITE = 'https://tjpark-research.github.io/'
+SITE = 'https://tjpark.postech.ac.kr/'
 
 
 def build_sitemap_xml():
@@ -2449,7 +2449,7 @@ def search_page(lang):
     head = (f'<title>{E(c["title"])} — {E(site)}</title>\n'
             f'<meta name="description" content="{E(c["desc"])}">\n'
             '<meta name="robots" content="noindex">\n'
-            f'<link rel="canonical" href="https://tjpark-research.github.io/{canonical}">')
+            f'<link rel="canonical" href="{SITE}{canonical}">')
     return (
         '<!DOCTYPE html>\n'
         f'<html lang="{lang}">\n'

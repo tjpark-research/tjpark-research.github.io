@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tjpark-research.github.io/sitemap.xml
+Sitemap: https://tjpark.postech.ac.kr/sitemap.xml
