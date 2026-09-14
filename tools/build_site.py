@@ -4429,6 +4429,8 @@ def statue_page(depth, lang='ko'):
             + _photo(P + 'statue-plaque.jpg', depth, caps[2]))
 
 
+# 인사말 쪽에 있던 사진 두 장. 지금은 쓰지 않지만(연구소 요청) 파일과
+# 함께 남겨 둔다 — 다시 넣으려면 greeting_page 끝에 이 함수를 더하면 된다.
 def greeting_photos(depth, lang='ko'):
     P = 'assets/img/legacy/'
     caps = (('2010 포스코청암상 시상식', '연구소 행사')
@@ -4446,91 +4448,144 @@ def greeting_photos(depth, lang='ko'):
 # 한글이 원본이고 영문은 그 번역이다(영문 쪽에 그렇게 밝혀 둔다).
 
 GREETING_KO = [
-    '박태준 회장은 대한민국 산업화의 기반을 세운 기업가이자, 인재 양성과 '
-    '과학기술 발전을 통해 국가의 미래를 준비한 교육자였습니다. 불가능해 보이는 '
-    '목표에 도전하고, 공동체와 국가에 대한 책임을 행동으로 실천했던 그의 삶은 '
-    '오늘날에도 깊은 의미를 지니고 있습니다.',
+    '박태준미래전략연구소는 고(故) 박태준 회장의 정신을 계승하고, 이를 바탕으로 '
+    'POSTECH의 비전과 지속 가능한 발전 방향을 모색하기 위해 설립되었습니다.',
 
-    '저는 박태준 회장이 세운 POSTECH에서 연구자이자 교육자로 성장했습니다. '
-    'POSTECH에서 배우고 연구하며 학생들을 가르치는 과정에서, 한 사람의 확고한 '
-    '신념과 헌신이 어떻게 기업과 대학을 세우고 국가의 미래를 변화시킬 수 있는지를 '
-    '가까이에서 느낄 수 있었습니다. 오늘의 제가 있기까지 POSTECH이 제공한 배움과 '
-    '성장의 기회가 큰 밑거름이 되었다고 생각합니다.',
+    '박태준 회장께서는 산업과 교육이 국가 발전의 핵심이라는 확고한 신념 아래 '
+    '포스코와 POSTECH을 설립하여 대한민국의 경제 발전과 과학기술 인재 양성에 크게 '
+    '기여하셨습니다. 특히 교육을 국가의 미래를 결정하는 가장 중요한 투자로 여기고, '
+    '실용적 학문과 창의적 연구가 조화를 이루어야 한다고 강조하셨습니다. 학생들이 '
+    '지식의 습득을 넘어 국가와 사회가 직면한 문제를 해결할 수 있는 역량을 갖추도록 '
+    '하는 것이 대학의 중요한 사명이라고 믿으셨습니다.',
 
-    '이러한 개인적인 인연과 감사의 마음을 바탕으로 박태준미래전략연구소 소장이라는 '
-    '책임을 맡게 된 것을 매우 뜻깊게 생각합니다. 앞으로 박태준 회장의 생애와 '
-    '업적을 충실히 기록하는 데 그치지 않고, 그의 철학과 정신이 오늘날 우리 사회에 '
-    '어떤 의미를 갖는지를 새롭게 조명하고자 합니다.',
+    '저 역시 박태준 회장께서 세운 POSTECH에서 연구자이자 교육자로 성장해 '
+    '왔습니다. POSTECH에서 배우고 연구하며 학생들을 가르치는 과정에서, 한 사람의 '
+    '신념과 헌신이 기업과 대학을 세우고 국가의 미래를 변화시킬 수 있다는 사실을 '
+    '깊이 느껴 왔습니다. 오늘의 제가 있기까지 POSTECH이 제공한 배움과 성장의 '
+    '기회가 큰 밑거름이 되었기에, 박태준 회장의 정신을 올바르게 연구하고 널리 '
+    '알리는 일로 그 뜻에 보답하고자 합니다.',
 
-    '특히 국가와 공동체를 먼저 생각했던 책임의식, 불가능에 맞서 성과를 만들어 낸 '
-    '도전정신, 인재와 교육에 대한 확고한 믿음, 그리고 말보다 실천을 중시했던 '
-    '리더십을 미래 세대가 이해하고 이어갈 수 있도록 노력하겠습니다. 연구와 교육, '
-    '기록과 확산을 유기적으로 연결하고 국내외 연구자 및 기관과의 협력도 '
-    '확대하겠습니다.',
+    '박태준미래전략연구소는 앞으로 다음 세 가지 핵심 목표를 중심으로 역할을 '
+    '수행하겠습니다.',
 
-    '박태준 회장이 만들어 준 학교에서 성장한 사람으로서, 이제는 그분의 정신을 '
-    '올바르게 연구하고 널리 알리는 일로 그 뜻에 보답하고자 합니다. '
-    '박태준미래전략연구소가 과거를 기념하는 공간을 넘어, 대한민국의 미래를 위한 '
-    '책임 있는 리더십과 실천적 지혜를 배우고 나누는 연구 플랫폼으로 발전할 수 '
-    '있도록 최선을 다하겠습니다.',
+    ('첫째', '급변하는 과학기술 환경과 사회구조 변화에 대응하여 POSTECH의 중장기 '
+     '발전 전략을 연구하고 제시하겠습니다. 대학이 세계적인 연구중심대학으로 한 '
+     '단계 더 도약할 수 있도록 미래 변화의 흐름을 분석하고, 교육·연구·산학협력 '
+     '전반의 전략적 방향을 모색하겠습니다.'),
+
+    ('둘째', '박태준 회장의 삶과 철학, 리더십을 체계적으로 연구하고 미래 세대에 '
+     '전하겠습니다. 국가와 공동체를 먼저 생각한 책임의식, 불가능에 도전하여 성과를 '
+     '만들어 낸 실천정신, 인재와 교육에 대한 확고한 믿음이 오늘날 우리 사회에 갖는 '
+     '의미를 새롭게 조명하겠습니다. 또한 이러한 정신이 차세대 인재들의 성장과 '
+     '리더십 형성으로 이어질 수 있도록 연구·교육·기록·확산 활동을 '
+     '강화하겠습니다.'),
+
+    ('셋째', '기술의 본질과 미래 기술 변화가 인간과 사회에 미치는 영향을 다양한 '
+     '관점에서 고찰하겠습니다. 인공지능과 양자기술을 비롯한 첨단기술의 발전 '
+     '가능성뿐만 아니라, 이로 인해 변화할 산업과 교육, 일자리와 사회구조, 그리고 '
+     '새롭게 제기되는 윤리적·정책적 문제를 폭넓게 살펴보겠습니다. 기술 자체의 '
+     '발전을 넘어 기술이 어떤 미래를 만들어야 하며, 인류와 사회를 위해 어떻게 '
+     '책임 있게 활용되어야 하는지를 함께 고민하는 공론과 연구의 장을 만들어 '
+     '가겠습니다.'),
+
+    '박태준미래전략연구소가 과거의 업적을 기념하는 데 머무르지 않고, 박태준 정신을 '
+    '오늘의 시대에 맞게 계승하여 POSTECH과 대한민국의 미래를 설계하는 연구 '
+    '플랫폼으로 발전하도록 최선을 다하겠습니다.',
+
+    '여러분의 지속적인 관심과 성원을 부탁드립니다.',
 
     '감사합니다.',
 ]
 
 GREETING_EN = [
-    'Chairman Tae-Joon Park was an industrialist who laid the foundations of '
-    'Korea’s industrialisation, and an educator who prepared the country’s '
-    'future by cultivating talent and advancing science and technology. He set '
-    'himself goals that looked impossible, and he carried out his sense of duty '
-    'to his community and his country in deeds. His life still carries deep '
-    'meaning today.',
+    'The Institute was founded to carry forward the spirit of the late Chairman '
+    'Tae-Joon Park, and on that foundation to seek out POSTECH’s vision and a '
+    'sustainable direction for its development.',
 
-    'I grew up as a researcher and a teacher at POSTECH, the university he '
-    'founded. Studying, doing research and teaching here, I saw at close range '
-    'how one person’s firm conviction and devotion can build a company and a '
-    'university, and change the future of a nation. What POSTECH gave me — the '
-    'chance to learn and to grow — is the ground everything else in my career '
-    'stands on.',
+    'Chairman Park held, as a settled conviction, that industry and education '
+    'are the core of national development. He founded POSCO and POSTECH, and '
+    'contributed greatly to Korea’s economic growth and to the training of its '
+    'scientists and engineers. He regarded education above all as the most '
+    'important investment a nation makes in its own future, and insisted that '
+    'practical scholarship and creative research must be held in balance. A '
+    'university’s central duty, he believed, is to equip students not merely to '
+    'acquire knowledge but to solve the problems their country and society '
+    'actually face.',
 
-    'It is out of that personal debt and gratitude that I take up the '
-    'responsibility of directing the Institute. Our work will not stop at '
-    'recording his life and achievements faithfully. We mean to ask afresh what '
-    'his philosophy and his spirit mean for our society today.',
+    'I too grew up as a researcher and a teacher at the POSTECH he founded. '
+    'Studying, doing research and teaching here, I have come to feel deeply how '
+    'one person’s conviction and devotion can build a company and a university '
+    'and change the future of a nation. What POSTECH gave me — the chance to '
+    'learn and to grow — is the ground everything else in my career stands on, '
+    'and I hope to repay that debt by studying his spirit rightly and making it '
+    'widely known.',
 
-    'Four things in particular we want the next generation to understand and '
-    'carry on: the sense of responsibility that put nation and community first, '
-    'the willingness to take on the impossible and deliver, the unshakeable '
-    'belief in people and in education, and a way of leading that valued action '
-    'over words. We will bind research, teaching, record-keeping and outreach '
-    'into one body of work, and widen our collaboration with researchers and '
-    'institutions at home and abroad.',
+    'The Institute will carry out its work around three central aims.',
 
-    'As someone who grew up in the school he built, I hope to repay that debt '
-    'by studying his spirit rightly and making it widely known. We will do our '
-    'utmost so that the Institute becomes more than a place that commemorates '
-    'the past — a research platform where responsible leadership and practical '
-    'wisdom for Korea’s future are learned and shared.',
+    ('First', 'to study and set out POSTECH’s medium- and long-term development '
+     'strategy in response to rapid change in science, technology and social '
+     'structure. We will analyse where change is heading and seek strategic '
+     'direction across education, research and industry collaboration, so that '
+     'the university can take a further step toward the front rank of research '
+     'universities worldwide.'),
+
+    ('Second', 'to study the life, philosophy and leadership of Chairman Park '
+     'systematically, and to pass them to the next generation. We will re-examine '
+     'what his sense of responsibility to nation and community, his practical '
+     'spirit in taking on the impossible and delivering, and his firm belief in '
+     'people and in education mean for our society today — and strengthen our '
+     'research, teaching, record-keeping and outreach so that this spirit feeds '
+     'the growth and leadership of those who come next.'),
+
+    ('Third', 'to examine, from several vantage points, the nature of technology '
+     'and the effect that coming technological change will have on people and on '
+     'society. Beyond the promise of artificial intelligence, quantum technology '
+     'and other frontier fields, we will look broadly at the industries, '
+     'education, jobs and social structures they will alter, and at the ethical '
+     'and policy questions they raise. Beyond the advance of technology itself, '
+     'we will build a forum for research and public debate on what future '
+     'technology ought to make, and how it should be used responsibly for '
+     'humanity and for society.'),
+
+    'We will do our utmost so that the Institute does not rest at commemorating '
+    'past achievement, but carries the spirit of Tae-Joon Park forward in a form '
+    'fitted to our own time — a research platform that helps design the future '
+    'of POSTECH and of Korea.',
+
+    'We ask for your continued interest and support.',
 
     'Thank you.',
 ]
 
 
 def greeting_page(depth, lang='ko'):
+    """연구소소개 > 인사말. 소장이 쓴 글이고, 한글이 원본이다.
+
+    '첫째 · 둘째 · 셋째'로 이어지는 세 대목은 (머리말, 본문) 짝으로 적어
+    머리말만 굵게 세운다. 긴 쪽에서 세 갈래가 눈에 들어오게 하려는 것이고,
+    글자는 한 자도 바꾸지 않는다.
+    """
     ko = lang == 'ko'
-    lead = ('박태준의 정신을 오늘의 시대와 미래 세대에 전하겠습니다.' if ko else
-            'Carrying the spirit of Tae-Joon Park to our own time and to the '
-            'next generation.')
-    blocks = GREETING_KO if ko else GREETING_EN
-    sign = ('박태준미래전략연구소 소장 <b>송민석</b>' if ko else
+    lead = ('안녕하십니까. POSTECH 박태준미래전략연구소 소장 송민석입니다.'
+            if ko else
+            'Welcome. I am Minseok Song, Director of the POSTECH Tae-Joon Park '
+            'Institute for Future Strategy.')
+    sign = ('POSTECH 박태준미래전략연구소 소장 <b>송민석</b>' if ko else
             'Director, POSTECH Tae-Joon Park Institute for Future Strategy '
             '<b>Minseok Song</b>')
     out = [f'<div class="prose"><p class="lead">{E(lead)}</p>']
-    out += [f'<p>{E(b)}</p>' for b in blocks]
+    for b in (GREETING_KO if ko else GREETING_EN):
+        if isinstance(b, tuple):
+            head, body = b
+            sep = ', ' if ko else ', '
+            out.append(f'<p><b>{E(head)}</b>{E(sep)}{E(body)}</p>')
+        else:
+            out.append(f'<p>{E(b)}</p>')
     out.append(f'<p class="sign">{sign}</p>')
     if not ko:
         out.append(REVIEW)
     out.append('</div>')
-    return ''.join(out) + greeting_photos(depth, lang)
+    return ''.join(out)
 
 
 # ─────────────────────────── 생애 (시대별) ───────────────────────────
