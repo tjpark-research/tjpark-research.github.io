@@ -959,7 +959,6 @@ def fig(src, depth, cap=None):
 # 그대로 실으면 같은 말이 두세 번 거듭 나온다. 지울 줄을 글자 그대로 적어
 # 둔다 — 규칙으로 거르면 멀쩡한 짧은 문장까지 함께 사라진다.
 LEGACY_LEAD_DROP = {
-    'lab_purpose': ['연구소소개 설립목적 취지'],
     'youth_contest': ['청년사업 대학(원)생 공모전 공모전소개', '공모전 소개',
                       '진행중 공모전', '지난 공모전'],
     'youth_camp': ['청년사업 포스텍청년비전캠프 캠프소개', '포스텍청년비전캠프',
@@ -1625,7 +1624,7 @@ def PAGES(depth):
     P[('about', 'index.html')] = ('인사말', '박태준미래전략연구소 소장 인사말.',
         greeting_page(d, 'ko'))
     P[('about', 'purpose.html')] = ('설립목적', '연구소 설립의 취지.',
-        render_prose(clean_blocks('lab_purpose'), [], d))
+        purpose_page(d, 'ko'))
     P[('about', 'mission.html')] = ('미션', '박태준미래전략연구소의 미션.', mission_page(d, 'ko'))
     P[('about', 'history.html')] = ('연혁', '2013년 개소 이후의 연혁.',
         render_timeline(fix_history(blocks_of('lab_history')) + curated_history()[0]))
@@ -3008,7 +3007,7 @@ def EN_PAGES(depth):
     P[('about', 'index.html')] = ('Greetings', 'A message from the Director.',
         greeting_page(d, 'en'))
     P[('about', 'purpose.html')] = ('Founding Purpose', 'Why the Institute was founded.',
-        render_prose([b for b in blocks_of('en_lab_purpose') if len(b) > 80], [], d))
+        purpose_page(d, 'en'))
     P[('about', 'mission.html')] = ('Mission', 'The mission of the TJ Park Institute.', mission_page(d, 'en'))
     P[('about', 'history.html')] = (
         'History', 'The Institute since its founding in 2013.',
@@ -4440,6 +4439,159 @@ def greeting_photos(depth, lang='ko'):
             + _photo(P + 'greeting-award-2010.jpg', depth, caps[0])
             + _photo(P + 'greeting-group.jpg', depth, caps[1])
             + '</div>')
+
+
+# ────────────────────────────────── 연구소소개 > 설립목적
+#
+# 구 사이트는 취지문 전체를 문단 하나로 붙여 놓았다(한글 2천 자, 영문 4천 자).
+# 뜻을 바꾸지 않고 문단만 나눈다. 한글은 연구소가 다시 다듬어 보내 준 글이고,
+# 영문은 구 사이트의 공식 영문본을 글자 그대로 쓰되 문단만 한글과 같이 끊었다.
+
+PURPOSE_KO = [
+    '20세기 대한민국의 역사는 수많은 시련을 극복하고 새로운 영광을 창조해 온 '
+    '고난의 여정이었다. 식민지배와 분단, 전쟁과 폐허, 절대빈곤과 부정부패를 '
+    '겪었으며, 산업화와 민주화가 대립하고 반목하는 과정과 소모적인 이념 갈등도 '
+    '지나야 했다. 세기말에는 국가부도 직전의 외환위기까지 맞았다.',
+
+    '그러나 대한민국은 이러한 시련을 딛고 제2차 세계대전 이후 탄생한 신생독립국 '
+    '가운데 유일하게 산업화와 민주화를 함께 이루어 냈다. 이를 바탕으로 경제와 '
+    '민주주의, 문화와 과학기술의 선진화를 이루고 평화통일을 준비할 역량을 갖추게 '
+    '되었다.',
+
+    '청암 박태준 선생은 젊은 시절 민족의 비극을 온몸으로 겪었으며, 모든 것이 '
+    '부족했던 1960년대 박정희 대통령의 부름을 받아 조국 근대화를 위해 자신의 삶을 '
+    '바쳤다. 노년에 이르러서는 외환위기의 수습에도 헌신하였다.',
+
+    '2011년 12월 13일, 향년 84세로 선생이 서거하자 국내외 여러 언론은 그의 생애 '
+    '앞에 ‘영웅’, ‘거인’, ‘거목’이라는 헌사를 바쳤다. 이는 동시대 사람들이 선생에게 '
+    '드린 마지막이자 빛나는 영예였다.',
+
+    '그러나 이러한 헌사가 오히려 선생의 삶을 몇 가지 공적으로만 기억하게 하는 것은 '
+    '아닌지 경계해야 한다. 영웅의 죽음은 흔히 공적의 상징으로만 남고, 그가 지녔던 '
+    '정신과 신념은 점차 잊히기 쉽다. 한 인물을 우상화하거나 신화적인 존재로만 '
+    '기억한다면, 그의 삶이 오늘날 우리에게 던지는 의미와 정신적 유산을 온전히 '
+    '계승하기 어렵다.',
+
+    '박태준 선생은 ‘짧은 인생을 영원한 조국에’라는 신념의 나침반을 따라 한 치의 '
+    '흐트러짐 없이 자신의 길을 걸었다. 그의 일생은 나라를 향한 순애(殉愛)와 운명적 '
+    '사명감으로 제철보국과 교육보국의 이상을 실현한 길이었다.',
+
+    '제철보국의 신념은 아무것도 없던 불모지에 포스코를 세우고 세계적인 철강기업으로 '
+    '성장시킴으로써 대한민국 산업화의 견인차를 만드는 위업으로 이어졌다. 교육보국의 '
+    '뜻은 14개의 유치원과 초·중·고등학교를 모범적인 배움의 전당으로 일구고, 마침내 '
+    '대한민국 최초의 연구중심대학 POSTECH을 설립하여 세계적인 대학으로 성장시키는 '
+    '성취로 이어졌다. 이는 대한민국 산업과 교육의 새로운 지평을 연 역사적 '
+    '실천이었다.',
+
+    '선생의 관심과 사유는 경제와 교육, 과학기술에만 머무르지 않았다. 정치와 국방, '
+    '문화와 국제관계, 통일 문제에 이르기까지 국가와 사회의 미래를 깊이 사색하고 '
+    '탐구하며, 현실에 뿌리를 둔 실사구시의 미래전략을 구상하고 실천하였다. 또한 '
+    '개인적인 물욕과 유혹을 스스로 경계하고 배격하며, 대한민국을 일류국가로 '
+    '만들겠다는 염원을 향해 흔들림 없이 나아갔다.',
+
+    '그처럼 무거운 시대적 책임을 짊어지고 한평생을 완주하며 새로운 시대를 열고 '
+    '공동체의 발전과 행복을 위해 헌신한 선생을 몇 가지 공적으로만 기억하는 것은 큰 '
+    '결례이다. 동시에 이는 우리 사회가 소중한 정신적 유산을 잃어버리는 일이기도 '
+    '하다.',
+
+    '이에 POSTECH은 포스코가 추진해 온 ‘청암 박태준 추모사업’을 계승하고 '
+    '발전시키기 위하여 박태준미래전략연구소를 설립한다.',
+
+    '박태준미래전략연구소는 선생의 생애와 사상, 리더십을 체계적으로 연구하고 '
+    '집대성하여 이를 교육적으로 활용하고 사회적으로 확산할 것이다. 국내외 학계 및 '
+    '교육계와의 교류와 협력을 확대하고, 선생이 깊은 관심을 기울였던 다양한 분야에 '
+    '대한 연구를 활성화할 것이다. 또한 그 성과를 사회와 공유함으로써 대한민국과 '
+    '인류의 미래를 위한 새로운 전략과 담론을 창출할 수 있는 기반을 마련하고자 한다.',
+
+    '박태준미래전략연구소는 오늘의 엄정한 출발점에서 선생을 존경하고 흠모하는 모든 '
+    '분의 뜻을 모아, 선생의 정신과 명성에 걸맞은 시대정신의 개척자가 될 것을 '
+    '천명한다.',
+]
+
+PURPOSE_EN = [
+    'The history of Korea during the twentieth century was one principally of '
+    'hardship and triumph. In order to reach its current place in the world, this '
+    'country has had to overcome a slew of intimidating obstacles - colonial '
+    'rule, war, physical devastation, abject poverty, political corruption, '
+    'apparent and severe opposition between supporters of industrialization and '
+    'democratization, needlessly destructive ideological conflicts, and the '
+    'foreign currency crisis at the end of the 20th century.',
+
+    'Despite all of this, Korea remains the only country that has achieved both '
+    'industrialization and democratization among all newly independent countries '
+    'after World War II. Thanks to these achievements, Korea today stands on firm '
+    'ground for the advancement of its economy and democratic ideals, the spread '
+    'of its culture, science and technology, and its quest for peaceful '
+    'reunification with its long separated neighbor in the north.',
+
+    'The late Mr. Park Tae-joon underwent a number of national tragedies during '
+    'his youth and subsequently dedicated his life to his poverty-stricken '
+    'country and the altar of modernization for half a century upon the late '
+    'president Park Chung-hee’s invitation in the 1960s. During his later years '
+    'he brought the foreign currency crisis under control and capped a lifetime '
+    'of notable political and economic achievements.',
+
+    'When he passed away at age eighty-four on December 13, 2011, both Korean and '
+    'international media alike hailed him as a hero and political giant, laying '
+    'wreaths on his grave. Those titles were the ultimate honors bequeathed to '
+    'him by his contemporaries.',
+
+    'These words of honor, however, might bog us down in the swamp of false '
+    'memories. The name “hero” may magnify his achievements, obscuring a full and '
+    'complete portrait. A hero is often revived through a monument of his '
+    'achievements. This is an old custom in most societies and a prospect that it '
+    'is difficult for the deceased to avoid. It would be easy for Mr. Park to '
+    'fall victim to conventionality, and posterity might immortalize his '
+    'achievements while failing to preserve the spirit of the man.',
+
+    'The motto “Let me devote my short life to my eternal fatherland!” was Park '
+    'Tae-joon’s lifelong compass, one whose needle never budged throughout his '
+    'life. Armed with a pure-hearted patriotism and a sense of his own historic '
+    'mission, he pursued his career embodying his beliefs: “Patriotism by Steel '
+    'Manufacturing” and “Patriotism by Education.”',
+
+    'He built POSCO from nothing and turned it into the most advanced steel '
+    'company in the world and a driving force of modernization in Korea. Mr. Park '
+    'also founded fourteen exemplary schools from kindergarten to high school. He '
+    'founded POSTECH, the first research-oriented university in Korea, and built '
+    'it into a world-class university. The schools he founded boast some of the '
+    'highest educational achievements in Korea’s educational history.',
+
+    'He also studied and devised practical strategies for the future of politics, '
+    'national security, culture, international relations, and national '
+    'unification as well as Korea’s economy, education, science, and technology. '
+    'Mr. Park never wavered from this road to the goal of advancing his country, '
+    'resolutely ignoring many of the pleasures and pursuits of daily life.',
+
+    'Remembering Mr. Park’s dedication to the greater good of his country through '
+    'his achievements alone would mean posterity is failing to pay him his true '
+    'honors and neglecting his spiritual legacies.',
+
+    'Therefore, following in the work of the Committee for the Commemoration of '
+    'Park Tae-Joon, POSTECH is proud to establish the Tae-Joon Park Institute.',
+
+    'This institute will provide an in-depth look into Mr. Park’s life, thoughts, '
+    'and leadership, illuminating them to students and the general public in '
+    'collaboration with the educational world and both Korean and international '
+    'academia. In this way we will also devise new strategies and discourses for '
+    'our future by sharing his thoughts and achievements in various fields with '
+    'the intellectual world.',
+
+    'The Tae-Joon Park Institute solemnly declares that starting from today it '
+    'will continue to be a pioneer for the future, a future deserving of both the '
+    'achievements and spirit of Mr. Park Tae Joon.',
+]
+
+
+def purpose_page(depth, lang='ko'):
+    ko = lang == 'ko'
+    blocks = PURPOSE_KO if ko else PURPOSE_EN
+    date = '2013년 2월 15일' if ko else 'February 15, 2013'
+    out = ['<div class="prose">']
+    out += [f'<p>{E(b)}</p>' for b in blocks]
+    out.append(f'<p class="sign">{E(date)}</p>')
+    out.append('</div>')
+    return ''.join(out)
 
 
 # ────────────────────────────────── 연구소소개 > 인사말
